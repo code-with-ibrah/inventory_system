@@ -1,0 +1,26 @@
+@layer component {
+
+    .auto-apply-table .ant-table-container {
+        font-size: 14px !important;
+        font-weight: normal !important;
+    }
+
+    .auto-apply-table .ant-table-thead > tr > th {
+        background: white !important;
+        font-size: 12px !important;
+        border-radius: 0 !important;
+        color: #667085 !important;
+        text-transform: capitalize !important;
+    }
+
+    .auto-apply-table .ant-table-tbody > tr > td {
+        /*border: 1px solid #EFF4FF !important;*/
+        /*margin-bottom: 10px !important;*/
+    }
+
+
+    .auto-apply-table .ant-table-tbody > tr > td:first-child {
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+    }
+}

@@ -1,0 +1,35 @@
+@layer component {
+    .auth-wrapper {
+        @apply !bg-center grid grid-cols-1 md:grid-cols-2;
+
+    }
+
+    .auth-side {
+        @apply h-screen bg-login-bg bg-cover bg-no-repeat hidden md:block;
+    }
+
+    .auth-right-side {
+        @apply h-screen bg-login-bg md:bg-none bg-cover bg-no-repeat bg-center;
+    }
+
+    .auth-input.ant-input-status-error {
+        /*border: solid 5px;*/
+        /*border-color: deeppink !important; !* Example: Red border for invalid state *!*/
+    }
+
+    .auth-input {
+        @apply !text-gray-500;
+    }
+
+    .auth-input::placeholder {
+        @apply !text-gray-500;
+    }
+
+    #login-form_password::placeholder {
+        @apply !text-gray-500;
+    }
+
+    .auth-input .anticon {
+        @apply !text-midnight-blue;
+    }
+}

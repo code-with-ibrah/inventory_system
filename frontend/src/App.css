@@ -1,0 +1,316 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+@import "assets/css/tla-confirm.css";
+@import "assets/css/tla-drawer.css";
+@import "assets/css/auth.css";
+@import "assets/css/input.css";
+@import "assets/css/tla-modal.css";
+@import "assets/css/tla-table.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+:root{
+    --yellow: #F6C216;
+    --blue: #223D80;
+    --light-grey: #F0F0F0;
+    --white: #fff;
+    --black: #24252a;
+    --main-font: 'Cera Round Pro DEMO', sans-serif;
+}
+
+
+
+*,*::before,*::after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+}
+
+
+
+html{
+    scroll-behavior: smooth;
+}
+
+
+
+body{
+    font-family: var(--main-font);
+    font-size: 16px;
+    text-align: left;
+    line-height: 1.7;
+    background: var(--light-grey);
+}
+
+
+
+
+
+.section-title{
+    padding: 20px 0;
+}
+
+
+
+.section-btn,
+.section-btn:hover{
+    background: var(--yellow) !important;
+    color: var(--white) !important;
+}
+
+
+
+.btn{
+    color: var(--white) !important;
+    text-align: left;
+    font-size: 18px;
+    width: fit-content;
+    padding: 6px 20px;
+    border-radius: 5px;
+}
+
+
+
+.border-app-red{
+    border-color: var(--blue);
+}
+
+.ant-modal-content.tla-modal-content{
+    padding: 20px !important;
+}
+
+.thumbnail-img{
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.thumbnail-img:hover{
+    border-radius: 5px !important;
+}
+
+
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+html, body {
+    font-family: "Manrope", sans-serif;
+    @apply bg-[#e4f0f3];
+}
+
+.ant-breadcrumb ol {
+    @apply items-center;
+}
+
+.ant-dropdown-menu-item:hover {
+    @apply !bg-app-red !text-white;
+}
+
+.team-select {
+    .ant-select-selector {
+        @apply !border-0 !outline-0 !ring-0;
+    }
+}
+
+.upload-photo.ant-upload-wrapper.ant-upload-picture-circle-wrapper .ant-upload.ant-upload-select {
+    @apply bg-app-red;
+    height: 32px !important;
+    width: 32px;
+    margin-inline-end: 0 !important;
+    margin-bottom: 0 !important;
+    text-align: center;
+    vertical-align: top;
+    border: 1px solid white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+/* styles.css or your relevant CSS file */
+.input-no-style {
+    border: none; /* Remove default border */
+    background: transparent; /* Remove background */
+    outline: none; /* Remove outline */
+}
+
+.input-edit {
+    border: 1px solid #1890ff; /* Apply a blue border when in edit mode */
+    border-radius: 4px; /* Optional: add border radius */
+    background: #fff; /* Optional: set background color */
+}
+
+.nav-item {
+    @apply text-gray-800 py-2 rounded-lg px-3 cursor-pointer flex items-center gap-x-3 text-sm;
+
+    &:hover {
+        @apply bg-app-red text-white;
+    }
+
+    a:hover {
+        @apply text-white;
+    }
+}
+
+.active-nav-item {
+    @apply bg-app-red text-white;
+}
+
+.spin {
+    display: inline-block;
+    font-size: 50px; /* Adjust size as needed */
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Pagination Container */
+.pagination {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.pagination li {
+    margin: 0 2px;
+}
+
+.pagination a {
+    display: ruby;
+    padding: 8px 16px;
+    text-decoration: none;
+    /*color: #E65C4FFF;*/
+    color: var(--blue);
+    border-radius: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Hover and Active States */
+.pagination a:hover {
+    background-color: #223D80;
+    color: white;
+}
+
+.pagination .selected a {
+    background-color: var(--blue) !important;
+    color: white;
+    border-color: var(--blue);
+    pointer-events: none;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .pagination a {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
+
+.toggle-side-button {
+    @apply absolute -right-4 top-14 bg-app-red text-white h-8 w-8 text-center pl-1.5 rounded-full shadow-md hover:text-white;
+}
+
+
+.inner-header {
+    /*background: linear-gradient(to right, rgba(255, 215, 0, 0.85), rgba(255, 215, 0, 0.88)), url("./assets/images/final-bg.jpg");*/
+    background: linear-gradient(to right, rgba(34, 61, 128, 0.8), rgba(34, 61, 128, 0.8)), url("./assets/images/final-bg.jpg");
+    @apply bg-center bg-cover;
+    color: white;
+}
+
+.inner-header a{
+    color: white;
+}
+
+.toggle-select {
+    @apply h-9 md:h-11 bg-transparent;
+
+    .ant-select-selector {
+        @apply rounded-2xl !bg-transparent;
+    }
+}
+
+.auth-input {
+    @apply !bg-transparent;
+}
+
+/* Style the scrollbar itself */
+::-webkit-scrollbar {
+    width: 8px; /* For vertical scrollbar */
+    height: 4px; /* For horizontal scrollbar */
+}
+
+/* Style the scrollbar track */
+::-webkit-scrollbar-track {
+    background: #fff; /* Light gray background */
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* Style the scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+    @apply bg-gray-300;
+    border-radius: 10px; /* Rounded corners */
+    border: 2px solid #fff; /* Border to separate the thumb from the track */
+}
+
+/* On hover, change the thumb's color */
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
+    cursor: pointer;
+}
+
+/* Optional: Style the scrollbar buttons (arrows) */
+::-webkit-scrollbar-button {
+    display: none; /* Hide scrollbar buttons */
+}
+
+.member-detail-form {
+    .ant-input {
+        @apply !border;
+    }
+
+    .ant-input-disabled, .ant-picker-disabled, .ant-picker-input:hover {
+        @apply border-none !bg-white text-gray-500 !cursor-default;
+    }
+
+    .ant-select-disabled {
+        @apply !cursor-default;
+        background-color: #ffffff !important;
+
+        .ant-select-selector {
+            @apply !cursor-default !bg-white !border-none !text-gray-500;
+        }
+    }
+}

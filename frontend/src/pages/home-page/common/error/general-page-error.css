@@ -1,0 +1,22 @@
+.error-page__section{
+    padding: 0px 0 60px 0;
+}
+
+.error-page__btn{
+    background: var(--blue) !important;
+    padding: 20px 15px;
+}
+
+.error-page__section{
+    /*padding: 60px 0 20px 0;*/
+}
+
+.error-page{
+
+}
+
+.error-page path:nth-child(11){
+    background: var(--blue) !important;
+    color: var(--yellow) !important;
+    display: none;
+}

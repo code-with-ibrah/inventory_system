@@ -1,0 +1,32 @@
+.banner-section {
+    max-width: 450px;
+    margin: auto;
+    padding: 0 20px;
+
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+}
+
+.search-input {
+    width: 100%;
+    margin: auto;
+    padding: 10px 17px;
+    outline: 1px solid var(--blue);
+    border: 1px solid var(--blue);
+    border-radius: 4px;
+    font-size: 18px;
+}
+
+.search-btn{
+    font-size: 18px;
+    height: 52px;
+    padding: 0 25px;
+    outline: 1px solid var(--blue);
+    border: 1px solid var(--blue);
+}
+
+.search-btn:hover{
+    background: var(--blue) !important;
+    color: var(--white) !important;
+}

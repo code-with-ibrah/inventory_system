@@ -1,0 +1,293 @@
+/* award section */
+.award-section{
+    /*padding: 60px 0;*/
+}
+
+
+.award-section__wrapper{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    /*gap: 20px;*/
+    align-items: center;
+    justify-content: left;
+}
+
+.award-section .btn{
+    background: var(--yellow) !important;
+}
+
+.award-card{
+    padding: 20px;
+    transition: all .3s ease;
+    cursor: pointer;
+    min-width: 350px;
+}
+
+.award-card.hover-no{
+    cursor: default !important;
+}
+
+.award-card__img{
+    position: relative;
+    width: 88%;
+    height: 350px;
+    margin: auto;
+    margin-bottom: -20px;
+    border-radius: 15px;
+    transition: all .3s ease;
+    z-index: 90 !important;
+}
+
+
+.award-card-no__img{
+    position: relative;
+    width: 88%;
+    height: 250px;
+    margin: auto;
+    margin-bottom: -20px;
+    border-radius: 15px;
+    transition: all .3s ease;
+    z-index: 0 !important;
+}
+
+
+.award-card__info{
+    background: var(--blue);
+    /*text-align: center;*/
+    border-radius: 10px;
+    padding: 60px 20px 40px 20px;
+    position: relative;
+    z-index: 0;
+    top: -10px;
+}
+
+.award-card:hover:not(.hover-no) .award-card__img{
+    box-shadow: -3px -3px 2px var(--yellow);
+    filter: drop-shadow(0 2px 1px var(--yellow));
+}
+
+.award-card:hover:not(.hover-no) .award-card__info{
+    box-shadow: 3px -3px 2px var(--yellow);
+    filter: drop-shadow(0 2px 1px var(--yellow));
+}
+
+
+
+.award-organiser{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: var(--yellow);
+}
+
+
+
+.award-title{
+    text-transform: capitalize;
+    color: var(--light-grey) !important;
+}
+
+.award-duration{
+    color: var(--yellow);
+}
+
+
+
+@media screen and (max-width: 1125px) {
+    .award-card{
+        min-width: 30vw;
+    }
+
+    .award-card__img{
+        width: 78%;
+        height: 250px;
+    }
+
+}
+
+
+
+
+@media screen and (max-width: 995px) {
+
+    .award-title{
+        font-size: 12px !important;
+    }
+
+    .award-card{
+        min-width: 42vw;
+        padding: 10px;
+    }
+
+    .award-card__img{
+        width: 85%;
+        height: 280px !important;
+    }
+
+    .award-section__wrapper{
+        grid-template-columns: repeat(2, auto);
+    }
+}
+
+
+
+@media screen and (max-width: 634px) {
+    .award-card{
+        min-width: 45vw;
+    }
+
+    .award-card__info{
+        border-radius: 5px;
+        padding: 60px 20px 20px 20px;
+        top: -14px;
+    }
+
+    .award-card__img{
+        width: 100%;
+        height: 200px !important;
+        object-fit: cover;
+    }
+
+    .award-duration{ display: none; }
+}
+
+
+@media screen and (max-width: 442px) {
+    .award-card__img{
+        width: 85%;
+        height: 170px !important;
+    }
+}
+
+
+@media screen and (max-width: 328px) {
+
+    .award-card{
+        min-width: 90vw;
+    }
+
+    .award-card__img{
+        width: 85%;
+        height: 200px;
+    }
+
+    .award-section__wrapper{
+        grid-template-columns: repeat(1, auto);
+    }
+}
+
+
+
+
+/*@media screen and (max-width: 600px) {*/
+/*    .award-section__wrapper {*/
+/*        grid-template-columns: repeat(1, auto);*/
+/*    }*/
+/*}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* advert section */
+.advert-section{
+    padding: 60px 0;
+}
+
+.advert-section__wrapper{
+    position: relative;
+}
+
+.advert-section .content{
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    gap: 20px;
+    /* position: absolute; */
+}
+
+
+.content img{
+    height: 500px;
+    object-fit: cover;
+    padding: 0 58px;
+}
+
+.content-text__wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.content-title{
+    color: var(--yellow) !important;
+}
+
+
+.content .btn{
+    background: var(--blue);
+}
+
+
+
+
+
+@media screen and (max-width: 768px) {
+    .advert-section .content{
+        grid-template-columns: auto;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .content .btn{
+        text-align: center;
+        margin: auto;
+    }
+
+    .content img{
+        height: 300px;
+        margin: auto;
+    }
+
+    .content-title{
+        font-size: 20px !important;
+    }
+
+    .content-desc{
+        font-size: 16px !important;
+    }
+}
+
+
+@media screen and (max-width: 414px) {
+    .advert-section .content{
+        grid-template-columns: auto;
+    }
+
+    .content img{
+        height: 300px;
+        margin: auto;
+    }
+
+    .content-title{
+        font-size: 20px !important;
+    }
+
+    .content-desc{
+        font-size: 16px !important;
+    }
+}

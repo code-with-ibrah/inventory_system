@@ -1,0 +1,181 @@
+/* container configuration */
+.home-container{
+  width: 1200px;
+  padding: 10px 15px;
+  margin: auto;
+}
+
+@media screen and (max-width: 1200px) {
+  .home-container{ width: 992px }
+}
+
+@media screen and (max-width: 992px) {
+  .home-container{ width: 768px; padding: 10px; }
+}
+
+@media screen and (max-width: 768px) {
+  .home-container{ width: 100%; padding: 5px; }
+}
+
+
+
+
+
+
+
+
+
+/* home navbar */
+.navbar{
+  padding: 10px 0;
+}
+
+.navbar .home-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-menu__icon{
+  display: none;
+  font-size: 29px;
+  cursor: pointer;
+}
+
+.navbar-brand__logo{
+  width: 90px;
+  height: 61px;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.navbar-content__wrapper{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  font-size: 18px;
+}
+
+.navbar-link{
+  color: var(--blue);
+  transition: all .2s ease;
+}
+
+
+
+.navbar-link__icon{
+  margin-right: 5px;
+}
+
+.navbar-link:hover,
+.navbar-link.active{
+  color: var(--yellow) !important;
+}
+
+.btn-blue,
+.btn-yellow{
+  padding: 5px 20px;
+  border-radius: 8px;
+}
+
+.btn-blue{
+  background: var(--blue);
+  color: var(--white);
+}
+
+.btn-yellow{
+  background: var(--yellow);
+  color: var(--white);
+}
+
+.btn-yellow:hover{
+  color: var(--blue) !important;
+}
+
+.search-btn{
+  font-size: 25px;
+  padding: 5px;
+}
+
+
+@media screen and (max-width: 992px) {
+
+  .navbar-content__wrapper{
+    display: none;
+  }
+
+  .navbar-menu__icon{
+    display: block;
+  }
+
+  .navbar-menu__icon span{
+    padding: 7px;
+    background: var(--blue);
+    border-radius: 10px 2px 8px;
+    color: var(--yellow);
+    box-shadow: 0 0 2px var(--yellow);
+    transition: all .3s ease;
+  }
+
+  .navbar-menu__icon span:hover{
+    box-shadow: -4px 4px 2px var(--yellow);
+  }
+
+  .navbar-content__mobile{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 17px;
+  }
+
+  .navbar-link{
+    display: block;
+  }
+
+  .search-btn{ display: none;}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* footer */
+
+.home-footer{
+  margin-top: 45px;
+  background: var(--blue);
+  padding: 40px 0;
+  color: var(--white);
+}
+
+.home-footer-link__wrapper{
+  display: flex;
+  gap: 10px;
+}
+
+.home-footer .home-container{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+@media screen and (max-width: 768px) {
+  .home-footer .home-container{
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+}
