@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean("isActive")->default(true);
             $table->boolean("isDeleted")->default(false);
             $table->timestamps();
+            $table->foreignId("companyId")->constrained("companies");
         });
     }
 

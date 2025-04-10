@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\brand;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreWarehouseRequest extends FormRequest
+class BrandRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreWarehouseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "name" => ["required", "unique:brands,name", "min:3"],
+            "logo" => ["nullable", "mimes:jpeg,png,gif,bmp,webp,svg"],
+            "companyId" => ["required", "exists:companies,id"],
         ];
     }
 }

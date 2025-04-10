@@ -28,6 +28,7 @@ return new class extends Migration
                 ->onUpdate("cascade")
                 ->onDelete("cascade");
 
+            $table->foreignId("companyId")->constrained("companies");
             $table->timestamps();
             $table->boolean("isDeleted")->default(false)->nullable();
             $table->boolean("isActive")->default(true)->nullable();

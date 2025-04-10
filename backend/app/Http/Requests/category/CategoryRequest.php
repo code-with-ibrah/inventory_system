@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\brand;
+namespace App\Http\Requests\category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBrandRequest extends FormRequest
+class CategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\company;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateWarehouseRequest extends FormRequest
+class CompanyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class UpdateWarehouseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "name" => ["required", "min:3", "unique:companies,name"],
+            "location" => ["required"],
+            "address" => ["nullable", "min:3"],
+            "phone" => ["required", "unique:companies,phone"],
+            "logo" => ["nullable", "mimes:jpeg,png,gif,bmp,webp,svg"],
         ];
     }
 }
+
+
+

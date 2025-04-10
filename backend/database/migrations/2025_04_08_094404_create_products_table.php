@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal("price", 10, 2);
             $table->integer("quantity");
             $table->integer("stockAlertLevel");
+            $table->foreignId("companyId")->constrained("companies");
 
             $table->unsignedBigInteger("categoryId")->nullable();
             $table->foreign("categoryId")

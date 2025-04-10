@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('currencies', function (Blueprint $table) {
             $table->id();
             $table->string("name")->unique();
+            $table->foreignId("companyId")->constrained("companies");
             $table->boolean("isActive")->default(true);
             $table->boolean("isDeleted")->default(false);
             $table->timestamps();
