@@ -27,7 +27,8 @@ class CustomerRequest extends FormRequest
             "location" => ["required"],
             "phone" => ["required"],
             "address" => ["address"],
-            "registrationDate" => ["required"]
+            "registrationDate" => ["required"],
+            "companyId" => ["required", "exists:companies,id"]
         ];
     }
 }

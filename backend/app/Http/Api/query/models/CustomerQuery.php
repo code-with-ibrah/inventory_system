@@ -13,6 +13,7 @@ class CustomerQuery
     protected  $safeParams = [
         "id" => ["eq", "neq", "gte"],
         "name" => ["eq", "neq", "lk"],
+        "companyId" => ["eq", "neq", "lk"],
         "companyName" => ["eq", "neq"],
         "location" => ["eq", "neq", "lk"],
         "phone" => ["eq", "neq", "lk"],

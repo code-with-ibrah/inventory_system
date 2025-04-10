@@ -21,7 +21,8 @@ class CustomerResource extends JsonResource
             "location" => $this->location,
             "phone" => $this->phone,
             "address" => $this->address,
-            "registrationDate" => $this->registrationDate
+            "registrationDate" => $this->registrationDate,
+            "companyId" => $this->companyId
         ];
     }
 }
