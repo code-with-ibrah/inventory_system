@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\customer;
+namespace App\Http\Requests\supplier;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CustomerRequest extends FormRequest
+class SupplierRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +23,11 @@ class CustomerRequest extends FormRequest
     {
         return [
             "name" => ["required"],
-            "companyName" => ["required"],
-            "location" => ["required"],
             "phone" => ["required"],
-            "address" => ["address"],
+            "companyName" => ["required"],
             "registrationDate" => ["required"],
+            "addressLineOne" => ["required", "min:3"],
+            "addressLineTwo" => ["nullable", "min:3"],
             "companyId" => ["required", "exists:companies,id"]
         ];
     }

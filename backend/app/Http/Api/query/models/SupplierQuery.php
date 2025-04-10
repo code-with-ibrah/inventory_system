@@ -7,19 +7,19 @@ namespace App\Http\Api\query\models;
 use App\Http\Api\query\common\QueryTransformer;
 use Illuminate\Http\Request;
 
-class CustomerQuery
+class SupplierQuery
 {
 
     protected  $safeParams = [
         "id" => ["eq", "neq", "gte"],
         "name" => ["eq", "neq", "lk"],
-        "companyId" => ["eq", "neq", "lk"],
-        "companyName" => ["eq", "neq"],
-        "location" => ["eq", "neq", "lk"],
+        "companyName" => ["eq", "neq", "lk"],
+        "registrationName" => ["eq", "neq", "lk"],
+        "companyId" => ["eq", "neq"],
         "phone" => ["eq", "neq", "lk"],
         "address" => ["eq", "neq", "lk"],
         "isActive" => ["eq", "neq"],
-        "isVisible" => ["eq", "neq"]
+        "isDeleted" => ["eq", "neq"]
     ];
 
 

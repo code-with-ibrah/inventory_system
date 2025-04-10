@@ -21,6 +21,7 @@ return new class extends Migration
                 ->onDelete("cascade");
 
 
+
             $table->unsignedBigInteger("supplierId");
             $table->foreign("supplierId")
                 ->on("suppliers")
