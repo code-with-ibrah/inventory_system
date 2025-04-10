@@ -16,6 +16,8 @@ class BrandResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $children = $this->children;
+
         return [
             "id" => $this->id,
             "name" => $this->name,
@@ -29,6 +31,15 @@ class BrandResource extends JsonResource
             "company" => [
                 "id" => $this->company->id,
                 "name" => $this->company->name
+            ],
+            "children" => $children ? $children->map(function($item){
+                return [
+                    "id" => $item->id,
+                    "name" => $item->name
+                ];
+            }) : null,
+            "_count" => [
+                "children" => count($children)
             ]
         ];
     }

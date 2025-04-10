@@ -67,7 +67,6 @@ class CompanyController extends Controller
     public function update(CompanyRequest $request, $id)
     {
         $company = Company::findOrFail($id);
-
         $oldImagePath = $company->logo;
         $payload = PrepareRequestPayload::prepare($request);
 
@@ -88,10 +87,17 @@ class CompanyController extends Controller
     }
 
 
-    public function destroy(Company $company)
+    public function destroy(Company $company, Request $request)
     {
-        $company->isDeleted = true;
-        $company->save();
+        $shouldDeletePermantely = $request->query("delete");
+
+        if($shouldDeletePermantely){
+            $company->delete();
+        }
+        else{
+            $company->isDeleted = true;
+            $company->save();
+        }
 
         // Clear relevant cache on delete
         $this->clearCache($this->cachePrefix, $company->id);

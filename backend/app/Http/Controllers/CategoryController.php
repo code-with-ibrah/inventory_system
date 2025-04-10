@@ -32,7 +32,13 @@ class CategoryController extends Controller
             ]));
 
         return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
-            return new CategoryResourceCollection(Category::where($queryItems)->paginate($perPage));
+            return new CategoryResourceCollection(
+                Category::where($queryItems)
+                    ->with('children')
+                    ->with('parent')
+                    ->with('company')
+                    ->paginate($perPage)
+            );
         });
     }
 
@@ -68,10 +74,17 @@ class CategoryController extends Controller
     }
 
 
-    public function destroy(Category $category)
+    public function destroy(Category $category, Request $request)
     {
-        $category->isDeleted = true;
-        $category->save();
+        $shouldDeletePermantely = $request->query("delete");
+
+        if($shouldDeletePermantely){
+            $category->delete();
+        }
+        else{
+            $category->isDeleted = true;
+            $category->save();
+        }
 
         // Clear relevant cache on delete
         $this->clearCache($this->cachePrefix, $category->id);

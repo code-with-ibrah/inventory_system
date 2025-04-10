@@ -33,7 +33,13 @@ class BrandController extends Controller
             ]));
 
         return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
-            return new BrandResourceCollection(Brand::where($queryItems)->paginate($perPage));
+            return new BrandResourceCollection(
+                Brand::where($queryItems)
+                    ->with('children')
+                    ->with('parent')
+                    ->with('company')
+                    ->paginate($perPage)
+            );
         });
     }
 
@@ -87,10 +93,17 @@ class BrandController extends Controller
     }
 
 
-    public function destroy(Brand $brand)
+    public function destroy(Brand $brand, Request $request)
     {
-        $brand->isDeleted = true;
-        $brand->save();
+        $shouldDeletePermantely = $request->query("delete");
+
+        if($shouldDeletePermantely){
+            $brand->delete();
+        }
+        else{
+            $brand->isDeleted = true;
+            $brand->save();
+        }
 
         // Clear relevant cache on delete
         $this->clearCache($this->cachePrefix, $brand->id);
