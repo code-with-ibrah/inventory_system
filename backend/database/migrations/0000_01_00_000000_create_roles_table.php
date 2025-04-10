@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->string("description")->nullable();
+            $table->foreignId("companyId")->constrained("companies");
             $table->boolean("isActive")->default(true);
             $table->boolean("isDeleted")->default(false);
             $table->timestamps();

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string("phone")->unique();
             $table->string("companyName")->nullable();
             $table->string("registrationDate")->nullable();
-
+            $table->foreignId("companyId")->constrained("companies");
             $table->boolean("isDeleted")->default(false)->nullable();
             $table->boolean("isActive")->default(true)->nullable();
 
