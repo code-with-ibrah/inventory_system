@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string("phone");
             $table->string("address");
             $table->string("registrationDate");
-            $table->foreignId("companyId")->constrained("companies");
             $table->timestamps();
         });
     }
