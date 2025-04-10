@@ -42,5 +42,10 @@ Route::group(['prefix' => ''], function()
     Route::put("customers-toggle/{column}/{id}", [CustomerController::class, "handleToggleAction"]);
 
 
+    // suppliers endpoints
+    Route::apiResource("suppliers", CustomerController::class);
+    Route::put("suppliers-toggle/{column}/{id}", [CustomerController::class, "handleToggleAction"]);
+
+
 
 });
