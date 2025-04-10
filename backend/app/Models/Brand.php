@@ -18,4 +18,8 @@ class Brand extends Model
     public function company(){
         return $this->belongsTo(Company::class, 'companyId');
     }
+
+    public function children(){
+        return $this->hasMany(Brand::class, "parentId");
+    }
 }

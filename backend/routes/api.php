@@ -3,6 +3,7 @@
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CurrencyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,10 @@ Route::group(['prefix' => ''], function()
     Route::apiResource("categories", CategoryController::class);
     Route::put("categories-toggle/{column}/{id}", [CategoryController::class, "handleToggleAction"]);
 
+
+    // currency endpoints
+    Route::apiResource("currencies", CurrencyController::class);
+    Route::put("currencies-toggle/{column}/{id}", [CurrencyController::class, "handleToggleAction"]);
 
 
 

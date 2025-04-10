@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\category;
+namespace App\Http\Requests\currency;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryRequest extends FormRequest
+class CurrencyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             "name" => ["required"],
-            "companyId" => ["required", "exists:companies,id"],
-            "parentId" => ["nullable", "exists:categories,id"]
+            "companyId" => ["required", "exists:companies,id"]
         ];
     }
 }
