@@ -6,6 +6,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StockUnitController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,18 @@ Route::group(['prefix' => ''], function()
     Route::apiResource("products", ProductController::class);
     Route::post("companies/{id}", [ProductController::class, "update"]);
     Route::put("products-toggle/{column}/{id}", [ProductController::class, "handleToggleAction"]);
+
+
+    // stockUnit endpoints
+    Route::apiResource("stock-units", StockUnitController::class);
+    Route::put("stock-units-toggle/{column}/{id}", [StockUnitController::class, "handleToggleAction"]);
+
+
+
+
+
+
+
 
 
 

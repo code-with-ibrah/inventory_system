@@ -14,14 +14,19 @@ class ProductQuery
         "id" => ["eq", "neq", "gte"],
         "name" => ["eq", "neq", "lk"],
         "sku" => ["eq", "neq", "lk"],
-        "price" => ["eq", "neq", "lk"],
+        "costPrice" => ["eq", "neq", "lk"],
+        "batchNumber" => ["eq", "neq", "lk"],
+        "serialNumber" => ["eq", "neq", "lk"],
+        "taxRate" => ["eq", "neq"],
+        "unitPrice" => ["eq", "neq", "lk"],
         "quantity" => ["eq", "neq", "gte", "lte"],
         "stockAlertLevel" => ["eq", "neq", "gte", "lte"],
         "companyId" => ["eq", "neq"],
         "categoryId" => ["eq", "neq"],
         "brandId" => ["eq", "neq"],
         "isActive" => ["eq", "neq"],
-        "isDeleted" => ["eq", "neq"]
+        "isDeleted" => ["eq", "neq"],
+        "stockUnitId" => ["eq", "neq"]
     ];
 
 

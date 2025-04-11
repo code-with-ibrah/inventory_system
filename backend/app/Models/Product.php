@@ -25,7 +25,7 @@ class Product extends Model
     }
 
 //    public function stockUnit(){
-//        return $this->hasOne(StockUnit::class, "stockUnitId");
+//        return $this->hasOne(StockUnitQuery::class, "stockUnitId");
 //    }
 
     public function company(){

@@ -19,7 +19,7 @@ class CustomerQuery
         "phone" => ["eq", "neq", "lk"],
         "address" => ["eq", "neq", "lk"],
         "isActive" => ["eq", "neq"],
-        "isVisible" => ["eq", "neq"]
+        "isDeleted" => ["eq", "neq"]
     ];
 
 
