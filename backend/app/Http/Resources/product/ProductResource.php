@@ -16,6 +16,7 @@ class ProductResource extends JsonResource
     {
         $category = $this->category;
         $brand = $this->brand;
+        $stockUnit = $this->stockUnit;
 
         return [
             "id" => $this->id,
@@ -37,7 +38,9 @@ class ProductResource extends JsonResource
             "categoryId" => $this->categoryId,
             "categoryName" => $category ? $category->name : null,
             "brandId" => $this->brandId,
-            "brandName" => $brand ? $brand->name : null
+            "brandName" => $brand ? $brand->name : null,
+            "stockUnitId" => $this->stockUnitId,
+            "stockUnitName" => $stockUnit ? $stockUnit->name : null
         ];
     }
 }

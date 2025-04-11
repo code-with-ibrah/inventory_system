@@ -24,9 +24,9 @@ class Product extends Model
         return $this->hasOne(Brand::class, "brandId");
     }
 
-//    public function stockUnit(){
-//        return $this->hasOne(StockUnitQuery::class, "stockUnitId");
-//    }
+    public function stockUnit(){
+        return $this->hasOne(StockUnit::class, "stockUnitId");
+    }
 
     public function company(){
         return $this->hasOne(Company::class, "companyId");
