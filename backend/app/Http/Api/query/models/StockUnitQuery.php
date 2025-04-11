@@ -4,14 +4,15 @@
 namespace App\Http\Api\query\models;
 
 
+use App\Http\Api\query\common\IBaseDBQuery;
 use App\Http\Api\query\common\QueryTransformer;
 use Illuminate\Http\Request;
 
-class CurrencyQuery
+class StockUnitQuery implements IBaseDBQuery
 {
 
     protected  $safeParams = [
-        "id" => ["eq", "neq", "gte"],
+        "id" => ["eq", "neq"],
         "name" => ["eq", "neq", "lk"],
         "companyId" => ["eq", "neq"],
         "isActive" => ["eq", "neq"],
@@ -30,4 +31,5 @@ class CurrencyQuery
             $this->columnMap
         );
     }
+
 }

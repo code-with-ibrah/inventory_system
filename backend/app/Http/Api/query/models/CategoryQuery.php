@@ -14,7 +14,7 @@ class CategoryQuery
         "name" => ["eq", "neq", "lk"],
         "companyId" => ["eq", "neq"],
         "isActive" => ["eq", "neq"],
-        "isVisible" => ["eq", "neq"]
+        "isDeleted" => ["eq", "neq"]
     ];
 
 
