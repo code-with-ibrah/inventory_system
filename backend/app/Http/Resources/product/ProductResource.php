@@ -4,6 +4,7 @@ namespace App\Http\Resources\product;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use function Laravel\Prompts\map;
 
 class ProductResource extends JsonResource
 {
@@ -16,6 +17,8 @@ class ProductResource extends JsonResource
     {
         $category = $this->category;
         $brand = $this->brand;
+        $stockUnit = $this->stockUnit;
+        $suppliers = $this->suppliers;
 
         return [
             "id" => $this->id,
@@ -37,7 +40,19 @@ class ProductResource extends JsonResource
             "categoryId" => $this->categoryId,
             "categoryName" => $category ? $category->name : null,
             "brandId" => $this->brandId,
-            "brandName" => $brand ? $brand->name : null
+            "brandName" => $brand ? $brand->name : null,
+            "stockUnitId" => $this->stockUnitId,
+            "stockUnitName" => $stockUnit ? $stockUnit->name : null,
+            "suppliers" => $suppliers ? $suppliers->map(function($supplier){
+                return [
+                    "id" => $supplier->id,
+                    "name" => $supplier->name,
+                    "company" => $supplier->companyName
+                ];
+            }) : null,
+            "_count" => [
+                "suppliers" => count($suppliers)
+            ]
         ];
     }
 }

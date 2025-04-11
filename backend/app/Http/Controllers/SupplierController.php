@@ -12,6 +12,7 @@ use App\Models\Supplier;
 use App\Utils\Globals;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class SupplierController extends Controller
 {
@@ -32,18 +33,30 @@ class SupplierController extends Controller
             ]));
 
         return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
-            return new SupplierResourceCollection(Supplier::where($queryItems)->paginate($perPage));
+            return new SupplierResourceCollection(
+                Supplier::where($queryItems)
+                    ->with('products')
+                    ->paginate($perPage)
+                );
         });
     }
 
 
     public function store(SupplierRequest $request)
     {
-        $payload = PrepareRequestPayload::prepare($request);
-        $supplier = Supplier::create($payload);
-        // Clear relevant cache on create
-        $this->clearCache($this->cachePrefix, $supplier->id);
-        return new SupplierResource($supplier);
+        try{
+            $supplier = DB::transaction(function () use ($request) {
+                $payload = PrepareRequestPayload::prepare($request);
+                $supplier = Supplier::create($payload);
+                $supplier->products()->attach($request->productId);
+                return $supplier;
+            });
+            $this->clearCache($this->cachePrefix, $supplier->id);
+            return new SupplierResource($supplier);
+        }
+        catch (\Exception $e){
+            return ApiResponse::badRequest($e->getMessage());
+        }
     }
 
 
@@ -51,26 +64,33 @@ class SupplierController extends Controller
     {
         $cacheKey = $this->cachePrefix . 'show:' . $supplier->id;
         return Cache::rememberForever($cacheKey, function () use ($supplier) {
-            return new SupplierResource($supplier);
+            return new SupplierResource($supplier->with('products'));
         });
     }
 
 
     public function update(SupplierRequest $request, $id)
     {
-        $supplier = Supplier::findOrFail($id);
-        $payload = PrepareRequestPayload::prepare($request);
-        $supplier->update($payload);
-        // Clear relevant cache on update
-        $this->clearCache($this->cachePrefix, $id);
-        return new SupplierResource($supplier);
+        try{
+            $supplier = DB::transaction(function () use ($request, $id) {
+                $supplier = Supplier::with('products')->findOrFail($id);
+                $payload = PrepareRequestPayload::prepare($request);
+                $supplier->update($payload);
+                return $supplier;
+            });
+            // Clear relevant cache on update
+            $this->clearCache($this->cachePrefix, $id); // Use $id here
+            return new SupplierResource($supplier);
+        }
+        catch (\Exception $e){
+            return ApiResponse::badRequest($e->getMessage());
+        }
     }
 
 
     public function destroy(Supplier $supplier, Request $request)
     {
         $shouldDeletePermantely = $request->query("delete");
-
         if($shouldDeletePermantely){
             $supplier->delete();
         }
@@ -78,28 +98,20 @@ class SupplierController extends Controller
             $supplier->isDeleted = true;
             $supplier->save();
         }
-
-        // Clear relevant cache on delete
         $this->clearCache($this->cachePrefix, $supplier->id);
-
         return new SupplierResource($supplier);
     }
 
 
     public function handleToggleAction($column, $id)
     {
-        $supplier = Supplier::findOrFail($id);
-
+        $supplier = Supplier::with('products')->findOrFail($id);
         if (!in_array($column, $this->toggleColumn)) {
             return ApiResponse::badRequest("The column, '$column', is not allowed for toggling.");
         }
-
         $supplier->{$column} = !$supplier->{$column};
         $supplier->save();
-
-        // Clear relevant cache on toggle
         $this->clearCache($this->cachePrefix, $id);
-
         return new SupplierResource($supplier);
     }
 }

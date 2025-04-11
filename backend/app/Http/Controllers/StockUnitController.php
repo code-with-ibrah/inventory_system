@@ -34,9 +34,6 @@ class StockUnitController extends Controller
         return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
             return new StockUnitResourceCollection(
                 StockUnit::where($queryItems)
-                    ->with('children')
-                    ->with('parent')
-                    ->with('company')
                     ->paginate($perPage)
             );
         });

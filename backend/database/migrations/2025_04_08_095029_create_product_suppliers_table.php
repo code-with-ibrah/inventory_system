@@ -20,8 +20,6 @@ return new class extends Migration
                 ->onUpdate("cascade")
                 ->onDelete("cascade");
 
-
-
             $table->unsignedBigInteger("supplierId");
             $table->foreign("supplierId")
                 ->on("suppliers")

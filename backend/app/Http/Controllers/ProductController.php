@@ -13,6 +13,7 @@ use App\Utils\Globals;
 use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -38,7 +39,7 @@ class ProductController extends Controller
                     ->with('brand')
                     ->with('company')
                     ->with('category')
-//                    ->with('stockUnit')
+                    ->with('suppliers')
                     ->paginate($perPage)
             );
         });
@@ -47,15 +48,24 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        $payload = PrepareRequestPayload::prepare($request);
-        if($request->hasFile("image")){
-            $imageUri = ImageUpload::init($request->file("image"));
-            $payload["image"] = $imageUri;
+        try{
+            $product = DB::transaction(function () use ($request) {
+                $payload = PrepareRequestPayload::prepare($request);
+                if ($request->hasFile("image")) {
+                    $imageUri = ImageUpload::init($request->file("image"));
+                    $payload["image"] = $imageUri;
+                }
+                $product = Product::create($payload);
+                $product->suppliers()->attach($request->supplierId);
+                return $product;
+            });
+            // Clear relevant cache on create
+            $this->clearCache($this->cachePrefix, $product->id);
+            return new ProductResource($product);
         }
-        $product = Product::create($payload);
-        // Clear relevant cache on create
-        $this->clearCache($this->cachePrefix, $product->id);
-        return new ProductResource($product);
+        catch (\Exception $e){
+            return ApiResponse::badRequest($e->getMessage());
+        }
     }
 
 
@@ -63,37 +73,50 @@ class ProductController extends Controller
     {
         $cacheKey = $this->cachePrefix . 'show:' . $product->id;
         return Cache::rememberForever($cacheKey, function () use ($product) {
-            return new ProductResource($product);
+            return new ProductResource(
+                $product
+                    ->with('brand')
+                    ->with('company')
+                    ->with('category')
+                    ->with('suppliers')
+            );
         });
     }
 
 
     public function update(ProductRequest $request, $id)
     {
-        $product = Product::findOrFail($id);
-        $oldImagePath = $product->image;
-        $payload = PrepareRequestPayload::prepare($request);
+        try{
+            $product = DB::transaction(function () use ($request, $id) {
+                $product = Product::findOrFail($id);
+                $oldImagePath = $product->image;
+                $payload = PrepareRequestPayload::prepare($request);
 
-        if($request->hasFile("image"))
-        {
-            $imageUri = ImageUpload::init($request->file("image"));
-            $payload["image"] = $imageUri;
-            // Delete old image if a new one is uploaded
-            ImageUpload::removePreviousImage($oldImagePath);
+                if($request->hasFile("image"))
+                {
+                    $imageUri = ImageUpload::init($request->file("image"));
+                    $payload["image"] = $imageUri;
+                    // Delete old image after new upload
+                    ImageUpload::removePreviousImage($oldImagePath);
+                }
+                $product->update($payload);
+                $product->suppliers()->sync([$request->supplierId]);
+                return $product;
+            });
+
+            // Clear relevant cache on create
+            $this->clearCache($this->cachePrefix, $product->id);
+            return new ProductResource($product);
         }
-
-
-        $product->update($payload);
-        // Clear relevant cache on update
-        $this->clearCache($this->cachePrefix, $id);
-        return new ProductResource($product);
+        catch (\Exception $e){
+            return ApiResponse::badRequest($e->getMessage());
+        }
     }
 
 
     public function destroy(Product $product, Request $request)
     {
         $shouldDeletePermantely = $request->query("delete");
-
         if($shouldDeletePermantely){
             $product->delete();
         }
@@ -101,10 +124,8 @@ class ProductController extends Controller
             $product->isDeleted = true;
             $product->save();
         }
-
         // Clear relevant cache on delete
         $this->clearCache($this->cachePrefix, $product->id);
-
         return new ProductResource($product);
     }
 
@@ -112,17 +133,13 @@ class ProductController extends Controller
     public function handleToggleAction($column, $id)
     {
         $product = Product::findOrFail($id);
-
         if (!in_array($column, $this->toggleColumn)) {
             return ApiResponse::badRequest("The column, '$column', is not allowed for toggling.");
         }
-
         $product->{$column} = !$product->{$column};
         $product->save();
-
         // Clear relevant cache on toggle
         $this->clearCache($this->cachePrefix, $id);
-
         return new ProductResource($product);
     }
 }
