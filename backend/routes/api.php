@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +46,12 @@ Route::group(['prefix' => ''], function()
     // suppliers endpoints
     Route::apiResource("suppliers", CustomerController::class);
     Route::put("suppliers-toggle/{column}/{id}", [CustomerController::class, "handleToggleAction"]);
+
+
+    // products endpoints
+    Route::apiResource("products", ProductController::class);
+    Route::post("companies/{id}", [ProductController::class, "update"]);
+    Route::put("products-toggle/{column}/{id}", [ProductController::class, "handleToggleAction"]);
 
 
 

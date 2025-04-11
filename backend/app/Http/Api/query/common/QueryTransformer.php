@@ -4,7 +4,6 @@
 namespace App\Http\Api\query\common;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class QueryTransformer
 {
