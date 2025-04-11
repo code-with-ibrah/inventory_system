@@ -7,6 +7,7 @@ use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StockUnitController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -45,8 +46,8 @@ Route::group(['prefix' => ''], function()
 
 
     // suppliers endpoints
-    Route::apiResource("suppliers", CustomerController::class);
-    Route::put("suppliers-toggle/{column}/{id}", [CustomerController::class, "handleToggleAction"]);
+    Route::apiResource("suppliers", SupplierController::class);
+    Route::put("suppliers-toggle/{column}/{id}", [SupplierController::class, "handleToggleAction"]);
 
 
     // products endpoints

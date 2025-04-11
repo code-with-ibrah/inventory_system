@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductSupplier extends Model
 {
-    //
+    protected $fillable = [
+        "productId", "supplierId", "companyId",
+        "isDeleted", "isActive"
+    ];
+
 }

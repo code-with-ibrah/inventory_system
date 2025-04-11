@@ -30,9 +30,6 @@ return new class extends Migration
                 ->onDelete("cascade");
 
             $table->foreignId("brandId")->constrained("brands");
-
-
-
             // new columns
             $table->string("expirationDate")->nullable();
             $table->decimal("taxRate", 10, 2)->default(0.00);
@@ -41,7 +38,6 @@ return new class extends Migration
             $table->foreignId("stockUnitId")->constrained("stock_units");
             $table->string("shortDescription")->nullable();
             $table->string("longDescription")->nullable();
-
 
             $table->string("barcode")->nullable();
             $table->timestamps();
