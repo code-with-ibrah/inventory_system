@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string("name")->unique();
             $table->string("sku")->nullable();
-            $table->decimal("price", 10, 2);
+            $table->string("image")->nullable();
+            $table->decimal("costPrice", 10, 2)->default(0.00);
+            $table->decimal("unitPrice", 10, 2)->default(0.00);
             $table->integer("quantity");
             $table->integer("stockAlertLevel");
             $table->foreignId("companyId")->constrained("companies");
@@ -28,6 +30,18 @@ return new class extends Migration
                 ->onDelete("cascade");
 
             $table->foreignId("brandId")->constrained("brands");
+
+
+
+            // new columns
+            $table->string("expirationDate")->nullable();
+            $table->decimal("taxRate", 10, 2)->default(0.00);
+            $table->string("serialNumber")->nullable();
+            $table->string("batchNumber")->nullable();
+            $table->foreignId("stockUnitId")->constrained("stock_units");
+            $table->string("shortDescription")->nullable();
+            $table->string("longDescription")->nullable();
+
 
             $table->string("barcode")->nullable();
             $table->timestamps();
