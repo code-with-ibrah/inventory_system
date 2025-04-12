@@ -27,8 +27,8 @@ import UnverifiedContestantList from "../../pages/admin-page/contestant/unverifi
 import UssdVerificationForm from "../../pages/admin-page/payment/ussd-verification-form.tsx";
 
 export const AppProtectedRoutes = () => {
-    const location = useLocation()
-    const background = location.state && location.state.background
+    const location = useLocation();
+    const background = location.state && location.state.background;
 
     return (
         <div>
@@ -37,47 +37,12 @@ export const AppProtectedRoutes = () => {
                      <Route index element={<Analytics/>}/>
 
                     {/* new one here */}
-                    <Route path={MenuLinks.admin.award.index} element={<AdminAwards/>} />
-                    <Route path={MenuLinks.admin.award.printAwards} element={<AwardPrintInfo/>} />
-
-                    <Route path={MenuLinks.admin.award.details.index} element={<AwardDetailLayout/>} >
-                        <Route index element={<Categories/>}/>
-                        <Route path={MenuLinks.admin.award.details.contestants} element={<Contestants/>} />
-                        <Route path={MenuLinks.admin.award.details.bonus} element={<AwardBonusPackage/>} />
-                        <Route path={MenuLinks.admin.award.details.stats} element={<AwardStats/>} />
-                        <Route path={MenuLinks.admin.award.details.history} element={<VoteHistory/>} />
-                    </Route>
-
-                    <Route path={MenuLinks.admin.category.details.index} element={<CategoryDetailLayout/>}>
-                        <Route index element={<Contestants/>} />
-                        <Route path={MenuLinks.admin.category.details.results} element={<Results/>} />
-                    </Route>
-                    <Route path={MenuLinks.admin.category.index} element={<Categories/>} />
-
-                    <Route path={MenuLinks.admin.contestant.details.index} element={<ContestantDetailsLayout/>}>
-                        <Route index element={<ContestantPersonalInfo/>} />
-                        <Route path={MenuLinks.admin.contestant.details.personalInfo} element={<ContestantPersonalInfo/>} />
-                        <Route path={MenuLinks.admin.contestant.details.voteRecords} element={<ContestantVoteRecords/>} />
-                        <Route path={MenuLinks.admin.contestant.details.manage} element={<ContestantManagementInfo/>} />
-                    </Route>
-                    <Route path={MenuLinks.admin.contestant.index} element={<Contestants/>} />
-
-                    <Route path={MenuLinks.admin.config.details.index} element={<ConfigLayout/>}>
-                        <Route index element={<Users/>}/>
-                        <Route path={MenuLinks.admin.config.details.users} element={<Users/>}/>
-                        <Route path={MenuLinks.admin.config.details.roles} element={<Roles/>}/>
-                    </Route>
-                    <Route path={MenuLinks.admin.organisation.index} element={<Organisations/>} />
-                    <Route path={MenuLinks.admin.nomination} element={<UnverifiedContestantList/>}/>
-                    <Route path={MenuLinks.admin.ussdVerification} element={<UssdVerificationForm/>}/>
 
                     <Route path={'*'} element={<AdminNotFound/>}/>
                 </Route>
             </Routes>
 
-            <PublicRoutes/>
-
             {background && (<><ModalRoute/> <Outlet/></>)}
         </div>
     )
-}
+};

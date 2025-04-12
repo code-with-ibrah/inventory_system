@@ -19,6 +19,6 @@ const AuthLayout = () => {
             <div className={'auth-side'}></div>
         </div>
     )
-}
+};
 
 export default AuthLayout;

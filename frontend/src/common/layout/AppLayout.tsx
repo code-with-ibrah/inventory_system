@@ -1,14 +1,14 @@
 import AppHeader from "./AppHeader.tsx";
-import { AppSidebar } from "./app-sidebar.tsx";
+import { AppSidebar } from "./app-sidebar";
 import {useEffect, useState} from 'react';
 import {Affix} from "antd";
 import PageCrumbs from "../page-crumbs.tsx";
 import {useAppDispatch, useAppSelector} from "../../hooks";
-import {getAppRoles} from "../../state/analytics/analyticsActions.ts";
+import {getAppRoles} from "../../state/analytics/analyticsActions";
 import {Outlet} from "react-router-dom";
 
 export const AppLayout = () => {
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState<boolean>(false);
     const appRoles = useAppSelector(state => state.analytics.appRoles);
     const dispatch = useAppDispatch();
 
@@ -16,7 +16,7 @@ export const AppLayout = () => {
         if (appRoles.length === 0) {
             dispatch(getAppRoles())
         }
-    }, [])
+    }, []);
 
     return (
         <div>
@@ -39,4 +39,4 @@ export const AppLayout = () => {
             </div>
         </div>
     )
-}
+};

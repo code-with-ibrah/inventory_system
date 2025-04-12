@@ -2,13 +2,13 @@ import axios from 'axios'
 import {logout, updateToken} from "../state/auth/authSlice.ts";
 import {env} from "../config/env.ts";
 
-let store: any
+let store: any;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 export const injectStore = _store => {
     store = _store
-}
+};
 
 export default function api(contentType = 'application/json') {
     const makeRequest = axios.create({
@@ -18,13 +18,13 @@ export default function api(contentType = 'application/json') {
             'Content-Type': contentType,
             Authorization: `Bearer ${store.getState().auth.token}`
         }
-    })
+    });
 
     makeRequest.interceptors.request.use(function (config) {
         return config
     }, function (error) {
         return Promise.reject(error)
-    })
+    });
 
     makeRequest.interceptors.response.use(response => response, async error => {
         const originalRequest = error.config;

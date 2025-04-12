@@ -1,13 +1,16 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StockUnitController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +21,31 @@ Route::get('/user', function (Request $request) {
 
 Route::group(['prefix' => ''], function()
 {
+    // auth endpoint
+    Route::post("/login", [AuthController::class, "login"]);
+    Route::post("/register", [AuthController::class, "register"]);
+    Route::post("/change-password", [AuthController::class, "changePassword"]);
+    Route::post("/verify-password-reset", [AuthController::class, "verifyPasswordReset"]);
+    Route::post("/request-password-reset", [AuthController::class, "requestPasswordReset"]);
+
+
+    // user endpoint
+    Route::apiResource("users", UserController::class);
+    Route::put("users-toggle/{column}/{id}", [UserController::class, "handleToggleAction"]);
+
+
+    // dashboard endpoints
+    Route::prefix("home")->group(function(){
+       Route::get("/dashboard-count", function (){ return []; });
+       Route::get("/chart-data", function (){ return []; });
+    });
+
+
+    // role endpoint
+    Route::apiResource("roles", RoleController::class);
+    Route::put("roles-toggle/{column}/{id}", [RoleController::class]);
+
+
     // company endpoint
     Route::apiResource("companies", CompanyController::class);
     Route::post("companies/{id}", [CompanyController::class, "update"]);
@@ -56,13 +84,9 @@ Route::group(['prefix' => ''], function()
     Route::put("products-toggle/{column}/{id}", [ProductController::class, "handleToggleAction"]);
 
 
-    // stockUnit endpoints
+    // stock units endpoints
     Route::apiResource("stock-units", StockUnitController::class);
     Route::put("stock-units-toggle/{column}/{id}", [StockUnitController::class, "handleToggleAction"]);
-
-
-
-
 
 
 

@@ -9,6 +9,8 @@ import {IoAddCircleOutline} from "react-icons/io5";
 import {BiCategory, BiChart} from "react-icons/bi";
 import {HistoryOutlined} from "@ant-design/icons";
 import {CgDialpad} from "react-icons/cg";
+import { MdStorefront } from "react-icons/md";
+import { PiStorefrontThin } from "react-icons/pi";
 
 
 
@@ -32,6 +34,11 @@ export const appIconLabels = {
     history: 'history',
     nomination: 'nomination',
     ussd: 'ussd',
+
+
+    stocks: 'stocks',
+    products: 'products',
+
 };
 
 
@@ -57,7 +64,10 @@ export const appIcons: { [key: string]: React.ReactNode } = {
     history: <HistoryOutlined/>,
     category: <BiCategory/>,
     nomination: <GiVote/>,
-    ussd: <CgDialpad/>
+    ussd: <CgDialpad/>,
+
+    stocks: <MdStorefront/>,
+    products: <PiStorefrontThin />
 };
 
 

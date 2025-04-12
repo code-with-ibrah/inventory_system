@@ -1,8 +1,8 @@
 import './App.css'
 import { useAppSelector } from "./hooks";
-import { PublicRoutes } from "./common/routes/PublicRoutes.tsx";
-import { ProtectedRoutes } from "./common/routes/ProtectedRoutes.tsx";
 import ScrollToTop from "./common/scroll-to-top.tsx";
+import { PublicRoutes } from "./common/routes/PublicRoutes";
+import { ProtectedRoutes } from "./common/routes/ProtectedRoutes";
 
 function App() {
     let authenticated = useAppSelector((state) => state.auth.authenticated);
@@ -10,7 +10,7 @@ function App() {
     return (
         <>
             <ScrollToTop/>
-        {authenticated ? <ProtectedRoutes/> : <PublicRoutes/>}
+            {authenticated ? <ProtectedRoutes/> : <PublicRoutes/>}
         </>
     )
 }
