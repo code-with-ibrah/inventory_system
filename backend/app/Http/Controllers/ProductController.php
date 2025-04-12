@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Utils\Globals;
 use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 

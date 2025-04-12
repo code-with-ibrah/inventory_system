@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\role\RoleResourceCollection;
-use App\Http\Requests\common\PrepareRequestPayload;
-use App\Http\Resources\role\RoleResource;
-use App\Http\Api\query\models\RoleQuery;
-use App\Http\Requests\role\RoleRequest;
+use App\Http\Resources\user\UserResourceCollection;
+use App\Http\Resources\user\UserResource;
+use App\Http\Api\query\models\UserQuery;
+use App\Http\Requests\user\UserRequest;
 use App\Http\Api\response\ApiResponse;
+use App\Http\Api\response\StatusCode;
 use Illuminate\Support\Facades\Cache;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Utils\Globals;
-use App\Models\Role;
+use App\Http\Requests\common\PrepareRequestPayload;
 
 
-class RoleController extends Controller
+class UserController extends Controller
 {
-    protected $cachePrefix = "role_";
+    protected $cachePrefix = "user_";
 
     public function index(Request $request)
     {
-        $filter = new RoleQuery();
+        $filter = new UserQuery();
         $queryItems = $filter->transform($request);
         $take = $request->query("take");
         $takeIsDefinedInUrl = ($take && intval($take) && $take > 0);
@@ -33,73 +34,66 @@ class RoleController extends Controller
             ]));
 
         return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
-            return new RoleResourceCollection(
-                Role::where($queryItems)
+            return new UserResourceCollection(
+                User::where($queryItems)
+                    ->with('company')
                     ->paginate($perPage)
             );
         });
     }
 
 
-    public function store(RoleRequest $request)
+    public function show(User $user)
     {
-        $payload = PrepareRequestPayload::prepare($request);
-        $role = Role::create($payload);
-
-        // Clear relevant cache on create
-        $this->clearCache($this->cachePrefix, $role->id);
-        return new RoleResource($role);
-    }
-
-
-    public function show(Role $role)
-    {
-        $cacheKey = $this->cachePrefix . 'show:' . $role->id;
-        return Cache::rememberForever($cacheKey, function () use ($role) {
-            return new RoleResource($role);
+        $cacheKey = $this->cachePrefix . 'show:' . $user->id;
+        return Cache::rememberForever($cacheKey, function () use ($user) {
+            return new UserResource($user);
         });
     }
 
 
-    public function update(RoleRequest $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        $role = Role::findOrFail($id);
+        $user = User::findOrFail($id);
         $payload = PrepareRequestPayload::prepare($request);
-        $role->update($payload);
+        $user->update($payload);
         // Clear relevant cache on update
         $this->clearCache($this->cachePrefix, $id);
-        return new RoleResource($role);
+        return new UserResource($user);
+    }
+
+    public function store(Request $request)
+    {
+        return ApiResponse::general("Not Allowed", StatusCode::UNAUTHORIZED_ACCESS);
     }
 
 
-    public function destroy(Role $role, Request $request)
+    public function destroy(User $user, Request $request)
     {
         $shouldDeletePermantely = $request->query("delete");
         if($shouldDeletePermantely){
-            // $role->delete();
+            $user->delete();
         }
         else{
-            $role->isDeleted = true;
-            $role->save();
+            $user->isDeleted = true;
+            $user->save();
         }
         // Clear relevant cache on delete
-        $this->clearCache($this->cachePrefix, $role->id);
-        return new RoleResource($role);
+        $this->clearCache($this->cachePrefix, $user->id);
+        return new UserResource($user);
     }
 
 
     public function handleToggleAction($column, $id)
     {
-        $role= Role::findOrFail($id);
-
+        $user = User::findOrFail($id);
         if (!in_array($column, $this->toggleColumn)) {
             return ApiResponse::badRequest("The column, '$column', is not allowed for toggling.");
         }
-        $role->{$column} = !$role->{$column};
-        $role->save();
+        $user->{$column} = !$user->{$column};
+        $user->save();
         // Clear relevant cache on toggle
         $this->clearCache($this->cachePrefix, $id);
-
-        return new RoleResource($role);
+        return new UserResource($user);
     }
 }

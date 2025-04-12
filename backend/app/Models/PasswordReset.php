@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class PasswordReset extends Model
 {
     protected $fillable = [
-        "name", "description", "isActive",
-        "isDeleted"
+        "userId", "email",
+        "expirationTimestamp",
+        "token"
     ];
 }

@@ -39,8 +39,8 @@ const PageCrumbs = () => {
         '/',
         MenuLinks.analytics,
         MenuLinks.admin.dashboard,
-        MenuLinks.organisation.dashboard,
-    ]
+        MenuLinks.company.dashboard,
+    ];
 
     return (
         !excluded.includes(pathname) ?

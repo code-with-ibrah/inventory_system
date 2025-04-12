@@ -1,7 +1,8 @@
 import {AppProtectedRoutes} from "./app-protected-routes.tsx";
 import {useAppSelector} from "../../hooks";
-import {OrganisationRoutes} from "./organisation-routes.tsx";
+import {CompanyRoutes} from "./company-routes.js";
 import FirstTimeUser from "../../pages/auth/first-time-user.tsx";
+import {UserRoles} from "../../utils/user-roles";
 
 export const ProtectedRoutes = () => {
 
@@ -11,7 +12,7 @@ export const ProtectedRoutes = () => {
         return <FirstTimeUser/>
     }
 
-    if (user?.roleName === "organisation") return <OrganisationRoutes/>
+    if (user?.roleName === UserRoles.COMPANY) return <CompanyRoutes/>;
 
     return <AppProtectedRoutes/>
-}
+};

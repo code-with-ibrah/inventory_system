@@ -16,8 +16,8 @@ type FieldType = {
 };
 
 const Login: React.FC = () => {
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const [loading, setLoading] = React.useState(false);
     const user = useAppSelector(state => state.auth.user);
     const [searchParams, _] = useSearchParams();
@@ -25,7 +25,7 @@ const Login: React.FC = () => {
     const email: any = searchParams.get("email");
     const initialFormValues: any = {
         email,
-        password: "000000"
+        password: email ? "000000" : ""
     };
 
 
@@ -81,11 +81,6 @@ const Login: React.FC = () => {
             <div className={'mt-5 text-sm flex gap-4'}>
                 <Link className={"text-gray-900 hover:text-midnight-blue"} to={MenuLinks.forgotPassword}>
                     Forgot password ?
-                </Link>
-                |
-
-                <Link className={"text-gray-900 hover:text-midnight-blue"} to={MenuLinks.home.index}>
-                    Home Page
                 </Link>
             </div>
         </Spin>

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->foreignId("companyId")->constrained("companies");
+            $table->boolean("passwordChanged")->default(0);
+            $table->foreignId("lastTimeLogin")->nullable();
             $table->foreignId("roleId")->constrained("roles");
             $table->rememberToken();
             $table->timestamps();

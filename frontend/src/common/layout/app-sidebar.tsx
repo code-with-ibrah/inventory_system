@@ -27,7 +27,7 @@ export const AppSidebar = ({collapsed, setCollapsed}: AppSidebarProps) => {
                 {collapsed ?
                     <div className={'text-midnight-blue text-xs font-bold'}>
                         <GoDotFill size={40} className={'text-yellow-500 w-fit mx-auto'}/>
-                        <p>Yello<span className={'font-extralight'}> Events</span></p>
+                        <p>Jessden<span className={'font-extralight'}> Inventory</span></p>
                     </div>
                     : (<AppName/>)}
             </div>
