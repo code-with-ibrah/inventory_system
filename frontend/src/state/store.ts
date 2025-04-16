@@ -17,6 +17,7 @@ import shareSlice from "./share/shareSlice.ts";
 import paymentSlice from "./payment/paymentSlice.ts";
 import roleSlice from "./role/roleSlice.ts";
 import dashboardSlice from "./dashboard/dashboardSlice.ts";
+import productSlice from "./product/productSlice.ts";
 
 const persistConfig = {
     key: "root",
@@ -43,7 +44,10 @@ const rootReducers = combineReducers({
     payment: paymentSlice,
     percentageShare: shareSlice,
     role: roleSlice,
-    dashboardCounter: dashboardSlice
+    dashboardCounter: dashboardSlice,
+
+    // inventory
+    product: productSlice,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducers)
