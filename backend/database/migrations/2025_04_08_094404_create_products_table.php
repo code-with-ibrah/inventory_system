@@ -18,16 +18,15 @@ return new class extends Migration
             $table->string("image")->nullable();
             $table->decimal("costPrice", 10, 2)->default(0.00);
             $table->decimal("unitPrice", 10, 2)->default(0.00);
-            $table->integer("quantity");
+            $table->integer("quantity")->default(0);
+            $table->integer("standardPackageQuantity")->default(0);
             $table->integer("stockAlertLevel");
             $table->foreignId("companyId")->constrained("companies");
 
             $table->unsignedBigInteger("categoryId")->nullable();
-            $table->foreign("categoryId")
-                ->on("categories")
+            $table->foreign("categoryId")->on("categories")
                 ->references("id")
-                ->onUpdate("cascade")
-                ->onDelete("cascade");
+                ->onUpdate("cascade")->onDelete("cascade");
 
             $table->foreignId("brandId")->constrained("brands");
             // new columns

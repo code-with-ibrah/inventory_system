@@ -11,7 +11,7 @@ export const AdminMenus: Menu[] = [
     {
         label: 'Product',
         link: MenuLinks.admin.product.index,
-        create: "",
-        icon: appIconLabels.stocks
+        create: MenuLinks.admin.product.form,
+        icon: appIconLabels.products
     },
 ];

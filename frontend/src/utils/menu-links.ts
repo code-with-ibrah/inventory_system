@@ -20,7 +20,11 @@ export const MenuLinks = {
         },
         product: {
             index: "/admin/products",
-            form: "/admin/product/product-form"
+            form: "/admin/products/form",
+            formPage: "/admin/products/form-page",
+            details: {
+                index: "/admin/products/details",
+            }
         },
         config: {
             details: {

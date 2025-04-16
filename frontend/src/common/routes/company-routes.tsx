@@ -11,6 +11,8 @@ export const CompanyRoutes = () => {
     const location = useLocation();
     const background = location.state && location.state.background;
 
+    // TRY THIS LATER ON
+
     return (
         <div>
             <Routes location={background || location}>
