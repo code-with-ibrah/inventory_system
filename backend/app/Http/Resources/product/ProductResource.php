@@ -22,9 +22,11 @@ class ProductResource extends JsonResource
 
         return [
             "id" => $this->id,
-            "name" => $this->sku,
+            "name" => $this->name,
+            "sku" => $this->sku,
             "costPrice" => $this->costPrice,
             "unitPrice" => $this->unitPrice,
+            "quantity" => $this->quantity,
             "stockAlertLevel" => $this->stockAlertLevel,
             "barcode" => $this->barcode,
             "isDeleted" => $this->isDeleted,

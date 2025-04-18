@@ -9,9 +9,20 @@ export const AdminMenus: Menu[] = [
         icon: appIconLabels.home,
     },
     {
-        label: 'Product',
+        label: 'Suppliers',
+        link: MenuLinks.admin.supplier.index,
+        create: MenuLinks.admin.supplier.form,
+        icon: appIconLabels.supplier
+    },
+    {
+        label: 'Products',
         link: MenuLinks.admin.product.index,
         create: MenuLinks.admin.product.form,
         icon: appIconLabels.products
+    },
+    {
+        label: 'Product Settings',
+        link: MenuLinks.admin.productSettings.index,
+        icon: appIconLabels.config
     },
 ];

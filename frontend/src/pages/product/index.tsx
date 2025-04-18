@@ -1,25 +1,23 @@
 import React from "react";
 import Column from "antd/es/table/Column";
 import {Button} from "antd";
-import {FiEdit3, FiPlusCircle, FiToggleLeft} from "react-icons/fi";
+import { FiPlusCircle} from "react-icons/fi";
 import {useNavigate} from "react-router-dom";
 import {MenuLinks} from "../../utils/menu-links.ts";
-import {useAppDispatch, useAppSelector } from "../../hooks/index";
+import {useAppDispatch, useAppSelector } from "../../hooks";
 import {setProduct} from "../../state/product/productSlice.ts";
-import TlaOpen from "../../common/pop-ups/TlaOpen.tsx";
 import SearchInput from "../../common/search-input.tsx";
 import TlaTableWrapper from "../../common/tla-table-wrapper.tsx";
 import {Product} from "../../types/product.ts";
-import TableActions from "../../common/table-actions.tsx";
 import TlaDelete from "../../common/tla-delete.tsx";
-import {deleteProduct, getAllProducts, toggleProduct} from "../../state/product/productAction.ts";
-import TlaToggleActive from "../../common/tla-toggle-active.tsx";
+import {deleteProduct, getAllProducts} from "../../state/product/productAction.ts";
 import { Link } from "react-router-dom";
+import {commonQuery} from "../../utils/query.ts";
 
 
 
 const ProductForm: React.FC = () => {
-    const {data, meta} = useAppSelector((state) => state.award.award);
+    const {data, meta} = useAppSelector((state) => state.product.product);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -28,33 +26,17 @@ const ProductForm: React.FC = () => {
         navigate(MenuLinks.admin.product.details.index);
     }
 
-    const goToPrintInfoPage = (record: any) => {
-        dispatch(setProduct(record));
-        navigate(MenuLinks.admin.product.details.index);
-    }
-
-    const handleFilter = (searchTerm: string) => {
-        console.log("searching for : " + searchTerm);
-        // dispatch(updateMemberFilter({...memberFilterRef.current, search: searchTerm}));
-    };
-
-
     return (
         <div className={'bg-white p-5 rounded-2xl'}>
-            {/*<TlaOpen to={MenuLinks.admin.product.form}>*/}
-            {/*    <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New</Button>*/}
-            {/*</TlaOpen>*/}
-
             <Link to={MenuLinks.admin.product.formPage}>
                 <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New</Button>
             </Link>
 
             <div className={'flex-1 my-5'}>
-                <SearchInput defaultValue={'search word'} loading={false}
-                             getData={handleFilter}/>
+                <SearchInput getData={getAllProducts} columns={["name"]}/>
             </div>
 
-            <TlaTableWrapper getData={getAllProducts} data={data} filter={""} meta={meta}>
+            <TlaTableWrapper getData={getAllProducts} data={data} filter={commonQuery()} meta={meta}>
                 <Column
                     title="Name"
                     render={(record: Product) => (
@@ -63,40 +45,21 @@ const ProductForm: React.FC = () => {
                     </span>
                     )}/>
 
-                <Column title="Code" dataIndex="code"/>
-                <Column title="Start Date" dataIndex="startDate"/>
-                <Column title="End Date" dataIndex="endDate"/>
-                <Column title="Cost" dataIndex="costPerVote"/>
-                <Column title={'Action'} render={((record) => (
-                        <TableActions items={[
-                            {
-                                key: '1',
-                                label: (
-                                    <TlaOpen data={record} modal={true} to={MenuLinks.admin.product.form}>
-                                        <FiEdit3/>
-                                        Edit
-                                    </TlaOpen>
-                                ),
-                            },
-                            {
-                                key: '2',
-                                label: (
-                                    <TlaDelete title={'Award'} column={record.id} callBack={deleteProduct}/>
-                                ),
-                            },
-                            {
-                                key: '3',
-                                label: (
-                                    <div className={'flex align-items-center gap-2'}>
-                                        <FiToggleLeft className={'mt-1'}/>
-                                        <TlaToggleActive title={'award'} column={record.id}
-                                                         callBack={toggleProduct}/>
-                                    </div>
-                                ),
-                            }
-                        ]}/>
-                    )
-                )}/>
+                <Column title="Sku" dataIndex="sku"/>
+                <Column title="Quantity" dataIndex="quantity"/>
+                <Column title="Cost Price" dataIndex="costPrice"/>
+                <Column title="Unit Price" dataIndex="unitPrice"/>
+                <Column title="Category" dataIndex={"categoryName"}/>
+                <Column title="Brand" dataIndex={"brandName"}/>
+                <Column title="Unit" dataIndex={"stockUnitName"}/>
+                <Column
+                    title={'Action'}
+                    render={((record) => (
+                            <div className={'flex items-center gap-2'}>
+                                <TlaDelete title={'product'} column={record.id} callBack={deleteProduct}/>
+                            </div>
+                        )
+                    )}/>
             </TlaTableWrapper>
         </div>
     )

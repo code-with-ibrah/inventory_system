@@ -1,14 +1,12 @@
 import {PaginatedData} from "./common.ts";
 
 export type Category = {
-    userCode: any;
-    awardName: string;
-    awardId: any;
-    id: number,
-    name: string,
-    code: string,
-    image: string,
-    _count: []
+    id: number;
+    name: string;
+    parentId: number;
+    isActive: boolean;
+    isDeleted: boolean;
+    companyId: number;
 }
 
 export interface CategoryType extends PaginatedData {
@@ -19,5 +17,4 @@ export interface CategoryType extends PaginatedData {
 export interface CategorysState {
     category: CategoryType,
     categoryItem: Category,
-    categoryWithContestants: []
 }

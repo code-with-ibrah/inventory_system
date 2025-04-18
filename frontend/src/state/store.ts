@@ -18,6 +18,9 @@ import paymentSlice from "./payment/paymentSlice.ts";
 import roleSlice from "./role/roleSlice.ts";
 import dashboardSlice from "./dashboard/dashboardSlice.ts";
 import productSlice from "./product/productSlice.ts";
+import brandSlice from "./brand/brandSlice.ts";
+import stockUnitSlice from "./stock-unit/stockUnitSlice.ts";
+import supplierSlice from "./supplier/supplierSlice.ts";
 
 const persistConfig = {
     key: "root",
@@ -36,7 +39,6 @@ const rootReducers = combineReducers({
     auth: authSlice,
     users: usersSlice,
     award: awardSlice,
-    category: categorySlice,
     loader: commonSlice,
     contestant: contestantSlice,
     organisation: organisationSlice,
@@ -48,6 +50,12 @@ const rootReducers = combineReducers({
 
     // inventory
     product: productSlice,
+    category: categorySlice,
+    brand: brandSlice,
+    stockUnit: stockUnitSlice,
+    supplier: supplierSlice,
+
+
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducers)

@@ -3,6 +3,12 @@ import { MenuLinks } from "../../utils/menu-links";
 import UserForm from "../../pages/admin-page/config/users/user-form.tsx";
 import RoleForm from "../../pages/admin-page/config/roles/role-form.tsx";
 import ProductForm from "../../pages/product/product-form.tsx";
+import CategoryForm from "../../pages/product-config/category/category-form.tsx";
+import BrandForm from "../../pages/product-config/brand/brand-form.tsx";
+import StockUnitsForm from "../../pages/product-config/stock-unit/stock-unit-form.tsx";
+import SupplierForm from "../../pages/supplier/supplier-form.tsx";
+import SupplierProductForm from "../../pages/supplier/supplier-product-form.tsx";
+import ProductSuppliersForm from "../../pages/product/product-suppliers-form.tsx";
 
 
 export const ModalRoute = () => {
@@ -15,6 +21,12 @@ export const ModalRoute = () => {
             {/*<Route path={MenuLinks.organisation.userForm} element={<OrganisationUserForm/>}/>*/}
 
             <Route path={MenuLinks.admin.product.form} element={<ProductForm/>}/>
+            <Route path={MenuLinks.admin.productSettings.categoryForm} element={<CategoryForm/>}/>
+            <Route path={MenuLinks.admin.productSettings.brandForm} element={<BrandForm/>}/>
+            <Route path={MenuLinks.admin.productSettings.stockUnitForm} element={<StockUnitsForm/>}/>
+            <Route path={MenuLinks.admin.supplier.form} element={<SupplierForm/>}/>
+            <Route path={MenuLinks.admin.supplier.details.supplierProductForm} element={<SupplierProductForm/>}/>
+            <Route path={MenuLinks.admin.product.details.productSupplierForm} element={<ProductSuppliersForm/>}/>
 
         </Routes>
     )

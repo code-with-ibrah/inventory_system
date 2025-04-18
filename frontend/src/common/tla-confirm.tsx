@@ -33,7 +33,7 @@ const TlaConfirm = (props : Props) => {
       cancelText,
       className: 'tla-delete-confirm',
       okButtonProps: {
-        className: `btn ${okClass}`,
+        className: `btn btn-red ${okClass}`,
         danger,
         size: 'large',
         block: true

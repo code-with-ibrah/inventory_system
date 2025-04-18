@@ -2,8 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import {
     getAllCategories,
     updateCategory,
-    deleteCategory, createCategory, searchCategories,
-    categoryActiveness, getAllCategoriesWithContestant, categoryVisibilityToggler
+    deleteCategory, createCategory, toggleCategory,
 } from "./categoryAction.js";
 import {env} from "../../config/env";
 import {CategorysState} from "../../types/category.ts";
@@ -48,15 +47,10 @@ const initialState: CategorysState = {
     categoryItem: {
         id: 0,
         name: "",
-        image: "",
-        code: "",
-        userCode: "",
-        awardName: "",
-        awardId: 0,
-        _count: []
-    },
-
-    categoryWithContestants: []
+        parentId: 0,
+        isActive: false,
+        isDeleted: false
+    }
 }
 
 
@@ -73,25 +67,17 @@ const categorySlice = createSlice({
             state.category.data.push(action.payload)
         }).addCase(getAllCategories.fulfilled, (state, action) => {
             state.category = action.payload
-        }).addCase(getAllCategoriesWithContestant.fulfilled, (state, action) => {
-            state.categoryWithContestants = action.payload
         }).addCase(updateCategory.fulfilled, (state, action) => {
             state.category.data = state.category.data.map((category) => {
                 return category.id == action.payload.id ? action.payload : category
             })
-        }).addCase(categoryActiveness.fulfilled, (state, action) => {
-            state.category.data = state.category.data.map((category) => {
-                return category.id == action.payload.id ? action.payload : category
-            })
-        }).addCase(categoryVisibilityToggler.fulfilled, (state, action) => {
+        }).addCase(toggleCategory.fulfilled, (state, action) => {
             state.category.data = state.category.data.map((category) => {
                 return category.id == action.payload.id ? action.payload : category
             })
         })
         .addCase(deleteCategory.fulfilled, (state, action) => {
             state.category.data = state.category.data.filter((category) => category.id !== action.payload)
-        }).addCase(searchCategories.fulfilled, (state, action) => {
-            state.category = action.payload
         })
     }
 });

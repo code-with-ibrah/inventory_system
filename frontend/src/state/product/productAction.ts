@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../utils/api.js";
-import {ToggleType} from "../../types/ToggleType";
+import {ToggleType} from "../../types/toggle-type.ts";
 
 export const deleteProduct = createAsyncThunk(
     "award/deleteProduct", async (productId: number, {rejectWithValue}) => {
@@ -18,6 +18,8 @@ export const deleteProduct = createAsyncThunk(
     }
 );
 
+
+
 export const createProduct = createAsyncThunk(
     "auth/createProduct", async (data: any, {rejectWithValue}) => {
         try {
@@ -33,6 +35,8 @@ export const createProduct = createAsyncThunk(
         }
     }
 );
+
+
 
 export const updateProduct = createAsyncThunk(
     "auth/updateProduct", async (data: any, {rejectWithValue}) => {
@@ -67,21 +71,6 @@ export const getAllProducts = createAsyncThunk("award/getAllProducts", async (pa
     }
 );
 
-
-export const searchproducts = createAsyncThunk("award/searchproducts", async (params: string, {rejectWithValue}) => {
-        try {
-            const res = await api().get(`/products-search?keyword=${params}`);
-
-            return res.data
-
-        } catch (err: any) {
-            if (!err.response) {
-                throw err;
-            }
-            throw rejectWithValue(err.response.data)
-        }
-    }
-);
 
 
 export const toggleProduct = createAsyncThunk("products/toggleProduct", async (toggleType: ToggleType, {rejectWithValue}) => {

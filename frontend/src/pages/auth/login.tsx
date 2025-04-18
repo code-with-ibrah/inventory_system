@@ -24,8 +24,8 @@ const Login: React.FC = () => {
 
     const email: any = searchParams.get("email");
     const initialFormValues: any = {
-        email,
-        password: email ? "000000" : ""
+        email: email ? email : "admin@gmail.com",
+        password: email ? "000000" : "1234567"
     };
 
 

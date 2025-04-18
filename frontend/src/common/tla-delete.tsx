@@ -7,16 +7,18 @@ import TlaConfirm from "./tla-confirm.tsx";
 interface Props {
     callBack: AsyncThunk<any, any, any>
     column: number | string
-    title?: string
+    title?: string,
+    btnName?: string,
+    confirmPurpose?: string,
 }
 
-const TlaDelete = ({ callBack, column, title }: Props) => {
-    const dispatch = useAppDispatch()
+const TlaDelete = ({ callBack, column, title, btnName = "Delete", confirmPurpose = "delete" }: Props) => {
+    const dispatch = useAppDispatch();
 
     return (
         <TlaConfirm
             title={'Confirm Delete'}
-            fullText={`Do you really want to delete this ${title}?`}
+            fullText={`Do you really want to ${confirmPurpose} this ${title}?`}
             callBack={() => {
                 dispatch(callBack(column))
                     .then(unwrapResult)
@@ -33,7 +35,7 @@ const TlaDelete = ({ callBack, column, title }: Props) => {
                         }))
                     }).finally(() => dispatch(resetState()))
             }}>
-            Delete
+            {btnName}
         </TlaConfirm>
     )
 }

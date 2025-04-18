@@ -3,14 +3,15 @@ import {FiHome, FiPhoneCall, FiSettings, FiUser} from "react-icons/fi";
 import {LuChurch} from "react-icons/lu";
 import {FaEarthAfrica} from "react-icons/fa6";
 import {SiCircuitverse, SiGoogleanalytics, SiGoogleclassroom} from "react-icons/si";
-import {GiPayMoney, GiReceiveMoney, GiVote} from "react-icons/gi";
+import {GiPayMoney, GiReceiveMoney, GiStorkDelivery, GiVote} from "react-icons/gi";
 import {MdEditNote, MdOutlineMergeType} from "react-icons/md";
 import {IoAddCircleOutline} from "react-icons/io5";
 import {BiCategory, BiChart} from "react-icons/bi";
-import {HistoryOutlined} from "@ant-design/icons";
+import {HistoryOutlined, StockOutlined} from "@ant-design/icons";
 import {CgDialpad} from "react-icons/cg";
 import { MdStorefront } from "react-icons/md";
 import { PiStorefrontThin } from "react-icons/pi";
+import {TbBrandX} from "react-icons/tb";
 
 
 
@@ -38,6 +39,10 @@ export const appIconLabels = {
 
     stocks: 'stocks',
     products: 'products',
+    brand: "brand",
+    stockUnit: "stockUnit",
+    supplier: "supplier",
+
 
 };
 
@@ -67,7 +72,10 @@ export const appIcons: { [key: string]: React.ReactNode } = {
     ussd: <CgDialpad/>,
 
     stocks: <MdStorefront/>,
-    products: <PiStorefrontThin />
+    products: <PiStorefrontThin />,
+    brand: <TbBrandX/>,
+    stockUnit: <StockOutlined/>,
+    supplier: <GiStorkDelivery/>
 };
 
 

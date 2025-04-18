@@ -15,13 +15,12 @@ class Product extends Model
         "longDescription", "shortDescription"
     ];
 
-
     public function category(){
-        return $this->hasOne(Category::class, "categoryId");
+        return $this->hasOne(Category::class, "id");
     }
 
     public function brand(){
-        return $this->hasOne(Brand::class, "brandId");
+        return $this->hasOne(Brand::class, "id");
     }
 
 //    public function stockUnit(){
@@ -29,7 +28,7 @@ class Product extends Model
 //    }
 
     public function company(){
-        return $this->hasOne(Company::class, "companyId");
+        return $this->hasOne(Company::class, "id");
     }
 
     public function suppliers(){

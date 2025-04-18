@@ -24,7 +24,8 @@ export type User = {
     email: string,
     roleId: number,
     roleName: string,
-    organisation: [],
+    companyId: number,
+    company: [],
     isActive: boolean,
 }
 

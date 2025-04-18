@@ -29,13 +29,12 @@ export const currencyFormat = (number: number) => {
 }
 
 export const renderStatus =  (isActive: number | boolean, format = "active") => {
-
     if (isActive === 1 || isActive == true) {
         return (format == "active") ? "active" : "yes";
     } else if (isActive === 0 || isActive == false) {
         return (format == "active") ? "not active" : "no";
     } else {
-        return "Invalid input"; // Handle cases where input is not 0 or 1.
+        return "Invalid input";
     }
 }
 

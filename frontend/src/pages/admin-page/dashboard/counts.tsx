@@ -27,15 +27,15 @@ const Counts: React.FC = () => {
             <div className={"bg-white p-2 md:p-5 rounded-lg mb-5"}>
                 <div className={"grid grid-cols-4 gap-5 p-5 border-none md:border-y"}>
                     <div className={'border-r'}>
-                        <SingleItem title={"Total Awards"} value={counters?.totalAwards ?? 0}/>
+                        <SingleItem title={"Total Products"} value={counters?.totalAwards ?? 0}/>
                     </div>
                     <div className={'border-r'}>
-                        <SingleItem title={"Ongoing Awards"} value={counters?.ongoingAwards ?? 0}/>
+                        <SingleItem title={"New Orders"} value={counters?.ongoingAwards ?? 0}/>
                     </div>
                     <div className={'border-r'}>
-                        <SingleItem title={"Organisation (active)"} value={counters?.totalOrganisation ?? 0}/>
+                        <SingleItem title={"Today Sales"} value={counters?.totalOrganisation ?? 0}/>
                     </div>
-                    <SingleItem title={"Nominee Requests"} value={counters?.totalNomineeRequests ?? 0}/>
+                    <SingleItem title={"Unread Notifications"} value={counters?.totalNomineeRequests ?? 0}/>
                 </div>
             </div>
         </Spin>

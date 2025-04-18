@@ -25,8 +25,8 @@ class SupplierRequest extends FormRequest
             "name" => ["required"],
             "phone" => ["required"],
             "companyName" => ["required"],
-            "productId" => ["required", "exists:products,id"],
-            "registrationDate" => ["required"],
+            "productId" => ["nullable", "exists:products,id"],
+            "registrationDate" => ["nullable", "required"],
             "addressLineOne" => ["required", "min:3"],
             "addressLineTwo" => ["nullable", "min:3"],
             "companyId" => ["required", "exists:companies,id"]

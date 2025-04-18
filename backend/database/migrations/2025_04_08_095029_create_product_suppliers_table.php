@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('product_suppliers', function (Blueprint $table) {
@@ -27,16 +25,12 @@ return new class extends Migration
                 ->onUpdate("cascade")
                 ->onDelete("cascade");
 
-            $table->foreignId("companyId")->constrained("companies");
             $table->timestamps();
             $table->boolean("isDeleted")->default(false)->nullable();
             $table->boolean("isActive")->default(true)->nullable();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('product_suppliers');

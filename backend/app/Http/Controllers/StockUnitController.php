@@ -30,7 +30,6 @@ class StockUnitController extends Controller
                 $perPage,
                 $request->query('page', 1),
             ]));
-
         return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
             return new StockUnitResourceCollection(
                 StockUnit::where($queryItems)
@@ -44,7 +43,6 @@ class StockUnitController extends Controller
     {
         $payload = PrepareRequestPayload::prepare($request);
         $stockUnit = StockUnit::create($payload);
-
         // Clear relevant cache on create
         $this->clearCache($this->cachePrefix, $stockUnit->id);
         return new StockUnitResource($stockUnit);
@@ -74,7 +72,6 @@ class StockUnitController extends Controller
     public function destroy(StockUnit $stockUnit, Request $request)
     {
         $shouldDeletePermantely = $request->query("delete");
-
         if($shouldDeletePermantely){
             $stockUnit->delete();
         }
@@ -82,10 +79,8 @@ class StockUnitController extends Controller
             $stockUnit->isDeleted = true;
             $stockUnit->save();
         }
-
         // Clear relevant cache on delete
         $this->clearCache($this->cachePrefix, $stockUnit->id);
-
         return new StockUnitResource($stockUnit);
     }
 
@@ -93,7 +88,6 @@ class StockUnitController extends Controller
     public function handleToggleAction($column, $id)
     {
         $stockUnit= StockUnit::findOrFail($id);
-
         if (!in_array($column, $this->toggleColumn)) {
             return ApiResponse::badRequest("The column, '$column', is not allowed for toggling.");
         }
@@ -101,7 +95,6 @@ class StockUnitController extends Controller
         $stockUnit->save();
         // Clear relevant cache on toggle
         $this->clearCache($this->cachePrefix, $id);
-
         return new StockUnitResource($stockUnit);
     }
 }

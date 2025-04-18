@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class StockUnit extends Model
 {
-    //
+    protected $fillable = [
+        "name", "companyId", "isActive",
+        "isDeleted"
+    ];
 }

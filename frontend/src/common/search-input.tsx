@@ -1,33 +1,55 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FiSearch} from "react-icons/fi";
 import {Button, Input} from "antd";
-import {useDebounce} from "../hooks/debounce-hook.tsx";
+import {useAppDispatch} from "../hooks";
 
 interface Props {
     getData?: any;
-    loading?: boolean;
     defaultValue?: string | number;
+    columns: string[]
 }
 
-const SearchInput: React.FC<Props> = ({ getData, loading, defaultValue }) => {
+const SearchInput: React.FC<Props> = ({ getData, defaultValue, columns }) => {
     const [query, setQuery] = useState<string| null>('');
-    const debouncedQuery = useDebounce(query, 500);
-
-    const handleSearch = useCallback((searchTerm: string | null) => {
-        if(getData){
-            getData(searchTerm)
-        }
-    }, []);
+    const dispatch = useAppDispatch();
+    const [filter, setFilter] = useState<string | null>('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (debouncedQuery) {
-            handleSearch(debouncedQuery);
-        }
-    }, [debouncedQuery, handleSearch]);
+        let fullFilterQuery = "";
+        columns.map(column => fullFilterQuery += `${column}[lk]=%${query}%`);
+        setFilter(fullFilterQuery);
+    }, [filter, columns, query]);
 
     const handleClear = () => {
-        handleSearch(null)
+        setLoading(true);
+        setQuery(null);
+        dispatch(getData());
+        setLoading(false);
     }
+
+    const handleSearch = () => {
+        setLoading(true);
+        (!query) ? dispatch(getData) : dispatch(getData(filter));
+        setTimeout(()=>{
+            setLoading(false);
+        }, 2000);
+    }
+
+
+    const  onKeyDownSearchhandler = (event: any) => {
+        const enterKeyCode = 13;
+        if(event.which != enterKeyCode) return;
+
+        setLoading(true);
+        (!query) ? dispatch(getData) : dispatch(getData(filter));
+        setTimeout(()=>{
+            setLoading(false);
+        }, 2000);
+    }
+
+
+
 
     return (
         <Input defaultValue={defaultValue}
@@ -38,12 +60,14 @@ const SearchInput: React.FC<Props> = ({ getData, loading, defaultValue }) => {
             className={'dashboard-search'}
             placeholder={'Search by name...'}
             type="search"
+            onKeyUp={onKeyDownSearchhandler}
             suffix={
             <Button
                 // size={'small'}
                 className={'btn-red w-16 md:w-fit h-7 md:h-9 rounded-xl'}
                 disabled={query === null || query === ''}
-                loading={loading} onClick={(() => handleSearch(debouncedQuery))}>
+                loading={loading}
+                onClick={handleSearch}>
                 Search
             </Button>
         }

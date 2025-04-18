@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../utils/api.js";
+import {ToggleType} from "../../types/toggle-type.ts";
 
 
 export const deleteCategory = createAsyncThunk(
@@ -21,7 +22,7 @@ export const deleteCategory = createAsyncThunk(
 export const createCategory = createAsyncThunk(
     "category/createCategory", async (data: any, {rejectWithValue}) => {
         try {
-            const res = await api('multipart/form-data').post('/categories', data);
+            const res = await api().post('/categories', data);
 
             return res.data.data
         } catch (err: any) {
@@ -36,7 +37,7 @@ export const createCategory = createAsyncThunk(
 export const updateCategory = createAsyncThunk(
     "category/updateCategory", async (data: any, {rejectWithValue}) => {
         try {
-            const res = await api('multipart/form-data').post(`/categories/${data.id}`, data.data)
+            const res = await api().put(`/categories/${data.id}`, data.data)
 
             return res.data.data
 
@@ -49,10 +50,10 @@ export const updateCategory = createAsyncThunk(
     }
 )
 
-export const categoryActiveness = createAsyncThunk(
-    "category/toggleCategoryActivess", async (id: number, {rejectWithValue}) => {
+export const toggleCategory = createAsyncThunk(
+    "category/toggleCategory", async (data: ToggleType, {rejectWithValue}) => {
         try {
-            const res = await api().put(`/categories-toggle-active/${id}`)
+            const res = await api().put(`/categories-toggle/${data.column}/${data.id}`);
 
             return res.data.data
 
@@ -64,24 +65,6 @@ export const categoryActiveness = createAsyncThunk(
         }
     }
 )
-
-
-export const categoryVisibilityToggler = createAsyncThunk(
-    "category/categoryVisibilityToggler", async (id: number, {rejectWithValue}) => {
-        try {
-            const res = await api().put(`/toggle-categories-visibility/${id}`)
-
-            return res.data.data
-
-        } catch (err: any) {
-            if (!err.response) {
-                throw err;
-            }
-            throw rejectWithValue(err.response.data)
-        }
-    }
-)
-
 
 export const getAllCategories = createAsyncThunk(
     "category/getAllCategories", async (params: string, {rejectWithValue}) => {
@@ -99,52 +82,3 @@ export const getAllCategories = createAsyncThunk(
     }
 )
 
-
-export const getAllCategoriesWithContestant = createAsyncThunk(
-    "category/getAllCategoriesWithContestant", async (params: string, {rejectWithValue}) => {
-        try {
-            const res = await api().get(`/categories-contestants?${params}`);
-
-            return res.data
-
-        } catch (err: any) {
-            if (!err.response) {
-                throw err;
-            }
-            throw rejectWithValue(err.response.data)
-        }
-    }
-)
-
-
-export const getAllCategoryWithoutPagination = createAsyncThunk(
-    "category/getAllCategoryWithoutPagination", async (params: string, {rejectWithValue}) => {
-        try {
-            const res = await api().get(`/categories-all?${params}`);
-
-            return res.data
-
-        } catch (err: any) {
-            if (!err.response) {
-                throw err;
-            }
-            throw rejectWithValue(err.response.data)
-        }
-    }
-)
-
-export const searchCategories = createAsyncThunk(
-    "category/searchCategories", async (params: string, {rejectWithValue}) => {
-        try {
-            const res = await api().get(`/categories-search?${params}`);
-
-            return res.data
-
-        } catch (err: any) {
-            if (!err.response) {
-                throw err;
-            }
-            throw rejectWithValue(err.response.data)
-        }
-    }
-);
