@@ -12,8 +12,8 @@ abstract class Controller
 
 
     protected function clearCache($cachePrefix, $id){
-        Cache::forget($cachePrefix . 'index:*');
-        Cache::forget($cachePrefix . 'show:' . $id);
+//        Cache::forget($cachePrefix . 'index:*');
+//        Cache::forget($cachePrefix . 'show:' . $id);
     }
 
 }
