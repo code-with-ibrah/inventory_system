@@ -65,7 +65,7 @@ class AuthController extends Controller
             ];
             $user->update();
 
-            return new AuthResource($response);
+            return response()->json([ "data" => $response ]);
         }
 
         return ApiResponse::general(
