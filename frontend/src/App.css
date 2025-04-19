@@ -245,7 +245,7 @@ html, body {
 
 .inner-header {
     /*background: linear-gradient(to right, rgba(255, 215, 0, 0.85), rgba(255, 215, 0, 0.88)), url("./assets/images/final-bg.jpg");*/
-    background: linear-gradient(to right, rgba(34, 61, 128, 0.8), rgba(34, 61, 128, 0.8)), url("./assets/images/final-bg.jpg");
+    background: linear-gradient(to right, rgba(18, 51, 134, 0.89), rgba(34, 61, 128, 0.8)), url("./assets/images/final-bg.jpg");
     @apply bg-center bg-cover;
     color: white;
 }

@@ -1,23 +1,23 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import SingleItem from "./single-item.tsx";
-import {unwrapResult} from "@reduxjs/toolkit";
 import {Spin} from "antd";
-import {useAppDispatch, useAppSelector} from "../../../hooks";
-import {getDashboardCount} from "../../../state/dashboard/dashboardAction.ts";
+import {unwrapResult} from "@reduxjs/toolkit";
+import {useAppDispatch, useAppSelector} from "../../hooks";
+import {getDashboardCount} from "../../state/dashboard/dashboardAction.ts";
+
 
 
 const Counts: React.FC = () => {
-    const [loading, setLoading] = React.useState(true);
+    const [loading, setLoading] = useState(true);
     const dispatch = useAppDispatch();
     const counters: any = useAppSelector(state => state.dashboardCounter.dashboardCounter);
-    const user: any = useAppSelector(state => state.auth.user);
 
-    const filter = `code=${user?.code}&userCode[eq]=${user?.code}`;
+    const filter = "";
 
     useEffect(() => {
         dispatch(getDashboardCount(filter))
             .then(unwrapResult)
-            .then((_) => {
+            .then((_: any) => {
                 setLoading(false)
             }).catch(() => setLoading(false))
     }, []);
@@ -27,18 +27,19 @@ const Counts: React.FC = () => {
             <div className={"bg-white p-2 md:p-5 rounded-lg mb-5"}>
                 <div className={"grid grid-cols-4 gap-5 p-5 border-none md:border-y"}>
                     <div className={'border-r'}>
-                        <SingleItem title={"Total Awards"} value={counters?.totalAwards ?? 0}/>
+                        <SingleItem title={"Total Products"} value={counters?.totalAwards ?? 0}/>
                     </div>
                     <div className={'border-r'}>
-                        <SingleItem title={"Ongoing Awards"} value={counters?.ongoingAwards ?? 0}/>
+                        <SingleItem title={"New Orders"} value={counters?.ongoingAwards ?? 0}/>
                     </div>
                     <div className={'border-r'}>
-                        <SingleItem title={"User Accounts"} value={counters?.organisationUser ?? 0}/>
+                        <SingleItem title={"Today Sales"} value={counters?.totalOrganisation ?? 0}/>
                     </div>
-                    <SingleItem title={"Nominee Requests"} value={counters?.totalNomineeRequests ?? 0}/>
+                    <SingleItem title={"Unread Notifications"} value={counters?.totalNomineeRequests ?? 0}/>
                 </div>
             </div>
         </Spin>
     )
 }
+
 export default Counts

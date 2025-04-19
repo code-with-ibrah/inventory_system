@@ -6,7 +6,6 @@ import {TbBrandX} from "react-icons/tb";
 
 const ProductSettingsDetails = () => {
 
-    const award = useAppSelector(state => state.award.awardItem);
     const brand = useAppSelector(state => state.brand.brand);
     const category = useAppSelector(state => state.category.category);
     const stockUnit = useAppSelector(state => state.stockUnit.stockUnit);
@@ -15,8 +14,6 @@ const ProductSettingsDetails = () => {
         <div>
             <div className={'flex flex-wrap justify-between items-center'}>
                 <h3 className={'text-2xl font-bold flex items-center gap-x-3'}>
-                    {award?.name}
-
                     {/*<TlaOpen title={"Edit Award"} data={award} modal={true} to={MenuLinks.admin.}>*/}
                     {/*    <FiEdit3/>*/}
                     {/*</TlaOpen>*/}

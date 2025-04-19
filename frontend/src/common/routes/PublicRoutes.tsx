@@ -7,11 +7,10 @@ import Manual from "../../pages/auth/verify/manual.tsx";
 import Verified from "../../pages/auth/verify/verified.tsx";
 import ForgetPassword from "../../pages/auth/forget-password.tsx";
 import SetNewPassword from "../../pages/auth/set-new-password.tsx";
-import {useAppSelector} from "../../hooks";
 import PasswordResetRequestVerification from "../../pages/auth/password-reset-request.verification.tsx";
 
 export const PublicRoutes = () => {
-    const user = useAppSelector(state => state.auth.user);
+    // const user = useAppSelector(state => state.auth.user);
 
     return (
         <Routes>

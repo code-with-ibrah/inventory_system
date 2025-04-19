@@ -49,9 +49,9 @@ const initialState: UserState = {
         email: "",
         roleName: "",
         roleId: 0,
-        organisation: [],
+        company: [],
         isActive: false,
-        code: "",
+        companyId: 0
     }
 }
 

@@ -61,6 +61,9 @@ const initialState: ProductsState = {
         batchNumber: "",
         longDescription: "",
         shortDescription: "",
+        categoryName: "",
+        brandName: "",
+        stockUnit: ""
     }
 
 }

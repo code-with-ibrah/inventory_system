@@ -49,7 +49,8 @@ const initialState: CategorysState = {
         name: "",
         parentId: 0,
         isActive: false,
-        isDeleted: false
+        isDeleted: false,
+        companyId: 0
     }
 }
 

@@ -53,7 +53,6 @@
       <path value="$PROJECT_DIR$/backend/vendor/symfony/event-dispatcher-contracts" />
       <path value="$PROJECT_DIR$/backend/vendor/nette/schema" />
       <path value="$PROJECT_DIR$/backend/vendor/symfony/process" />
-      <path value="$PROJECT_DIR$/backend/vendor/fruitcake/php-cors" />
       <path value="$PROJECT_DIR$/backend/vendor/nette/utils" />
       <path value="$PROJECT_DIR$/backend/vendor/symfony/var-dumper" />
       <path value="$PROJECT_DIR$/backend/vendor/symfony/http-kernel" />
@@ -128,6 +127,7 @@
       <path value="$PROJECT_DIR$/backend/vendor/nunomaduro/collision" />
       <path value="$PROJECT_DIR$/backend/vendor/filp/whoops" />
       <path value="$PROJECT_DIR$/backend/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/backend/vendor/fruitcake/php-cors" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />

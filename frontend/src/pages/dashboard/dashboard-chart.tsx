@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Spin } from "antd";
 import TlaChart from "./components/tla-chart.tsx";
-import {getChartData} from "../../../state/analytics/analyticsActions.ts";
-import {useAppDispatch} from "../../../hooks";
+import {useAppDispatch} from "../../hooks";
+import {getChartData} from "../../state/analytics/analyticsActions.ts";
 
 const DashboardChart: React.FC = () => {
     const [loading, setLoading] = React.useState(true);
@@ -16,7 +16,7 @@ const DashboardChart: React.FC = () => {
     useEffect(() => {
         dispatch(getChartData())
             .then(unwrapResult)
-            .then((data) => {
+            .then((data: any) => {
                 setLoading(false)
 
                 setCategories(data.map((item: any) => item.name))

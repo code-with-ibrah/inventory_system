@@ -2,7 +2,6 @@ import { Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { AppLayout } from "../layout/AppLayout";
 import { ModalRoute } from "./ModalRoute";
 import {MenuLinks} from "../../utils/menu-links";
-import Analytics from "../../pages/admin-page/dashboard/index.tsx";
 import AdminNotFound from "../../pages/common/admin-not-found.tsx";
 import ProductFormPage from "../../pages/product/product-form-page.tsx";
 import Product from "../../pages/product";
@@ -18,6 +17,7 @@ import SupplierProduct from "../../pages/supplier/supplier-product.tsx";
 import ProductDetailLayout from "../../pages/product/product-detail-layout.tsx";
 import ProductInfo from "../../pages/product/product-info.tsx";
 import ProductSupplier from "../../pages/product/product-suppliers.tsx";
+import Analytics from "../../pages/dashboard";
 
 
 export const AppProtectedRoutes = () => {

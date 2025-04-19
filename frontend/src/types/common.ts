@@ -19,7 +19,6 @@ export interface IUpdate {
 export type User = {
     id: number,
     name: string,
-    code: string,
     passwordChanged: boolean,
     email: string,
     roleId: number,

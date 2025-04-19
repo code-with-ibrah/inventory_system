@@ -6,10 +6,7 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 import {TlaError, TlaSuccess} from "../../utils/messages.ts";
 import {TlaModal} from "../../common/pop-ups/TlaModal.tsx";
 import {createSupplier, updateSupplier} from "../../state/supplier/supplierAction.ts";
-import DropdownSearch from "../../common/dropdown-search.tsx";
-import {Category} from "../../types/category.ts";
-import {getAllProducts} from "../../state/product/productAction.ts";
-import {Product} from "../../types/product.ts";
+
 
 
 const SupplierForm: React.FC = () => {
@@ -99,22 +96,6 @@ const SupplierForm: React.FC = () => {
                         <Input type={'date'}/>
                     </Form.Item>
 
-                    {/*<Form.Item name={"productId"} label={"Product (optional)"}>*/}
-                    {/*    <DropdownSearch*/}
-                    {/*        defaultValue={state?.data?.product?.name}*/}
-                    {/*        object*/}
-                    {/*        extraParams={"&isDeleted[eq]=0&isActive[eq]=1"}*/}
-                    {/*        searchApi={getAllProducts}*/}
-                    {/*        placeholder="click to select product"*/}
-                    {/*        setResult={(product: Product) => {*/}
-                    {/*            if (product) {*/}
-                    {/*                form.setFieldValue('productId', product?.id);*/}
-                    {/*                return*/}
-                    {/*            }*/}
-                    {/*            form.setFieldValue('productId', null)*/}
-                    {/*        }}*/}
-                    {/*    />*/}
-                    {/*</Form.Item>*/}
 
                     <Form.Item
                         rules={[

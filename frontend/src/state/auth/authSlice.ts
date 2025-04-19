@@ -19,13 +19,13 @@ const initialState: AuthState = {
     user: {
         id: 0,
         name: "",
-        code: "",
         email: "",
         roleId: 0,
         roleName: "",
         passwordChanged: false,
-        organisation: [],
+        company: [],
         isActive: false,
+        companyId: 0
     }
 }
 
