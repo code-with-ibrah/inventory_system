@@ -59,10 +59,15 @@ class AuthController extends Controller
                 );
             }
 
+
             $response = [
                 "user" => new UserResource($user),
                 "token" => $token
             ];
+
+            return $response;
+
+
             $user->update();
 
             return new AuthResource($response);
