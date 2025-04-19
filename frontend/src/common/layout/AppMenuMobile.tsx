@@ -34,7 +34,7 @@ const AppMenuMobile: React.FC = () => {
 
             <Drawer
                 className={"mobile-drawer !w-1/2"} placement={'left'}
-                title={<div className={""}>Yello Events</div>}
+                title={<div className={""}>Jessden Invent</div>}
                 onClose={onClose} open={open}>
                 <AppMenus menus={appMenus}/>
             </Drawer>
