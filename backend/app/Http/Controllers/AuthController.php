@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Api\response\ApiResponse;
 use App\Http\Requests\user\LoginRequest;
 use App\Http\Requests\user\UserRequest;
-use App\Http\Resources\User\UserResource;
+use app\Http\Resources\User\UserResource;
 use App\Http\Requests\common\PrepareRequestPayload;
 
 
