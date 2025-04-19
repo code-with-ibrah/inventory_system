@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Api\response\ApiResponse;
 use App\Http\Requests\user\LoginRequest;
 use App\Http\Requests\user\UserRequest;
-use App\Http\Resources\User\UserResource;
+use App\Http\Resources\user\UserResource;
 use App\Http\Requests\common\PrepareRequestPayload;
 
 
@@ -58,17 +58,11 @@ class AuthController extends Controller
                     StatusCode::UNAUTHORIZED_ACCESS
                 );
             }
-
-
             $response = [
                 "user" => new UserResource($user),
                 "token" => $token
             ];
-
-            return $response;
-
             $user->update();
-
             return new AuthResource($response);
         }
 
