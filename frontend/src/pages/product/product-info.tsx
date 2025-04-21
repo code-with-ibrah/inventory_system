@@ -36,49 +36,49 @@ const ProductInfo = () => {
                 </div> : null}
 
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Sku"} value={product?.sku}/>
+                    <SingleItem title={"Sku"} value={product?.sku ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Quantity"} value={product?.quantity}/>
+                    <SingleItem title={"Quantity"} value={product?.quantity ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Stock Alert Level"} value={product?.stockAlertLevel}/>
+                    <SingleItem title={"Stock Alert Level"} value={product?.stockAlertLevel ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Full Package Quantity"} value={product?.standardPackageQuantity}/>
+                    <SingleItem title={"Full Package Quantity"} value={product?.standardPackageQuantity ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Cost Price"} value={product?.costPrice}/>
+                    <SingleItem title={"Cost Price"} value={product?.costPrice ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Unit Price"} value={product?.unitPrice}/>
+                    <SingleItem title={"Unit Price"} value={product?.unitPrice ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Tax"} value={product?.taxRate}/>
+                    <SingleItem title={"Tax"} value={product?.taxRate ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Category"} value={product?.categoryName}/>
+                    <SingleItem title={"Category"} value={product?.categoryName ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Brand"} value={product?.brandName}/>
+                    <SingleItem title={"Brand"} value={product?.brandName ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Stock Unit"} value={product?.stockUnitName}/>
+                    <SingleItem title={"Stock Unit"} value={product?.stockUnitName ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Expiration Date"} value={formatDate(product?.expirationDate)?.toString()}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Serial Number"} value={product?.serialNumber}/>
+                    <SingleItem title={"Serial Number"} value={product?.serialNumber ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Batch Number"} value={product?.batchNumber}/>
+                    <SingleItem title={"Batch Number"} value={product?.batchNumber ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <p className={'text-gray-500 font-medium text-md'}>Description</p>
                     <div>
                        <p>
-                           {product?.longDescription}
+                           {product?.longDescription ?? '-'}
                        </p>
                     </div>
                 </div>

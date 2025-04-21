@@ -1,7 +1,8 @@
-import { ErrorMessage } from "../types/common.ts";
+import {ErrorMessage} from "../types/common.ts";
 import React from "react";
 import dayjs from "dayjs";
 import weekOfYear from 'dayjs/plugin/weekOfYear';
+
 dayjs.extend(weekOfYear);
 
 /**
@@ -170,4 +171,33 @@ export const getWeek = (date: dayjs.Dayjs) => {
 
 
 
+
+
+export function generateWarehouseCode(initials: string) {
+    const sanitizedInitials = initials
+        .substring(0, 3)
+        .replace(/[^a-zA-Z]/g, "")
+        .toUpperCase();
+
+    // Ensure we have at least 1 valid initial
+    if (!sanitizedInitials) {
+        throw new Error(
+            "The provided string must contain at least one letter for the initials."
+        );
+    }
+
+    // Generate a shorter random hexadecimal string (up to 6 characters)
+    const remainingLength = Math.max(1, 6 - sanitizedInitials.length);
+    let randomString = "";
+    const characters = "abcdef0123456789";
+    const charactersLength = characters.length;
+    for (let i = 0; i < remainingLength; i++) {
+        randomString += characters.charAt(
+            Math.floor(Math.random() * charactersLength)
+        );
+    }
+
+    // Combine initials and the random string
+    return sanitizedInitials + randomString;
+}
 

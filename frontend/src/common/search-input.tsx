@@ -6,10 +6,11 @@ import {useAppDispatch} from "../hooks";
 interface Props {
     getData?: any;
     defaultValue?: string | number;
-    columns: string[]
+    columns: string[],
+    placeholderColumn?: string,
 }
 
-const SearchInput: React.FC<Props> = ({ getData, defaultValue, columns }) => {
+const SearchInput: React.FC<Props> = ({ getData, defaultValue, columns, placeholderColumn = "" }) => {
     const [query, setQuery] = useState<string| null>('');
     const dispatch = useAppDispatch();
     const [filter, setFilter] = useState<string | null>('');
@@ -37,7 +38,7 @@ const SearchInput: React.FC<Props> = ({ getData, defaultValue, columns }) => {
     }
 
 
-    const  onKeyDownSearchhandler = (event: any) => {
+    const onKeyDownSearchhandler = (event: any) => {
         const enterKeyCode = 13;
         if(event.which != enterKeyCode) return;
 
@@ -58,7 +59,7 @@ const SearchInput: React.FC<Props> = ({ getData, defaultValue, columns }) => {
             onChange={(e) => { e.target.value ? setQuery(e.target.value) : handleClear()} }
             prefix={<FiSearch size={20}/>}
             className={'dashboard-search'}
-            placeholder={'Search by name...'}
+            placeholder={`Search by name ${placeholderColumn}...`}
             type="search"
             onKeyUp={onKeyDownSearchhandler}
             suffix={

@@ -16,7 +16,6 @@ import {Supplier} from "../../types/supplier.ts";
 import {commonQuery} from "../../utils/query.ts";
 
 
-
 const Suppliers: React.FC = () => {
     const {data, meta} = useAppSelector((state) => state.supplier.supplier);
     const dispatch = useAppDispatch();
@@ -26,7 +25,6 @@ const Suppliers: React.FC = () => {
         dispatch(setSupplier(record));
         navigate(MenuLinks.admin.supplier.details.index);
     }
-
 
     return (
         <div className={'bg-white p-5 rounded-2xl'}>

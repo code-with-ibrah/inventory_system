@@ -54,6 +54,11 @@ export const MenuLinks = {
             brandForm: '/admin/product-settings/brands-form',
             stockUnit: '/admin/product-settings/stock-unit',
             stockUnitForm: '/admin/product-settings/stock-unit-form'
+        },
+        warehouse: {
+            index: "/admin/warehouses",
+            form: "/admin/warehouse-form",
+            details: "/admin/warehouses/details",
         }
     },
 
