@@ -30,4 +30,10 @@ export const AdminMenus: Menu[] = [
         link: MenuLinks.admin.warehouse.index,
         icon: appIconLabels.warehouse
     },
+    {
+        label: 'Stocks',
+        link: MenuLinks.admin.stock.index,
+        create: MenuLinks.admin.stock.form,
+        icon: appIconLabels.stocks
+    },
 ];

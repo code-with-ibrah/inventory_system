@@ -76,7 +76,7 @@ class RoleController extends Controller
     {
         $shouldDeletePermantely = $request->query("delete");
         if($shouldDeletePermantely){
-            // $role->delete();
+             $role->delete();
         }
         else{
             $role->isDeleted = true;
