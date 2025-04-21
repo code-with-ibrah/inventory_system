@@ -11,6 +11,7 @@ import TlaEdit from "../../../common/tla-edit.tsx";
 import TlaOpen from "../../../common/pop-ups/TlaOpen.tsx";
 import {deleteCategory, getAllCategories} from "../../../state/category/categoryAction.ts";
 import SearchInput from "../../../common/search-input.tsx";
+import {commonQuery} from "../../../utils/query.ts";
 
 
 
@@ -27,7 +28,7 @@ const Categories: React.FC = () => {
                 <SearchInput columns={["name"]} getData={getAllCategories}/>
             </div>
 
-            <TlaTableWrapper getData={getAllCategories} data={data} filter={""} meta={meta}>
+            <TlaTableWrapper getData={getAllCategories} data={data} filter={commonQuery()} meta={meta}>
                 <Column title="Name" dataIndex="name"/>
                 <Column title="Active Status" dataIndex={(record: any) => renderStatus(record.isActive)}/>
                 <Column

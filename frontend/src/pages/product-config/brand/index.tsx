@@ -10,6 +10,7 @@ import TlaTableWrapper from "../../../common/tla-table-wrapper.tsx";
 import TlaDelete from "../../../common/tla-delete.tsx";
 import TlaEdit from "../../../common/tla-edit.tsx";
 import TlaOpen from "../../../common/pop-ups/TlaOpen.tsx";
+import {commonQuery} from "../../../utils/query.ts";
 
 
 
@@ -21,7 +22,7 @@ const Brands: React.FC = () => {
             <TlaOpen to={MenuLinks.admin.productSettings.brandForm}>
                 <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New</Button>
             </TlaOpen>
-            <TlaTableWrapper getData={getAllBrands} data={data} filter={""} meta={meta}>
+            <TlaTableWrapper getData={getAllBrands} data={data} filter={commonQuery()} meta={meta}>
                 <Column title="Name" dataIndex="name"/>
                 <Column title="Active Status" dataIndex={(record: any) => renderStatus(record.isActive)}/>
                 <Column
