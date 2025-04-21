@@ -8,11 +8,6 @@ use function Laravel\Prompts\map;
 
 class ProductResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
         $category = $this->category;
@@ -45,6 +40,7 @@ class ProductResource extends JsonResource
             "brandName" => $brand ? $brand->name : null,
             "stockUnitId" => $this->stockUnitId,
             "stockUnitName" => $stockUnit ? $stockUnit->name : null,
+            "stockUnit" => $this->stockUnit,
             "suppliers" => $suppliers ? $suppliers->map(function($supplier){
                 return [
                     "id" => $supplier->id,

@@ -11,4 +11,12 @@ class ProductSupplier extends Model
         "isDeleted", "isActive"
     ];
 
+    public function suppliers(){
+        return $this->hasMany(Product::class, "id", "productId");
+    }
+
+//    public function products(){
+//        return $this->hasMany(Product::class, "id", "productId");
+//    }
+
 }

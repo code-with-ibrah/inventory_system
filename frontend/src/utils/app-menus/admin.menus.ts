@@ -21,7 +21,7 @@ export const AdminMenus: Menu[] = [
         icon: appIconLabels.products
     },
     {
-        label: 'Product Settings',
+        label: 'Product Config',
         link: MenuLinks.admin.productSettings.index,
         icon: appIconLabels.config
     },

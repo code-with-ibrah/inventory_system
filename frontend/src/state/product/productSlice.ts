@@ -1,7 +1,14 @@
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
 import {env} from "../../config/env";
 import {Product, ProductsState} from "../../types/product";
-import {createProduct, deleteProduct, getAllProducts, toggleProduct, updateProduct} from "./productAction";
+import {
+    createProduct,
+    deleteProduct,
+    getAllProducts,
+    getAllProductSuppliers,
+    toggleProduct,
+    updateProduct
+} from "./productAction";
 
 const initialState: ProductsState = {
     product: {
@@ -63,9 +70,12 @@ const initialState: ProductsState = {
         shortDescription: "",
         categoryName: "",
         brandName: "",
-        stockUnit: ""
+        stockUnitName: "",
+        standardPackageQuantity: 0
+    },
+    productSuppliers: {
+        data: [],
     }
-
 }
 
 
@@ -88,6 +98,8 @@ const productSlice = createSlice({
             state.product.data = state.product.data.map((product: Product) => {
                 return product.id === action.payload.id ? action.payload : product;
             })
+        }).addCase(getAllProductSuppliers.fulfilled, (state, action: PayloadAction<any>) => {
+            state.productSuppliers.data = action.payload;
         }).addCase(deleteProduct.fulfilled, (state, action: PayloadAction<number>) => {
             state.product.data = state.product.data.filter((award) => award.id !== action.payload);
         })

@@ -16,19 +16,19 @@ class Product extends Model
     ];
 
     public function category(){
-        return $this->hasOne(Category::class, "id");
+        return $this->hasOne(Category::class, "id", "categoryId");
     }
 
     public function brand(){
-        return $this->hasOne(Brand::class, "id");
+        return $this->hasOne(Brand::class, "id", "brandId");
     }
 
-//    public function stockUnit(){
-//        return $this->hasOne(StockUnit::class, "stockUnitId");
-//    }
+    public function stockUnit(){
+        return $this->hasOne(StockUnit::class, "id", "stockUnitId");
+    }
 
     public function company(){
-        return $this->hasOne(Company::class, "id");
+        return $this->hasOne(Company::class, "id", "companyId");
     }
 
     public function suppliers(){

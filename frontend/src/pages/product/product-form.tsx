@@ -1,31 +1,42 @@
- import React, {useState} from "react";
-import {Button, Form, Input, InputNumber, Upload, Image} from "antd";
+import React, {useState} from "react";
+import {Button, Form, Input, InputNumber} from "antd";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {useLocation, useNavigate} from "react-router-dom";
-import {UploadOutlined} from "@ant-design/icons";
- import {useAppDispatch} from "../../hooks";
- import {createPayloadWithImage, handleImageChange} from "../../utils/image-upload.tsx";
- import {createProduct, getAllProducts, updateProduct} from "../../state/product/productAction.ts";
- import {TlaError, TlaSuccess} from "../../utils/messages.ts";
- import {TlaModal} from "../../common/pop-ups/TlaModal.tsx";
- import DropdownSearch from "../../common/dropdown-search.tsx";
- import {Product} from "../../types/product";
+import {useAppDispatch, useAppSelector} from "../../hooks";
+import {createProduct, updateProduct} from "../../state/product/productAction.ts";
+import {TlaError, TlaSuccess} from "../../utils/messages.ts";
+import {TlaModal} from "../../common/pop-ups/TlaModal.tsx";
+import DropdownSearch from "../../common/dropdown-search.tsx";
+import {getAllCategories} from "../../state/category/categoryAction.ts";
+import {commonQuery} from "../../utils/query.ts";
+import {Category} from "../../types/category.ts";
+import {getAllBrands} from "../../state/brand/brandAction.ts";
+import {Brand} from "../../types/brand.ts";
+import {getAllStockUnits} from "../../state/stock-unit/stockUnitAction.ts";
+import {StockUnit} from "../../types/stock-unit.ts";
+import TextArea from "antd/es/input/TextArea";
+import {getAllSuppliers} from "../../state/supplier/supplierAction.ts";
+import {Supplier} from "../../types/supplier.ts";
 
 
 const ProductForm: React.FC = () => {
-    const { state } = useLocation();
+    const {state} = useLocation();
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const [imageFile, setImageFile] =  useState<Blob | MediaSource | null>(null);
-    const [thumbnailFile, setThumbnailFile] = useState<Blob | MediaSource | null>(null);
     const [form] = Form.useForm();
+    const user = useAppSelector(state => state.auth.user);
 
 
     const onFinish = (values: any) => {
-        const formData = createPayloadWithImage(values, imageFile, thumbnailFile);
+        values.companyId = user?.companyId;
+        values.expirationDate = values.expirationDate || null;
+
         setLoading(true);
-        ((state?.data && state?.data?.id) ? dispatch(updateProduct({ data: formData, id: state?.data?.id})) : dispatch(createProduct(formData)))
+        ((state?.data && state?.data?.id) ? dispatch(updateProduct({
+            data: values,
+            id: state?.data?.id
+        })) : dispatch(createProduct(values)))
             .then(unwrapResult)
             .then(() => {
                 TlaSuccess("Successful");
@@ -38,150 +49,213 @@ const ProductForm: React.FC = () => {
             });
     };
 
+    const disabled = false;
+
     return (
-        <TlaModal title={"Award"} loading={loading}>
+        <TlaModal title={"Product Form"} loading={loading}>
             <Form form={form} requiredMark={false} onFinish={onFinish} initialValues={{...state?.data}} size={'large'}
                   layout={"vertical"}>
-                <div className={'grid grid-cols-3 md:grid-cols-3 gap-2'}>
-                    <Form.Item label="Image">
-                        <Upload
-                            name="image"
-                            listType="picture-card"
-                            showUploadList={false}
-                            beforeUpload={() => false}
-                            onChange={(file) => handleImageChange(file, setImageFile, setThumbnailFile)}>
-                            {
-                                imageFile ? (<img src={URL.createObjectURL(imageFile)} alt="avatar" style={{
-                                    width: '100%',
-                                    borderRadius: '10px',
-                                    marginTop: '25px',
-                                    maxHeight: '135px',
-                                }}/>) : (
-                                    <div>
-                                        <UploadOutlined/>
-                                        <div className="ant-upload-text">Upload</div>
-                                    </div>
-                                )}
-                        </Upload>
 
-                        {state?.data?.id && <Image
-                            className={'thumbnail-img'}
-                            width={50}
-                            src={state?.data?.thumbnail}
-                            preview={{ src: state?.data?.image }}
-                        />}
-                    </Form.Item>
-
-                    <div className={'col-span-2 grid grid-cols-1 gap-2'}>
-
-                        <Form.Item
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Required"
-                                }
-                            ]}
-                            name={"code"} label={"Code"}>
-                            <Input readOnly={(state?.data?.id > 0)}/>
-                        </Form.Item>
-
-                        <Form.Item
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Required"
-                                }
-                            ]}
-                            name={"name"} label={"Name"}>
-                            <Input/>
-                        </Form.Item>
-
-                        <Form.Item
-                            style={{ marginTop: '-15px' }}
-                            className={'col-span-2'}
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Required"
-                                }
-                            ]}
-                            name={"systemPercentage"} label={"Percentage *"}>
-                            <Input/>
-                        </Form.Item>
-                    </div>
-                </div>
-
-
-                <div className={'grid grid-cols-1 md:grid-cols-2 gap-2'}>
+                <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 sm:gap-6">
 
                     <Form.Item
-                        rules={[
-                            {
-                                required: true,
-                                message: "Required"
-                            }
-                        ]}
-                        name={"costPerVote"} label={"Cost Per Vote"}>
-                        <InputNumber style={{width: '100%'}}/>
+                        label={'Name'}
+                        name="name"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        <Input disabled={disabled} size={"large"} placeholder="GHS 99"/>
                     </Form.Item>
 
                     <Form.Item
-                        rules={[
-                            {
-                                required: true,
-                                message: "Required"
-                            }
-                        ]}
-                        name={"userCode"} label={"Organisation *"}>
+                        label={'SKU'}
+                        name="sku"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        <Input disabled={disabled} size={"large"} placeholder="SKU"/>
+                    </Form.Item>
+
+                    <Form.Item
+                        rules={[{required: true, message: "Required"}]}
+                        name={"categoryId"} label={"Category"}>
                         <DropdownSearch
-                            defaultValue={state?.data?.organisation?.name}
+                            defaultValue={state?.data?.categoryName}
                             object
-                            searchApi={getAllProducts}
-                            placeholder="click to select organisation"
-                            setResult={(product: Product) => {
-                                if (product) {
-                                    form.setFieldValue('productId', product.id);
+                            disabled={disabled}
+                            searchApi={getAllCategories}
+                            extraParams={commonQuery()}
+                            placeholder="click to select category"
+                            setResult={(category: Category) => {
+                                if (category) {
+                                    form.setFieldValue('categoryId', category?.id);
                                     return
                                 }
-
-                                form.setFieldValue('productId', null)
+                                form.setFieldValue('categoryId', null)
                             }}
                         />
                     </Form.Item>
+
+                    <Form.Item
+                        rules={[{required: true, message: "Required"}]}
+                        name={"brandId"} label={"Brand"}>
+                        <DropdownSearch
+                            defaultValue={state?.data?.brandName}
+                            object
+                            disabled={disabled}
+                            searchApi={getAllBrands}
+                            extraParams={commonQuery()}
+                            placeholder="click to select brands"
+                            setResult={(brand: Brand) => {
+                                if (brand) {
+                                    form.setFieldValue('brandId', brand?.id);
+                                    return
+                                }
+                                form.setFieldValue('brandId', null)
+                            }}
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        name={"supplierId"} label={"Supplier (optional)"}>
+                        <DropdownSearch
+                            defaultValue={state?.data?.supplierName}
+                            object
+                            disabled={disabled}
+                            searchApi={getAllSuppliers}
+                            extraParams={commonQuery()}
+                            placeholder="click to select suppliers"
+                            setResult={(supplier: Supplier) => {
+                                if (supplier) {
+                                    form.setFieldValue('supplierId', supplier?.id);
+                                    return
+                                }
+                                form.setFieldValue('supplierId', null)
+                            }}
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        label={'Cost Price'}
+                        name="costPrice"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        <InputNumber style={{width: "100%"}} disabled={disabled} size={"large"}
+                                     placeholder="GHS 238"/>
+                    </Form.Item>
+
+
+                    <Form.Item
+                        label={'Quantity'}
+                        name="quantity"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        <InputNumber style={{width: "100%"}} disabled={disabled} size={"large"} placeholder="900"/>
+                    </Form.Item>
+
+                    <Form.Item
+                        label={'Stock Alert Level'}
+                        name="stockAlertLevel"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        <InputNumber style={{width: "100%"}} disabled={disabled} size={"large"} placeholder="14"/>
+                    </Form.Item>
+
+
+                    <Form.Item
+                        label={'Unit Price'}
+                        name="unitPrice"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        <Input disabled={disabled} size={"large"} type="number" placeholder="GHS 99"/>
+                    </Form.Item>
+
+                    <Form.Item
+                        rules={[{required: true, message: "Required"}]}
+                        name={"stockUnitId"} label={"Stock Unit "}>
+                        <DropdownSearch
+                            defaultValue={state?.data?.stockUnitName}
+                            object
+                            disabled={disabled}
+                            searchApi={getAllStockUnits}
+                            extraParams={commonQuery()}
+                            placeholder="click to select stock unit"
+                            setResult={(stockUnit: StockUnit) => {
+                                if (stockUnit) {
+                                    form.setFieldValue('stockUnitId', stockUnit?.id);
+                                    return
+                                }
+                                form.setFieldValue('stockUnitId', null)
+                            }}
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        label={'Standard Package Quantity'}
+                        name="standardPackageQuantity"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}}
+                        rules={[
+                            {required: true, message: "Required"}
+                        ]}>
+                        <InputNumber min={0} style={{width: "100%"}} disabled={disabled} size={'large'}/>
+                    </Form.Item>
+
+                    <Form.Item
+                        label={'Expiration Date (optional)'}
+                        name="expirationDate"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}}>
+                        <Input disabled={disabled} size={"large"} type="date"/>
+                    </Form.Item>
+
+                    <Form.Item
+                        label={'Tax Rate'}
+                        name="taxRate"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}}>
+                        <InputNumber min={0} disabled={disabled} style={{width: "100%"}} size={"large"}/>
+                    </Form.Item>
+
+                    <Form.Item
+                        label={'Serial Number'}
+                        name="serialNumber"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        <Input disabled={disabled} size={"large"}/>
+                    </Form.Item>
+
+                    <Form.Item
+                        label={'Batch Number'}
+                        name="batchNumber"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        <Input disabled={disabled} size={"large"}/>
+                    </Form.Item>
+
+                    <Form.Item
+                        label={'Long Description'}
+                        name="longDescription"
+                        className="col-span-full sm:col-span-3"
+                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        <TextArea disabled={disabled}
+                                  placeholder="Detailed Product description here"/>
+                    </Form.Item>
                 </div>
 
 
-                    <div className={'grid grid-cols-1 md:grid-cols-2 gap-2'}>
-                        <Form.Item
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Required"
-                                }
-                            ]}
-                            name={"startDate"} label={"Start Date"}>
-                            <Input type={'date'}/>
-                        </Form.Item>
+                <div className={'w-fit ml-auto mt-2 gap-2 flex'}>
+                    <Button className={'bg-red-600 text-white'} onClick={() => navigate(-1)}>
+                        Cancel
+                    </Button>
 
-                        <Form.Item
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Required"
-                                }
-                            ]}
-                            name={"endDate"} label={"End Date"}>
-                            <Input type={'date'}/>
-                        </Form.Item>
-                    </div>
-                    <div className={'w-fit ml-auto'}>
-                        <Button className={'btn-red'} htmlType={"submit"}>
-                            Save
-                        </Button>
-                    </div>
+                    <Button className={'btn-red'} htmlType={"submit"}>
+                        Save
+                    </Button>
+                </div>
+
+
             </Form>
         </TlaModal>
-)
+    )
 };
 
 export default ProductForm

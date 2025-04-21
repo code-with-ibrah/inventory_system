@@ -73,6 +73,9 @@ export const getAllProducts = createAsyncThunk("award/getAllProducts", async (pa
 
 
 
+
+
+
 export const toggleProduct = createAsyncThunk("products/toggleProduct", async (toggleType: ToggleType, {rejectWithValue}) => {
         try {
             const res = await api().put(`/products-toggle/${toggleType.column}/${toggleType.id}`);

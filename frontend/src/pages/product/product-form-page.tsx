@@ -30,9 +30,12 @@ const ProductFormPage: React.FC = () => {
     const inEditingMode = searchParams.get("edit");
     const [disabled, setDisabled] = useState<any>(inEditingMode);
     const user = useAppSelector(state => state.auth.user);
-    const selectedProduct = useAppSelector(state => state.product.productItem);
+    let selectedProduct = {};
 
 
+    if(inEditingMode){
+        selectedProduct = useAppSelector(state => state.product.productItem);
+    }
 
 
     const onFinish = (values: any) => {
@@ -83,7 +86,6 @@ const ProductFormPage: React.FC = () => {
                         <Form layout="vertical" onFinish={onFinish} form={form} initialValues={{ ...selectedProduct}}
                               className={'bg-white rounded-xl border p-5 my-3'}>
                             <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 sm:gap-6">
-
                                 <Form.Item
                                     label={'Product Name'}
                                     name="name"
@@ -99,7 +101,6 @@ const ProductFormPage: React.FC = () => {
                                 style={{marginBottom: 0}}>
                                 <Input disabled={disabled} size={"large"} placeholder="SKU"/>
                             </Form.Item>
-
 
                             <Form.Item
                                 style={{marginBottom: "-50px !important"}}
@@ -143,7 +144,7 @@ const ProductFormPage: React.FC = () => {
                             <Form.Item
                                 name={"supplierId"} label={"Supplier"}>
                                 <DropdownSearch
-                                    defaultValue={state?.data?.brand?.name}
+                                    defaultValue={state?.data?.supplierName}
                                     object
                                     disabled={disabled}
                                     searchApi={getAllSuppliers}

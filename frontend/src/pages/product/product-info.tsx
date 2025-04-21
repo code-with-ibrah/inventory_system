@@ -22,21 +22,8 @@ const ProductInfo = () => {
                     <SingleItem title={"Name"} value={product?.name}/>
                 </div>
 
-                {product?.image ? <div className={'bg-white p-2 md:p-5 rounded-lg col-span-1'}>
-                    <p className={'text-gray-500 font-medium text-md'}>Image</p>
-                    <div>
-                        <Image
-                            className={'thumbnail-img'}
-                            width={150}
-                            height={50}
-                            src={product?.image}
-                            preview={{src: product.image}}
-                        />
-                    </div>
-                </div> : null}
-
                 {product?.barcode ? <div className={'bg-white p-2 md:p-5 rounded-lg col-span-1'}>
-                    <p className={'text-gray-500 font-medium text-md'}>Barcode</p>
+                    <p className={'text-gray-500 font-medium text-md'}>Barcode <small>(click to view)</small> </p>
                     <div>
                         <Image
                             className={'thumbnail-img'}
@@ -58,7 +45,7 @@ const ProductInfo = () => {
                     <SingleItem title={"Stock Alert Level"} value={product?.stockAlertLevel}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Standard Package Quantity"} value={product?.quantity}/>
+                    <SingleItem title={"Full Package Quantity"} value={product?.standardPackageQuantity}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Cost Price"} value={product?.costPrice}/>
@@ -76,7 +63,7 @@ const ProductInfo = () => {
                     <SingleItem title={"Brand"} value={product?.brandName}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Stock Unit"} value={product?.stockUnit}/>
+                    <SingleItem title={"Stock Unit"} value={product?.stockUnitName}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Expiration Date"} value={formatDate(product?.expirationDate)?.toString()}/>
@@ -88,7 +75,12 @@ const ProductInfo = () => {
                     <SingleItem title={"Batch Number"} value={product?.batchNumber}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Description"} value={product?.longDescription}/>
+                    <p className={'text-gray-500 font-medium text-md'}>Description</p>
+                    <div>
+                       <p>
+                           {product?.longDescription}
+                       </p>
+                    </div>
                 </div>
             </div>
         </div>

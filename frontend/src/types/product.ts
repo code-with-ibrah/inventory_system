@@ -18,13 +18,14 @@ export type Product = {
     image: string,
     unitPrice: string,
     stockUnitId: number,
-    stockUnit: string,
+    stockUnitName: string,
     expirationDate: string,
     taxRate: number,
     serialNumber: string,
     batchNumber: string,
     longDescription: string,
-    shortDescription: string
+    shortDescription: string,
+    standardPackageQuantity: number,
 }
 
 export interface ProductType extends PaginatedData {
@@ -34,5 +35,8 @@ export interface ProductType extends PaginatedData {
 
 export interface ProductsState {
     product: ProductType,
-    productItem: Product
+    productItem: Product,
+    productSuppliers:{
+        data: any,
+    }
 }

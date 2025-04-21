@@ -6,8 +6,10 @@ use App\Http\Api\query\models\SupplierQuery;
 use App\Http\Api\response\ApiResponse;
 use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Requests\supplier\SupplierRequest;
+use App\Http\Resources\product_supplier\ProductSupplierResource;
 use App\Http\Resources\supplier\SupplierResource;
 use App\Http\Resources\supplier\SupplierResourceCollection;
+use App\Models\ProductSupplier;
 use App\Models\Supplier;
 use App\Utils\Globals;
 use Illuminate\Http\Request;
@@ -41,7 +43,6 @@ class SupplierController extends Controller
         });
     }
 
-
     public function store(SupplierRequest $request)
     {
         try{
@@ -58,6 +59,27 @@ class SupplierController extends Controller
             return ApiResponse::badRequest($e->getMessage());
         }
     }
+
+
+    public function products(int $id)
+    {
+        $productRecords = ProductSupplier::where("productId", $id)->get();
+        if ($productRecords->isNotEmpty()) {
+            $supplierList = [];
+            foreach ($productRecords as $record) {
+                $supplier = Supplier::find($record->supplierId);
+                if ($supplier) {
+                    $supplierInfo = new SupplierResource($supplier);
+                    $supplierList[] = $supplierInfo;
+                }
+            }
+            return response()->json($supplierList);
+        }
+        else {
+            return response()->json(["data" => []], 200);
+        }
+    }
+
 
 
     public function show(Supplier $supplier)

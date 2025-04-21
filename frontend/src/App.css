@@ -178,6 +178,22 @@ html, body {
     @apply bg-app-red text-white;
 }
 
+.nav-details-item {
+    @apply text-gray-800 py-2 rounded-lg px-3 cursor-pointer flex items-center gap-x-3 text-sm;
+
+    &:hover {
+        @apply bg-yellow-500 text-white;
+    }
+
+    a:hover {
+        @apply text-white;
+    }
+}
+
+.active-details-nav-item {
+    @apply bg-yellow-500 text-white;
+}
+
 .spin {
     display: inline-block;
     font-size: 50px; /* Adjust size as needed */

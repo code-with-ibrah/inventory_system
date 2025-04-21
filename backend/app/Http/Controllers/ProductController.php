@@ -8,13 +8,16 @@ use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Requests\product\ProductRequest;
 use App\Http\Resources\product\ProductResource;
 use App\Http\Resources\product\ProductResourceCollection;
+use App\Http\Resources\product_supplier\ProductSupplierResource;
 use App\Models\Product;
+use App\Models\ProductSupplier;
 use App\Utils\Globals;
 use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use function Carbon\map;
 
 class ProductController extends Controller
 {
@@ -46,6 +49,24 @@ class ProductController extends Controller
         });
     }
 
+
+    public function suppliers($id){
+        $supplierRecords = ProductSupplier::where("supplierId", $id)->get();
+
+        if ($supplierRecords->isNotEmpty()) {
+            $productList = [];
+            foreach ($supplierRecords as $record) {
+                $product = Product::find($record->productId);
+                if ($product) {
+                    $supplierProduct = new ProductResource($product);
+                    $productList[] = $supplierProduct;
+                }
+            }
+            return response()->json($productList);
+        } else {
+            return response()->json(["data" => []], 200);
+        }
+    }
 
     public function store(ProductRequest $request)
     {
@@ -80,6 +101,7 @@ class ProductController extends Controller
                     ->with('company')
                     ->with('category')
                     ->with('suppliers')
+                    ->with('stockUnit')
             );
         });
     }

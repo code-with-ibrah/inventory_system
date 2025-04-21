@@ -25,7 +25,7 @@ export const MenuLinks = {
             details: {
                 index: "/admin/products/details",
                 suppliers: "/admin/products/details/suppliers",
-                productSupplierForm: "/admin/products/details/add-suppliers-form",
+                productSuppliersForm: "/admin/product-suppliers-form",
             }
         },
         supplier: {
@@ -34,8 +34,8 @@ export const MenuLinks = {
           details: {
               index: "/admin/suppliers/details",
               product: "/admin/suppliers/details/products",
-              supplierProductForm: "/admin/suppliers/details/add-products-form",
-          },
+              supplierProductForm: "/admin/suppliers-product-form",
+          }
         },
         config: {
             details: {

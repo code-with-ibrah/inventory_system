@@ -6,7 +6,7 @@ import BrandForm from "../../pages/product-config/brand/brand-form.tsx";
 import StockUnitsForm from "../../pages/product-config/stock-unit/stock-unit-form.tsx";
 import SupplierForm from "../../pages/supplier/supplier-form.tsx";
 import SupplierProductForm from "../../pages/supplier/supplier-product-form.tsx";
-import ProductSuppliersForm from "../../pages/product/product-suppliers-form.tsx";
+import ProductSupplierForm from "../../pages/product/product-supplier-form.tsx";
 
 
 export const ModalRoute = () => {
@@ -24,7 +24,7 @@ export const ModalRoute = () => {
             <Route path={MenuLinks.admin.productSettings.stockUnitForm} element={<StockUnitsForm/>}/>
             <Route path={MenuLinks.admin.supplier.form} element={<SupplierForm/>}/>
             <Route path={MenuLinks.admin.supplier.details.supplierProductForm} element={<SupplierProductForm/>}/>
-            <Route path={MenuLinks.admin.product.details.productSupplierForm} element={<ProductSuppliersForm/>}/>
+            <Route path={MenuLinks.admin.product.details.productSuppliersForm} element={<ProductSupplierForm/>}/>
 
         </Routes>
     )

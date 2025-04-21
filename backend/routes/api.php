@@ -7,6 +7,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductSupplierController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StockUnitController;
 use App\Http\Controllers\SupplierController;
@@ -75,22 +76,25 @@ Route::group(['prefix' => ''], function()
 
     // suppliers endpoints
     Route::apiResource("suppliers", SupplierController::class);
+    Route::get("suppliers-product/{productId}", [SupplierController::class, "products"]);
     Route::put("suppliers-toggle/{column}/{id}", [SupplierController::class, "handleToggleAction"]);
 
 
     // products endpoints
     Route::apiResource("products", ProductController::class);
     Route::post("companies/{id}", [ProductController::class, "update"]);
+    Route::get("products-supplier/{supplierId}", [ProductController::class, "suppliers"]);
     Route::put("products-toggle/{column}/{id}", [ProductController::class, "handleToggleAction"]);
+
+
+    // product - suppliers endpoints
+    Route::apiResource("product-suppliers", ProductSupplierController::class);
+    Route::delete("product-suppliers", [ProductSupplierController::class, "destroy"]);
 
 
     // stock units endpoints
     Route::apiResource("stock-units", StockUnitController::class);
     Route::put("stock-units-toggle/{column}/{id}", [StockUnitController::class, "handleToggleAction"]);
-
-
-
-
 
 
 });

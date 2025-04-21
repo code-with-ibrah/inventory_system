@@ -14,9 +14,10 @@ interface Props {
     filter: any,
     loading?: boolean,
     getData?: AsyncThunk<any, any, any>;
+    parameter?: any
 }
 
-const TlaTableWrapper = ({data, children, loading, meta, filter, getData}: Props) => {
+const TlaTableWrapper = ({data, children, loading, meta, filter, getData, parameter}: Props) => {
     const [dataFilter, _] = useState<any>();
     const { status } = useAppSelector(state => state.errors)
     const dispatch = useAppDispatch()
@@ -40,11 +41,20 @@ const TlaTableWrapper = ({data, children, loading, meta, filter, getData}: Props
         if(!pageNumber) filter += `&page=1`;
         else filter += `&page=${pageNumber}`;
 
-        getData &&
-        dispatch(getData(filter))
-            .then(unwrapResult)
-            .then(() => setFetch(false))
-            .catch(() => setFetch(false))
+        if(parameter){
+            getData && dispatch(getData(parameter))
+                .then(unwrapResult)
+                .then(() => setFetch(false))
+                .catch(() => setFetch(false));
+        }
+        else
+        {
+            getData &&
+            dispatch(getData(filter))
+                .then(unwrapResult)
+                .then(() => setFetch(false))
+                .catch(() => setFetch(false))
+        }
     }
 
     return (
@@ -84,7 +94,7 @@ const TlaTableWrapper = ({data, children, loading, meta, filter, getData}: Props
                     {/*    <Select.Option value={"200"}>200</Select.Option>*/}
                     {/*</Select>*/}
                 </div>
-                <ReactPaginate
+                {meta ? <ReactPaginate
                     className={"pagination"}
                     breakLabel="..."
                     nextLabel={<FiChevronRight/>}
@@ -93,7 +103,7 @@ const TlaTableWrapper = ({data, children, loading, meta, filter, getData}: Props
                     pageCount={meta?.last_page}
                     previousLabel={<FiChevronLeft/>}
                     renderOnZeroPageCount={null}
-                />
+                /> : null}
             </div>
         </>
     )

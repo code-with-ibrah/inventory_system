@@ -34,8 +34,7 @@ class ProductSupplierController extends Controller
         return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
             return new ProductSupplierResourceCollection(
                 ProductSupplier::where($queryItems)
-                    ->with('productList')
-                    ->with('supplierList')
+                    ->with('suppliers')
                     ->paginate($perPage)
             );
         });
@@ -44,9 +43,12 @@ class ProductSupplierController extends Controller
 
     public function store(ProductSupplierRequest $request)
     {
+        $productSupplierRecord = ProductSupplier::where("productId", $request->productId)->first();
+        if($productSupplierRecord && $productSupplierRecord->supplierId == $request->supplierId){
+            return ApiResponse::duplicate("Record already exists");
+        }
         $payload = PrepareRequestPayload::prepare($request);
         $ProductSupplier = ProductSupplier::create($payload);
-
         // Clear relevant cache on create
         $this->clearCache($this->cachePrefix, $ProductSupplier->id);
         return new ProductSupplierResource($ProductSupplier);
@@ -73,22 +75,17 @@ class ProductSupplierController extends Controller
     }
 
 
-    public function destroy(ProductSupplier $ProductSupplier, Request $request)
+    public function destroy(Request $request)
     {
-        $shouldDeletePermantely = $request->query("delete");
+        $productId = $request->query("productId");
+        $supplierId = $request->query("supplierId");
 
-        if($shouldDeletePermantely){
-            $ProductSupplier->delete();
-        }
-        else{
-            $ProductSupplier->isDeleted = true;
-            $ProductSupplier->save();
-        }
+        ProductSupplier::where("productId", $productId)
+            ->where("supplierId", $supplierId)
+            ->first()
+            ->delete();
 
-        // Clear relevant cache on delete
-        $this->clearCache($this->cachePrefix, $ProductSupplier->id);
-
-        return new ProductSupplierResource($ProductSupplier);
+        return response()->json(null, 204);
     }
 
 
