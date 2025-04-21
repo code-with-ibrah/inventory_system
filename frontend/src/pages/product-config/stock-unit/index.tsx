@@ -10,6 +10,7 @@ import TlaDelete from "../../../common/tla-delete.tsx";
 import TlaEdit from "../../../common/tla-edit.tsx";
 import TlaOpen from "../../../common/pop-ups/TlaOpen.tsx";
 import {deleteStockUnit, getAllStockUnits} from "../../../state/stock-unit/stockUnitAction.ts";
+import {commonQuery} from "../../../utils/query.ts";
 
 
 
@@ -21,7 +22,7 @@ const StockUnits: React.FC = () => {
             <TlaOpen to={MenuLinks.admin.productSettings.stockUnitForm}>
                 <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New</Button>
             </TlaOpen>
-            <TlaTableWrapper getData={getAllStockUnits} data={data} filter={""} meta={meta}>
+            <TlaTableWrapper getData={getAllStockUnits} data={data} filter={commonQuery()} meta={meta}>
                 <Column title="Name" dataIndex="name"/>
                 <Column title="Active Status" dataIndex={(record: any) => renderStatus(record.isActive)}/>
                 <Column

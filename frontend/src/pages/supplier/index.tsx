@@ -13,6 +13,7 @@ import TlaDelete from "../../common/tla-delete.tsx";
 import {deleteSupplier, getAllSuppliers} from "../../state/supplier/supplierAction.ts";
 import {setSupplier} from "../../state/supplier/supplierSlice.ts";
 import {Supplier} from "../../types/supplier.ts";
+import {commonQuery} from "../../utils/query.ts";
 
 
 
@@ -36,7 +37,7 @@ const Suppliers: React.FC = () => {
                 <SearchInput getData={getAllSuppliers} columns={["name"]}/>
             </div>
 
-            <TlaTableWrapper getData={getAllSuppliers} data={data} filter={""} meta={meta}>
+            <TlaTableWrapper getData={getAllSuppliers} data={data} filter={commonQuery()} meta={meta}>
                 <Column
                     title="Name"
                     render={(record: Supplier) => (
