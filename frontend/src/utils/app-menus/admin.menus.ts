@@ -25,4 +25,9 @@ export const AdminMenus: Menu[] = [
         link: MenuLinks.admin.productSettings.index,
         icon: appIconLabels.config
     },
+    {
+        label: 'Warehouse',
+        link: MenuLinks.admin.warehouse.index,
+        icon: appIconLabels.warehouse
+    },
 ];

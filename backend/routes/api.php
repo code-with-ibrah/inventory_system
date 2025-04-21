@@ -12,6 +12,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StockUnitController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WarehouseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -98,5 +99,8 @@ Route::group(['prefix' => ''], function()
     Route::apiResource("stock-units", StockUnitController::class);
     Route::put("stock-units-toggle/{column}/{id}", [StockUnitController::class, "handleToggleAction"]);
 
+
+    // warehouse endpoints
+    Route::apiResource("warehouses", WarehouseController::class);
 
 });

@@ -18,6 +18,8 @@ import ProductDetailLayout from "../../pages/product/product-detail-layout.tsx";
 import ProductInfo from "../../pages/product/product-info.tsx";
 import ProductSupplier from "../../pages/product/product-supplier-list.tsx";
 import Analytics from "../../pages/dashboard";
+import Warehouses from "../../pages/warehouse";
+import WarehouseDetails from "../../pages/warehouse/warehouse-details.tsx";
 
 
 export const AppProtectedRoutes = () => {
@@ -54,6 +56,11 @@ export const AppProtectedRoutes = () => {
                         <Route index element={<SupplierInfo/>} />
                         <Route path={MenuLinks.admin.supplier.details.product} element={<SupplierProductList/>}/>
                     </Route>
+
+                    {/* warehouse */}
+                    <Route path={MenuLinks.admin.warehouse.index} element={<Warehouses/>} />
+                    <Route path={MenuLinks.admin.warehouse.details} element={<WarehouseDetails/>} />
+
 
                     <Route path={'*'} element={<AdminNotFound/>}/>
                 </Route>

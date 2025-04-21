@@ -4,7 +4,7 @@ import {LuChurch} from "react-icons/lu";
 import {FaEarthAfrica} from "react-icons/fa6";
 import {SiCircuitverse, SiGoogleanalytics, SiGoogleclassroom} from "react-icons/si";
 import {GiPayMoney, GiReceiveMoney, GiStorkDelivery, GiVote} from "react-icons/gi";
-import {MdEditNote, MdOutlineMergeType} from "react-icons/md";
+import {MdEditNote, MdOutlineMergeType, MdOutlineWarehouse} from "react-icons/md";
 import {IoAddCircleOutline} from "react-icons/io5";
 import {BiCategory, BiChart} from "react-icons/bi";
 import {HistoryOutlined, StockOutlined} from "@ant-design/icons";
@@ -42,6 +42,7 @@ export const appIconLabels = {
     brand: "brand",
     stockUnit: "stockUnit",
     supplier: "supplier",
+    warehouse: "warehouse",
 
 
 };
@@ -75,7 +76,8 @@ export const appIcons: { [key: string]: React.ReactNode } = {
     products: <PiStorefrontThin />,
     brand: <TbBrandX/>,
     stockUnit: <StockOutlined/>,
-    supplier: <GiStorkDelivery/>
+    supplier: <GiStorkDelivery/>,
+    warehouse: <MdOutlineWarehouse />
 };
 
 

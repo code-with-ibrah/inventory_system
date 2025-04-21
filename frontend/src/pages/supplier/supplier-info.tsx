@@ -19,25 +19,25 @@ const SupplierInfo = () => {
         <div className={"mb-5"}>
             <div className={'gap-2 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2'}>
                 <div className={'bg-white p-2 md:p-5 rounded-lg w-100'}>
-                    <SingleItem title={"Name"} value={supplier?.name}/>
+                    <SingleItem title={"Name"} value={supplier?.name ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Phone"} value={supplier?.phone}/>
+                    <SingleItem title={"Phone"} value={supplier?.phone ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Email"} value={supplier?.email}/>
+                    <SingleItem title={"Email"} value={supplier?.email ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Company"} value={supplier?.companyName}/>
+                    <SingleItem title={"Company"} value={supplier?.companyName ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Date Joined"} value={formatDate(supplier?.registrationDate)?.toString()}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Address Line One"} value={supplier?.addressLineOne}/>
+                    <SingleItem title={"Address Line One"} value={supplier?.addressLineOne ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Address Line One"} value={supplier?.addressLineTwo}/>
+                    <SingleItem title={"Address Line One"} value={supplier?.addressLineTwo ?? '-'}/>
                 </div>
             </div>
         </div>
