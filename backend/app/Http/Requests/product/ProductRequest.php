@@ -16,9 +16,11 @@ class ProductRequest extends FormRequest
         return [
             "name" => ["required", "unique:products,name"],
             "sku" => ["nullable"],
+            "wareHouseId" => ["required", "exists:warehouses,id"],
             "costPrice" => ["required", "numeric"],
             "unitPrice" => ["required", "numeric"],
             "quantity" => ["required", "numeric"],
+            "locationInWarehouse" => ["required"],
             "stockAlertLevel" => ["required", "numeric"],
             "companyId" => ["required", "numeric", "exists:companies,id"],
             "categoryId" => ["required", "numeric", "exists:categories,id"],

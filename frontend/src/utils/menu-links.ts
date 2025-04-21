@@ -63,7 +63,7 @@ export const MenuLinks = {
         stock: {
             index: "/admin/stocks",
             form: "/admin/stock-form",
-            details: "/admin/stock/details",
+            details: "/admin/stocks/details",
         },
 
     },

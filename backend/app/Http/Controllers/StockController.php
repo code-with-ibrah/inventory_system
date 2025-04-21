@@ -51,7 +51,6 @@ class StockController extends Controller
         $payload = PrepareRequestPayload::prepare($request);
         $payload["productName"] = $product->name;
         $stock = Stock::create($payload);
-
         // Clear relevant cache on create
         $this->clearCache($this->cachePrefix, $stock->id);
         return new StockResource($stock);

@@ -14,7 +14,8 @@ export type Stock = {
     warehouse: string;
     wareHouseId: number;
     locationInWarehouse: string;
-    product: any[]
+    product: any[],
+    standardPackageQty: number;
 }
 
 export interface StockType extends PaginatedData {

@@ -7,8 +7,6 @@ import {MenuLinks} from "../../utils/menu-links.ts";
 import SearchInput from "../../common/search-input.tsx";
 import TlaTableWrapper from "../../common/tla-table-wrapper.tsx";
 import {commonQuery} from "../../utils/query.ts";
-import {deleteWarehouse} from "../../state/warehouse/warehouseAction.ts";
-import TlaDelete from "../../common/tla-delete.tsx";
 import TlaOpen from "../../common/pop-ups/TlaOpen.tsx";
 import {Product} from "../../types/product.ts";
 import {useNavigate} from "react-router-dom";
@@ -61,12 +59,12 @@ const Stocks: React.FC = () => {
                                 </TlaOpen>
                             ),
                         },
-                        {
-                            key: '2',
-                            label: (
-                                <TlaDelete title={'warehouse'} column={record.id} callBack={deleteWarehouse}/>
-                            ),
-                        }
+                        // {
+                        //     key: '2',
+                        //     label: (
+                        //         <TlaDelete title={'warehouse'} column={record.id} callBack={deleteWarehouse}/>
+                        //     ),
+                        // }
                     ]}/>
                 )
                 )}/>

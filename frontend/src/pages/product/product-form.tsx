@@ -17,6 +17,8 @@ import {StockUnit} from "../../types/stock-unit.ts";
 import TextArea from "antd/es/input/TextArea";
 import {getAllSuppliers} from "../../state/supplier/supplierAction.ts";
 import {Supplier} from "../../types/supplier.ts";
+import {getAllWarehouses} from "../../state/warehouse/warehouseAction.ts";
+import {Warehouse} from "../../types/warehouse.ts";
 
 
 const ProductForm: React.FC = () => {
@@ -96,6 +98,25 @@ const ProductForm: React.FC = () => {
 
                     <Form.Item
                         rules={[{required: true, message: "Required"}]}
+                        name={"wareHouseId"} label={"Warehouse"}>
+                        <DropdownSearch
+                            object
+                            disabled={disabled}
+                            searchApi={getAllWarehouses}
+                            extraParams={commonQuery()}
+                            placeholder="click to select warehouse"
+                            setResult={(warehouse: Warehouse) => {
+                                if (warehouse) {
+                                    form.setFieldValue('wareHouseId', warehouse?.id);
+                                    return;
+                                }
+                                form.setFieldValue('wareHouseId', null)
+                            }}
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        rules={[{required: true, message: "Required"}]}
                         name={"brandId"} label={"Brand"}>
                         <DropdownSearch
                             defaultValue={state?.data?.brandName}
@@ -142,13 +163,20 @@ const ProductForm: React.FC = () => {
                                      placeholder="GHS 238"/>
                     </Form.Item>
 
-
                     <Form.Item
                         label={'Quantity'}
                         name="quantity"
                         className="col-span-full sm:col-span-1"
                         style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
                         <InputNumber style={{width: "100%"}} disabled={disabled} size={"large"} placeholder="900"/>
+                    </Form.Item>
+
+                    <Form.Item
+                        label={'Location in Warehouse'}
+                        name="locationInWarehouse"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        <Input disabled={disabled} size={"large"} placeholder="Front"/>
                     </Form.Item>
 
                     <Form.Item
@@ -205,14 +233,6 @@ const ProductForm: React.FC = () => {
                         className="col-span-full sm:col-span-1"
                         style={{marginBottom: 0}}>
                         <Input disabled={disabled} size={"large"} type="date"/>
-                    </Form.Item>
-
-                    <Form.Item
-                        label={'Tax Rate'}
-                        name="taxRate"
-                        className="col-span-full sm:col-span-1"
-                        style={{marginBottom: 0}}>
-                        <InputNumber min={0} disabled={disabled} style={{width: "100%"}} size={"large"}/>
                     </Form.Item>
 
                     <Form.Item

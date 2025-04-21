@@ -11,6 +11,7 @@ use App\Http\Resources\product\ProductResourceCollection;
 use App\Http\Resources\product_supplier\ProductSupplierResource;
 use App\Models\Product;
 use App\Models\ProductSupplier;
+use App\Models\Stock;
 use App\Utils\Globals;
 use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
@@ -68,6 +69,8 @@ class ProductController extends Controller
         }
     }
 
+
+
     public function store(ProductRequest $request)
     {
         try{
@@ -79,8 +82,23 @@ class ProductController extends Controller
                 }
                 $product = Product::create($payload);
                 $product->suppliers()->attach($request->supplierId);
+
+                // create a new stock from the product to be created!
+                $stockPayload = [
+                    "productId" => $product->id,
+                    "wareHouseId" => $request->wareHouseId,
+                    "quantityOnHand" => $request->quantity,
+                    "locationInWarehouse" => $request->locationInWarehouse,
+                    "stockAlertLevel" => $request->stockAlertLevel,
+                    "companyId" => $request->companyId,
+                    "productName" => $product->name
+                ];
+
+                Stock::create($stockPayload);
+
                 return $product;
             });
+
             // Clear relevant cache on create
             $this->clearCache($this->cachePrefix, $product->id);
             return new ProductResource($product);
@@ -89,6 +107,7 @@ class ProductController extends Controller
             return ApiResponse::badRequest($e->getMessage());
         }
     }
+
 
 
     public function show(Product $product)

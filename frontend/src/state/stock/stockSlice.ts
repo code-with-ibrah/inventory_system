@@ -52,7 +52,12 @@ const initialState: StocksState = {
         lastStockCheckDate: "",
         isActive: false,
         isDeleted: false,
-        companyId: 0
+        companyId: 0,
+        warehouse: "",
+        wareHouseId: 0,
+        locationInWarehouse: "",
+        product: [],
+        standardPackageQty: 0
     }
 }
 

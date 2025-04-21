@@ -45,7 +45,13 @@ const StockInfo = () => {
                     <SingleItem title={"Location"} value={stock?.locationInWarehouse ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Location"} value={stock?.locationInWarehouse ?? '-'}/>
+                    <SingleItem title={"Full Package Quantity"} value={stock?.standardPackageQty ?? '-'}/>
+                </div>
+                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
+                    <SingleItem title={"Total Sales"} value={
+                        // @ts-ignore
+                        '-'
+                    }/>
                 </div>
             </div>
         </div>

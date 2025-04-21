@@ -27,7 +27,8 @@ class StockResource extends JsonResource
                 "id" => $product->id,
                 "name" => $product->name,
                 "unitPrice" => $product->unitPrice,
-                "costPrice" => $product->costPrice
+                "costPrice" => $product->costPrice,
+                "standardPackageQty" => $product->standardPackageQuantity
             ] : null,
             "isActive" => $this->isActive,
             "isDeleted" => $this->isDeleted
