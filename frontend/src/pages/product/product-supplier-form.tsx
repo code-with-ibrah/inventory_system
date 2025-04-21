@@ -6,11 +6,11 @@ import {TlaModal} from "../../common/pop-ups/TlaModal.tsx";
 import DropdownSearch from "../../common/dropdown-search.tsx";
 import {commonQuery} from "../../utils/query.ts";
 import {Supplier} from "../../types/supplier.ts";
-import {createProductSupplier} from "../../state/product-supplier/productSupplierAction.ts";
 import { unwrapResult } from "@reduxjs/toolkit";
 import {TlaError, TlaSuccess} from "../../utils/messages.ts";
 import {getAllSuppliers} from "../../state/supplier/supplierAction.ts";
 import {Product} from "../../types/product.ts";
+import {addSupplierToProduct} from "../../state/product-supplier/productSupplierAction.ts";
 
 const ProductSupplierForm: React.FC = () => {
     const { state } = useLocation();
@@ -23,7 +23,7 @@ const ProductSupplierForm: React.FC = () => {
     const onFinish = (values: any) => {
         setLoading(true);
         values.productId = product?.id;
-        dispatch(createProductSupplier(values))
+        dispatch(addSupplierToProduct(values))
             .then(unwrapResult)
             .then(() => {
                 TlaSuccess("Successful, Refresh for update");

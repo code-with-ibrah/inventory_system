@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {
     updateSupplier,
-    deleteSupplier, createSupplier, toggleSupplier, getAllSuppliers, getAllSupplierProduct,
+    deleteSupplier, createSupplier, toggleSupplier, getAllSuppliers,
 } from "./supplierAction.ts";
 import {env} from "../../config/env";
 import {Supplier, SuppliersState} from "../../types/supplier.ts";
@@ -54,10 +54,6 @@ const initialState: SuppliersState = {
         registrationDate: "",
         email: "",
         addressLineOne: ""
-    },
-
-    supplierProduct: {
-        data: [],
     }
 }
 
@@ -75,8 +71,6 @@ const supplierSlice = createSlice({
             state.supplier.data.push(action.payload)
         }).addCase(getAllSuppliers.fulfilled, (state, action) => {
             state.supplier = action.payload
-        }).addCase(getAllSupplierProduct.fulfilled, (state, action) => {
-            state.supplierProduct.data = action.payload;
         }).addCase(updateSupplier.fulfilled, (state, action) => {
             state.supplier.data = state.supplier.data.map((supplier: Supplier) => {
                 return supplier.id == action.payload.id ? action.payload : supplier

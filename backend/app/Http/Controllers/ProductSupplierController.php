@@ -6,12 +6,17 @@ use App\Http\Api\query\models\ProductSupplierQuery;
 use App\Http\Api\response\ApiResponse;
 use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Requests\product_supplier\ProductSupplierRequest;
+use App\Http\Resources\product\ProductResource;
 use App\Http\Resources\product_supplier\ProductSupplierResource;
 use App\Http\Resources\product_supplier\ProductSupplierResourceCollection;
+use App\Http\Resources\supplier\SupplierResource;
+use App\Models\Product;
 use App\Models\ProductSupplier;
+use App\Models\Supplier;
 use App\Utils\Globals;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+
 
 class ProductSupplierController extends Controller
 {
@@ -55,6 +60,39 @@ class ProductSupplierController extends Controller
     }
 
 
+    public function addProductToSupplier(ProductSupplierRequest $request)
+    {
+        $productSupplierRecord = ProductSupplier::where("productId", $request->productId)->first();
+        if($productSupplierRecord && $productSupplierRecord->supplierId == $request->supplierId){
+            return ApiResponse::duplicate("Record already exists");
+        }
+        $payload = PrepareRequestPayload::prepare($request);
+        $productSupplier = ProductSupplier::create($payload);
+        $product = Product::findOrFail($request->productId);
+
+        // Clear relevant cache on create
+        $this->clearCache($this->cachePrefix, $productSupplier->id);
+        return new ProductResource($product);
+    }
+
+
+    public function addSupplierToProduct(ProductSupplierRequest $request)
+    {
+        $productSupplierRecord = ProductSupplier::where("productId", $request->productId)->first();
+        if($productSupplierRecord && $productSupplierRecord->supplierId == $request->supplierId){
+            return ApiResponse::duplicate("Record already exists");
+        }
+        $payload = PrepareRequestPayload::prepare($request);
+        $ProductSupplier = ProductSupplier::create($payload);
+        $supplier = Supplier::findOrFail($request->supplierId);
+        // Clear relevant cache on create
+        $this->clearCache($this->cachePrefix, $ProductSupplier->id);
+        return new SupplierResource($supplier);
+    }
+
+
+
+
     public function show(ProductSupplier $ProductSupplier)
     {
         $cacheKey = $this->cachePrefix . 'show:' . $ProductSupplier->id;
@@ -80,12 +118,21 @@ class ProductSupplierController extends Controller
         $productId = $request->query("productId");
         $supplierId = $request->query("supplierId");
 
-        ProductSupplier::where("productId", $productId)
-            ->where("supplierId", $supplierId)
-            ->first()
-            ->delete();
+        $targetRecord = $targetRecord = ProductSupplier::where("productId", $productId)
+            ->orWhere("supplierId", $supplierId)
+            ->firstOrFail();
 
-        return response()->json(null, 204);
+        if ($targetRecord) {
+            $deleted = $targetRecord->delete();
+
+            if ($deleted) {
+                return response()->json([
+                    "productId" => $productId,
+                    "supplierId" => $supplierId
+                ], 200);
+            }
+        }
+        return response()->json("failed to delete", 400);
     }
 
 

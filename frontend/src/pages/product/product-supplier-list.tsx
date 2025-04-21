@@ -5,19 +5,20 @@ import {FiPlusCircle} from "react-icons/fi";
 import {MenuLinks} from "../../utils/menu-links.ts";
 import {useAppSelector } from "../../hooks";
 import TlaTableWrapper from "../../common/tla-table-wrapper.tsx";
-import {getAllSupplierProduct} from "../../state/supplier/supplierAction.ts";
 import TlaOpen from "../../common/pop-ups/TlaOpen.tsx";
 import {sampleMetaData} from "../../utils/sample-meta-data.ts";
 import TlaDelete from "../../common/tla-delete.tsx";
-import {deleteProductSupplier} from "../../state/product-supplier/productSupplierAction.ts";
 import {commonQuery} from "../../utils/query.ts";
 import {Supplier} from "../../types/supplier.ts";
+import {
+    getAllSupplierByProduct,
+    removeSupplierFromProduct
+} from "../../state/product-supplier/productSupplierAction.ts";
 
 
-const ProductSupplier: React.FC = () => {
-    const {data} = useAppSelector((state) => state.supplier.supplierProduct);
+const ProductSupplierList: React.FC = () => {
+    const {data} = useAppSelector((state) => state.productSupplier.supplierList);
     const product = useAppSelector(state => state.product.productItem);
-
 
     return (
         <div className={'bg-white p-5 rounded-2xl'}>
@@ -26,7 +27,7 @@ const ProductSupplier: React.FC = () => {
             </TlaOpen>
 
 
-            <TlaTableWrapper getData={getAllSupplierProduct} parameter={product?.id} data={data} filter={commonQuery()} meta={sampleMetaData}>
+            <TlaTableWrapper getData={getAllSupplierByProduct} parameter={product?.id} data={data} filter={commonQuery()} meta={sampleMetaData}>
                 <Column
                     title="Name" dataIndex={'name'}/>
 
@@ -41,7 +42,7 @@ const ProductSupplier: React.FC = () => {
                                     btnName={'Remove'}
                                     title={'supplier from the suppliers'}
                                     query={`supplierId=${record.id}&productId=${product?.id}`}
-                                    callBack={deleteProductSupplier}
+                                    callBack={removeSupplierFromProduct}
                                     confirmPurpose={'remove'}
                                 />
                             </div>
@@ -52,4 +53,4 @@ const ProductSupplier: React.FC = () => {
     )
 }
 
-export default ProductSupplier
+export default ProductSupplierList

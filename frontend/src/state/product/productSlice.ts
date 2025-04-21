@@ -5,7 +5,6 @@ import {
     createProduct,
     deleteProduct,
     getAllProducts,
-    getAllProductSuppliers,
     toggleProduct,
     updateProduct
 } from "./productAction";
@@ -72,9 +71,6 @@ const initialState: ProductsState = {
         brandName: "",
         stockUnitName: "",
         standardPackageQuantity: 0
-    },
-    productSuppliers: {
-        data: [],
     }
 }
 
@@ -98,10 +94,8 @@ const productSlice = createSlice({
             state.product.data = state.product.data.map((product: Product) => {
                 return product.id === action.payload.id ? action.payload : product;
             })
-        }).addCase(getAllProductSuppliers.fulfilled, (state, action: PayloadAction<any>) => {
-            state.productSuppliers.data = action.payload;
         }).addCase(deleteProduct.fulfilled, (state, action: PayloadAction<number>) => {
-            state.product.data = state.product.data.filter((award) => award.id !== action.payload);
+            state.product.data = state.product.data.filter((product) => product.id !== action.payload);
         })
     }
 });

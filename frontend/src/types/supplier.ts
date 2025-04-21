@@ -21,8 +21,5 @@ export interface SupplierType extends PaginatedData {
 
 export interface SuppliersState {
     supplier: SupplierType,
-    supplierItem: Supplier,
-    supplierProduct: {
-        data: any,
-    }
+    supplierItem: Supplier
 }

@@ -35,8 +35,5 @@ export interface ProductType extends PaginatedData {
 
 export interface ProductsState {
     product: ProductType,
-    productItem: Product,
-    productSuppliers:{
-        data: any,
-    }
+    productItem: Product
 }

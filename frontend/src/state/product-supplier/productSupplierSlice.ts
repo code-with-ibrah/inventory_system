@@ -1,40 +1,47 @@
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
-import {Product, ProductsState} from "../../types/product";
-import {createProductSupplier, deleteProductSupplier} from "./productSupplierAction.ts";
+import {Product} from "../../types/product";
+import {ProductSupplierState} from "../../types/product-supplier.ts";
+import {
+    addProductToSupplier,
+    addSupplierToProduct,
+    getAllProductBySuppliers, getAllSupplierByProduct,
+    removeProductFromSupplier,
+    removeSupplierFromProduct,
+} from "./productSupplierAction.ts";
 
 
-const initialState: ProductsState = {
-
+const initialState: ProductSupplierState = {
+    supplierList: {
+        data: []
+    },
+    productList: {
+        data: []
+    }
 }
 
 
-const productSlice = createSlice({
-    name: "product",
+const productSupplierSlice = createSlice({
+    name: "productSupplier",
     initialState,
-    reducers: {
-        setProduct: (state, action) => {
-            state.productItem = action.payload;
-        }
-    },
+    reducers: { },
     extraReducers: (builder) => {
-        builder.addCase(createProductSupplier.fulfilled, (state, action: PayloadAction<Product>) => {
-            state.product.data.push(action.payload)
-        }).addCase(deleteProductSupplier.fulfilled, (state, action) => {
-            state.product = action.payload;
-        }).addCase(updateProduct.fulfilled, (state, action: PayloadAction<Product>) => {
-            state.productItem = action.payload;
-        }) .addCase(toggleProduct.fulfilled, (state, action: PayloadAction<Product>) => {
-            state.product.data = state.product.data.map((product: Product) => {
-                return product.id === action.payload.id ? action.payload : product;
-            })
-        }).addCase(getAllProductSuppliers.fulfilled, (state, action: PayloadAction<any>) => {
-            state.productSuppliers.data = action.payload;
-        }).addCase(deleteProduct.fulfilled, (state, action: PayloadAction<number>) => {
-            state.product.data = state.product.data.filter((award) => award.id !== action.payload);
+        builder.addCase(addProductToSupplier.fulfilled, (state, action: PayloadAction<Product>) => {
+            state.productList.data.push(action.payload);
+        }).addCase(addSupplierToProduct.fulfilled, (state, action: PayloadAction<Product>) => {
+            state.supplierList.data.push(action.payload);
+        }).addCase(removeProductFromSupplier.fulfilled, (state, action: PayloadAction<any>) => {
+            state.productList.data = state.productList.data.filter((product) => product.id !== action.payload);
+            state.productList.data = state.productList.data.filter((product) => product.id != action.payload?.productId);
+        }).addCase(removeSupplierFromProduct.fulfilled, (state, action: PayloadAction<any>) => {
+            state.supplierList.data = state.supplierList.data.filter((supplier) => supplier.id !== action.payload);
+            state.supplierList.data = state.supplierList.data.filter((supplier) => supplier.id != action.payload?.supplierId);
+        }).addCase(getAllProductBySuppliers.fulfilled, (state, action) => {
+            state.productList = action.payload;
+        }).addCase(getAllSupplierByProduct.fulfilled, (state, action) => {
+            state.supplierList = action.payload;
         })
     }
 });
 
-export const { setProduct } = productSlice.actions;
 
-export default productSlice.reducer
+export default productSupplierSlice.reducer

@@ -62,7 +62,7 @@ class ProductController extends Controller
                     $productList[] = $supplierProduct;
                 }
             }
-            return response()->json($productList);
+            return response()->json(["data" => $productList]);
         } else {
             return response()->json(["data" => []], 200);
         }

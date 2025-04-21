@@ -8,9 +8,9 @@ import {getAllProducts} from "../../state/product/productAction.ts";
 import {commonQuery} from "../../utils/query.ts";
 import {Product} from "../../types/product.ts";
 import {Supplier} from "../../types/supplier.ts";
-import {createProductSupplier} from "../../state/product-supplier/productSupplierAction.ts";
 import { unwrapResult } from "@reduxjs/toolkit";
 import {TlaError, TlaSuccess} from "../../utils/messages.ts";
+import {addProductToSupplier} from "../../state/product-supplier/productSupplierAction.ts";
 
 const SupplierProductForm: React.FC = () => {
     const { state } = useLocation();
@@ -23,7 +23,7 @@ const SupplierProductForm: React.FC = () => {
     const onFinish = (values: any) => {
         setLoading(true);
         values.supplierId = supplier?.id;
-        dispatch(createProductSupplier(values))
+        dispatch(addProductToSupplier(values))
             .then(unwrapResult)
             .then(() => {
                 TlaSuccess("Successful, refresh for update");
@@ -44,7 +44,7 @@ const SupplierProductForm: React.FC = () => {
                         <DropdownSearch
                             object
                             searchApi={getAllProducts}
-                            placeholder="click to select"
+                            placeholder="click to select product"
                             extraParams={commonQuery()}
                             setResult={(product: Product) => {
                                 if (product) {

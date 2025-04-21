@@ -13,10 +13,10 @@ import StockUnits from "../../pages/product-config/stock-unit";
 import Suppliers from "../../pages/supplier";
 import SupplierDetailLayout from "../../pages/supplier/supplier-detail-layout.tsx";
 import SupplierInfo from "../../pages/supplier/supplier-info.tsx";
-import SupplierProduct from "../../pages/supplier/supplier-product.tsx";
+import SupplierProductList from "../../pages/supplier/supplier-product-list.tsx";
 import ProductDetailLayout from "../../pages/product/product-detail-layout.tsx";
 import ProductInfo from "../../pages/product/product-info.tsx";
-import ProductSupplier from "../../pages/product/product-suppliers.tsx";
+import ProductSupplier from "../../pages/product/product-supplier-list.tsx";
 import Analytics from "../../pages/dashboard";
 
 
@@ -52,7 +52,7 @@ export const AppProtectedRoutes = () => {
                     {/* supplier */}
                     <Route path={MenuLinks.admin.supplier.details.index} element={<SupplierDetailLayout/>}>
                         <Route index element={<SupplierInfo/>} />
-                        <Route path={MenuLinks.admin.supplier.details.product} element={<SupplierProduct/>}/>
+                        <Route path={MenuLinks.admin.supplier.details.product} element={<SupplierProductList/>}/>
                     </Route>
 
                     <Route path={'*'} element={<AdminNotFound/>}/>

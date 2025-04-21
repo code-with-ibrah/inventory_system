@@ -1,7 +1,6 @@
 import React from "react";
 import {Button} from "antd";
 import Column from "antd/es/table/Column";
-import {currencyFormat} from "../../utils";
 import {useNavigate} from "react-router-dom";
 import { FiPlusCircle} from "react-icons/fi";
 import {Product} from "../../types/product.ts";
@@ -13,12 +12,14 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 import {sampleMetaData} from "../../utils/sample-meta-data.ts";
 import {setProduct} from "../../state/product/productSlice.ts";
 import TlaTableWrapper from "../../common/tla-table-wrapper.tsx";
-import {getAllProductSuppliers} from "../../state/product/productAction.ts";
-import {deleteProductSupplier} from "../../state/product-supplier/productSupplierAction.ts";
+import {
+    getAllProductBySuppliers,
+    removeProductFromSupplier
+} from "../../state/product-supplier/productSupplierAction.ts";
 
 
-const SupplierProduct: React.FC = () => {
-    const { data } = useAppSelector(state => state.product.productSuppliers);
+const SupplierProductList: React.FC = () => {
+    const { data } = useAppSelector(state => state.productSupplier.productList);
     const supplier = useAppSelector(state => state.supplier.supplierItem);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -32,7 +33,7 @@ const SupplierProduct: React.FC = () => {
                 <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>Add Supplied Product</Button>
             </TlaOpen>
 
-            <TlaTableWrapper getData={getAllProductSuppliers} parameter={supplier?.id}  data={data} filter={commonQuery()} meta={sampleMetaData}>
+            <TlaTableWrapper getData={getAllProductBySuppliers} parameter={supplier?.id} data={data} filter={commonQuery()} meta={sampleMetaData}>
                 <Column
                     title="Name"
                     render={(record: Product) => (
@@ -42,7 +43,7 @@ const SupplierProduct: React.FC = () => {
                     )}/>
 
                 <Column title={'Cost Price'} render={(record: Product) => (<span>
-                    {currencyFormat(record.costPrice)}
+                    {(record.costPrice)}
                 </span>)}/>
 
                 <Column
@@ -54,7 +55,7 @@ const SupplierProduct: React.FC = () => {
                                     btnName={'Remove'}
                                     title={'product from this supply'}
                                     query={`productId=${record.id}&supplierId=${supplier?.id}`}
-                                    callBack={deleteProductSupplier}/>
+                                    callBack={removeProductFromSupplier}/>
                             </div>
                         )
                     )}/>
@@ -63,4 +64,4 @@ const SupplierProduct: React.FC = () => {
     )
 }
 
-export default SupplierProduct
+export default SupplierProductList

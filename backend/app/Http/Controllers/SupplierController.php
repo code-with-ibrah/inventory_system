@@ -73,7 +73,7 @@ class SupplierController extends Controller
                     $supplierList[] = $supplierInfo;
                 }
             }
-            return response()->json($supplierList);
+            return response()->json(["data" => $supplierList]);
         }
         else {
             return response()->json(["data" => []], 200);

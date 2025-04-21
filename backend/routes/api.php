@@ -76,19 +76,21 @@ Route::group(['prefix' => ''], function()
 
     // suppliers endpoints
     Route::apiResource("suppliers", SupplierController::class);
-    Route::get("suppliers-product/{productId}", [SupplierController::class, "products"]);
+    Route::get("suppliers-by-product/{productId}", [SupplierController::class, "products"]);
     Route::put("suppliers-toggle/{column}/{id}", [SupplierController::class, "handleToggleAction"]);
 
 
     // products endpoints
     Route::apiResource("products", ProductController::class);
     Route::post("companies/{id}", [ProductController::class, "update"]);
-    Route::get("products-supplier/{supplierId}", [ProductController::class, "suppliers"]);
+    Route::get("products-by-supplier/{supplierId}", [ProductController::class, "suppliers"]);
     Route::put("products-toggle/{column}/{id}", [ProductController::class, "handleToggleAction"]);
 
 
     // product - suppliers endpoints
     Route::apiResource("product-suppliers", ProductSupplierController::class);
+    Route::post("add-product-to-supplier", [ProductSupplierController::class, "addProductToSupplier"]);
+    Route::post("add-supplier-to-product", [ProductSupplierController::class, "addSupplierToProduct"]);
     Route::delete("product-suppliers", [ProductSupplierController::class, "destroy"]);
 
 
