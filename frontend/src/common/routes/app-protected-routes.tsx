@@ -20,6 +20,8 @@ import ProductSupplier from "../../pages/product/product-supplier-list.tsx";
 import Analytics from "../../pages/dashboard";
 import Warehouses from "../../pages/warehouse";
 import WarehouseDetails from "../../pages/warehouse/warehouse-details.tsx";
+import Stocks from "../../pages/stock";
+import StockDetails from "../../pages/stock/stock-details.tsx";
 
 
 export const AppProtectedRoutes = () => {
@@ -61,6 +63,9 @@ export const AppProtectedRoutes = () => {
                     <Route path={MenuLinks.admin.warehouse.index} element={<Warehouses/>} />
                     <Route path={MenuLinks.admin.warehouse.details} element={<WarehouseDetails/>} />
 
+                    {/* stocks */}
+                    <Route path={MenuLinks.admin.stock.index} element={<Stocks/>} />
+                    <Route path={MenuLinks.admin.stock.details} element={<StockDetails/>} />
 
                     <Route path={'*'} element={<AdminNotFound/>}/>
                 </Route>

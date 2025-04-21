@@ -6,14 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
             $table->foreignId("productId")->constrained("products");
+            $table->string("productName")->nullable();
             $table->foreignId("wareHouseId")->constrained("warehouses");
             $table->integer("quantityOnHand")->default(0);
             $table->integer("stockAlertLevel")->default(0);

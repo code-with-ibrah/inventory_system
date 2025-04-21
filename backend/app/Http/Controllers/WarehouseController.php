@@ -77,7 +77,7 @@ class WarehouseController extends Controller
     {
         $shouldDeletePermantely = $request->query("delete");
         if($shouldDeletePermantely){
-            //  $warehouse->delete();
+              $warehouse->delete();
         }
         else{
              $warehouse->isDeleted = true;

@@ -9,6 +9,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductSupplierController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\StockUnitController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
@@ -102,5 +103,10 @@ Route::group(['prefix' => ''], function()
 
     // warehouse endpoints
     Route::apiResource("warehouses", WarehouseController::class);
+
+
+    // stocks endpoints
+    Route::apiResource("stocks", StockController::class);
+
 
 });
