@@ -9,17 +9,13 @@ import SupplierProductForm from "../../pages/supplier/supplier-product-form.tsx"
 import ProductSupplierForm from "../../pages/product/product-supplier-form.tsx";
 import WarehouseForm from "../../pages/warehouse/warehouse-form.tsx";
 import StockForm from "../../pages/stock/stock-form.tsx";
+import StockAdjustmentForm from "../../pages/stock-adjustment/stock-adjustment-form.tsx";
+import StockAdjustmentItemForm from "../../pages/stock-adjustment/items/stock-adjustment-item-forms.tsx";
 
 
 export const ModalRoute = () => {
     return (
         <Routes>
-            {/*<Route path={MenuLinks.admin.config.details.userForm} element={<UserForm/>}/>*/}
-            {/*<Route path={MenuLinks.admin.config.details.roleForm} element={<RoleForm/>}/>*/}
-            {/*<Route path={MenuLinks.organisation.profile.changePasswordForm} element={<ChangePasswordForm/>}/>*/}
-            {/*<Route path={MenuLinks.organisation.profile.editForm} element={<OrganisationEditProfileForm/>} />*/}
-            {/*<Route path={MenuLinks.organisation.userForm} element={<OrganisationUserForm/>}/>*/}
-
             <Route path={MenuLinks.admin.product.form} element={<ProductForm/>}/>
             <Route path={MenuLinks.admin.productSettings.categoryForm} element={<CategoryForm/>}/>
             <Route path={MenuLinks.admin.productSettings.brandForm} element={<BrandForm/>}/>
@@ -29,6 +25,8 @@ export const ModalRoute = () => {
             <Route path={MenuLinks.admin.product.details.productSuppliersForm} element={<ProductSupplierForm/>}/>
             <Route path={MenuLinks.admin.warehouse.form} element={<WarehouseForm/>}/>
             <Route path={MenuLinks.admin.stock.form} element={<StockForm/>}/>
+            <Route path={MenuLinks.admin.stockAdjustment.form} element={<StockAdjustmentForm/>}/>
+            <Route path={MenuLinks.admin.stockAdjustment.itemsForm} element={<StockAdjustmentItemForm/>}/>
 
         </Routes>
     )

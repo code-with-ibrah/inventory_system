@@ -65,6 +65,13 @@ export const MenuLinks = {
             form: "/admin/stock-form",
             details: "/admin/stocks/details",
         },
+        stockAdjustment: {
+            index: "/admin/stock-adjustments",
+            form: "/admin/stock-adjustments/form",
+            details: "/admin/stock-adjustments/details",
+            items: "/admin/stock-adjustments/items",
+            itemsForm: "/admin/stock-adjustments/items-form",
+        },
 
     },
 

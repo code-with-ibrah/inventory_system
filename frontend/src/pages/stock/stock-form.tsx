@@ -41,7 +41,7 @@ const StockForm: React.FC = () => {
     }
 
     return (
-        <TlaModal title={"Warehouse"} loading={loading}>
+        <TlaModal title={"Stocks"} loading={loading}>
             <Form requiredMark={false} form={form} onFinish={onFinish} initialValues={{...state?.data}} size={'large'} layout={"vertical"}>
                 <div className={'grid grid-cols-1 md:grid-cols-2 gap-2'}>
 

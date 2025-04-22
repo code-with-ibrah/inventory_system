@@ -198,6 +198,6 @@ export function generateWarehouseCode(initials: string) {
     }
 
     // Combine initials and the random string
-    return sanitizedInitials + randomString;
+    return (sanitizedInitials + "-" + randomString).toUpperCase();
 }
 

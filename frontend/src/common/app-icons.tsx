@@ -12,6 +12,7 @@ import {CgDialpad} from "react-icons/cg";
 import { MdStorefront } from "react-icons/md";
 import { PiStorefrontThin } from "react-icons/pi";
 import {TbBrandX} from "react-icons/tb";
+import {HiAdjustmentsHorizontal} from "react-icons/hi2";
 
 
 
@@ -43,6 +44,7 @@ export const appIconLabels = {
     stockUnit: "stockUnit",
     supplier: "supplier",
     warehouse: "warehouse",
+    adjustment: "adjustment"
 
 
 };
@@ -77,7 +79,9 @@ export const appIcons: { [key: string]: React.ReactNode } = {
     brand: <TbBrandX/>,
     stockUnit: <StockOutlined/>,
     supplier: <GiStorkDelivery/>,
-    warehouse: <MdOutlineWarehouse />
+    warehouse: <MdOutlineWarehouse />,
+    adjustment: <HiAdjustmentsHorizontal />,
+
 };
 
 

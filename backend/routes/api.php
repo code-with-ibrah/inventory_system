@@ -9,6 +9,8 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductSupplierController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StockAdjustmentController;
+use App\Http\Controllers\StockAdjustmentItemController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\StockUnitController;
 use App\Http\Controllers\SupplierController;
@@ -103,10 +105,22 @@ Route::group(['prefix' => ''], function()
 
     // warehouse endpoints
     Route::apiResource("warehouses", WarehouseController::class);
+    Route::put("warehouses/{column}/{id}", [WarehouseController::class, "handleToggleAction"]);
 
 
     // stocks endpoints
     Route::apiResource("stocks", StockController::class);
+    Route::put("stocks/{column}/{id}", [StockController::class, "handleToggleAction"]);
+
+
+    // stock-adjustment endpoints
+    Route::apiResource("stock-adjustments", StockAdjustmentController::class);
+    Route::put("stock-adjustments/{column}/{id}", [StockAdjustmentController::class, "handleToggleAction"]);
+
+
+    // stock-adjustment-item endpoints
+    Route::apiResource("stock-adjustment-items", StockAdjustmentItemController::class);
+    Route::put("stock-adjustment-items/{column}/{id}", [StockAdjustmentItemController::class, "handleToggleAction"]);
 
 
 });

@@ -22,6 +22,8 @@ import Warehouses from "../../pages/warehouse";
 import WarehouseDetails from "../../pages/warehouse/warehouse-details.tsx";
 import Stocks from "../../pages/stock";
 import StockDetails from "../../pages/stock/stock-details.tsx";
+import StockAdjustments from "../../pages/stock-adjustment";
+import StockAdjustmentDetails from "../../pages/stock-adjustment/stock-adjustment-details.tsx";
 
 
 export const AppProtectedRoutes = () => {
@@ -66,6 +68,10 @@ export const AppProtectedRoutes = () => {
                     {/* stocks */}
                     <Route path={MenuLinks.admin.stock.index} element={<Stocks/>} />
                     <Route path={MenuLinks.admin.stock.details} element={<StockDetails/>} />
+
+                    {/* stocks adjustment */}
+                    <Route path={MenuLinks.admin.stockAdjustment.index} element={<StockAdjustments/>}/>
+                    <Route path={MenuLinks.admin.stockAdjustment.details} element={<StockAdjustmentDetails/>}/>
 
                     <Route path={'*'} element={<AdminNotFound/>}/>
                 </Route>
