@@ -1,8 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {env} from "../../config/env";
 import {Customer, CustomersState} from "../../types/customer.ts";
-
-import {deleteBrand} from "../brand/brandAction.ts";
 import {createCustomer, deleteCustomer, getAllCustomers, toggleCustomer, updateCustomer} from "./customerAction.ts";
 
 const initialState: CustomersState = {
@@ -35,7 +33,7 @@ const initialState: CustomersState = {
                     active: false
                 }
             ],
-            path: `${env.API_BASE_URL}/contestants`,
+            path: `${env.API_BASE_URL}/customers`,
             per_page: 15,
             to: null,
             total: 0
@@ -77,8 +75,6 @@ const customerSlice = createSlice({
             state.customer.data = state.customer.data.map((customer: Customer) => {
                 return customer.id == action.payload.id ? action.payload : customer
             })
-        }).addCase(deleteBrand.fulfilled, (state, action) => {
-            state.customer.data = state.customer.data.filter((customer: Customer) => customer.id !== action.payload)
         })
     }
 });

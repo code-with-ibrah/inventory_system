@@ -25,6 +25,11 @@ import StockDetails from "../../pages/stock/stock-details.tsx";
 import StockAdjustments from "../../pages/stock-adjustment";
 import StockAdjustmentDetails from "../../pages/stock-adjustment/stock-adjustment-details.tsx";
 import Customers from "../../pages/customer";
+import ConfigDetailLayout from "../../pages/config/config-detail-layout.tsx";
+import Users from "../../pages/config/users";
+import Roles from "../../pages/config/roles";
+import InstallmentPlans from "../../pages/config/installment-plan";
+import PaymentMethods from "../../pages/config/payment-method";
 
 
 export const AppProtectedRoutes = () => {
@@ -76,6 +81,16 @@ export const AppProtectedRoutes = () => {
 
                     {/* customers */}
                     <Route path={MenuLinks.admin.customers.index} element={<Customers/>}/>
+
+                    {/* config */}
+                    <Route path={MenuLinks.admin.config.index} element={<ConfigDetailLayout/>}>
+                        <Route index element={<Users/>} />
+                        <Route path={MenuLinks.admin.config.users} element={<Users/>} />
+                        <Route path={MenuLinks.admin.config.roles} element={<Roles/>} />
+                        <Route path={MenuLinks.admin.config.installmentPlan} element={<InstallmentPlans/>}/>
+                        <Route path={MenuLinks.admin.config.paymentMethod} element={<PaymentMethods/>}/>
+                    </Route>
+
 
                     <Route path={'*'} element={<AdminNotFound/>}/>
                 </Route>

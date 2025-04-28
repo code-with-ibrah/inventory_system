@@ -1,9 +1,9 @@
 import React from "react";
-import {FiHome, FiPhoneCall, FiSettings, FiUser} from "react-icons/fi";
+import {FiHome, FiKey, FiPhoneCall, FiSettings, FiUser} from "react-icons/fi";
 import {LuChurch} from "react-icons/lu";
 import {FaEarthAfrica} from "react-icons/fa6";
 import {SiCircuitverse, SiGoogleanalytics, SiGoogleclassroom} from "react-icons/si";
-import {GiPayMoney, GiReceiveMoney, GiStorkDelivery, GiVote} from "react-icons/gi";
+import {GiPayMoney, GiReceiveMoney,  GiStorkDelivery, GiVote} from "react-icons/gi";
 import {MdEditNote, MdOutlineMergeType, MdOutlineWarehouse} from "react-icons/md";
 import {IoAddCircleOutline} from "react-icons/io5";
 import {BiCategory, BiChart} from "react-icons/bi";
@@ -44,7 +44,8 @@ export const appIconLabels = {
     stockUnit: "stockUnit",
     supplier: "supplier",
     warehouse: "warehouse",
-    adjustment: "adjustment"
+    adjustment: "adjustment",
+    role: "role",
 
 
 };
@@ -81,6 +82,7 @@ export const appIcons: { [key: string]: React.ReactNode } = {
     supplier: <GiStorkDelivery/>,
     warehouse: <MdOutlineWarehouse />,
     adjustment: <HiAdjustmentsHorizontal />,
+    role: <FiKey/>,
 
 };
 
