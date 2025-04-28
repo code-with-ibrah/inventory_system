@@ -8,6 +8,7 @@ use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InstallmentPlanController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductSupplierController;
 use App\Http\Controllers\RoleController;
@@ -113,6 +114,11 @@ Route::group(['prefix' => ''], function()
     // installment plan endpoints
     Route::apiResource("installment-plans", InstallmentPlanController::class);
     Route::put("installment-plans/{column}/{id}", [InstallmentPlanController::class, "handleToggleAction"]);
+
+
+    // payment method endpoints
+    Route::apiResource("payment-methods", PaymentMethodController::class);
+    Route::put("payment-methods/{column}/{id}", [PaymentMethodController::class, "handleToggleAction"]);
 
 
     // stocks endpoints
