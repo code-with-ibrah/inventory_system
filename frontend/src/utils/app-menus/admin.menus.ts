@@ -48,6 +48,11 @@ export const AdminMenus: Menu[] = [
         create: MenuLinks.admin.customers.form,
         icon: appIconLabels.user
     },
+    {
+        label: 'Config',
+        link: MenuLinks.admin.config.index,
+        icon: appIconLabels.config
+    },
 
 
 ];

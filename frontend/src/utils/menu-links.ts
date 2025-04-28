@@ -38,13 +38,15 @@ export const MenuLinks = {
           }
         },
         config: {
-            details: {
-                index: '/admin/config/details',
-                users: '/admin/config/details/users',
-                userForm: '/admin/config/details/user-form',
-                roles: '/admin/config/details/roles',
-                roleForm: '/admin/config/details/role-form'
-            }
+            index: '/admin/config/details',
+            users: '/admin/config/details/users',
+            userForm: '/admin/config/details/user-form',
+            roles: '/admin/config/details/roles',
+            roleForm: '/admin/config/details/role-form',
+            installmentPlan: '/admin/config/details/installment-plan',
+            installmentPlanForm: '/admin/config/details/installment-plan-form',
+            paymentMethod: '/admin/config/details/payment-method',
+            paymentMethodForm: '/admin/config/details/payment-method-form',
         },
         productSettings: {
             index: '/admin/product-settings/',
@@ -76,7 +78,7 @@ export const MenuLinks = {
         customers: {
             index: "/admin/customers",
             form: "/admin/customers/form"
-        }
+        },
 
     },
 

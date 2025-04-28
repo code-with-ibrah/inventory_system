@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\InstallmentPlanController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductSupplierController;
@@ -107,6 +108,11 @@ Route::group(['prefix' => ''], function()
     // warehouse endpoints
     Route::apiResource("warehouses", WarehouseController::class);
     Route::put("warehouses/{column}/{id}", [WarehouseController::class, "handleToggleAction"]);
+
+
+    // installment plan endpoints
+    Route::apiResource("installment-plans", InstallmentPlanController::class);
+    Route::put("installment-plans/{column}/{id}", [InstallmentPlanController::class, "handleToggleAction"]);
 
 
     // stocks endpoints
