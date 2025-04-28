@@ -14,6 +14,7 @@ import {deleteProduct, getAllProducts} from "../../state/product/productAction.t
 import {commonQuery} from "../../utils/query.ts";
 import TableActions from "../../common/table-actions.tsx";
 import TlaOpen from "../../common/pop-ups/TlaOpen.tsx";
+import {currencyFormat} from "../../utils/index.ts";
 
 
 
@@ -42,12 +43,14 @@ const Products: React.FC = () => {
                     title="Name"
                     render={(record: Product) => (
                         <span className={'cursor-pointer underline'} onClick={() => goToDetails(record)}>
-                        {record.name}
-                    </span>
+                            {record.name}
+                        </span>
                     )}/>
 
                 <Column title="Sku" dataIndex="sku"/>
-                <Column title="Cost Price" dataIndex="costPrice"/>
+                <Column title="Cost Price" render={(record: Product) => (<span>
+                    {currencyFormat(+record.costPrice)}
+                </span>)}/>
                 <Column title="Unit Price" dataIndex="unitPrice"/>
                 <Column title="Category" dataIndex={"categoryName"}/>
                 <Column title="Brand" dataIndex={"brandName"}/>

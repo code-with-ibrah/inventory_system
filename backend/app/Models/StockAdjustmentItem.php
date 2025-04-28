@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class StockAdjustmentItem extends Model
 {
     protected $fillable = [
-        "productId", "adjustmentId",
+        "productId", "adjustmentId", "associatedCost",
         "previousQuantity", "adjustedQuantity",
         "newQuantity", "unitCostAtAdjustment",
         "isActive", "isDeleted", "companyId"

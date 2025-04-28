@@ -3,7 +3,7 @@ import {useAppSelector} from "../../hooks";
 import {useEffect, useState} from "react";
 import SingleItem from "../../common/single-item.tsx";
 import {Product} from "../../types/product.ts";
-import {formatDate} from "../../utils";
+import {currencyFormat, formatDate} from "../../utils";
 
 const ProductInfo = () => {
     const product: Product = useAppSelector(state => state.product.productItem);
@@ -20,6 +20,10 @@ const ProductInfo = () => {
             <div className={'gap-2 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2'}>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Name"} value={product?.name}/>
+                </div>
+
+                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
+                    <SingleItem title={"Category"} value={product?.categoryName ?? '-'}/>
                 </div>
 
                 {product?.barcode ? <div className={'bg-white p-2 md:p-5 rounded-lg col-span-1'}>
@@ -39,22 +43,16 @@ const ProductInfo = () => {
                     <SingleItem title={"Sku"} value={product?.sku ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Quantity"} value={product?.quantity ?? '-'}/>
-                </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Stock Alert Level"} value={product?.stockAlertLevel ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Full Package Quantity"} value={product?.standardPackageQuantity ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Cost Price"} value={product?.costPrice ?? '-'}/>
+                    <SingleItem title={"Cost Price"} value={ currencyFormat(+product?.costPrice) ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Unit Price"} value={product?.unitPrice ?? '-'}/>
-                </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Tax"} value={product?.taxRate ?? '-'}/>
+                    <SingleItem title={"Unit Price"} value={ currencyFormat(+product?.unitPrice) ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Category"} value={product?.categoryName ?? '-'}/>
@@ -66,7 +64,11 @@ const ProductInfo = () => {
                     <SingleItem title={"Stock Unit"} value={product?.stockUnitName ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Expiration Date"} value={formatDate(product?.expirationDate)?.toString()}/>
+                    <SingleItem title={"Expiration Date"} value={
+                        product?.expirationDate 
+                            ? formatDate(product?.expirationDate)?.toString()
+                            : 'not applicable'
+                        }/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Serial Number"} value={product?.serialNumber ?? '-'}/>

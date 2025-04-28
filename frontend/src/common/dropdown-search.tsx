@@ -24,6 +24,7 @@ interface ISearch {
     singleFetch?: boolean;
     setFetchedDataLength?: any,
     allowClear?: boolean;
+
 }
 
 const DropdownSearch = ({

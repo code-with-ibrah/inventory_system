@@ -42,6 +42,12 @@ export const AdminMenus: Menu[] = [
         create: MenuLinks.admin.stockAdjustment.form,
         icon: appIconLabels.adjustment
     },
+    {
+        label: 'Customers',
+        link: MenuLinks.admin.customers.index,
+        create: MenuLinks.admin.customers.form,
+        icon: appIconLabels.user
+    },
 
 
 ];

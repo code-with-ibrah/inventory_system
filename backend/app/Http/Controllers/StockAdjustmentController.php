@@ -8,10 +8,13 @@ use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Requests\stockAdjustment\StockAdjustmentRequest;
 use App\Http\Resources\stockAdjustment\StockAdjustmentResource;
 use App\Http\Resources\stockAdjustment\StockAdjustmentResourceCollection;
+use App\Models\Stock;
 use App\Models\StockAdjustment;
+use App\Models\StockAdjustmentItem;
 use App\Utils\Globals;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class StockAdjustmentController extends Controller
 {
@@ -72,19 +75,25 @@ class StockAdjustmentController extends Controller
     }
 
 
-    public function destroy(StockAdjustment $StockAdjustment, Request $request)
+    public function destroy(StockAdjustment $stockAdjustment, Request $request)
     {
-        $shouldDeletePermantely = $request->query("delete");
-        if($shouldDeletePermantely){
-            $StockAdjustment->delete();
-        }
-        else{
-            $StockAdjustment->isDeleted = true;
-            $StockAdjustment->save();
-        }
+        DB::transaction(function() use ($stockAdjustment){
+            $stockAdjustmentItemList = StockAdjustmentItem::where("adjustmentId", $stockAdjustment->id)->get();
+
+            foreach ($stockAdjustmentItemList as $adjustmentItem){
+                if($stock = Stock::where("productId", $adjustmentItem->productId)->first()) {
+                    $stock->quantityOnHand = $adjustmentItem->previousQuantity;
+                    $stock->save();
+                }
+                $adjustmentItem->delete();
+            }
+
+            $stockAdjustment->delete();
+        });
+
         // Clear relevant cache on delete
-        $this->clearCache($this->cachePrefix, $StockAdjustment->id);
-        return new StockAdjustmentResource($StockAdjustment);
+        $this->clearCache($this->cachePrefix, $stockAdjustment->id);
+        return new StockAdjustmentResource($stockAdjustment);
     }
 
 

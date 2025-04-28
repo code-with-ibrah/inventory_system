@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string("image")->nullable();
             $table->decimal("costPrice", 10, 2)->default(0.00);
             $table->decimal("unitPrice", 10, 2)->default(0.00);
-            $table->integer("quantity")->default(0);
             $table->integer("standardPackageQuantity")->default(0);
             $table->integer("stockAlertLevel");
             $table->foreignId("companyId")->constrained("companies");

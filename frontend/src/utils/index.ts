@@ -11,9 +11,10 @@ dayjs.extend(weekOfYear);
  * @param format
  * @returns {null|string}
  */
-export const formatDate = (date: string, format = 'MMM YYYY'): null | string => {
+export const formatDate = (date: string, format = 'ddd, MMM DD, YYYY'): null | string => {
+    const dateFormat = format;
     if (date) {
-        return dayjs(date).format(format)
+        return dayjs(date).format(dateFormat)
     }
 
     return null
@@ -201,3 +202,35 @@ export function generateWarehouseCode(initials: string) {
     return (sanitizedInitials + "-" + randomString).toUpperCase();
 }
 
+
+
+export function generateUniqueCode(prefix = "ORD", length = 10) {
+    if (typeof prefix !== 'string') { 
+      prefix = "ORD";
+    }
+    if (!Number.isInteger(length) || length <= prefix.length) {
+      length = 10;
+    }
+  
+    const numericLength = length - prefix.length;
+    let randomNumber = '';
+    const characters = '0123456789';
+    const charactersLength = characters.length;
+  
+    // Generate random numeric characters
+    for (let i = 0; i < numericLength; i++) {
+      randomNumber += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+  
+    // Add hyphens every 3 digits
+    let formattedNumber = '';
+    for (let i = 0; i < randomNumber.length; i++) {
+      formattedNumber += randomNumber[i];
+      if ((i + 1) % 3 === 0 && i !== randomNumber.length - 1) {
+        formattedNumber += '-';
+      }
+    }
+  
+    return prefix + formattedNumber;
+  }
+  

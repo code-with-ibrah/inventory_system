@@ -14,7 +14,7 @@ class StockRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "productId" => ["required", "exists:products,id"],
+            // "productId" => ["required", "unique:stocks,productId", "exists:products,id"],
             "wareHouseId" => ["required", "exists:warehouses,id"],
             "stockAlertLevel" => ["required", "numeric"],
             "locationInWarehouse" => ["nullable"],

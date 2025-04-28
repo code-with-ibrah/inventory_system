@@ -10,7 +10,9 @@ import ProductSupplierForm from "../../pages/product/product-supplier-form.tsx";
 import WarehouseForm from "../../pages/warehouse/warehouse-form.tsx";
 import StockForm from "../../pages/stock/stock-form.tsx";
 import StockAdjustmentForm from "../../pages/stock-adjustment/stock-adjustment-form.tsx";
-import StockAdjustmentItemForm from "../../pages/stock-adjustment/items/stock-adjustment-item-forms.tsx";
+import StockAdjustmentItemForm from "../../pages/stock-adjustment/items/stock-adjustment-item-form.tsx";
+import SingleStockAdjustmentItemForm from "../../pages/stock-adjustment/items/single-stock-adjustment-item-form.tsx";
+import CustomerForm from "../../pages/customer/customer-form.tsx";
 
 
 export const ModalRoute = () => {
@@ -27,7 +29,8 @@ export const ModalRoute = () => {
             <Route path={MenuLinks.admin.stock.form} element={<StockForm/>}/>
             <Route path={MenuLinks.admin.stockAdjustment.form} element={<StockAdjustmentForm/>}/>
             <Route path={MenuLinks.admin.stockAdjustment.itemsForm} element={<StockAdjustmentItemForm/>}/>
-
+            <Route path={MenuLinks.admin.stockAdjustment.singleItemForm} element={<SingleStockAdjustmentItemForm/>}/>
+            <Route path={MenuLinks.admin.customers.form} element={<CustomerForm/>}/>
         </Routes>
     )
 }

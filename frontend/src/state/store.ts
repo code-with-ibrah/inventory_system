@@ -26,6 +26,7 @@ import warehouseSlice from "./warehouse/warehouseSlice.ts";
 import stockSlice from "./stock/stockSlice.ts";
 import stockAdjustmentSlice from "./stock-adjustment/stockAdjustmentSlice.ts";
 import stockAdjustmentItemSlice from "./stock-adjustment-item/stockAdjustmentItemSlice.ts";
+import customerSlice from "./customer/customerSlice.ts";
 
 const persistConfig = {
     key: "root",
@@ -63,7 +64,8 @@ const rootReducers = combineReducers({
     warehouse: warehouseSlice,
     stock: stockSlice,
     stockAdjustment: stockAdjustmentSlice,
-    stockAdjustmentItem: stockAdjustmentItemSlice
+    stockAdjustmentItem: stockAdjustmentItemSlice,
+    customer: customerSlice
 
 
 })

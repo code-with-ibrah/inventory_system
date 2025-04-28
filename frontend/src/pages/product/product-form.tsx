@@ -218,7 +218,7 @@ const ProductForm: React.FC = () => {
 
                     <Form.Item
                         label={'Standard Package Quantity'}
-                        name="standardPackageQuantity"
+                        name={'standardPackageQuantity'}
                         className="col-span-full sm:col-span-1"
                         style={{marginBottom: 0}}
                         rules={[
@@ -236,26 +236,23 @@ const ProductForm: React.FC = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label={'Serial Number'}
+                        label={'Serial Number (optional)'}
                         name="serialNumber"
-                        className="col-span-full sm:col-span-1"
-                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        className="col-span-full sm:col-span-1">
                         <Input disabled={disabled} size={"large"}/>
                     </Form.Item>
 
                     <Form.Item
-                        label={'Batch Number'}
+                        label={'Batch Number (optional)'}
                         name="batchNumber"
-                        className="col-span-full sm:col-span-1"
-                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        className="col-span-full sm:col-span-1">
                         <Input disabled={disabled} size={"large"}/>
                     </Form.Item>
 
                     <Form.Item
-                        label={'Long Description'}
+                        label={'Description (optional)'}
                         name="longDescription"
-                        className="col-span-full sm:col-span-3"
-                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        className="col-span-full sm:col-span-3">
                         <TextArea disabled={disabled}
                                   placeholder="Detailed Product description here"/>
                     </Form.Item>

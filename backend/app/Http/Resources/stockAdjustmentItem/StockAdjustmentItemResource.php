@@ -17,6 +17,7 @@ class StockAdjustmentItemResource extends JsonResource
             "adjustmentId" => $this->adjustmentId,
             "previousQuantity" => $this->previousQuantity,
             "adjustedQuantity" => $this->adjustedQuantity,
+            "associatedCost" => $this->associatedCost,
             "unitCostAtAdjustment" => $this->unitCostAtAdjustment,
             "status" => ($this->adjustedQuantity > 0) ? 'Addition' : 'Subtraction'
         ];

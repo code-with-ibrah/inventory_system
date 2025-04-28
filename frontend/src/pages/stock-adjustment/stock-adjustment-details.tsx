@@ -1,6 +1,6 @@
 import TlaOpen from "../../common/pop-ups/TlaOpen.tsx";
 import {MenuLinks} from "../../utils/menu-links.ts";
-import {FiEdit3} from "react-icons/fi";
+import {FiEye} from "react-icons/fi";
 import {useAppSelector} from "../../hooks";
 import StockAdjustmentItems from "./items/stock-adjustment-items.tsx";
 
@@ -21,7 +21,7 @@ const StockAdjustmentDetails = () => {
                     <div className={'flex flex-wrap justify-between items-center'}>
                         <TlaOpen title={"Edit Stock"} data={stockAdjustment} modal={true} to={MenuLinks.admin.stockAdjustment.form}>
                             <span className={'mt-2 text-xl flex items-center gap-x-3 cursor-pointer text-yellow-500'}>
-                                Edit stock Adjustment Info <FiEdit3/>
+                                View stock Adjustment Info <FiEye/>
                             </span>
                         </TlaOpen>
                     </div>

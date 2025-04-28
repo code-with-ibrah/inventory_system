@@ -6,6 +6,7 @@ use App\Http\Api\query\models\StockAdjustmentItemQuery;
 use App\Http\Api\response\ApiResponse;
 use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Requests\stockAdjustmentItem\StockAdjustmentItemRequest;
+use App\Http\Requests\stockAdjustmentItem\UpdateStockAdjustmentItemRequest;
 use App\Http\Resources\stockAdjustmentItem\StockAdjustmentItemResource;
 use App\Http\Resources\stockAdjustmentItem\StockAdjustmentItemResourceCollection;
 use App\Models\Product;
@@ -14,6 +15,8 @@ use App\Models\StockAdjustmentItem;
 use App\Utils\Globals;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class StockAdjustmentItemController extends Controller
 {
@@ -43,36 +46,85 @@ class StockAdjustmentItemController extends Controller
     }
 
 
+//    public function store(StockAdjustmentItemRequest $request)
+//    {
+//        $stockAdjustmentItem = DB::transaction(function() use ($request){
+//            $payload = PrepareRequestPayload::prepare($request);
+//
+//            $stock = Stock::where("productId", $request->productId)->first();
+//            $stockAdjustmentItem = null;
+//            if($stock)
+//            {
+//                $payload["previousQuantity"] = $stock->quantityOnHand;
+//                $payload["newQuantity"] = ((int)$request->adjustedQuantity) + (int)$stock->quantityOnHand;
+//                $payload["unitCostAtAdjustment"] = $stock->product->unitPrice;
+//                $stockAdjustmentItem = StockAdjustmentItem::create($payload);
+//
+//                $stock->quantityOnHand = $payload["newQuantity"];
+//                $stock->save();
+//            }
+//            return $stockAdjustmentItem;
+//        });
+//
+//
+//        // Clear relevant cache on create
+//        $this->clearCache($this->cachePrefix, $stockAdjustmentItem->id);
+//        return new StockAdjustmentItemResource($stockAdjustmentItem);
+//    }
+
+
+
     public function store(StockAdjustmentItemRequest $request)
     {
-        $payload = PrepareRequestPayload::prepare($request);
-
-        $existingProductToAdjusted = StockAdjustmentItem::where("productId", $request->productId)->first();
-        if($existingProductToAdjusted){
-            $payload["previousQuantity"] = $existingProductToAdjusted->quantityOnHand;
-            $payload["newQuantity"] = ($request->adjustedQuantity) + $existingProductToAdjusted->quantityOnHand;
-            $payload["unitCostAtAdjustment"] = $existingProductToAdjusted->product->unitPrice;
-            $stockAdjustmentItem = StockAdjustmentItem::create($payload);
-
-            // Clear relevant cache on create
-            $this->clearCache($this->cachePrefix, $stockAdjustmentItem->id);
-            return new StockAdjustmentItemResource($stockAdjustmentItem);
-        }
+        $adjustmentsData = $request->all();
+        $createdItems = collect();
+        $updatedStocks = collect();
 
 
-        $stock = Stock::where("productId", $request->productId)->first();
-        if($stock)
-        {
-            $payload["previousQuantity"] = $stock->quantityOnHand;
-            $payload["newQuantity"] = ($request->adjustedQuantity) + $stock->quantityOnHand;
-            $payload["unitCostAtAdjustment"] = $stock->product->unitPrice;
-            $stockAdjustmentItem = StockAdjustmentItem::create($payload);
-            // Clear relevant cache on create
-            $this->clearCache($this->cachePrefix, $stockAdjustmentItem->id);
-            return new StockAdjustmentItemResource($stockAdjustmentItem);
-        }
-        return ApiResponse::notFound("Product not found in stock!");
+        $createdStockAdjustmentItems = DB::transaction(function () use ($adjustmentsData, &$createdItems, &$updatedStocks) {
+            $productIds = collect($adjustmentsData)->pluck('productId')->unique()->toArray();
+            $stocks = Stock::whereIn('productId', $productIds)->get()->keyBy('productId');
+
+            foreach ($adjustmentsData as $adjustmentData) {
+                $productId = $adjustmentData['productId'];
+
+                if ($stocks->has($productId)) {
+                    $stock = $stocks[$productId];
+                    $payload = ($adjustmentData);
+
+                    $previousQuantity = $stock->quantityOnHand;
+                    $adjustedQuantity = (int) $adjustmentData['adjustedQuantity'];
+                    $newQuantity = $previousQuantity + $adjustedQuantity;
+                    $unitCostAtAdjustment = $stock->product->unitPrice;
+                    $associatedCost = abs($unitCostAtAdjustment * $adjustedQuantity);
+
+                    $createdItems->push(new StockAdjustmentItem(array_merge($payload, [
+                        'previousQuantity' => $previousQuantity,
+                        'newQuantity' => $newQuantity,
+                        'unitCostAtAdjustment' => $unitCostAtAdjustment,
+                        'associatedCost' => $associatedCost
+                    ])));
+
+                    $stock->quantityOnHand = $newQuantity;
+                    $updatedStocks->put($stock->id, $stock);
+                }
+            }
+
+            // Batch insert StockAdjustmentItems after processing all
+            StockAdjustmentItem::insert($createdItems->toArray());
+
+            // Batch update Stocks after processing all
+            $updatedStocks->each(function ($stock) {
+                $stock->save();
+            });
+
+            return $createdItems;
+        });
+
+        // Clear relevant cache on create
+        return new StockAdjustmentItemResourceCollection($createdStockAdjustmentItems);
     }
+
 
 
     public function show(StockAdjustmentItem $stockAdjustmentItem)
@@ -84,27 +136,54 @@ class StockAdjustmentItemController extends Controller
     }
 
 
-    public function update(StockAdjustmentItemRequest $request, $id)
+    public function update(UpdateStockAdjustmentItemRequest $request, $id)
     {
-        $stockAdjustmentItem = StockAdjustmentItem::findOrFail($id);
-        $payload = PrepareRequestPayload::prepare($request);
-        $stockAdjustmentItem->update($payload);
-        // Clear relevant cache on update
-        $this->clearCache($this->cachePrefix, $id);
+
+        $stockAdjustmentItem = DB::transaction(function() use ($request, $id){
+            $payload = PrepareRequestPayload::prepare($request);
+
+            $stock = Stock::where("productId", $request->productId)->first();
+            $stockAdjustmentItem = null;
+            if($stock)
+            {
+                $stockAdjustmentItem = StockAdjustmentItem::findOrFail($id);
+
+                $payload["previousQuantity"] = $stockAdjustmentItem->newQuantity;
+                $payload["newQuantity"] = ((int)$request->adjustedQuantity) + (int)$stockAdjustmentItem->newQuantity;
+                $payload["unitCostAtAdjustment"] = $stockAdjustmentItem->unitCostAtAdjustment;
+                $stockAdjustmentItem->update($payload);
+
+                $stock->quantityOnHand = $payload["newQuantity"];
+                $stock->save();
+            }
+
+            return $stockAdjustmentItem;
+        });
+
+        // Clear relevant cache on create
+        $this->clearCache($this->cachePrefix, $stockAdjustmentItem->id);
         return new StockAdjustmentItemResource($stockAdjustmentItem);
     }
 
 
     public function destroy(StockAdjustmentItem $stockAdjustmentItem, Request $request)
     {
-        $shouldDeletePermantely = $request->query("delete");
-        if($shouldDeletePermantely){
+        DB::transaction(function() use ($stockAdjustmentItem){
+
+            $stock = Stock
+                ::where("productId", $stockAdjustmentItem->productId)
+                ->first();
+
+            if($stock)
+            {
+                $stock->quantityOnHand = $stockAdjustmentItem->previousQuantity;
+                $stock->save();
+            }
             $stockAdjustmentItem->delete();
-        }
-        else{
-            $stockAdjustmentItem->isDeleted = true;
-            $stockAdjustmentItem->save();
-        }
+
+            return $stockAdjustmentItem;
+        });
+
         // Clear relevant cache on delete
         $this->clearCache($this->cachePrefix, $stockAdjustmentItem->id);
         return new StockAdjustmentItemResource($stockAdjustmentItem);

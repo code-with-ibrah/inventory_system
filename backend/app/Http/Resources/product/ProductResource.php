@@ -33,6 +33,7 @@ class ProductResource extends JsonResource
             "batchNumber" => $this->batchNumber,
             "longDescription" => $this->longDescription,
             "shortDescription" => $this->shortDescription,
+            "standardPackageQuantity" => $this->standardPackageQuantity,
             "companyId" => $this->companyId,
             "categoryId" => $this->categoryId,
             "categoryName" => $category ? $category->name : null,

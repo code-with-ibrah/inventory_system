@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer("adjustedQuantity");
             $table->integer("newQuantity");
             $table->decimal("unitCostAtAdjustment");
+            $table->decimal("associatedCost")->default(0.00);
             $table->boolean("isActive")->default(true);
             $table->boolean("isDeleted")->default(false);
             $table->timestamps();

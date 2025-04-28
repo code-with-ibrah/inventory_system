@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductSupplierController;
 use App\Http\Controllers\RoleController;
@@ -122,5 +123,11 @@ Route::group(['prefix' => ''], function()
     Route::apiResource("stock-adjustment-items", StockAdjustmentItemController::class);
     Route::put("stock-adjustment-items/{column}/{id}", [StockAdjustmentItemController::class, "handleToggleAction"]);
 
+
+    // orders endpoint
+    Route::apiResource("orders", OrderController::class);
+
+
+    // order items endpoints
 
 });
