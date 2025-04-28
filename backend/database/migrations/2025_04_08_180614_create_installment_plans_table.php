@@ -19,6 +19,8 @@ return new class extends Migration
             $table->decimal("interestRate", 10, 2)->default(0.00);
             $table->string("description")->nullable();
             $table->foreignId("companyId")->constrained("companies");
+            $table->boolean("isActive")->default(true);
+            $table->boolean("isDeleted")->default(false);
             $table->timestamps();
         });
     }

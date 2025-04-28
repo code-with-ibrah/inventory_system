@@ -9,9 +9,11 @@ interface Props {
   title?: string | React.ReactNode;
   width?: string;
   loading?: boolean;
+  className?: string;
 }
 
 const TlaDrawer: React.FC<Props> = ({
+  className,
   children,
   title,
   width = "w-full md:w-1/2",
@@ -19,7 +21,8 @@ const TlaDrawer: React.FC<Props> = ({
 }) => {
   const navigate = useNavigate();
   return (
-    <PopUps>
+    <div className={className}>
+          <PopUps>
       <div
         className="ant-drawer ant-drawer-right css-1e3x2xa ant-drawer-open"
         tabIndex={-1}
@@ -84,6 +87,7 @@ const TlaDrawer: React.FC<Props> = ({
         ></div>
       </div>
     </PopUps>
+      </div>
   );
 };
 

@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = [
-        "name", "sku", "unitPrice","costPrice",
-        "quantity", "stockAlertLevel", "stockUnitId",
+        "name", "sku", "unitPrice","costPrice", "stockAlertLevel", "stockUnitId",
         "companyId", "categoryId", "brandId", "taxRate",
         "barcode", "isActive", "isDeleted", "image",
         "expirationDate", "serialNumber", "batchNumber",
@@ -26,6 +25,7 @@ class Product extends Model
     public function stockUnit(){
         return $this->hasOne(StockUnit::class, "id", "stockUnitId");
     }
+
 
     public function company(){
         return $this->hasOne(Company::class, "id", "companyId");

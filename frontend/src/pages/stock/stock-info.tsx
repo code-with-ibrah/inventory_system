@@ -3,6 +3,7 @@ import {useAppSelector} from "../../hooks";
 import {useEffect, useState} from "react";
 import SingleItem from "../../common/single-item.tsx";
 import {Stock} from "../../types/stock.ts";
+import { currencyFormat } from "../../utils/index.ts";
 
 const StockInfo = () => {
     const stock: Stock = useAppSelector(state => state.stock.stockItem);
@@ -26,13 +27,13 @@ const StockInfo = () => {
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Unit Price"} value={
                         // @ts-ignore
-                        stock?.product?.unitPrice ?? '-'
+                        currencyFormat(+stock?.product?.unitPrice) ?? '-'
                     }/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Cost Price"} value={
                         // @ts-ignore
-                        stock?.product?.costPrice ?? '-'
+                        currencyFormat(+stock?.product?.costPrice)  ?? '-'
                     }/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
@@ -45,7 +46,10 @@ const StockInfo = () => {
                     <SingleItem title={"Location"} value={stock?.locationInWarehouse ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Full Package Quantity"} value={stock?.standardPackageQty ?? '-'}/>
+                    <SingleItem title={"Full Package Quantity"} value={
+                        // @ts-ignore
+                        stock?.product?.standardPackageQty ?? '-'
+                    }/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Total Sales"} value={

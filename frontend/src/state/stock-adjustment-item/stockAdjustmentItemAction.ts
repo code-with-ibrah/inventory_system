@@ -36,6 +36,22 @@ export const createStockAdjustmentItem = createAsyncThunk(
     }
 );
 
+export const createBulkStockAdjustmentItems = createAsyncThunk(
+    "stockAdjustmentItem/createBulkStockAdjustmentItems", async (data: any, {rejectWithValue}) => {
+        try {
+            const res = await  api().post('/stock-adjustment-items', data);
+
+            return res.data.data
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err;
+            }
+            throw rejectWithValue(err.response.data)
+        }
+    }
+);
+
 
 
 export const updateStockAdjustmentItem = createAsyncThunk(

@@ -24,6 +24,7 @@ import Stocks from "../../pages/stock";
 import StockDetails from "../../pages/stock/stock-details.tsx";
 import StockAdjustments from "../../pages/stock-adjustment";
 import StockAdjustmentDetails from "../../pages/stock-adjustment/stock-adjustment-details.tsx";
+import Customers from "../../pages/customer";
 
 
 export const AppProtectedRoutes = () => {
@@ -72,6 +73,9 @@ export const AppProtectedRoutes = () => {
                     {/* stocks adjustment */}
                     <Route path={MenuLinks.admin.stockAdjustment.index} element={<StockAdjustments/>}/>
                     <Route path={MenuLinks.admin.stockAdjustment.details} element={<StockAdjustmentDetails/>}/>
+
+                    {/* customers */}
+                    <Route path={MenuLinks.admin.customers.index} element={<Customers/>}/>
 
                     <Route path={'*'} element={<AdminNotFound/>}/>
                 </Route>

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string("status")->default("pending")->nullable();
             $table->foreignId("installmentPlanId")->constrained("installment_plans");
             $table->string("currency")->nullable();
-            $table->foreignId("paymentMethodId")->constrained("payment_methods");
+            $table->string("paymentMethod");
             $table->decimal("discount", 10, 2)->default(0.00)->nullable();
             $table->decimal("tax-amount", 10, 2)->default(0.00)->nullable();
             $table->foreignId("userId")->constrained("users");

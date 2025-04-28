@@ -13,6 +13,7 @@ import {
     deleteStockAdjustmentItem,
     getAllStockAdjustmentItems
 } from "../../../state/stock-adjustment-item/stockAdjustmentItemAction.ts";
+import { currencyFormat } from "../../../utils/index.ts";
 
 
 const StockAdjustments: React.FC = () => {
@@ -28,14 +29,19 @@ const StockAdjustments: React.FC = () => {
                 <Column title={'Previous Quantity'} dataIndex={'previousQuantity'}/>
                 <Column title={'Adjusted Quantity'} dataIndex={'adjustedQuantity'}/>
                 <Column title={'New Quantity'} dataIndex={'newQuantity'}/>
-                <Column title={'Unit Cost At Adjustment'} dataIndex={'unitCostAtAdjustment'}/>
                 <Column title={'Status'} dataIndex={'status'}/>
+                <Column title={'Unit Cost At Adjustment'} render={(record: any) => <span>
+                    {currencyFormat(+record?.unitCostAtAdjustment)}
+                </span>} />
+                <Column title={'Adjustment Cost'} render={(record: any) => <span>
+                    {currencyFormat(+record?.associatedCost)}
+                </span>} />
                 <Column title={'Action'} render={((record) => (
                     <TableActions items={[
                         {
                             key: '1',
                             label: (
-                                <TlaOpen data={record} modal={true} to={MenuLinks.admin.stockAdjustment.itemsForm}>
+                                <TlaOpen data={record} modal={true} to={MenuLinks.admin.stockAdjustment.singleItemForm}>
                                     <FiEdit3/>
                                     Edit
                                 </TlaOpen>

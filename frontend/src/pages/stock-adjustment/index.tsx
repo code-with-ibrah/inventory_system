@@ -32,13 +32,13 @@ const StockAdjustments: React.FC = () => {
 
             <TlaTableWrapper getData={getAllStockAdjustment} data={data} filter={commonQuery()} meta={meta}>
                 <Column
-                    title="Name"
+                    title="Info"
                     render={(record: StockAdjustment) => (
                         <span className={'cursor-pointer underline'} onClick={() => goToDetails(record)}>
-                            {record?.date}
+                            view adjusted products
                         </span>
                     )}/>
-                <Column title="Date" render={(record: any) => formatDate(record?.date, 'd MMMM, YYYY')}/>
+                <Column title="Date" render={(record: any) => formatDate(record?.date)}/>
                 <Column title="By" dataIndex="user"/>
                 <Column title="Reason Code" dataIndex="reasonCode"/>
                 <Column title={'Action'} render={((record) => (

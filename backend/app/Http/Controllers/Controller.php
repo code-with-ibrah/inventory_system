@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 abstract class Controller
 {
     protected array $toggleColumn = ["isDeleted", "isActive"];
-    protected int $cacheTtl = 120; // Cache time-to-live in seconds (e.g., 1 minute)
+    protected int $cacheTtl = 0; // 120; // Cache time-to-live in seconds (e.g., 1 minute)
     protected $cachePrefix = '';
 
 

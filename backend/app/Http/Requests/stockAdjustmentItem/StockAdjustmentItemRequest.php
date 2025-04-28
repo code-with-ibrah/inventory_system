@@ -15,10 +15,9 @@ class StockAdjustmentItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "adjustmentId" => ["required", "exists:stock_adjustments,id"],
-            "productId" => ["required", "exists:products,id"],
-            "adjustedQuantity" => ["required"],
-            "companyId" => ["required", "exists:companies,id"]
+            "*.adjustmentId" => ["required", "exists:stock_adjustments,id"],
+            "*.productId" => ["required", "exists:products,id"],
+            "*.adjustedQuantity" => ["required", 'numeric'],
         ];
     }
 }

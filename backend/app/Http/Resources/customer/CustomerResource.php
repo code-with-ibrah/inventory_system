@@ -7,11 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class CustomerResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
+
     public function toArray(Request $request): array
     {
         return [
@@ -21,8 +17,7 @@ class CustomerResource extends JsonResource
             "location" => $this->location,
             "email" => $this->email,
             "phone" => $this->phone,
-            "addressLineOne" => $this->addressLineOne,
-            "addressLineTwo" => $this->addressLineTwo,
+            "address" => $this->address,
             "registrationDate" => $this->registrationDate,
             "companyId" => $this->companyId
         ];
