@@ -6,37 +6,28 @@ import {FiPlusCircle} from "react-icons/fi";
 import TlaOpen from "../../../common/pop-ups/TlaOpen.tsx";
 import TlaTableWrapper from "../../../common/tla-table-wrapper.tsx";
 import {MenuLinks} from "../../../utils/menu-links.ts";
-import {formatDate} from "../../../utils";
-import {deleteUser, getAllUsers} from "../../../state/users/usersActions.ts";
 import TlaDelete from "../../../common/tla-delete.tsx";
 import TlaEdit from "../../../common/tla-edit.tsx";
+import {deletePaymentMethod, getAllPaymentMethods} from "../../../state/payment-method/paymentMethodAction.ts";
+import {commonQuery} from "../../../utils/query.ts";
 
 
 const PaymentMethods: React.FC = () => {
-    const {data, meta} = useAppSelector(state => state.users.users);
-    const user: any = useAppSelector(state => state.auth.user);
-    const filter = `id[neq]=${user?.id}`;
+    const {data, meta} = useAppSelector(state => state.paymentMethod.paymentMethod);
     return (
         <div className={'bg-white rounded-2xl p-5'}>
-            <TlaOpen to={MenuLinks.admin.config.userForm}>
-                <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New User</Button>
+            <TlaOpen to={MenuLinks.admin.config.paymentMethodForm}>
+                <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New</Button>
             </TlaOpen>
-            <TlaTableWrapper getData={getAllUsers} data={data} filter={filter} meta={meta}>
+            <TlaTableWrapper getData={getAllPaymentMethods} data={data} filter={commonQuery()} meta={meta}>
                 <Column title="Name" dataIndex="name"/>
-                <Column title="Email" dataIndex="email"/>
-                <Column title="Phone" dataIndex="phone"/>
-                <Column title="Last time login" render={(record: any) => <>
-                    <span> {formatDate(record?.lastTimeLogin, "D MMM YYYY h:mm a")} </span>
-                </>}/>
-                <Column title="organisation" dataIndex={['organisation', 'name']}/>
-                <Column title="Role" dataIndex={"roleName"}/>
 
                 <Column
                     title={'Action'}
                     render={((record: any) => (
                             <div className={'flex items-center gap-2'}>
-                                <TlaEdit data={record} link={MenuLinks.admin.config.userForm}/>
-                                <TlaDelete title={'user account'} column={record?.id} callBack={deleteUser}/>
+                                <TlaEdit data={record} link={MenuLinks.admin.config.paymentMethodForm}/>
+                                <TlaDelete title={'payment method'} column={record?.id} callBack={deletePaymentMethod}/>
                             </div>
                         )
                     )}/>

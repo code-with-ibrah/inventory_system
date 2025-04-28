@@ -4,8 +4,8 @@ import {unwrapResult} from "@reduxjs/toolkit";
 import {useLocation, useNavigate} from "react-router-dom";
 import {TlaError, TlaSuccess} from "../../../utils/messages.ts";
 import {TlaModal} from "../../../common/pop-ups/TlaModal.tsx";
-import {useAppDispatch} from "../../../hooks";
-import {createUser, updateUser} from "../../../state/users/usersActions.ts";
+import {useAppDispatch, useAppSelector} from "../../../hooks";
+import {createPaymentMethod, updatePaymentMethod} from "../../../state/payment-method/paymentMethodAction.ts";
 
 const PaymentMethodForm: React.FC = () => {
     const { state } = useLocation();
@@ -13,15 +13,15 @@ const PaymentMethodForm: React.FC = () => {
     const [loading, setLoading] = useState(false)
     const [form] = Form.useForm<any>();
     const navigate = useNavigate();
+    const user: any = useAppSelector(state => state.auth.user);
 
     const onFinish = (values: any) => {
         setLoading(true);
-        const defaultPassword = "000000";
-        values.passwordChanged = false;
-        values.password = defaultPassword;
+        values.companyId = user?.companyId;
 
-        setLoading(true);
-        ((state?.data && state?.data?.id) ? dispatch(updateUser({ data: values, id: state?.data?.id})) : dispatch(createUser(values)))
+        ((state?.data && state?.data?.id) ?
+            dispatch(updatePaymentMethod({ data: values, id: state?.data?.id})) :
+            dispatch(createPaymentMethod(values)))
             .then(unwrapResult)
             .then(() => {
                 TlaSuccess("Successful");
@@ -52,25 +52,10 @@ const PaymentMethodForm: React.FC = () => {
                         <Input/>
                     </Form.Item>
 
-                    <Form.Item
-                        rules={[
-                            {
-                                type: "email",
-                                message: "Not a valid email"
-                            }
-                        ]}
-                        name={"email"} label={"Email"}>
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item
-                        rules={[{required: true, message: "Required"}]}
-                        name={"phone"} label={"Phone Number"}>
-                        <Input/>
-                    </Form.Item>
 
 
                 </div>
-                <Button block className={'btn-red'} htmlType={"submit"}>
+                <Button className={'btn-red flex ml-auto'} htmlType={"submit"}>
                     Save
                 </Button>
             </Form>
