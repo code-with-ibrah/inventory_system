@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Input, Select, Space} from "antd";
+import {Button, Form, Input, Space} from "antd";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {useNavigate} from "react-router-dom";
 import {AiFillMinusCircle} from "react-icons/ai";
@@ -10,7 +10,7 @@ import {useAppDispatch, useAppSelector} from "../../../hooks";
 import DropdownSearch from "../../../common/dropdown-search.tsx";
 import {commonQuery} from "../../../utils/query.ts";
 import {Product} from "../../../types/product.ts";
-import {createBulkStockAdjustmentItems} from "../../../state/stock-adjustment-item/stockAdjustmentItemAction.ts";
+import {createBulkGoodsReceiptItems} from "../../../state/goods-receipt/items/goodsReceiptItemAction.ts";
 
 
 interface Props {
@@ -18,26 +18,23 @@ interface Props {
     form: any;
 }
 
-const StockAdjustmentFormContent: React.FC<Props> = ({setLoading, form}) => {
+const GoodsReceiptFormContent: React.FC<Props> = ({setLoading, form}) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const adjustment = useAppSelector(state => state.stockAdjustment.stockAdjustmentItem);
+    const selectedGoodsReceiptItem = useAppSelector(state => state.goodsReceipt.goodsReceiptItem);
     const user = useAppSelector(state => state.auth.user);
 
 
     const onFinish = (values: any) => {
         setLoading(true);
-
-        const stockAdjustmentItem = values.stockAdjustmentItem.map((item: any) => {
+        const goodsReceiptItem = values.goodsReceiptItem.map((item: any) => {
             const record = item;
-            record.adjustedQuantity = (item.status == "addition") ? +item.adjustedQuantity : (item.adjustedQuantity * -1);
-            record.adjustmentId = adjustment.id;
             record.companyId = user?.companyId;
+            record.goodsReceiptId = selectedGoodsReceiptItem?.id;
             return record;
         });
-        
 
-        dispatch(createBulkStockAdjustmentItems(stockAdjustmentItem))
+        dispatch(createBulkGoodsReceiptItems(goodsReceiptItem))
             .then(unwrapResult).then(() => {
             setLoading(false);
             TlaSuccess("Success");
@@ -53,7 +50,7 @@ const StockAdjustmentFormContent: React.FC<Props> = ({setLoading, form}) => {
     return (
         <Form initialValues={{}} requiredMark={false} size={'large'} onFinish={onFinish} form={form} layout="vertical">
 
-            <Form.List name="stockAdjustmentItem">
+            <Form.List name="goodsReceiptItem">
                 {(fields, { add, remove }) => (
                     <>
                         {fields.map(({ key, name }) => (
@@ -63,37 +60,32 @@ const StockAdjustmentFormContent: React.FC<Props> = ({setLoading, form}) => {
                                     className={'col-span-2'}
                                     name={[name, "productId"]} label={"Product *"}>
                                     <DropdownSearch
-                                        // defaultValue={state?.data?.product}
                                         object
                                         searchApi={getAllProducts}
                                         extraParams={commonQuery()}
                                         placeholder="click to select product"
                                         setResult={(product: Product) => {
                                             if (product) {
-                                                form.setFieldValue(["stockAdjustmentItem", name, "productId"], product.id)
+                                                form.setFieldValue(["goodsReceiptItem", name, "productId"], product.id)
                                                 return
                                             }
-                                            form.setFieldValue(["stockAdjustmentItem", name, "productId"], null)
+                                            form.setFieldValue(["goodsReceiptItem", name, "productId"], null)
                                         }}
                                     />
                                 </Form.Item>
 
                                 <Form.Item
-                                    name={[name, "adjustedQuantity"]} label={"Adjusting Quantity *"}
+                                    name={[name, "quantityReceived"]} label={"Quantity *"}
                                     rules={[{ required: true, message: "Required" }]}>
                                     <Input type="number" min={'0'}/>
                                 </Form.Item>
 
                                 <Form.Item
-                                    name={[name, "status"]}
-                                    label={'Status *'}
-                                    rules={[{required: true, message: "Required"}]}>
-                                    <Select defaultValue={null}>
-                                        <Select.Option key={0} value={null}>Choose One</Select.Option>
-                                        <Select.Option key={1} value={'addition'}>Addition</Select.Option>
-                                        <Select.Option key={2} value={'subtraction'}>Subtract</Select.Option>
-                                    </Select>
+                                    name={[name, "unitPriceAtReceipt"]} label={"Unit Price *"}
+                                    rules={[{ required: true, message: "Required" }]}>
+                                    <Input type="number" min={'0'}/>
                                 </Form.Item>
+
 
                                 <Button onClick={() => remove(name)} className={'btn-red'} style={{ position: 'relative', top: 40}}>
                                     <AiFillMinusCircle />
@@ -102,7 +94,7 @@ const StockAdjustmentFormContent: React.FC<Props> = ({setLoading, form}) => {
                         ))}
                         <div style={{ width: "150px"}}>
                         <Button className="w-fit" type="dashed" onClick={() => add()} block icon={<FiPlusCircle />}>
-                                New Product
+                                New Item
                             </Button>
                         </div>
                     </>
@@ -113,4 +105,4 @@ const StockAdjustmentFormContent: React.FC<Props> = ({setLoading, form}) => {
     )
 }
 
-export default StockAdjustmentFormContent
+export default GoodsReceiptFormContent

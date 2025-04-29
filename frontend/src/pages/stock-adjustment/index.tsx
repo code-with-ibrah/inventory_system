@@ -9,14 +9,14 @@ import {commonQuery} from "../../utils/query.ts";
 import TlaOpen from "../../common/pop-ups/TlaOpen.tsx";
 import {useNavigate} from "react-router-dom";
 import TableActions from "../../common/table-actions.tsx";
-import {setStockAdjustment} from "../../state/stock-adjustment/stockAdjustmentSlice.ts";
 import {deleteStockAdjustment, getAllStockAdjustment} from "../../state/stock-adjustment/stockAdjustmentAction.ts";
 import {formatDate} from "../../utils";
 import TlaDelete from "../../common/tla-delete.tsx";
 import {StockAdjustment} from "../../types/stock-adjustment.ts";
+import {setStockAdjustment} from "../../state/stock-adjustment/stockAdjustmentSlice.ts";
 
 
-const StockAdjustments: React.FC = () => {
+const GoodsReceipt: React.FC = () => {
     const {data, meta} = useAppSelector(state => state.stockAdjustment.stockAdjustment);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -66,4 +66,4 @@ const StockAdjustments: React.FC = () => {
     )
 }
 
-export default StockAdjustments;
+export default GoodsReceipt;

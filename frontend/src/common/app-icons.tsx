@@ -13,6 +13,7 @@ import { MdStorefront } from "react-icons/md";
 import { PiStorefrontThin } from "react-icons/pi";
 import {TbBrandX} from "react-icons/tb";
 import {HiAdjustmentsHorizontal} from "react-icons/hi2";
+import {CiReceipt} from "react-icons/ci";
 
 
 
@@ -46,6 +47,7 @@ export const appIconLabels = {
     warehouse: "warehouse",
     adjustment: "adjustment",
     role: "role",
+    receipt: "receipt",
 
 
 };
@@ -83,6 +85,7 @@ export const appIcons: { [key: string]: React.ReactNode } = {
     warehouse: <MdOutlineWarehouse />,
     adjustment: <HiAdjustmentsHorizontal />,
     role: <FiKey/>,
+    receipt: <CiReceipt/>
 
 };
 

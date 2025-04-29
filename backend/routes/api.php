@@ -6,6 +6,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\GoodsReceiptController;
+use App\Http\Controllers\GoodsReceiptItemController;
 use App\Http\Controllers\InstallmentPlanController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
@@ -119,6 +121,16 @@ Route::group(['prefix' => ''], function()
     // payment method endpoints
     Route::apiResource("payment-methods", PaymentMethodController::class);
     Route::put("payment-methods/{column}/{id}", [PaymentMethodController::class, "handleToggleAction"]);
+
+
+    // goods receipt endpoints
+    Route::apiResource("goods-receipts", GoodsReceiptController::class);
+    Route::put("goods-receipts/{column}/{id}", [GoodsReceiptController::class, "handleToggleAction"]);
+
+
+    // goods receipt item endpoints
+    Route::apiResource("goods-receipt-items", GoodsReceiptItemController::class);
+    Route::put("goods-receipt-items/{column}/{id}", [GoodsReceiptItemController::class, "handleToggleAction"]);
 
 
     // stocks endpoints

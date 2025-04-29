@@ -46,34 +46,6 @@ class StockAdjustmentItemController extends Controller
     }
 
 
-//    public function store(StockAdjustmentItemRequest $request)
-//    {
-//        $stockAdjustmentItem = DB::transaction(function() use ($request){
-//            $payload = PrepareRequestPayload::prepare($request);
-//
-//            $stock = Stock::where("productId", $request->productId)->first();
-//            $stockAdjustmentItem = null;
-//            if($stock)
-//            {
-//                $payload["previousQuantity"] = $stock->quantityOnHand;
-//                $payload["newQuantity"] = ((int)$request->adjustedQuantity) + (int)$stock->quantityOnHand;
-//                $payload["unitCostAtAdjustment"] = $stock->product->unitPrice;
-//                $stockAdjustmentItem = StockAdjustmentItem::create($payload);
-//
-//                $stock->quantityOnHand = $payload["newQuantity"];
-//                $stock->save();
-//            }
-//            return $stockAdjustmentItem;
-//        });
-//
-//
-//        // Clear relevant cache on create
-//        $this->clearCache($this->cachePrefix, $stockAdjustmentItem->id);
-//        return new StockAdjustmentItemResource($stockAdjustmentItem);
-//    }
-
-
-
     public function store(StockAdjustmentItemRequest $request)
     {
         $adjustmentsData = $request->all();

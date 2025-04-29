@@ -19,7 +19,7 @@ const StockAdjustmentDetails = () => {
                         })</span>
                     </h2>
                     <div className={'flex flex-wrap justify-between items-center'}>
-                        <TlaOpen title={"Edit Stock"} data={stockAdjustment} modal={true} to={MenuLinks.admin.stockAdjustment.form}>
+                        <TlaOpen title={"edit stock adjustment"} data={stockAdjustment} modal={true} to={MenuLinks.admin.stockAdjustment.form}>
                             <span className={'mt-2 text-xl flex items-center gap-x-3 cursor-pointer text-yellow-500'}>
                                 View stock Adjustment Info <FiEye/>
                             </span>

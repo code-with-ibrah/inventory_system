@@ -79,6 +79,13 @@ export const MenuLinks = {
             index: "/admin/customers",
             form: "/admin/customers/form"
         },
+        goodsReceipt: {
+            index: "/admin/goods-receipt",
+            form: "/admin/goods-receipt/form",
+            itemIndex: "/admin/goods-receipt/details",
+            itemForm: "/admin/goods-receipt/details/form",
+            singleItemForm: "/admin/goods-receipt/details/single-form",
+        }
 
     },
 

@@ -29,6 +29,8 @@ import stockAdjustmentItemSlice from "./stock-adjustment-item/stockAdjustmentIte
 import customerSlice from "./customer/customerSlice.ts";
 import installmentPlanSlice from "./installment-plan/installmentPlanSlice.ts";
 import paymentMethodSlice from "./payment-method/paymentMethodSlice.ts";
+import goodsReceiptSlice from "./goods-receipt/goodsReceiptSlice.ts";
+import goodsReceiptItemSlice from "./goods-receipt/items/goodsReceiptItemSlice.ts";
 
 const persistConfig = {
     key: "root",
@@ -41,7 +43,6 @@ const rootReducers = combineReducers({
     analytics: analyticsSlice,
     classes: classesSlice,
     events: eventSlice,
-
 
     // new ones
     auth: authSlice,
@@ -70,7 +71,8 @@ const rootReducers = combineReducers({
     customer: customerSlice,
     installmentPlan: installmentPlanSlice,
     paymentMethod: paymentMethodSlice,
-
+    goodsReceipt: goodsReceiptSlice,
+    goodsReceiptItem: goodsReceiptItemSlice,
 
 })
 

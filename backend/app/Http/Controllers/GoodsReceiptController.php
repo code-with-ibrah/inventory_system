@@ -2,9 +2,108 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Api\query\models\GoodsReceiptQuery;
+use App\Http\Api\response\ApiResponse;
+use App\Http\Requests\common\PrepareRequestPayload;
+use App\Http\Requests\goods_receipt\GoodsReceiptRequest;
+use App\Http\Resources\goods_receipt\GoodsReceiptResource;
+use App\Http\Resources\goods_receipt\GoodsReceiptResourceCollection;
+use App\Models\GoodsReceipt;
+use App\Utils\Globals;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class GoodsReceiptController extends Controller
 {
-    //
+    protected $cachePrefix = "goodsReceipt_";
+
+    public function index(Request $request)
+    {
+        $filter = new GoodsReceiptQuery();
+        $queryItems = $filter->transform($request);
+        $take = $request->query("take");
+        $takeIsDefinedInUrl = ($take && intval($take) && $take > 0);
+        $perPage = ($takeIsDefinedInUrl ? $take : Globals::getDefaultPaginationNumber());
+
+        $cacheKey = $this->cachePrefix . 'index:' . md5(serialize([
+                $queryItems,
+                $perPage,
+                $request->query('page', 1),
+            ]));
+
+        return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
+            return new GoodsReceiptResourceCollection(
+                GoodsReceipt::where($queryItems)
+                ->with('user')
+                ->with('supplier')
+                ->orderBy('date', 'desc')
+                ->paginate($perPage)
+            );
+        });
+    }
+
+    public function store(GoodsReceiptRequest $request)
+    {
+        $payload = PrepareRequestPayload::prepare($request);
+        $goodsReceipt = GoodsReceipt::create($payload);
+
+        // Clear relevant cache on create
+        $this->clearCache($this->cachePrefix, $goodsReceipt->id);
+        return new GoodsReceiptResource($goodsReceipt);
+    }
+
+
+    public function show(GoodsReceipt $goodsReceipt)
+    {
+        $cacheKey = $this->cachePrefix . 'show:' . $goodsReceipt->id;
+        return Cache::rememberForever($cacheKey, function () use ($goodsReceipt) {
+            return new GoodsReceiptResource($goodsReceipt);
+        });
+    }
+
+
+    public function update(GoodsReceiptRequest $request, $id)
+    {
+        $goodsReceipt = GoodsReceipt::findOrFail($id);
+        $payload = PrepareRequestPayload::prepare($request);
+        $goodsReceipt->update($payload);
+
+        // Clear relevant cache on update
+        $this->clearCache($this->cachePrefix, $id);
+        return new GoodsReceiptResource($goodsReceipt);
+    }
+
+
+    public function destroy(GoodsReceipt $goodsReceipt, Request $request)
+    {
+        $shouldDeletePermantely = $request->query("delete");
+        if($shouldDeletePermantely){
+            $goodsReceipt->delete();
+        }
+        else{
+            $goodsReceipt->isDeleted = true;
+            $goodsReceipt->save();
+        }
+
+        // Clear relevant cache on delete
+        $this->clearCache($this->cachePrefix, $goodsReceipt->id);
+        return new GoodsReceiptResource($goodsReceipt);
+    }
+
+
+    public function handleToggleAction($column, $id)
+    {
+        $goodsReceipt = GoodsReceipt::findOrFail($id);
+
+        if (!in_array($column, $this->toggleColumn)) {
+            return ApiResponse::badRequest("The column, '$column', is not allowed for toggling.");
+        }
+
+        $goodsReceipt->{$column} = !$goodsReceipt->{$column};
+        $goodsReceipt->save();
+
+        // Clear relevant cache on toggle
+        $this->clearCache($this->cachePrefix, $id);
+        return new GoodsReceiptResource($goodsReceipt);
+    }
 }

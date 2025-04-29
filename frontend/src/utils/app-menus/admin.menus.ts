@@ -53,6 +53,11 @@ export const AdminMenus: Menu[] = [
         link: MenuLinks.admin.config.index,
         icon: appIconLabels.config
     },
+    {
+        label: 'Goods Receipt',
+        link: MenuLinks.admin.goodsReceipt.index,
+        icon: appIconLabels.receipt
+    }
 
 
 ];
