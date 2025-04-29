@@ -69,9 +69,16 @@ class PaymentMethodController extends Controller
     }
 
 
-    public function destroy(PaymentMethod $paymentMethod)
+    public function destroy(PaymentMethod $paymentMethod, Request $request)
     {
-        $paymentMethod->delete();
+        $shouldDeletePermantely = $request->query("delete");
+        if($shouldDeletePermantely){
+            $paymentMethod->delete();
+        }
+        else{
+            $paymentMethod->isDeleted = true;
+            $paymentMethod->save();
+        }
 
         // Clear relevant cache on delete
         $this->clearCache($this->cachePrefix, $paymentMethod->id);

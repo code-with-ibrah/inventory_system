@@ -14,6 +14,7 @@ class StockAdjustmentItemQuery implements IBaseDBQuery
     protected  $safeParams = [
         "id" => ["eq", "neq"],
         "previousQuantity" => ["eq", "neq"],
+        "adjustmentId" => ["eq", "neq"],
         "newQuantity" => ["eq", "neq"],
         "isActive" => ["eq", "neq"],
         "isDeleted" => ["eq", "neq"],

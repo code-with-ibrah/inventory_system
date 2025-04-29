@@ -49,7 +49,7 @@ const RoleForm: React.FC = () => {
                         <Input/>
                     </Form.Item>
                 </div>
-                <Button block className={'btn-red flex ml-auto'} htmlType={"submit"}>
+                <Button className={'btn-red flex ml-auto'} htmlType={"submit"}>
                     Save
                 </Button>
             </Form>

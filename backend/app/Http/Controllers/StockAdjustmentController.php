@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\DB;
 
 class StockAdjustmentController extends Controller
 {
-    protected $cachePrefix = "StockAdjustment_";
+    protected $cachePrefix = "stockAdjustment_";
 
     public function index(Request $request)
     {
@@ -38,6 +38,7 @@ class StockAdjustmentController extends Controller
             return new StockAdjustmentResourceCollection(
                 StockAdjustment::where($queryItems)
                     ->with('user')
+                    ->orderBy('date', 'desc')
                     ->paginate($perPage)
             );
         });

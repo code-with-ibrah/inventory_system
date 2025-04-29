@@ -10,25 +10,24 @@ import {formatDate} from "../../../utils";
 import TlaEdit from "../../../common/tla-edit.tsx";
 import TlaDelete from "../../../common/tla-delete.tsx";
 import {Button} from "antd";
+import {commonQuery} from "../../../utils/query.ts";
 
 
 const Users: React.FC = () => {
     const {data, meta} = useAppSelector(state => state.users.users);
-    const user: any = useAppSelector(state => state.auth.user);
-    const filter = `id[neq]=${user?.id}`;
     return (
         <div className={'bg-white rounded-2xl p-5'}>
             <TlaOpen to={MenuLinks.admin.config.userForm}>
-                <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New User</Button>
+                <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New</Button>
             </TlaOpen>
-            <TlaTableWrapper getData={getAllUsers} data={data} filter={filter} meta={meta}>
+            <TlaTableWrapper getData={getAllUsers} data={data} filter={commonQuery()} meta={meta}>
                 <Column title="Name" dataIndex="name"/>
                 <Column title="Email" dataIndex="email"/>
                 <Column title="Phone" dataIndex="phone"/>
                 <Column title="Last time login" render={(record: any) => <>
-                    <span> {formatDate(record?.lastTimeLogin, "D MMM YYYY h:mm a")} </span>
+                    <span> {formatDate(record?.lastTimeLogin, "D MMM YYYY h:mm a") ?? "-"} </span>
                 </>}/>
-                <Column title="organisation" dataIndex={['organisation', 'name']}/>
+                <Column title="Company" dataIndex={['company', 'name']}/>
                 <Column title="Role" dataIndex={"roleName"}/>
 
                 <Column

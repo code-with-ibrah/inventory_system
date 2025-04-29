@@ -9,6 +9,7 @@ import {deleteRole, getAllRoles} from "../../../state/role/rolesAction.ts";
 import { FiPlusCircle } from "react-icons/fi";
 import TlaEdit from "../../../common/tla-edit.tsx";
 import TlaDelete from "../../../common/tla-delete.tsx";
+import {commonQuery} from "../../../utils/query.ts";
 
 
 const Roles: React.FC = () => {
@@ -17,9 +18,9 @@ const Roles: React.FC = () => {
     return (
         <div className={'bg-white rounded-2xl p-5'}>
             <TlaOpen to={MenuLinks.admin.config.roleForm}>
-                <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New Role</Button>
+                <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New</Button>
             </TlaOpen>
-            <TlaTableWrapper getData={getAllRoles} data={data} filter={""} meta={meta}>
+            <TlaTableWrapper getData={getAllRoles} data={data} filter={commonQuery()} meta={meta}>
                 <Column title="Name" dataIndex="name"/>
                 <Column
                     title={'Action'}

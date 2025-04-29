@@ -30,6 +30,8 @@ import Users from "../../pages/config/users";
 import Roles from "../../pages/config/roles";
 import InstallmentPlans from "../../pages/config/installment-plan";
 import PaymentMethods from "../../pages/config/payment-method";
+import GoodsReceipt from "../../pages/goods-receipt";
+import GoodsReceiptItems from "../../pages/goods-receipt/items";
 
 
 export const AppProtectedRoutes = () => {
@@ -90,6 +92,10 @@ export const AppProtectedRoutes = () => {
                         <Route path={MenuLinks.admin.config.installmentPlan} element={<InstallmentPlans/>}/>
                         <Route path={MenuLinks.admin.config.paymentMethod} element={<PaymentMethods/>}/>
                     </Route>
+
+                    {/* goods receipt */}
+                    <Route path={MenuLinks.admin.goodsReceipt.index} element={<GoodsReceipt/>}/>
+                    <Route path={MenuLinks.admin.goodsReceipt.itemIndex} element={<GoodsReceiptItems/>}/>
 
 
                     <Route path={'*'} element={<AdminNotFound/>}/>

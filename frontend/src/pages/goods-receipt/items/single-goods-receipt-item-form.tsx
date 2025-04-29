@@ -5,15 +5,13 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {TlaError, TlaSuccess} from "../../../utils/messages.ts";
 import {useAppDispatch, useAppSelector} from "../../../hooks";
 import { TlaModal } from "../../../common/pop-ups/TlaModal.tsx";
-import {
-    updateStockAdjustmentItem
-} from "../../../state/stock-adjustment-item/stockAdjustmentItemAction.ts"; 
+import { updateStockAdjustmentItem } from "../../../state/stock-adjustment-item/stockAdjustmentItemAction.ts";
 import InputFake from "../../../common/input-fake.tsx";
 import { currencyFormat } from "../../../utils";
 
 
 
-const SingleStockAdjustmentItemForm: React.FC = () => {
+const SingleGoodsReceiptItemForm: React.FC = () => {
     const { state } = useLocation();
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
@@ -45,7 +43,7 @@ const SingleStockAdjustmentItemForm: React.FC = () => {
     };
 
     return (
-        <TlaModal title={"Stock Adjustment Item"} loading={loading}>
+        <TlaModal title={"Goods Receipt Item"} loading={loading}>
             <Form requiredMark={false} form={form} onFinish={onFinish} initialValues={{...state?.data}} size={'large'} layout={"vertical"}>
                 <div className={'grid grid-cols-1 md:grid-cols-2 gap-2'}>
 
@@ -85,4 +83,4 @@ const SingleStockAdjustmentItemForm: React.FC = () => {
     )
 }
 
-export default SingleStockAdjustmentItemForm;
+export default SingleGoodsReceiptItemForm;
