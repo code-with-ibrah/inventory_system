@@ -9,7 +9,10 @@ export type GoodsReceipt = {
     conditionOfGoods: number,
     isActive: boolean,
     isDeleted: boolean,
+    isRecorded: boolean,
     companyId: number,
+    updatedAt: string,
+    receiptNumber: string
 }
 
 export interface GoodsReceiptType extends PaginatedData {

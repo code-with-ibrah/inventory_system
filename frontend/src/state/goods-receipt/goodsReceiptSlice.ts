@@ -2,11 +2,11 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {env} from "../../config/env";
 import {
     createGoodsReceipt,
-    deleteGoodsReceipt, getAllGoodsReceipts,
+    deleteGoodsReceipt, getAllGoodsReceipts, markGoodsReceiptAsCompleted,
     toggleGoodsReceipt,
     updateGoodsReceipt
 } from "./goodsReceiptAction.ts";
-import {GoodsReceiptsState} from "../../types/goods-receipt.ts";
+import {GoodsReceipt, GoodsReceiptsState} from "../../types/goods-receipt.ts";
 
 const initialState: GoodsReceiptsState= {
     goodsReceipt: {
@@ -46,7 +46,18 @@ const initialState: GoodsReceiptsState= {
     },
 
     goodsReceiptItem: {
-        id: 0
+        id: 0,
+        supplierId: 0,
+        userId: 0,
+        date: "",
+        totalAmount: 0,
+        conditionOfGoods: 0,
+        isActive: false,
+        isDeleted: false,
+        isRecorded: false,
+        companyId: 0,
+        updatedAt: "",
+        receiptNumber: ""
     }
 };
 
@@ -64,13 +75,17 @@ const goodsReceiptSlice = createSlice({
             state.goodsReceipt.data.push(action.payload)
         }).addCase(getAllGoodsReceipts.fulfilled, (state, action) => {
             state.goodsReceipt = action.payload
-        }) .addCase(updateGoodsReceipt.fulfilled, (state, action) => {
+        }).addCase(updateGoodsReceipt.fulfilled, (state, action) => {
             state.goodsReceipt.data = state.goodsReceipt.data.map((goodsReceipt) => {
                 return goodsReceipt.id === action.payload.id ? action.payload : goodsReceipt
             })
         }) .addCase(deleteGoodsReceipt.fulfilled, (state, action: PayloadAction<any>) => {
             state.goodsReceipt.data = state.goodsReceipt.data.filter((goodsReceipt: GoodsReceipt) => goodsReceipt.id !== action.payload)
         }).addCase(toggleGoodsReceipt.fulfilled, (state, action) => {
+            state.goodsReceipt.data = state.goodsReceipt.data.map((goodsReceipt: GoodsReceipt) => {
+                return goodsReceipt.id == action.payload.id ? action.payload : goodsReceipt
+            })
+        }).addCase(markGoodsReceiptAsCompleted.fulfilled, (state, action) => {
             state.goodsReceipt.data = state.goodsReceipt.data.map((goodsReceipt: GoodsReceipt) => {
                 return goodsReceipt.id == action.payload.id ? action.payload : goodsReceipt
             })

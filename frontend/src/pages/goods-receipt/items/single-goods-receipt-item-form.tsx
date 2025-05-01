@@ -1,14 +1,15 @@
 import React, {useState} from "react";
-import {Button, Form, Input, Select} from "antd";
+import {Button, Form, Input} from "antd";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {useLocation, useNavigate} from "react-router-dom";
-import {TlaError, TlaSuccess} from "../../../utils/messages.ts";
+import {TlaError, TlaSuccess } from "../../../utils/messages.ts";
 import {useAppDispatch, useAppSelector} from "../../../hooks";
-import { TlaModal } from "../../../common/pop-ups/TlaModal.tsx";
-import { updateStockAdjustmentItem } from "../../../state/stock-adjustment-item/stockAdjustmentItemAction.ts";
-import InputFake from "../../../common/input-fake.tsx";
-import { currencyFormat } from "../../../utils";
-
+import {TlaModal} from "../../../common/pop-ups/TlaModal.tsx";
+import DropdownSearch from "../../../common/dropdown-search.tsx";
+import {getAllProducts} from "../../../state/product/productAction.ts";
+import {commonQuery} from "../../../utils/query.ts";
+import {Product} from "../../../types/product.ts";
+import {updateGoodsReceiptItem} from "../../../state/goods-receipt/items/goodsReceiptItemAction.ts";
 
 
 const SingleGoodsReceiptItemForm: React.FC = () => {
@@ -18,69 +19,72 @@ const SingleGoodsReceiptItemForm: React.FC = () => {
     const [form] = Form.useForm<any>();
     const navigate = useNavigate();
     const user = useAppSelector(state => state.auth.user);
-    const adjustmentItem = useAppSelector(state => state.stockAdjustment.stockAdjustmentItem);
+    const goodsReceiptItem = useAppSelector(state => state.goodsReceipt.goodsReceiptItem);
 
     const onFinish = (values: any) => {
         setLoading(true);
         values.companyId = user?.companyId;
-        values.adjustedQuantity = Math.abs(+values.adjustedQuantity);
-        values.adjustedQuantity = (values.status == "addition") ? +values.adjustedQuantity : (values.adjustedQuantity * -1);
-        values.adjustmentId = adjustmentItem.id;
-        values.companyId = user?.companyId;
-        values.productId = state?.data?.productId;
+        values.goodsReceiptId = goodsReceiptItem?.id;
 
-        dispatch(updateStockAdjustmentItem({ data: values, id: state?.data?.id})) 
-        .then(unwrapResult)
-        .then(() => {
-            TlaSuccess("Successful");
-            setLoading(false);
-            navigate(-1)
-        })
-        .catch((err: any) => {
-            TlaError(err?.message ?? "");
-            setLoading(false)
-        })
-    };
+        dispatch(updateGoodsReceiptItem({ data: values, id: state?.data?.id}))
+            .then(unwrapResult)
+            .then(() => {
+                TlaSuccess("Successful");
+                setLoading(false);
+                navigate(-1);
+            })
+            .catch((err) => {
+                TlaError(err?.message ?? "");
+                setLoading(false);
+            })
+    }
+
 
     return (
         <TlaModal title={"Goods Receipt Item"} loading={loading}>
-            <Form requiredMark={false} form={form} onFinish={onFinish} initialValues={{...state?.data}} size={'large'} layout={"vertical"}>
+            <Form requiredMark={false} form={form} onFinish={onFinish}
+                  initialValues={{...state?.data}} size={'large'} layout={"vertical"}>
                 <div className={'grid grid-cols-1 md:grid-cols-2 gap-2'}>
 
-                    <Form.Item label={'Product'}>
-                        <InputFake value={state?.data?.product}/> 
+                    <Form.Item
+                        rules={[{required: true, message: "Required"}]}
+                        className={'col-span-2'}
+                        name={"productId"} label={"Product *"}>
+                        <DropdownSearch
+                            object
+                            defaultValue={state?.data?.product?.name}
+                            searchApi={getAllProducts}
+                            extraParams={commonQuery()}
+                            placeholder="click to select product"
+                            setResult={(product: Product) => {
+                                if (product) {
+                                    form.setFieldValue("productId", product.id)
+                                    return
+                                }
+                                form.setFieldValue("productId", null)
+                            }}
+                        />
                     </Form.Item>
 
                     <Form.Item
-                        name={"adjustedQuantity"} label={"Adjusted Quantity *"}
+                        name={"quantityReceived"} label={"Quantity *"}
                         rules={[{ required: true, message: "Required" }]}>
                         <Input type="number" min={'0'}/>
                     </Form.Item>
 
-                    <Form.Item label={'Previous Adjustment Cost'}>
-                        <InputFake value={currencyFormat(+state?.data?.associatedCost)}/> 
-                    </Form.Item>
-
                     <Form.Item
-                        name={'status'}
-                        label={'Status'}
-                        rules={[{required: true, message: "Required"}]}>
-                        <Select defaultValue={null}>
-                            <Select.Option key={0} value={null}>Choose One</Select.Option>
-                            <Select.Option key={1} value={'addition'}>Addition</Select.Option>
-                            <Select.Option key={2} value={'subtraction'}>Subtract</Select.Option>
-                        </Select>
+                        name={"unitPriceAtReceipt"} label={"Unit Price *"}
+                        rules={[{ required: true, message: "Required" }]}>
+                        <Input type="number" min={'0'}/>
                     </Form.Item>
 
                 </div>
-                <div>
-                    <Button className={'btn-red block ml-auto'} htmlType={"submit"}>
-                        Save
-                    </Button>
-                </div>
+                <Button className={'btn-red flex ml-auto'} htmlType={"submit"}>
+                    Save
+                </Button>
             </Form>
         </TlaModal>
     )
 }
 
-export default SingleGoodsReceiptItemForm;
+export default SingleGoodsReceiptItemForm

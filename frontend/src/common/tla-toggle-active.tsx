@@ -6,20 +6,23 @@ import TlaConfirm from "./tla-confirm.tsx";
 
 interface Props {
     callBack: AsyncThunk<any, any, any>
-    column: number | string
+    column: number | string | any
     title?: string,
-    text?: string
+    text?: string,
+    message?: string,
 }
 
-const TlaToggleActive = ({ callBack, column, title, text }: Props) => {
+const TlaToggleActive = ({ callBack, column, title, text,
+                             message = `Do you want to change the active status for this ${title}?`
+}: Props) => {
     const dispatch = useAppDispatch()
 
     return (
         <TlaConfirm
             okText={'Confirm'}
             showIcon={false}
-            title={'Confirm ?'}
-            fullText={`Do you want to change the active status for this ${title}?`}
+            title={'Confirmation'}
+            fullText={message}
             callBack={() => {
                 dispatch(callBack(column))
                     .then(unwrapResult)

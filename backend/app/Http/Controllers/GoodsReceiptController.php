@@ -6,12 +6,16 @@ use App\Http\Api\query\models\GoodsReceiptQuery;
 use App\Http\Api\response\ApiResponse;
 use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Requests\goods_receipt\GoodsReceiptRequest;
+use App\Http\Requests\goods_receipt\UpdateGoodsReceiptRequest;
 use App\Http\Resources\goods_receipt\GoodsReceiptResource;
 use App\Http\Resources\goods_receipt\GoodsReceiptResourceCollection;
 use App\Models\GoodsReceipt;
+use App\Models\GoodsReceiptItem;
+use App\Models\Stock;
 use App\Utils\Globals;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class GoodsReceiptController extends Controller
 {
@@ -34,10 +38,10 @@ class GoodsReceiptController extends Controller
         return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
             return new GoodsReceiptResourceCollection(
                 GoodsReceipt::where($queryItems)
-                ->with('user')
-                ->with('supplier')
-                ->orderBy('date', 'desc')
-                ->paginate($perPage)
+                    ->with('user')
+                    ->with('supplier')
+                    ->orderBy('date', 'desc')
+                    ->paginate($perPage)
             );
         });
     }
@@ -62,10 +66,11 @@ class GoodsReceiptController extends Controller
     }
 
 
-    public function update(GoodsReceiptRequest $request, $id)
+    public function update(UpdateGoodsReceiptRequest $request, $id)
     {
         $goodsReceipt = GoodsReceipt::findOrFail($id);
         $payload = PrepareRequestPayload::prepare($request);
+        unset($payload["receiptNumber"]);
         $goodsReceipt->update($payload);
 
         // Clear relevant cache on update
@@ -77,10 +82,9 @@ class GoodsReceiptController extends Controller
     public function destroy(GoodsReceipt $goodsReceipt, Request $request)
     {
         $shouldDeletePermantely = $request->query("delete");
-        if($shouldDeletePermantely){
+        if ($shouldDeletePermantely) {
             $goodsReceipt->delete();
-        }
-        else{
+        } else {
             $goodsReceipt->isDeleted = true;
             $goodsReceipt->save();
         }
@@ -94,6 +98,7 @@ class GoodsReceiptController extends Controller
     public function handleToggleAction($column, $id)
     {
         $goodsReceipt = GoodsReceipt::findOrFail($id);
+        array_push($this->toggleColumn, "isRecorded");
 
         if (!in_array($column, $this->toggleColumn)) {
             return ApiResponse::badRequest("The column, '$column', is not allowed for toggling.");
@@ -101,6 +106,27 @@ class GoodsReceiptController extends Controller
 
         $goodsReceipt->{$column} = !$goodsReceipt->{$column};
         $goodsReceipt->save();
+
+        // Clear relevant cache on toggle
+        $this->clearCache($this->cachePrefix, $id);
+        return new GoodsReceiptResource($goodsReceipt);
+    }
+
+
+    public function markGoodsReceiptAsCompleted($id)
+    {
+        $goodsReceipt = DB::transaction(function () use ($id) {
+            $goodsReceipt = GoodsReceipt::with('goodsReceiptItems')->findOrFail($id);
+            foreach ($goodsReceipt->goodsReceiptItems as $item) {
+                if($stock = Stock::where('productId', $item->productId)->first()){
+                    $stock->update(['quantityOnHand' => $stock->quantityOnHand + $item->quantityReceived]);
+                }
+            }
+            $goodsReceipt->isRecorded = true;
+            $goodsReceipt->save();
+            return $goodsReceipt;
+        });
+
 
         // Clear relevant cache on toggle
         $this->clearCache($this->cachePrefix, $id);

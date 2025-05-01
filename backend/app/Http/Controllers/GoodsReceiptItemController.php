@@ -6,6 +6,7 @@ use App\Http\Api\query\models\GoodsReceiptItemQuery;
 use App\Http\Api\response\ApiResponse;
 use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Requests\goods_receipt_item\GoodsReceiptItemRequest;
+use App\Http\Requests\goods_receipt_item\UpdateGoodsReceiptItemRequest;
 use App\Http\Resources\goods_receipt_item\GoodsReceiptItemResource;
 use App\Http\Resources\goods_receipt_item\GoodsReceiptItemResourceCollection;
 use App\Http\Resources\stockAdjustmentItem\StockAdjustmentItemResourceCollection;
@@ -59,13 +60,20 @@ class GoodsReceiptItemController extends Controller
                 if ($allProductInStock->has($productId)) {
                     $stock = $allProductInStock[$productId];
                     $payload = ($goodsReceiptItem);
+                    $currentProductId = $payload["productId"];
 
-                    $unitCostAtAdjustment = $stock->product->unitPrice;
+
+                    // Check if a GoodsReceiptItem with the same productId and goodsReceiptId already exists
+                    if (GoodsReceiptItem::where('productId', $productId)
+                        ->where('goodsReceiptId', $payload['goodsReceiptId'])
+                        ->exists()) {
+                        return ApiResponse::duplicate("One or more of the products already exists");
+                    }
 
                     $createdItems->push(new GoodsReceiptItem(array_merge($payload, [
-                        'productId' => $payload["productId"],
+                        'productId' => $currentProductId,
                         'quantityReceived' => $payload["quantityReceived"],
-                        'unitCostAtAdjustment' => $unitCostAtAdjustment,
+                        'unitCostAtAdjustment' => $stock->product->unitPrice,
                         'goodsReceiptId' => $payload['goodsReceiptId'],
                         'companyId' => $payload['companyId']
                     ])));
@@ -90,57 +98,68 @@ class GoodsReceiptItemController extends Controller
     }
 
 
-    public function show(GoodsReceiptItem $GoodsReceiptItem)
+    public function show(GoodsReceiptItem $goodsReceiptItem)
     {
-        $cacheKey = $this->cachePrefix . 'show:' . $GoodsReceiptItem->id;
-        return Cache::rememberForever($cacheKey, function () use ($GoodsReceiptItem) {
-            return new GoodsReceiptItemResource($GoodsReceiptItem);
+        $cacheKey = $this->cachePrefix . 'show:' . $goodsReceiptItem->id;
+        return Cache::rememberForever($cacheKey, function () use ($goodsReceiptItem) {
+            return new GoodsReceiptItemResource($goodsReceiptItem);
         });
     }
 
 
-    public function update(GoodsReceiptItemRequest $request, $id)
+    public function update(UpdateGoodsReceiptItemRequest $request, $id)
     {
-        $GoodsReceiptItem = GoodsReceiptItem::findOrFail($id);
+        $goodsReceiptItem = GoodsReceiptItem::findOrFail($id);
         $payload = PrepareRequestPayload::prepare($request);
-        $GoodsReceiptItem->update($payload);
+
+        $existingGoodsReceiptItem = GoodsReceiptItem
+            ::where("productId", $payload['productId'])
+            ->where("goodsReceiptId", $payload["goodsReceiptId"])
+            ->first();
+
+        if($existingGoodsReceiptItem != null && ($existingGoodsReceiptItem->productId != $goodsReceiptItem->productId))
+        {
+            return ApiResponse::duplicate("This product already exists");
+        }
+
+        $goodsReceiptItem->update($payload);
 
         // Clear relevant cache on update
         $this->clearCache($this->cachePrefix, $id);
-        return new GoodsReceiptItemResource($GoodsReceiptItem);
+        return new GoodsReceiptItemResource($goodsReceiptItem);
     }
 
 
-    public function destroy(GoodsReceiptItem $GoodsReceiptItem, Request $request)
+    public function destroy(GoodsReceiptItem $goodsReceiptItem, Request $request)
     {
         $shouldDeletePermantely = $request->query("delete");
         if($shouldDeletePermantely){
-            $GoodsReceiptItem->delete();
+            $goodsReceiptItem->delete();
         }
         else{
-            $GoodsReceiptItem->isDeleted = true;
-            $GoodsReceiptItem->save();
+            $goodsReceiptItem->isDeleted = true;
+            $goodsReceiptItem->save();
         }
 
         // Clear relevant cache on delete
-        $this->clearCache($this->cachePrefix, $GoodsReceiptItem->id);
-        return new GoodsReceiptItemResource($GoodsReceiptItem);
+        $this->clearCache($this->cachePrefix, $goodsReceiptItem->id);
+        return new GoodsReceiptItemResource($goodsReceiptItem);
     }
 
 
     public function handleToggleAction($column, $id)
     {
-        $GoodsReceiptItem = GoodsReceiptItem::findOrFail($id);
+        $goodsReceiptItem = GoodsReceiptItem::findOrFail($id);
 
         if (!in_array($column, $this->toggleColumn)) {
             return ApiResponse::badRequest("The column, '$column', is not allowed for toggling.");
         }
 
-        $GoodsReceiptItem->{$column} = !$GoodsReceiptItem->{$column};
-        $GoodsReceiptItem->save();
+        $goodsReceiptItem->{$column} = !$goodsReceiptItem->{$column};
+        $goodsReceiptItem->save();
 
         // Clear relevant cache on toggle
         $this->clearCache($this->cachePrefix, $id);
-        return new GoodsReceiptItemResource($GoodsReceiptItem);
+        return new GoodsReceiptItemResource($goodsReceiptItem);
     }
 }

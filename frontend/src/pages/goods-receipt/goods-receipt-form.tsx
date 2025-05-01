@@ -11,6 +11,7 @@ import {getAllSuppliers} from "../../state/supplier/supplierAction.ts";
 import {Supplier} from "../../types/supplier.ts";
 import InputFake from "../../common/input-fake.tsx";
 import {createGoodsReceipt, updateGoodsReceipt} from "../../state/goods-receipt/goodsReceiptAction.ts";
+import {generateUniqueCode} from "../../utils";
 
 
 const GoodsReceiptForm: React.FC = () => {
@@ -25,6 +26,7 @@ const GoodsReceiptForm: React.FC = () => {
         setLoading(true);
         values.companyId = user?.companyId;
         values.userId = user?.id;
+        values.receiptNumber = generateUniqueCode("REC-", 12);
         ((state?.data && state?.data?.id) ? dispatch(updateGoodsReceipt({ data: values, id: state?.data?.id}))
             : dispatch(createGoodsReceipt(values)))
             .then(unwrapResult)
@@ -38,8 +40,6 @@ const GoodsReceiptForm: React.FC = () => {
                 setLoading(false);
             })
     }
-
-
 
     return (
         <TlaModal title={"Goods Receipt"} loading={loading}>
@@ -65,6 +65,7 @@ const GoodsReceiptForm: React.FC = () => {
                         rules={[{required:true, message:"Required"}]}
                         name={"supplierId"} label={"Supplier"}>
                         <DropdownSearch
+                            defaultValue={state?.data?.supplier?.name}
                             object
                             searchApi={getAllSuppliers}
                             placeholder="click to select supplier"

@@ -1,6 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {
-    createBulkGoodsReceiptItems,
     createGoodsReceiptItem,
     deleteGoodsReceiptItem, getAllGoodsReceiptItems,
     toggleGoodsReceiptItem,
@@ -68,9 +67,11 @@ const goodsReceiptItemSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(createGoodsReceiptItem.fulfilled, (state, action) => {
             state.goodsReceiptItem.data.push(action.payload)
-        }).addCase(createBulkGoodsReceiptItems.fulfilled, (state, action) => {
-            state.goodsReceiptItem.data.push(...action.payload);
-        }).addCase(getAllGoodsReceiptItems.fulfilled, (state, action) => {
+        })
+            // .addCase(createBulkGoodsReceiptItems.fulfilled, (state, action) => {
+            //     state.goodsReceiptItem.data.push(...action.payload);
+            // })
+            .addCase(getAllGoodsReceiptItems.fulfilled, (state, action) => {
             state.goodsReceiptItem = action.payload
         }) .addCase(updateGoodsReceiptItem.fulfilled, (state, action) => {
             state.goodsReceiptItem.data = state.goodsReceiptItem.data.map((goodsReceiptItem) => {

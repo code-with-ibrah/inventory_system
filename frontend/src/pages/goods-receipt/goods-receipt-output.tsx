@@ -68,12 +68,12 @@ const GoodsReceiptOutput = () => {
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td colSpan="4" className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Subtotal:
+                        <td colSpan={4} className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Subtotal:
                         </td>
                         <td className="px-4 py-3 text-right text-sm font-semibold text-gray-700">[Subtotal Amount]</td>
                     </tr>
                     <tr>
-                        <td colSpan="4" className="px-4 py-3 text-right text-sm font-semibold text-gray-800">Grand
+                        <td colSpan={4} className="px-4 py-3 text-right text-sm font-semibold text-gray-800">Grand
                             Total:
                         </td>
                         <td className="px-4 py-3 text-right text-xl font-bold text-indigo-600">[Grand Total Amount]</td>
