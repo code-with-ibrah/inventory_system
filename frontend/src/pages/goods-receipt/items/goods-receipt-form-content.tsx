@@ -10,7 +10,10 @@ import {useAppDispatch, useAppSelector} from "../../../hooks";
 import DropdownSearch from "../../../common/dropdown-search.tsx";
 import {commonQuery} from "../../../utils/query.ts";
 import {Product} from "../../../types/product.ts";
-import {createBulkGoodsReceiptItems} from "../../../state/goods-receipt/items/goodsReceiptItemAction.ts";
+import {
+    createBulkGoodsReceiptItems,
+    getAllGoodsReceiptItems
+} from "../../../state/goods-receipt/items/goodsReceiptItemAction.ts";
 
 
 interface Props {
@@ -34,9 +37,14 @@ const GoodsReceiptFormContent: React.FC<Props> = ({setLoading, form}) => {
             return record;
         });
 
+        
+
         dispatch(createBulkGoodsReceiptItems(goodsReceiptItem))
             .then(unwrapResult).then(() => {
             setLoading(false);
+            dispatch(getAllGoodsReceiptItems(
+                commonQuery(`&goodsReceiptId[eq]=${selectedGoodsReceiptItem?.id}`))
+            );
             TlaSuccess("Success");
             navigate(-1);
         }).catch((err: any) => {

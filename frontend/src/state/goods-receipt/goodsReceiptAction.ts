@@ -79,7 +79,21 @@ export const toggleGoodsReceipt = createAsyncThunk(
             const res = await api().put(`/goods-receipts-toggle/${data.column}/${data.id}`);
 
             return res.data.data
+        } catch (err: any) {
+            if (!err.response) {
+                throw err;
+            }
+            throw rejectWithValue(err.response.data)
+        }
+    }
+)
 
+export const markGoodsReceiptAsCompleted = createAsyncThunk(
+    "goodsReceipt/markGoodsReceiptAsCompleted", async (id: number, {rejectWithValue}) => {
+        try {
+            const res = await api().put(`/goods-receipts-received/${id}`);
+
+            return res.data.data
         } catch (err: any) {
             if (!err.response) {
                 throw err;

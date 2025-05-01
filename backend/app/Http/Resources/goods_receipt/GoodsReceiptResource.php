@@ -15,6 +15,7 @@ class GoodsReceiptResource extends JsonResource
             "date" => $this->date,
             "totalAmount" => $this->totalAmount,
             "conditionOfGoods" => $this->conditionOfGoods,
+            "receiptNumber" => $this->receiptNumber,
             "userId" => $this->userId,
             "user" => $this->user ?
                 [
@@ -24,7 +25,9 @@ class GoodsReceiptResource extends JsonResource
             "supplierId" => $this->supplierId,
             "supplier" => $this->supplier ? new SupplierResource($this->supplier) : null,
             "isActive" => $this->isActive,
-            "isDeleted" => $this->isDeleted
+            "isDeleted" => $this->isDeleted,
+            "isRecorded" => $this->isRecorded,
+            "updatedAt" => $this->updated_at
         ];
     }
 }

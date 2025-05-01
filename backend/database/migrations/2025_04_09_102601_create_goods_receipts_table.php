@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('goods_receipts', function (Blueprint $table) {
             $table->id();
+            $table->string("receiptNumber")->unique();
             $table->foreignId("supplierId")->constrained("suppliers");
             $table->foreignId("userId")->constrained("users");
             $table->string("date");
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->foreignId("currencyId")->constrained("currencies");
             $table->boolean("isActive")->default(true);
             $table->boolean("isDeleted")->default(false);
+            $table->boolean("isRecorded")->default(false);
             $table->timestamps();
             $table->foreignId("companyId")->constrained("companies");
         });

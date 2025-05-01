@@ -110,42 +110,43 @@ Route::group(['prefix' => ''], function()
 
     // warehouse endpoints
     Route::apiResource("warehouses", WarehouseController::class);
-    Route::put("warehouses/{column}/{id}", [WarehouseController::class, "handleToggleAction"]);
+    Route::put("warehouses-toggle/{column}/{id}", [WarehouseController::class, "handleToggleAction"]);
 
 
     // installment plan endpoints
     Route::apiResource("installment-plans", InstallmentPlanController::class);
-    Route::put("installment-plans/{column}/{id}", [InstallmentPlanController::class, "handleToggleAction"]);
+    Route::put("installment-plans-toggle/{column}/{id}", [InstallmentPlanController::class, "handleToggleAction"]);
 
 
     // payment method endpoints
     Route::apiResource("payment-methods", PaymentMethodController::class);
-    Route::put("payment-methods/{column}/{id}", [PaymentMethodController::class, "handleToggleAction"]);
+    Route::put("payment-methods-toggle/{column}/{id}", [PaymentMethodController::class, "handleToggleAction"]);
 
 
     // goods receipt endpoints
     Route::apiResource("goods-receipts", GoodsReceiptController::class);
-    Route::put("goods-receipts/{column}/{id}", [GoodsReceiptController::class, "handleToggleAction"]);
+    Route::put("goods-receipts-toggle/{column}/{id}", [GoodsReceiptController::class, "handleToggleAction"]);
+    Route::put("goods-receipts-received/{goodsReceiptId}", [GoodsReceiptController::class, "markGoodsReceiptAsCompleted"]);
 
 
     // goods receipt item endpoints
     Route::apiResource("goods-receipt-items", GoodsReceiptItemController::class);
-    Route::put("goods-receipt-items/{column}/{id}", [GoodsReceiptItemController::class, "handleToggleAction"]);
+    Route::put("goods-receipt-items-toggle/{column}/{id}", [GoodsReceiptItemController::class, "handleToggleAction"]);
 
 
     // stocks endpoints
     Route::apiResource("stocks", StockController::class);
-    Route::put("stocks/{column}/{id}", [StockController::class, "handleToggleAction"]);
+    Route::put("stocks-toggle/{column}/{id}", [StockController::class, "handleToggleAction"]);
 
 
     // stock-adjustment endpoints
     Route::apiResource("stock-adjustments", StockAdjustmentController::class);
-    Route::put("stock-adjustments/{column}/{id}", [StockAdjustmentController::class, "handleToggleAction"]);
+    Route::put("stock-adjustments-toggle/{column}/{id}", [StockAdjustmentController::class, "handleToggleAction"]);
 
 
     // stock-adjustment-item endpoints
     Route::apiResource("stock-adjustment-items", StockAdjustmentItemController::class);
-    Route::put("stock-adjustment-items/{column}/{id}", [StockAdjustmentItemController::class, "handleToggleAction"]);
+    Route::put("stock-adjustment-items-toggle/{column}/{id}", [StockAdjustmentItemController::class, "handleToggleAction"]);
 
 
     // orders endpoint
