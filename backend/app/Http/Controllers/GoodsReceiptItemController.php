@@ -49,52 +49,55 @@ class GoodsReceiptItemController extends Controller
         $createdItems = collect();
         $updatedStocks = collect();
 
+        try {
+            $createdGoodsReceiptItems = DB::transaction(function () use ($goodsReceiptsData, &$createdItems, &$updatedStocks) {
+                $productIds = collect($goodsReceiptsData)->pluck('productId')->unique()->toArray();
+                $allProductInStock = Stock::whereIn('productId', $productIds)->get()->keyBy('productId');
 
-        $createdGoodsReceiptItems = DB::transaction(function () use ($goodsReceiptsData, &$createdItems, &$updatedStocks) {
-            $productIds = collect($goodsReceiptsData)->pluck('productId')->unique()->toArray();
-            $allProductInStock = Stock::whereIn('productId', $productIds)->get()->keyBy('productId');
+                foreach ($goodsReceiptsData as $goodsReceiptItem) {
+                    $productId = $goodsReceiptItem['productId'];
 
-            foreach ($goodsReceiptsData as $goodsReceiptItem) {
-                $productId = $goodsReceiptItem['productId'];
+                    if ($allProductInStock->has($productId)) {
+                        $stock = $allProductInStock[$productId];
+                        $payload = ($goodsReceiptItem);
+                        $currentProductId = $payload["productId"];
 
-                if ($allProductInStock->has($productId)) {
-                    $stock = $allProductInStock[$productId];
-                    $payload = ($goodsReceiptItem);
-                    $currentProductId = $payload["productId"];
-
-
-                    // Check if a GoodsReceiptItem with the same productId and goodsReceiptId already exists
-                    if (GoodsReceiptItem::where('productId', $productId)
+                        // Check if a GoodsReceiptItem with the same productId and goodsReceiptId already exists
+                        if (GoodsReceiptItem::where('productId', $payload['productId']) // Corrected: Use $payload['productId']
                         ->where('goodsReceiptId', $payload['goodsReceiptId'])
-                        ->exists()) {
-                        return ApiResponse::duplicate("One or more of the products already exists");
+                            ->exists()) {
+                            throw new \Exception("One or more of the products already exists in the receipt.");
+                        }
+
+                        $createdItems->push(new GoodsReceiptItem(array_merge($payload, [
+                            'productId' => $currentProductId,
+                            'quantityReceived' => $payload["quantityReceived"],
+                            'unitCostAtAdjustment' => $stock->product->unitPrice,
+                            'goodsReceiptId' => $payload['goodsReceiptId'],
+                            'companyId' => $payload['companyId']
+                        ])));
+
+                        $updatedStocks->put($stock->id, $stock);
                     }
-
-                    $createdItems->push(new GoodsReceiptItem(array_merge($payload, [
-                        'productId' => $currentProductId,
-                        'quantityReceived' => $payload["quantityReceived"],
-                        'unitCostAtAdjustment' => $stock->product->unitPrice,
-                        'goodsReceiptId' => $payload['goodsReceiptId'],
-                        'companyId' => $payload['companyId']
-                    ])));
-
-                    $updatedStocks->put($stock->id, $stock);
                 }
-            }
 
-            // Batch insert StockAdjustmentItems after processing all
-            GoodsReceiptItem::insert($createdItems->toArray());
+                // Batch insert GoodsReceiptItems after processing all
+                GoodsReceiptItem::insert($createdItems->toArray());
 
-            // Batch update Stocks after processing all
-            $updatedStocks->each(function ($stock) {
-                $stock->save();
+                // Batch update Stocks after processing all
+                $updatedStocks->each(function ($stock) {
+                    $stock->save();
+                });
+
+                return $createdItems;
             });
 
-            return $createdItems;
-        });
+            // Clear relevant cache on create
+            return new GoodsReceiptItemResourceCollection($createdGoodsReceiptItems);
 
-        // Clear relevant cache on create
-        return new GoodsReceiptItemResourceCollection($createdGoodsReceiptItems);
+        } catch (\Exception $e) {
+            return ApiResponse::duplicate($e->getMessage());
+        }
     }
 
 

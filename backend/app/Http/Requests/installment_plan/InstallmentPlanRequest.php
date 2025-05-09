@@ -15,7 +15,7 @@ class InstallmentPlanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "plan" => ["required", "unique:installment_plans,plan"],
+            "name" => ["required", "unique:installment_plans,name"],
             "installmentPayCount" => ["required", "numeric"],
             "installmentMonthCount" => ["required", "numeric"],
             "interestRate" => ["required", "numeric"],

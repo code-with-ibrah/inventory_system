@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string("date");
             $table->decimal("amount", 10, 2);
-//            $table->foreignId("orderId")->constrained("orders");
+            $table->foreignId("orderId")->constrained("orders");
             $table->foreignId("customerId")->constrained("customers");
-            $table->foreignId("installmentPlanId")->constrained("installment_plans");
             $table->boolean("isActive")->default(true);
             $table->boolean("isDeleted")->default(false);
             $table->timestamps();

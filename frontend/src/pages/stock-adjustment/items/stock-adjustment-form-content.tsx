@@ -10,7 +10,10 @@ import {useAppDispatch, useAppSelector} from "../../../hooks";
 import DropdownSearch from "../../../common/dropdown-search.tsx";
 import {commonQuery} from "../../../utils/query.ts";
 import {Product} from "../../../types/product.ts";
-import {createBulkStockAdjustmentItems} from "../../../state/stock-adjustment-item/stockAdjustmentItemAction.ts";
+import {
+    createBulkStockAdjustmentItems,
+    getAllStockAdjustmentItems
+} from "../../../state/stock-adjustment-item/stockAdjustmentItemAction.ts";
 
 
 interface Props {
@@ -39,13 +42,14 @@ const StockAdjustmentFormContent: React.FC<Props> = ({setLoading, form}) => {
 
         dispatch(createBulkStockAdjustmentItems(stockAdjustmentItem))
             .then(unwrapResult).then(() => {
+            dispatch(getAllStockAdjustmentItems(commonQuery(`&adjustmentId[eq]=${adjustment?.id}`)));
             setLoading(false);
             TlaSuccess("Success");
             navigate(-1);
         }).catch((err: any) => {
             TlaError(err?.message ?? "");
             setLoading(false);
-            navigate(-1);
+            // navigate(-1);
         });
     };
 

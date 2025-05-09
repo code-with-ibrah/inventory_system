@@ -6,14 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('installment_plans', function (Blueprint $table) {
             $table->id();
-            $table->string("plan")->unique();
+            $table->string("name")->unique();
             $table->integer("installmentPayCount");
             $table->integer("installmentMonthCount");
             $table->decimal("interestRate", 10, 2)->default(0.00);
@@ -25,9 +23,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('installment_plans');

@@ -32,6 +32,15 @@ import InstallmentPlans from "../../pages/config/installment-plan";
 import PaymentMethods from "../../pages/config/payment-method";
 import GoodsReceipt from "../../pages/goods-receipt";
 import GoodsReceiptItems from "../../pages/goods-receipt/items";
+import GoodsReceiptInvoice from "../../pages/goods-receipt/goods-receipt-invoice.tsx";
+import Orders from "../../pages/orders";
+import OrderDetailLayout from "../../pages/orders/order-detail-layout.tsx";
+import OrdersInfo from "../../pages/orders/orders-info.tsx";
+import OrdersPayment from "../../pages/orders/orders-payment.tsx";
+import OrderCategoryLayout from "../../pages/orders/order-category-layout.tsx";
+import DeliveredOrders from "../../pages/orders/delivered-orders.tsx";
+import CancelledOrders from "../../pages/orders/cancelled-orders.tsx";
+import OrderItems from "../../pages/orders/item";
 
 
 export const AppProtectedRoutes = () => {
@@ -96,6 +105,20 @@ export const AppProtectedRoutes = () => {
                     {/* goods receipt */}
                     <Route path={MenuLinks.admin.goodsReceipt.index} element={<GoodsReceipt/>}/>
                     <Route path={MenuLinks.admin.goodsReceipt.itemIndex} element={<GoodsReceiptItems/>}/>
+                    <Route path={MenuLinks.admin.goodsReceipt.invoice} element={<GoodsReceiptInvoice/>}/>
+
+                    {/* orders */}
+                    <Route path={MenuLinks.admin.order.index} element={<OrderCategoryLayout/>} >
+                        <Route index element={<Orders/>} />
+                        <Route path={MenuLinks.admin.order.delivered} element={<DeliveredOrders/>} />
+                        <Route path={MenuLinks.admin.order.cancelled} element={<CancelledOrders/>} />
+                    </Route>
+                    <Route path={MenuLinks.admin.order.details.index} element={<OrderDetailLayout/>}>
+                        <Route index element={<OrdersInfo/>}/>
+                        <Route path={MenuLinks.admin.order.details.products} element={<OrderItems/>}/>
+                        <Route path={MenuLinks.admin.order.details.payment} element={<OrdersPayment/>} />
+                    </Route>
+
 
 
                     <Route path={'*'} element={<AdminNotFound/>}/>

@@ -11,7 +11,7 @@ const SingleItem: React.FC<Props> = ({title, value, className}) => {
         <div className={className}>
             <p className={'text-gray-500 font-medium text-md'}>{title}</p>
             <div>
-                <p className={'font-medium'}>{value}</p>
+                <p className={'font-medium'}>{value ?? "-"}</p>
             </div>
         </div>
     )

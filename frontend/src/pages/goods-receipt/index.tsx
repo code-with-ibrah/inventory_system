@@ -20,6 +20,7 @@ import {
 import {setSupplier} from "../../state/supplier/supplierSlice.ts";
 import {setGoodsReceipt} from "../../state/goods-receipt/goodsReceiptSlice.ts";
 import TlaToggleActive from "../../common/tla-toggle-active.tsx";
+import {FilePdfOutlined} from "@ant-design/icons";
 
 
 
@@ -37,6 +38,12 @@ const GoodsReceipts: React.FC = () => {
         dispatch(setSupplier(record));
         navigate(MenuLinks.admin.supplier.details.index);
     };
+
+    const goToInvoiceDetails = (record: any) => {
+        dispatch(setGoodsReceipt(record));
+        dispatch(setSupplier(record?.supplier));
+        navigate(MenuLinks.admin.goodsReceipt.invoice);
+    }
 
     return (
         <>
@@ -69,7 +76,7 @@ const GoodsReceipts: React.FC = () => {
 
                     <Column title="Status" render={(record) => <span>{record.isRecorded ? "Recorded" : "Not recorded"}</span>}/>
 
-                    <Column title={'Action'} render={((record) => (
+                    <Column title={'Action'} render={(record) => (
                             <TableActions items={[
                                 {
                                     key: '1',
@@ -90,6 +97,15 @@ const GoodsReceipts: React.FC = () => {
                                 {
                                     key: '3',
                                     label: (
+                                        record.isRecorded ? <button onClick={() => goToInvoiceDetails(record)}>
+                                            <FilePdfOutlined/>
+                                            Generate Invoice
+                                        </button> : <span className={'hidden'}/>
+                                    )
+                                },
+                                {
+                                    key: '4',
+                                    label: (
                                         !record.isRecorded ? <div className={'flex align-items-center gap-2'}>
                                             <FiCheck className={'mt-1'}/>
                                             <TlaToggleActive text={'Mark as recorded'}
@@ -101,7 +117,6 @@ const GoodsReceipts: React.FC = () => {
                                     )
                                 }
                             ]}/>
-                        )
                     )}/>
                 </TlaTableWrapper>
             </div>

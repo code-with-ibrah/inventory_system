@@ -17,6 +17,7 @@ class OrderQuery implements IBaseDBQuery
         "customerId" => ["eq", "neq"],
         "installmentPlanId" => ["eq", "neq"],
         "userId" => ["eq", "neq"],
+        "status" => ["eq", "neq"],
         "companyId" => ["eq", "neq"],
         "isActive" => ["eq", "neq"],
         "isDeleted" => ["eq", "neq"]

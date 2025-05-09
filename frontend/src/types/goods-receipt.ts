@@ -31,7 +31,7 @@ export type GoodsReceiptItem = {
     productId: number,
     quantityReceived: number,
     unitPriceAtReceipt: number,
-    companyId: number
+    companyId: number,
 }
 
 export interface GoodsReceiptItemType extends PaginatedData {

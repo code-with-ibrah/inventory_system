@@ -10,6 +10,8 @@ use App\Http\Controllers\GoodsReceiptController;
 use App\Http\Controllers\GoodsReceiptItemController;
 use App\Http\Controllers\InstallmentPlanController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderItemController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductSupplierController;
@@ -151,8 +153,13 @@ Route::group(['prefix' => ''], function()
 
     // orders endpoint
     Route::apiResource("orders", OrderController::class);
+    Route::put("orders/status/{id}", [OrderController::class, "updateOrderStatus"]);
+
+    // orders endpoint
+    Route::apiResource("order-items", OrderItemController::class);
 
 
-    // order items endpoints
+    // payment endpoint
+    Route::apiResource("payments", PaymentController::class);
 
 });

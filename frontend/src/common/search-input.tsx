@@ -2,15 +2,17 @@ import React, {useEffect, useState} from 'react';
 import {FiSearch} from "react-icons/fi";
 import {Button, Input} from "antd";
 import {useAppDispatch} from "../hooks";
+import {commonQuery} from "../utils/query.ts";
 
 interface Props {
     getData?: any;
     defaultValue?: string | number;
     columns: string[],
     placeholderColumn?: string,
+    additonalFilter?: string,
 }
 
-const SearchInput: React.FC<Props> = ({ getData, defaultValue, columns, placeholderColumn = "" }) => {
+const SearchInput: React.FC<Props> = ({ getData, defaultValue, columns, placeholderColumn = "name", additonalFilter = '' }) => {
     const [query, setQuery] = useState<string| null>('');
     const dispatch = useAppDispatch();
     const [filter, setFilter] = useState<string | null>('');
@@ -19,13 +21,16 @@ const SearchInput: React.FC<Props> = ({ getData, defaultValue, columns, placehol
     useEffect(() => {
         let fullFilterQuery = "";
         columns.map(column => fullFilterQuery += `${column}[lk]=%${query}%`);
+
+        fullFilterQuery += additonalFilter;
+
         setFilter(fullFilterQuery);
     }, [filter, columns, query]);
 
     const handleClear = () => {
         setLoading(true);
         setQuery(null);
-        dispatch(getData());
+        dispatch(getData(commonQuery()));
         setLoading(false);
     }
 
@@ -59,7 +64,7 @@ const SearchInput: React.FC<Props> = ({ getData, defaultValue, columns, placehol
             onChange={(e) => { e.target.value ? setQuery(e.target.value) : handleClear()} }
             prefix={<FiSearch size={20}/>}
             className={'dashboard-search'}
-            placeholder={`Search by name ${placeholderColumn}...`}
+            placeholder={`Search by ${placeholderColumn ?? 'name'}...`}
             type="search"
             onKeyUp={onKeyDownSearchhandler}
             suffix={

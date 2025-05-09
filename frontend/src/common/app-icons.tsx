@@ -1,5 +1,5 @@
 import React from "react";
-import {FiHome, FiKey, FiPhoneCall, FiSettings, FiUser} from "react-icons/fi";
+import {FiCheck, FiHome, FiKey, FiPhoneCall, FiSettings, FiShoppingCart, FiUser} from "react-icons/fi";
 import {LuChurch} from "react-icons/lu";
 import {FaEarthAfrica} from "react-icons/fa6";
 import {SiCircuitverse, SiGoogleanalytics, SiGoogleclassroom} from "react-icons/si";
@@ -14,6 +14,7 @@ import { PiStorefrontThin } from "react-icons/pi";
 import {TbBrandX} from "react-icons/tb";
 import {HiAdjustmentsHorizontal} from "react-icons/hi2";
 import {CiReceipt} from "react-icons/ci";
+import {AiFillCloseCircle} from "react-icons/ai";
 
 
 
@@ -23,7 +24,6 @@ export const appIconLabels = {
     config: 'config',
     contact: 'contact',
     funds: 'funds',
-    payment: 'add',
     category: 'category',
     graph: 'graph',
 
@@ -48,6 +48,10 @@ export const appIconLabels = {
     adjustment: "adjustment",
     role: "role",
     receipt: "receipt",
+    order: "order",
+    payment: 'payment',
+    cancelled: 'cancelled',
+    completed: 'completed',
 
 
 };
@@ -85,7 +89,10 @@ export const appIcons: { [key: string]: React.ReactNode } = {
     warehouse: <MdOutlineWarehouse />,
     adjustment: <HiAdjustmentsHorizontal />,
     role: <FiKey/>,
-    receipt: <CiReceipt/>
+    receipt: <CiReceipt/>,
+    order: <FiShoppingCart/>,
+    cancelled: <AiFillCloseCircle/>,
+    completed: <FiCheck/>
 
 };
 

@@ -9,15 +9,16 @@ import {FiChevronLeft, FiChevronRight} from "react-icons/fi";
 
 interface Props {
     data: any [],
-    meta: Meta,
+    meta: Meta | null,
     children: any,
     filter: any,
     loading?: boolean,
-    getData?: AsyncThunk<any, any, any>;
-    parameter?: any
+    getData?: AsyncThunk<any, any, any> | any;
+    parameter?: any,
+    isLocal?: boolean,
 }
 
-const TlaTableWrapper = ({data, children, loading, meta, filter, getData, parameter}: Props) => {
+const TlaTableWrapper = ({data, children, loading, meta, filter, getData, parameter, isLocal = false}: Props) => {
     const [dataFilter, _] = useState<any>();
     const { status } = useAppSelector(state => state.errors)
     const dispatch = useAppDispatch()
@@ -32,7 +33,15 @@ const TlaTableWrapper = ({data, children, loading, meta, filter, getData, parame
     // }
 
     useEffect(() => {
-        handleDataFetch();
+
+        if(isLocal){
+            dispatch(getData(''))
+        }
+        else{
+            handleDataFetch();
+        }
+
+
     }, [dataFilter]);
 
     const handleDataFetch = (pageNumber?: number) => {
@@ -41,19 +50,25 @@ const TlaTableWrapper = ({data, children, loading, meta, filter, getData, parame
         if(!pageNumber) filter += `&page=1`;
         else filter += `&page=${pageNumber}`;
 
-        if(parameter){
-            getData && dispatch(getData(parameter))
-                .then(unwrapResult)
-                .then(() => setFetch(false))
-                .catch(() => setFetch(false));
+        if(isLocal){
+            setFetch(false);
         }
         else
         {
-            getData &&
-            dispatch(getData(filter))
-                .then(unwrapResult)
-                .then(() => setFetch(false))
-                .catch(() => setFetch(false))
+            if(parameter){
+                getData && dispatch(getData(parameter))
+                    .then(unwrapResult)
+                    .then(() => setFetch(false))
+                    .catch(() => setFetch(false));
+            }
+            else
+            {
+                (getData) &&
+                dispatch(getData(filter))
+                    .then(unwrapResult)
+                    .then(() => setFetch(false))
+                    .catch(() => setFetch(false))
+            }
         }
     }
 

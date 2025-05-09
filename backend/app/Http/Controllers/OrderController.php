@@ -27,12 +27,17 @@ class OrderController extends Controller
         $cacheKey = $this->cachePrefix . 'index:' . md5(serialize([
                 $queryItems,
                 $perPage,
-                $request->query('page', 1),
+                $request->query('page', 1)
             ]));
 
         return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
             return new OrderResourceCollection(
                 Order::where($queryItems)
+                    ->with('user')
+                    ->with('installmentPlan')
+                    ->with('customer')
+                    ->with('payments')
+                    ->orderBy('date', 'desc')
                     ->paginate($perPage)
             );
         });
@@ -42,11 +47,18 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         $payload = PrepareRequestPayload::prepare($request);
+        $payload["originalPrice"] = $payload["amount"];
+        $discountPercentage = doubleval($payload["discount"]);
+        $actualAmount = doubleval($payload["amount"]);
+
+        // Calculate the discount amount
+        $discountAmount = ($discountPercentage / 100) * $actualAmount;
+        $newAmount = $actualAmount - $discountAmount;
+        $payload["amount"] = $newAmount;
         $order = Order::create($payload);
 
         // Clear relevant cache on create
         $this->clearCache($this->cachePrefix, $order->id);
-
         return new OrderResource($order);
     }
 
@@ -62,13 +74,21 @@ class OrderController extends Controller
 
     public function update(OrderRequest $request, $id)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::with('payments')->findOrFail($id);
+
         $payload = PrepareRequestPayload::prepare($request);
+        $payload["originalPrice"] = $payload["amount"];
+        $discountPercentage = doubleval($payload["discount"]);
+        $actualAmount = doubleval($payload["amount"]);
+
+        // Calculate the discount amount
+        $discountAmount = ($discountPercentage / 100) * $actualAmount;
+        $newAmount = $actualAmount - $discountAmount;
+        $payload["amount"] = $newAmount;
+
         $order->update($payload);
 
-        // Clear relevant cache on update
         $this->clearCache($this->cachePrefix, $id);
-
         return new OrderResource($order);
     }
 
@@ -87,25 +107,17 @@ class OrderController extends Controller
 
         // Clear relevant cache on delete
         $this->clearCache($this->cachePrefix, $order->id);
-
         return new OrderResource($order);
     }
 
 
-    public function handleToggleAction($column, $id)
+    public function updateOrderStatus(Request $request, $id)
     {
-        $order= Order::findOrFail($id); // Use findOrFail
+       $order = Order::with('payments')->findOrFail($id);
+       $order->status = $request->status;
+       $order->save();
 
-        if (!in_array($column, $this->toggleColumn)) {
-            return ApiResponse::badRequest("The column, '$column', is not allowed for toggling.");
-        }
-
-        $order->{$column} = !$order->{$column};
-        $order->save();
-
-        // Clear relevant cache on toggle
         $this->clearCache($this->cachePrefix, $id);
-
         return new OrderResource($order);
     }
 }

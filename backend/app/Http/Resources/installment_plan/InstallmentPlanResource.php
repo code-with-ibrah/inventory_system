@@ -7,13 +7,15 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class InstallmentPlanResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            "id" => $this->id,
+            "name" => $this->name,
+            "installmentPayCount" => $this->installmentPayCount,
+            "installmentMonthCount" => $this->installmentMonthCount,
+            "interestRate" => $this->interestRate,
+            "description" => $this->description,
+        ];
     }
 }
