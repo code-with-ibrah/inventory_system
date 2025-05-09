@@ -50,7 +50,7 @@ const GoodsReceiptFormContent: React.FC<Props> = ({setLoading, form}) => {
         }).catch((err: any) => {
             TlaError(err?.message ?? "");
             setLoading(false);
-            navigate(-1);
+            // navigate(-1);
         });
     };
 

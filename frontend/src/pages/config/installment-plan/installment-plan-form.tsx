@@ -47,7 +47,7 @@ const InstallmentPlanForm: React.FC = () => {
                                        message: "Required"
                                    }
                                ]}
-                               name={"plan"} label={"Plan *"}>
+                               name={"name"} label={"Name *"}>
                         <Input placeholder={'3 months plan'}/>
                     </Form.Item>
 

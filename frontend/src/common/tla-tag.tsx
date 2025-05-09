@@ -3,7 +3,7 @@ interface ITlaTag {
 }
 
 export const TlaSuccessTag = ({ text }: ITlaTag) => {
-  return <div className={"text-green-800 bg-green-100 tla-tag rounded-full text-center text-sm py-0.5 w-fit px-2"}>{text}</div>;
+  return <div className={"text-green-800 bg-green-100 tla-tag rounded text-center text-sm py-0.5 pt-1 w-fit px-2"}>{text}</div>;
 };
 
 export const TlaInfoTag = ({ text }: ITlaTag) => {
@@ -16,4 +16,8 @@ export const TlaGrayTag = ({ text }: ITlaTag) => {
 
 export const TlaErrorTag = ({ text }: ITlaTag) => {
   return <div className={"text-red-700 bg-red-100 tla-tag rounded-full text-center text-sm py-0.5 w-fit px-2"}>{text}</div>;
+};
+
+export const TlaYellowTag = ({ text }: ITlaTag) => {
+  return <div className={"text-yellow-500 bg-red-100 tla-tag rounded-full text-center text-sm py-0.5 w-fit px-2"}>{text}</div>;
 };

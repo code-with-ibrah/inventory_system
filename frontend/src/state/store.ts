@@ -14,7 +14,6 @@ import contestantSlice from "./contestant/contestantSlice.ts";
 import organisationSlice from "./organisations/organisationSlice.ts";
 import awardBonusSlice from "./award-bonus/awardBonusSlice.ts";
 import shareSlice from "./share/shareSlice.ts";
-import paymentSlice from "./payment/paymentSlice.ts";
 import roleSlice from "./role/roleSlice.ts";
 import dashboardSlice from "./dashboard/dashboardSlice.ts";
 import productSlice from "./product/productSlice.ts";
@@ -31,6 +30,9 @@ import installmentPlanSlice from "./installment-plan/installmentPlanSlice.ts";
 import paymentMethodSlice from "./payment-method/paymentMethodSlice.ts";
 import goodsReceiptSlice from "./goods-receipt/goodsReceiptSlice.ts";
 import goodsReceiptItemSlice from "./goods-receipt/items/goodsReceiptItemSlice.ts";
+import orderSlice from "./orders/orderSlice.ts";
+import paymentSlice from "./orders/payments/paymentSlice.ts";
+import orderItemSlice from "./orders/item/orderItemSlice";
 
 const persistConfig = {
     key: "root",
@@ -52,7 +54,6 @@ const rootReducers = combineReducers({
     contestant: contestantSlice,
     organisation: organisationSlice,
     awardBonusPackage: awardBonusSlice,
-    payment: paymentSlice,
     percentageShare: shareSlice,
     role: roleSlice,
     dashboardCounter: dashboardSlice,
@@ -73,6 +74,9 @@ const rootReducers = combineReducers({
     paymentMethod: paymentMethodSlice,
     goodsReceipt: goodsReceiptSlice,
     goodsReceiptItem: goodsReceiptItemSlice,
+    order: orderSlice,
+    payment: paymentSlice,
+    orderItem: orderItemSlice,
 
 })
 

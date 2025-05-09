@@ -85,6 +85,25 @@ export const MenuLinks = {
             itemIndex: "/admin/goods-receipt/details",
             itemForm: "/admin/goods-receipt/details/form",
             singleItemForm: "/admin/goods-receipt/details/single-form",
+            invoice: "/admin/goods-receipt/invoice",
+        },
+        order: {
+            index: "/admin/orders",
+            delivered: "/admin/orders/delivered",
+            cancelled: "/admin/orders/cancelled",
+            form: "/admin/orders/form",
+
+            details: {
+                index: "/admin/orders/details/",
+                products: "/admin/orders/details/products",
+                payment: "/admin/orders/details/payment",
+                paymentForm: "/admin/orders/details/payment-form",
+                statusForm: "/admin/orders/details/status-form",
+
+                singleProductForm: "/admin/orders/single-product",
+                manyProductForm: "/admin/orders/many-product-form",
+            },
+            invoice: "/admin/orders/invoice"
         }
 
     },

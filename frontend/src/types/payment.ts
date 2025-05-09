@@ -3,18 +3,9 @@ import {PaginatedData} from "./common.ts";
 export type Payment = {
     id: number,
     amount: number,
-    voteCount: number,
-    voteType: string,
-    awardId: number
-}
-
-export type PaymentStats = {
-    ussdVoteCount: number,
-    ussdVoteAmount: number,
-    webVoteCount: number,
-    webVoteAmount: number,
-    totalVoteCount: number,
-    totalVoteAmount: number
+    customerId: number,
+    orderId: number,
+    comanyId: number
 }
 
 export interface PaymentType extends PaginatedData {
@@ -25,6 +16,4 @@ export interface PaymentType extends PaginatedData {
 export interface PaymentsState {
     payment: PaymentType,
     paymentItem: Payment,
-    stats: PaymentStats,
-    ussdVerificationStatus: any
 }

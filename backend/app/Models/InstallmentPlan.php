@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class InstallmentPlan extends Model
 {
     protected $fillable = [
-        "plan", "installmentPayCount",
+        "name", "installmentPayCount",
         "installmentMonthCount", "interestRate",
         "description", "companyId", "isActive",
         "isDeleted"

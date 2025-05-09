@@ -52,49 +52,59 @@ class StockAdjustmentItemController extends Controller
         $createdItems = collect();
         $updatedStocks = collect();
 
+        try {
+            $createdStockAdjustmentItems = DB::transaction(function () use ($adjustmentsData, &$createdItems, &$updatedStocks) {
+                $productIds = collect($adjustmentsData)->pluck('productId')->unique()->toArray();
+                $stocks = Stock::whereIn('productId', $productIds)->get()->keyBy('productId');
 
-        $createdStockAdjustmentItems = DB::transaction(function () use ($adjustmentsData, &$createdItems, &$updatedStocks) {
-            $productIds = collect($adjustmentsData)->pluck('productId')->unique()->toArray();
-            $stocks = Stock::whereIn('productId', $productIds)->get()->keyBy('productId');
+                foreach ($adjustmentsData as $adjustmentData) {
+                    $productId = $adjustmentData['productId'];
 
-            foreach ($adjustmentsData as $adjustmentData) {
-                $productId = $adjustmentData['productId'];
+                    if ($stocks->has($productId)) {
+                        $stock = $stocks[$productId];
+                        $payload = ($adjustmentData);
 
-                if ($stocks->has($productId)) {
-                    $stock = $stocks[$productId];
-                    $payload = ($adjustmentData);
+                        // Check if a StockAdjustmentItem with the same productId and adjustmentIdentifier already exists
+                        if (StockAdjustmentItem::where('productId', $payload['productId'])
+                            ->where('adjustmentId', $payload['adjustmentId'])
+                            ->exists()) {
+                            throw new \Exception("Stock Adjustment for one or more product already exists.");
+                        }
 
-                    $previousQuantity = $stock->quantityOnHand;
-                    $adjustedQuantity = (int) $adjustmentData['adjustedQuantity'];
-                    $newQuantity = $previousQuantity + $adjustedQuantity;
-                    $unitCostAtAdjustment = $stock->product->unitPrice;
-                    $associatedCost = abs($unitCostAtAdjustment * $adjustedQuantity);
+                        $previousQuantity = $stock->quantityOnHand;
+                        $adjustedQuantity = (int) $adjustmentData['adjustedQuantity'];
+                        $newQuantity = $previousQuantity + $adjustedQuantity;
+                        $unitCostAtAdjustment = $stock->product->unitPrice;
+                        $associatedCost = abs($unitCostAtAdjustment * $adjustedQuantity);
 
-                    $createdItems->push(new StockAdjustmentItem(array_merge($payload, [
-                        'previousQuantity' => $previousQuantity,
-                        'newQuantity' => $newQuantity,
-                        'unitCostAtAdjustment' => $unitCostAtAdjustment,
-                        'associatedCost' => $associatedCost
-                    ])));
+                        $createdItems->push(new StockAdjustmentItem(array_merge($payload, [
+                            'previousQuantity' => $previousQuantity,
+                            'newQuantity' => $newQuantity,
+                            'unitCostAtAdjustment' => $unitCostAtAdjustment,
+                            'associatedCost' => $associatedCost
+                        ])));
 
-                    $stock->quantityOnHand = $newQuantity;
-                    $updatedStocks->put($stock->id, $stock);
+                        $stock->quantityOnHand = $newQuantity;
+                        $updatedStocks->put($stock->id, $stock);
+                    }
                 }
-            }
 
-            // Batch insert StockAdjustmentItems after processing all
-            StockAdjustmentItem::insert($createdItems->toArray());
+                // Batch insert StockAdjustmentItems after processing all
+                StockAdjustmentItem::insert($createdItems->toArray());
 
-            // Batch update Stocks after processing all
-            $updatedStocks->each(function ($stock) {
-                $stock->save();
+                // Batch update Stocks after processing all
+                $updatedStocks->each(function ($stock) {
+                    $stock->save();
+                });
+
+                return $createdItems;
             });
 
-            return $createdItems;
-        });
+            return new StockAdjustmentItemResourceCollection($createdStockAdjustmentItems);
 
-        // Clear relevant cache on create
-        return new StockAdjustmentItemResourceCollection($createdStockAdjustmentItems);
+        } catch (\Exception $e) {
+            return ApiResponse::duplicate($e->getMessage());
+        }
     }
 
 

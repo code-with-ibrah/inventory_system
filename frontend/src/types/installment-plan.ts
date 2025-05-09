@@ -2,7 +2,7 @@ import {PaginatedData} from "./common.ts";
 
 export type InstallmentPlan = {
     id: number,
-    plan: string,
+    name: string,
     installmentPayCount: number,
     installmentMonthCount: number,
     interestRate: number,

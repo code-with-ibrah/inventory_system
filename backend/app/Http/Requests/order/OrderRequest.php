@@ -18,10 +18,9 @@ class OrderRequest extends FormRequest
             "date" => ["required"],
             "customerId" => ["required", "exists:customers,id"],
             "amount" => ["required", "numeric"],
-            "currency" => ["required"],
-            "paymentMethodId" => ["required", "exists:payment_methods,id"],
             "installmentPlanId" => ["required", "exists:installment_plans,id"],
-            "companyId" => ["required", "exists:companies,id"]
+            "companyId" => ["required", "exists:companies,id"],
+            "userId" => ["required", "exists:users,id"]
         ];
     }
 }
