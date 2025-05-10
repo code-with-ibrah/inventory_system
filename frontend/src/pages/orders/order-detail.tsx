@@ -1,12 +1,10 @@
 import {useAppSelector} from "../../hooks";
-import {FiPlusCircle, FiPrinter} from "react-icons/fi";
+import {FiPlusCircle} from "react-icons/fi";
 import {TlaErrorTag, TlaSuccessTag, TlaYellowTag} from "../../common/tla-tag.tsx";
 import {orderStatus} from "../../utils/order-status.ts";
 import { Button } from "antd";
-import {Link} from "react-router-dom";
 import {MenuLinks} from "../../utils/menu-links.ts";
 import TlaOpen from "../../common/pop-ups/TlaOpen.tsx";
-import React from "react";
 
 
 const OrderDetail = () => {
@@ -28,7 +26,7 @@ const OrderDetail = () => {
 
             <TlaOpen to={MenuLinks.admin.order.invoiceForm}>
                 <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>Preview Invoice</Button>
-            </TlaOpen>
+            </TlaOpen> 
 
             </div>
 
