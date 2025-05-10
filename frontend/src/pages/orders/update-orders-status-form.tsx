@@ -18,6 +18,14 @@ const UpdateOrdersStatusForm: React.FC = () => {
     const navigate = useNavigate();
 
     const onFinish = (values: any) => {
+        if(values.status == orderStatus.delivered)
+        {
+            if(!confirm("Are you sure ? This action cannot be reversed")){
+                // navigate(-1);
+                return;
+            }
+        }
+
         setLoading(true);
         dispatch(updateOrderStatus({ data: values, id: state?.data?.id}))
             .then(unwrapResult)
@@ -33,7 +41,7 @@ const UpdateOrdersStatusForm: React.FC = () => {
     }
 
     return (
-        <TlaModal title={"Orders"} loading={loading}>
+        <TlaModal title={"Order Status"} loading={loading}>
             <Form requiredMark={false} form={form} onFinish={onFinish} initialValues={{...state?.data}} size={'large'} layout={"vertical"}>
                <br/>
                 <div className={'grid grid-cols-1 md:grid-cols-2 gap-2'}>

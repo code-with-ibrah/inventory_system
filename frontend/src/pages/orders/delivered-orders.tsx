@@ -33,7 +33,7 @@ const DeliveredOrders: React.FC = () => {
                 </TlaOpen>
 
 
-                <TlaTableWrapper getData={getAllOrders} data={data} filter={commonQuery(`&status[eq]=${orderStatus.delivered}`)} meta={meta} >
+                <TlaTableWrapper getData={getAllOrders} data={data} filter={commonQuery(`&status[eq]=${orderStatus.delivered}`)} meta={meta}>
                     <Column
                         title="Order Number"
                         render={(record: Order) => (
@@ -44,16 +44,11 @@ const DeliveredOrders: React.FC = () => {
 
                     <Column title="Date" render={(record: Order) => <span>{formatDate(record?.date)}</span>}/>
                     <Column title="Customer" render={(record: Order) => <span>{record?.customer?.name}</span>}/>
-                    <Column title="Discount Percentage" render={(record: Order) => <span>{record?.discount}%</span>}/>
-                    <Column title="Discount Amount"
-                            render={(record: Order) => <span>{currencyFormat(+record?.amount)}</span>}/>
                     <Column title="Status" className={'capitalize'} dataIndex={"status"}/>
-                    <Column title="Total Paid Amount"
-                            render={(record: Order) => <span>{currencyFormat(+record?.totalPayments)}</span>}/>
+                    <Column title="Total Paid Amount" render={(record: Order) => <span>{currencyFormat(+record?.totalPayments)}</span>}/>
                     <Column title="Payment Status" render={(record: Order) => <span>
                         {(+record?.totalPayments >= +record?.amount) ? 'Fully Paid' : 'Partial Payments'}
                     </span>}/>
-
                 </TlaTableWrapper>
             </div>
         </>

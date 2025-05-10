@@ -10,9 +10,10 @@ import {commonQuery} from "../../utils/query.ts";
 import {generateUniqueCode} from "../../utils";
 import {getAllCustomers} from "../../state/customer/customerAction.ts";
 import {Customer} from "../../types/customer.ts";
-import {getAllInstallmentPlans} from "../../state/installment-plan/installmentPlanAction.ts";
-import {InstallmentPlan} from "../../types/installment-plan.ts";
 import {createOrders, updateOrders} from "../../state/orders/receiptAction.ts";
+import {setOrderItem} from "../../state/orders/orderSlice.ts";
+import {Order} from "../../types/order.ts";
+import {orderStatus} from "../../utils/order-status.ts";
 
 
 const OrdersForm: React.FC = () => {
@@ -27,19 +28,36 @@ const OrdersForm: React.FC = () => {
         setLoading(true);
         values.companyId = user?.companyId;
         values.userId = user?.id;
+        values.amount = values.originalPrice;
         values.orderNumber = generateUniqueCode("ORD-", 12);
-        ((state?.data && state?.data?.id) ? dispatch(updateOrders({ data: values, id: state?.data?.id}))
-            : dispatch(createOrders(values)))
-            .then(unwrapResult)
-            .then(() => {
-                TlaSuccess("Successful");
-                setLoading(true);
-                navigate(-1);
+
+        if((state?.data && state?.data?.id))
+        {
+            dispatch(updateOrders({ data: values, id: state?.data?.id}))
+                .then(unwrapResult)
+                .then((res: Order) => {
+                    dispatch(setOrderItem(res));
+                    navigate(-1)
+                })
+                .catch((err) => {
+                    TlaError(err?.message ?? "");
+                    setLoading(false);
             })
-            .catch((err) => {
-                TlaError(err?.message ?? "");
-                setLoading(false);
-            })
+        }
+        else
+        {
+            dispatch(createOrders(values))
+                .then(unwrapResult)
+                .then(() => {
+                    TlaSuccess("Successful");
+                    setLoading(true);
+                    navigate(-1);
+                })
+                .catch((err) => {
+                    TlaError(err?.message ?? "");
+                    setLoading(false);
+                })
+        }
     }
 
     return (
@@ -60,7 +78,7 @@ const OrdersForm: React.FC = () => {
 
                     <Form.Item
                         rules={[{required: true, message: "Required"}]}
-                        name={"amount"} label={"Amount *"}>
+                        name={"originalPrice"} label={"Amount *"}>
                         <Input type={'number'} min={'0'} step={'any'} placeholder={'8952.78'}/>
                     </Form.Item>
 
@@ -83,45 +101,16 @@ const OrdersForm: React.FC = () => {
                     </Form.Item>
 
                     <Form.Item
-                        rules={[{required:true, message:"Required"}]}
-                        name={"installmentPlanId"} label={"Installment Plan *"}>
-                        <DropdownSearch
-                            defaultValue={state?.data?.installmentPlan?.name}
-                            object
-                            searchApi={getAllInstallmentPlans}
-                            placeholder="click to select plan"
-                            extraParams={commonQuery()}
-                            setResult={(installment: InstallmentPlan) => {
-                                if (installment) {
-                                    form.setFieldValue('installmentPlanId', installment?.id);
-                                    return
-                                }
-                                form.setFieldValue('installmentPlanId', null)
-                            }}/>
-                    </Form.Item>
-
-                    {/*<Form.Item*/}
-                    {/*    rules={[{required:true, message:"Required"}]}*/}
-                    {/*    name={"paymentMethod"} label={"Payment Method"}>*/}
-                    {/*    <Select defaultValue={null}>*/}
-                    {/*        <Select.Option key={0} value={null}>Choose one</Select.Option>*/}
-                    {/*        <Select.Option key={1} value="Physical Cash">Physical Cash</Select.Option>*/}
-                    {/*        <Select.Option key={2} value="Mobile Money (MoMo)">Mobile Money (MoMo)</Select.Option>*/}
-                    {/*        <Select.Option key={3} value="Bank Transfer">Bank Transfer</Select.Option>*/}
-                    {/*        <Select.Option key={4} value="Cheque">Cheque</Select.Option>*/}
-                    {/*    </Select>*/}
-                    {/*</Form.Item>*/}
-
-
-                    <Form.Item className={'col-span-2'}
                         name={"discount"} label={"Discount (optional)"}>
-                        <Input type={'number'} placeholder={'50%'}/>
+                        <Input type={'number'} min={'0'} max={'100'} placeholder={'50%'}/>
                     </Form.Item>
 
                 </div>
-                <Button className={'btn-red flex ml-auto'} htmlType={"submit"}>
-                    Save
-                </Button>
+                {
+                    state?.data?.status == orderStatus.preparing ? <Button className={'btn-red flex ml-auto'} htmlType={"submit"}>
+                        Save
+                    </Button> : null
+                }
             </Form>
         </TlaModal>
     )

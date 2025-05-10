@@ -60,15 +60,16 @@ const paymentSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(createPayment.fulfilled, (state, action) => {
-            state.payment.data.push(action.payload)
+            state.payment.data.push(action.payload);
+            state.paymentItem = action.payload;
         }).addCase(getAllPayments.fulfilled, (state, action) => {
-            state.payment = action.payload
+            state.payment = action.payload;
         }).addCase(updatePayment.fulfilled, (state, action) => {
             state.payment.data = state.payment.data.map((payment: Payment) => {
                 return payment.id === action.payload.id ? action.payload : payment
             })
         }) .addCase(deletePayment.fulfilled, (state, action: PayloadAction<any>) => {
-            state.payment.data = state.payment.data.filter((payment: Payment) => payment.id !== action.payload)
+            state.payment.data = state.payment.data.filter((payment: Payment) => payment.id !== action.payload.id)
         })
     }
 });

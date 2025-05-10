@@ -77,6 +77,16 @@ const orderSlice = createSlice({
     reducers: {
         setOrderItem: (state, action) => {
             state.orderItem = action.payload;
+        },
+
+        increaseOrderPayment: (state, action) => {
+            state.orderItem.totalPayments +=  Number(action.payload);
+            return state;
+        },
+
+        decreaseOrderPayment: (state, action) => {
+            state.orderItem.totalPayments -= +action.payload;
+            return state;
         }
     },
     extraReducers: (builder) => {
@@ -89,9 +99,8 @@ const orderSlice = createSlice({
                 return order.id === action.payload.id ? action.payload : order
             })
         }).addCase(getOrderById.fulfilled, (state, action: PayloadAction<Order>) => {
-            state.order.data = state.order.data.map((order) => {
-                return order.id === action.payload.id ? action.payload : order
-            })
+            setOrderItem(action.payload);
+            return state;
         }).addCase(updateOrderStatus.fulfilled, (state, action: PayloadAction<Order>) => {
             state.order.data = state.order.data.map((order) => {
                 return order.id === action.payload.id ? action.payload : order
@@ -110,6 +119,6 @@ const orderSlice = createSlice({
     }
 });
 
-export const { setOrderItem } = orderSlice.actions;
+export const { setOrderItem, increaseOrderPayment, decreaseOrderPayment } = orderSlice.actions;
 
 export default orderSlice.reducer

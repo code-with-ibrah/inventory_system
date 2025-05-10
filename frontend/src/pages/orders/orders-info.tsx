@@ -32,20 +32,16 @@ const OrdersInfo = () => {
                     <SingleItem title={"Customer"} className={'capitalize'} value={order?.customer?.name}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Amount Paid"} value={currencyFormat(+order?.totalPayments)}/>
+                    <SingleItem title={"Amount Paid"} value={currencyFormat(Math.abs(+order?.totalPayments))}/>
+                </div>
+                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
+                    <SingleItem title={"Discount Percentage"} value={order?.discount + '%'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Original Amount"} value={currencyFormat(+order?.originalPrice)}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Discount Amount"} value={currencyFormat(+order?.amount)}/>
-                </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem className={'capitalize'} title={"Installment Plan"}
-                                value={order?.installmentPlan?.name}/>
-                </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Discount Percentage"} value={order?.discount + '%'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Creator"} value={order?.user?.name}/>

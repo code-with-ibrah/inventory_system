@@ -5,7 +5,6 @@ import {MenuLinks} from "../../utils/menu-links.ts";
 import {appIconLabels} from "../../common/app-icons.tsx";
 import AppMenu1 from "../../common/layout/app-menu-1.tsx";
 
-
 interface Props {
     menus?: Menu[];
 }
@@ -16,6 +15,11 @@ const OrderCategoryLayoutMenu: Menu[] = [
         label: 'All',
         link: MenuLinks.admin.order.index,
         icon: appIconLabels.order,
+    },
+    {
+        label: 'Preparing',
+        link: MenuLinks.admin.order.preparing,
+        icon: appIconLabels.preparing,
     },
     {
         label: 'Delivered',
@@ -37,7 +41,7 @@ const OrderCategoryLayout: React.FC<Props> = () => {
             <div className={'bg-white p-3 rounded-lg inner-header mb-2'}>
                 {/*<OrderCategory/>*/}
                 <h2 className={'capitalize'}>
-                    <span className={' text-2xl font-medium'}>Detailed Order Information</span>
+                    <span className={' text-2xl font-medium'}>Available Orders</span>
                 </h2>
                 <div className={'flex flex-wrap items-center gap-3 my-3'}>
                     <AppMenu1 menus={OrderCategoryLayoutMenu}/>

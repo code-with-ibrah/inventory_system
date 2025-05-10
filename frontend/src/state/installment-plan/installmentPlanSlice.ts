@@ -48,7 +48,7 @@ const initialState: InstallmentPlansState = {
 
     installmentPlanItem: {
         id: 0,
-        plan: "",
+        name: "",
         installmentPayCount: 0,
         installmentMonthCount: 0,
         interestRate: 0,

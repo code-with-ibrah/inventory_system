@@ -6,7 +6,7 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 import {TlaError, TlaSuccess} from "../../utils/messages.ts";
 import {TlaModal} from "../../common/pop-ups/TlaModal.tsx";
 import {createPayment, updatePayment} from "../../state/orders/payments/paymentAction.ts";
-import {getOrderById} from "../../state/orders/receiptAction.ts";
+import {increaseOrderPayment} from "../../state/orders/orderSlice.ts";
 
 
 const OrdersPaymentForm: React.FC = () => {
@@ -23,19 +23,31 @@ const OrdersPaymentForm: React.FC = () => {
         values.companyId = user?.companyId;
         values.orderId = order?.id;
         values.customerId = order?.customerId;
-        ((state?.data && state?.data?.id) ? dispatch(updatePayment({ data: values, id: state?.data?.id}))
-            : dispatch(createPayment(values)))
-            .then(unwrapResult)
-            .then(() => {
-                dispatch(getOrderById(order?.id))
-                TlaSuccess("Successful");
-                setLoading(true);
-                navigate(-1);
-            })
-            .catch((err) => {
-                TlaError(err?.message ?? "");
+
+        if((state?.data && state?.data?.id)){
+            dispatch(updatePayment({ data: values, id: state?.data?.id}))
+        }
+        else{
+
+            if(!confirm("Payment cannot be changed later, are you sure ?")){
                 setLoading(false);
-            })
+                return;
+            }
+
+            dispatch(createPayment(values))
+                .then(unwrapResult)
+                .then(() => {
+                    dispatch(increaseOrderPayment(values.amount))
+                    TlaSuccess("Successful");
+                    setLoading(true);
+                    navigate(-1);
+                })
+                .catch((err) => {
+                    TlaError(err?.message ?? "");
+                    setLoading(false);
+                })
+        }
+
     }
 
     return (

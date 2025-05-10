@@ -91,6 +91,7 @@ export const MenuLinks = {
             index: "/admin/orders",
             delivered: "/admin/orders/delivered",
             cancelled: "/admin/orders/cancelled",
+            preparing: "/admin/orders/preparing",
             form: "/admin/orders/form",
 
             details: {
@@ -103,7 +104,8 @@ export const MenuLinks = {
                 singleProductForm: "/admin/orders/single-product",
                 manyProductForm: "/admin/orders/many-product-form",
             },
-            invoice: "/admin/orders/invoice"
+            invoice: "/admin/orders/invoice",
+            invoiceForm: "/admin/orders/invoice-form",
         }
 
     },

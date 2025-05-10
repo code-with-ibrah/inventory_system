@@ -1,7 +1,7 @@
 import React from "react";
 import Column from "antd/es/table/Column";
 import {Button} from "antd";
-import {FiEdit3, FiPlusCircle} from "react-icons/fi";
+import {FiEdit3, FiPlusCircle, FiPrinter} from "react-icons/fi";
 import TlaTableWrapper from "../../common/tla-table-wrapper.tsx";
 import TlaOpen from "../../common/pop-ups/TlaOpen.tsx";
 import {commonQuery} from "../../utils/query.ts";
@@ -16,6 +16,8 @@ import {Order} from "../../types/order.ts";
 import {setOrderItem} from "../../state/orders/orderSlice.ts";
 import { MdOutlineSystemUpdateAlt } from "react-icons/md";
 import SearchInput from "../../common/search-input.tsx";
+import {orderStatus} from "../../utils/order-status.ts";
+import {TlaErrorTag, TlaInfoTag, TlaSuccessTag} from "../../common/tla-tag.tsx";
 
 
 
@@ -29,6 +31,10 @@ const Orders: React.FC = () => {
         navigate(MenuLinks.admin.order.details.index);
     };
 
+    const printInvoiceHandler = (record: any) => {
+        dispatch(setOrderItem(record));
+        navigate(MenuLinks.admin.order.invoice);
+    }
 
     return (
         <>
@@ -52,12 +58,16 @@ const Orders: React.FC = () => {
 
                     <Column title="Date" render={(record: Order) => <span>{formatDate(record?.date)}</span>}/>
                     <Column title="Customer" render={(record: Order) => <span>{record?.customer?.name}</span>}/>
-                    <Column title="Discount Percentage" render={(record: Order) => <span>{record?.discount}%</span>}/>
-                    <Column title="Discount Amount"
-                            render={(record: Order) => <span>{currencyFormat(+record?.amount)}</span>}/>
-                    <Column title="Status" className={'capitalize'} dataIndex={"status"}/>
-                    <Column title="Total Paid Amount"
-                            render={(record: Order) => <span>{currencyFormat(+record?.totalPayments)}</span>}/>
+                    {/*<Column title="Discount Percentage" render={(record: Order) => <span>{record?.discount}%</span>}/>*/}
+                    <Column title="Discount Amount" render={(record: Order) => <span className={'font-semibold'}>{currencyFormat(+record?.amount)}</span>}/>
+                    <Column title="Status" className={'capitalize'} render={(record: any) => <span>
+                        {record?.status == orderStatus.preparing ? <TlaInfoTag text={orderStatus.preparing}/> : ''}
+                        {record?.status == orderStatus.delivered ? <TlaSuccessTag text={orderStatus.delivered}/> : ''}
+                        {record?.status == orderStatus.cancelled ? <TlaErrorTag text={orderStatus.cancelled}/> : ''}
+                    </span>}/>
+
+                    {/*<Column title="Total Paid Amount" render={(record: Order) => <span>{currencyFormat(+record?.totalPayments)}</span>}/>*/}
+
                     {/*<Column title="Payment Status" render={(record: Order) => <span>*/}
                     {/*    {(+record?.totalPayments >= +record?.amount) ? 'Fully Paid' : 'Partial Payments'}*/}
                     {/*</span>}/>*/}
@@ -76,16 +86,27 @@ const Orders: React.FC = () => {
                             {
                                 key: '2',
                                 label: (
-                                    <TlaOpen data={record} modal={true} to={MenuLinks.admin.order.details.statusForm}>
-                                        <MdOutlineSystemUpdateAlt/>
-                                        Update Status
-                                    </TlaOpen>
+                                    <TlaDelete title={'order'} column={record.id} callBack={deleteOrders}/>
                                 ),
                             },
                             {
                                 key: '3',
                                 label: (
-                                    <TlaDelete title={'order'} column={record.id} callBack={deleteOrders}/>
+                                    <button onClick={() => printInvoiceHandler(record)}>
+                                        <FiPrinter/>
+                                        Print invoice
+                                    </button>
+                                ),
+                            },
+                            {
+                                key: '4',
+                                label: (
+                                    <>
+                                        {(record?.status != orderStatus.delivered) ? <TlaOpen data={record} modal={true} to={MenuLinks.admin.order.details.statusForm}>
+                                            <MdOutlineSystemUpdateAlt/>
+                                            Update Status
+                                        </TlaOpen> : null }
+                                    </>
                                 ),
                             }
                         ]}/>

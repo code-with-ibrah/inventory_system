@@ -30,6 +30,19 @@ export const currencyFormat = (number: number) => {
     }
 }
 
+
+export const amountAfterDiscountApplied = (amount: number, discount: number) => {
+    const discountAmount = (discount / 100) * amount;
+    const amountAfterDiscountDeduction = amount - discountAmount;
+    return amountAfterDiscountDeduction;
+}
+
+
+export const getPercentAmount = (amount: number, discount: number) => {
+    return (discount / 100) * amount;
+}
+
+
 export const renderStatus =  (isActive: number | boolean, format = "active") => {
     if (isActive === 1 || isActive == true) {
         return (format == "active") ? "active" : "yes";

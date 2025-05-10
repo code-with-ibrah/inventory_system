@@ -1,5 +1,5 @@
 import React from "react";
-import {FiCheck, FiHome, FiKey, FiPhoneCall, FiSettings, FiShoppingCart, FiUser} from "react-icons/fi";
+import {FiCheck, FiHome, FiKey, FiPhoneCall, FiPrinter, FiSettings, FiShoppingCart, FiUser} from "react-icons/fi";
 import {LuChurch} from "react-icons/lu";
 import {FaEarthAfrica} from "react-icons/fa6";
 import {SiCircuitverse, SiGoogleanalytics, SiGoogleclassroom} from "react-icons/si";
@@ -11,7 +11,7 @@ import {HistoryOutlined, StockOutlined} from "@ant-design/icons";
 import {CgDialpad} from "react-icons/cg";
 import { MdStorefront } from "react-icons/md";
 import { PiStorefrontThin } from "react-icons/pi";
-import {TbBrandX} from "react-icons/tb";
+import {TbBrandX, TbTruckLoading} from "react-icons/tb";
 import {HiAdjustmentsHorizontal} from "react-icons/hi2";
 import {CiReceipt} from "react-icons/ci";
 import {AiFillCloseCircle} from "react-icons/ai";
@@ -52,7 +52,8 @@ export const appIconLabels = {
     payment: 'payment',
     cancelled: 'cancelled',
     completed: 'completed',
-
+    preparing: 'preparing',
+    print: 'print',
 
 };
 
@@ -92,7 +93,9 @@ export const appIcons: { [key: string]: React.ReactNode } = {
     receipt: <CiReceipt/>,
     order: <FiShoppingCart/>,
     cancelled: <AiFillCloseCircle/>,
-    completed: <FiCheck/>
+    completed: <FiCheck/>,
+    preparing: <TbTruckLoading />,
+    print: <FiPrinter/>
 
 };
 

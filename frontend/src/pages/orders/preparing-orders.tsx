@@ -16,7 +16,7 @@ import {orderStatus} from "../../utils/order-status.ts";
 
 
 
-const CancelledOrders: React.FC = () => {
+const PreparingOrders: React.FC = () => {
     const {data, meta} = useAppSelector(state => state.order.order);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -34,7 +34,7 @@ const CancelledOrders: React.FC = () => {
                     <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New</Button>
                 </TlaOpen>
 
-                <TlaTableWrapper getData={getAllOrders} data={data} filter={commonQuery(`&status[eq]=${orderStatus.cancelled}`)} meta={meta}>
+                <TlaTableWrapper getData={getAllOrders} data={data} filter={commonQuery(`&status[eq]=${orderStatus.preparing}`)} meta={meta}>
                     <Column
                         title="Order Number"
                         render={(record: Order) => (
@@ -56,4 +56,4 @@ const CancelledOrders: React.FC = () => {
     )
 }
 
-export default CancelledOrders;
+export default PreparingOrders;

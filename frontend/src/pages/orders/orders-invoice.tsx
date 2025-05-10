@@ -1,51 +1,58 @@
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {useEffect} from "react";
-import { getAllGoodsReceiptItems } from "../../state/goods-receipt/items/goodsReceiptItemAction";
 import {commonQuery} from "../../utils/query.ts";
-// import {currencyFormat, formatDate} from "../../utils";
+import {Order} from "../../types/order.ts";
+import { currencyFormat, formatDate, getPercentAmount} from "../../utils";
+import {getAllOrderItems} from "../../state/orders/item/orderItemAction.ts";
+import {Button} from "antd";
+import {FiPrinter} from "react-icons/fi";
 
 
 const OrdersInvoice = () => {
-    // const supplier = useAppSelector(state => state.supplier.supplierItem);
-    const {data} = useAppSelector(state => state.goodsReceiptItem.goodsReceiptItem);
-    const goodsReceipt = useAppSelector(state => state.goodsReceipt.goodsReceiptItem);
+    const order: Order = useAppSelector(state => state.order.orderItem);
+    const {data} = useAppSelector(state => state.orderItem.orderItem);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(getAllGoodsReceiptItems(
-            commonQuery(`&goodsReceiptId[eq]=${goodsReceipt?.id}`))
-        );
+        dispatch(getAllOrderItems(commonQuery(`&orderId[eq]=${order?.id}`)));
     }, []);
 
-    // let counter = 1;
-    // let subTotal = 0;
+    let subTotal = 0;
+    const covidPercentage = 6;
+    const vatPercentage = 15;
 
-    console.log(goodsReceipt)
-    console.log(data);
 
     return <>
         <div className="bg-gray-100">
             <div className="mx-auto bg-white rounded-md p-8">
-                <div className="text-center mb-6">
-                    <h1 className="text-xl font-semibold">Jessden Ventures</h1>
-                    <p className="text-sm text-gray-600">Location: Dome Pillar 2</p>
-                    <p className="text-sm text-gray-600">Digital Address: GE-325-9976</p>
-                    <p className="text-sm text-gray-600">Phone: +233 50 006 1419</p>
-                </div>
 
-                <div className="flex justify-between mb-4 text-sm">
-                    <div>
-                        <span className="font-semibold">Invoice No.:</span> 1002
-                    </div>
-                    <div>
-                        <span className="font-semibold">Date:</span> 15/03/25
-                    </div>
-                </div>
+                <Button
+                    icon={<FiPrinter/>}
+                    className={'btn btn-primary no-print'}
+                    onClick={() => window.print()}>Print now
+                </Button>
 
-                <div className="mb-4 text-sm">
-                    <div><span className="font-semibold">Invoice For:</span> Ammarah - Nag Fairmount Accra</div>
-                    <div><span className="font-semibold">Payable To:</span> Jessden Ventres</div>
-                    <div><span className="font-semibold">Project:</span> Fuel Anti-Syphon Guard System Installation
+                <div className="fle">
+                    <div className="text-center mb-6">
+                        <h1 className="text-xl font-semibold">Jessden Ventures</h1>
+                        <p className="text-sm text-gray-600">Location: Dome Pillar 2</p>
+                        <p className="text-sm text-gray-600">Digital Address: GE-325-9976</p>
+                        <p className="text-sm text-gray-600">Phone: 0244411820</p>
+                    </div>
+
+                    <div className="flex justify-between mb-4 text-sm">
+                        <div>
+                            <span className="font-semibold">Invoice No.:</span> {order?.orderNumber}
+                        </div>
+                        <div>
+                            <span className="font-semibold">Date:</span> {formatDate(order?.date)}
+                        </div>
+                    </div>
+
+                    <div className="mb-4 text-sm">
+                        <div><span className="font-semibold">Invoice For:</span> {order?.customer?.name}</div>
+                        <div><span className="font-semibold">Payable To:</span> Jessden Ventres</div>
+                        <div><span className="font-semibold">Description:</span> Purchase of goods</div>
                     </div>
                 </div>
 
@@ -61,130 +68,63 @@ const OrdersInvoice = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td className="border px-4 py-2">Water</td>
-                            <td className="border px-4 py-2">Bottled Water</td>
-                            <td className="border px-4 py-2">12</td>
-                            <td className="border px-4 py-2">1</td>
-                            <td className="border px-4 py-2">12</td>
-                        </tr>
-                        <tr>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                        </tr>
-                        <tr>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                        </tr>
-                        <tr>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                        </tr>
-                        <tr>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                        </tr>
-                        <tr>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                        </tr>
-                        <tr>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                        </tr>
-                        <tr>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                        </tr>
-                        <tr>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                        </tr>
-                        <tr>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                        </tr>
-                        <tr>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                        </tr>
-                        <tr>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                        </tr>
-                        <tr>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                        </tr>
-                        <tr>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                            <td className="border px-4 py-2"></td>
-                        </tr>
+                        {data.map((item: any, index: number) => {
+                            subTotal += ((item.unitPriceAtSale) * (item.quantity));
+
+                            return <tr key={index}>
+                                <td className="border px-4 py-2">{item?.product?.name}</td>
+                                <td className="border px-4 py-2">product purchase</td>
+                                <td className="border px-4 py-2 font-medium">{item.unitPriceAtSale}</td>
+                                <td className="border px-4 py-2">{item?.quantity}</td>
+                                    <td className="border px-4 py-2">{item?.totalCost}</td>
+                                </tr>
+                            })}
                         </tbody>
+
+                        <br/>
+                        <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td className="border px-4 py-2">Subtotal</td>
+                            <td className="border px-4 py-2">{currencyFormat(subTotal)}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td className="border px-4 py-2">NHIL/GetFund/Covid ({covidPercentage}%)</td>
+                            <td className="border px-4 py-2">{currencyFormat(getPercentAmount(subTotal, covidPercentage))}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td className="border px-4 py-2">II VAT ({vatPercentage}%)</td>
+                            <td className="border px-4 py-2">
+                                {currencyFormat(getPercentAmount(subTotal, vatPercentage))}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td className="border px-4 py-2 font-semibold">Total</td>
+                            <td className="border px-4 py-2  font-bold">
+                                {
+                                    currencyFormat(
+                                        subTotal - (getPercentAmount(subTotal, covidPercentage) + getPercentAmount(subTotal, vatPercentage))
+                                    )
+                                }
+                            </td>
+                        </tr>
+
+
+                        </tfoot>
                     </table>
                 </div>
 
-                <div className="text-sm">
-                    <div className="flex justify-between mb-2">
-                        <span className="font-semibold">Subtotal</span>
-                        <span>12.00</span>
-                    </div>
-                    <div className="flex justify-between mb-2">
-                        <span className="font-semibold">NHIL/GetFund/Covid (6%)</span>
-                        <span>0.00</span>
-                    </div>
-                    <div className="flex justify-between mb-2">
-                        <span className="font-semibold">Sub Total</span>
-                        <span>0.00</span>
-                    </div>
-                    <div className="flex justify-between mb-2">
-                        <span className="font-semibold">II VAT (15%)</span>
-                        <span>0.00</span>
-                    </div>
-                    <div className="flex justify-between mb-4 text-lg font-semibold">
-                        <span>Total Due By Date 15/03/2025</span>
-                        <span>0.00</span>
-                    </div>
-                </div>
 
                 <div className="mb-4 text-xs text-gray-700">
                     <h2 className="font-semibold mb-1">Terms:</h2>

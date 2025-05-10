@@ -35,6 +35,7 @@ export type OrderItem = {
     id: number,
     orderId: number,
     productId: number,
+    product: any[],
     customerId: number,
     description: string,
     quantity: number,

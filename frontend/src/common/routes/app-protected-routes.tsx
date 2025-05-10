@@ -41,6 +41,8 @@ import OrderCategoryLayout from "../../pages/orders/order-category-layout.tsx";
 import DeliveredOrders from "../../pages/orders/delivered-orders.tsx";
 import CancelledOrders from "../../pages/orders/cancelled-orders.tsx";
 import OrderItems from "../../pages/orders/item";
+import PreparingOrders from "../../pages/orders/preparing-orders.tsx";
+import OrdersInvoice from "../../pages/orders/orders-invoice.tsx";
 
 
 export const AppProtectedRoutes = () => {
@@ -110,14 +112,16 @@ export const AppProtectedRoutes = () => {
                     {/* orders */}
                     <Route path={MenuLinks.admin.order.index} element={<OrderCategoryLayout/>} >
                         <Route index element={<Orders/>} />
-                        <Route path={MenuLinks.admin.order.delivered} element={<DeliveredOrders/>} />
+                        <Route path={MenuLinks.admin.order.preparing} element={<PreparingOrders/>} />
                         <Route path={MenuLinks.admin.order.cancelled} element={<CancelledOrders/>} />
+                        <Route path={MenuLinks.admin.order.delivered} element={<DeliveredOrders/>} />
                     </Route>
                     <Route path={MenuLinks.admin.order.details.index} element={<OrderDetailLayout/>}>
                         <Route index element={<OrdersInfo/>}/>
                         <Route path={MenuLinks.admin.order.details.products} element={<OrderItems/>}/>
                         <Route path={MenuLinks.admin.order.details.payment} element={<OrdersPayment/>} />
                     </Route>
+                    <Route path={MenuLinks.admin.order.invoice} element={<OrdersInvoice/>}/>
 
 
 

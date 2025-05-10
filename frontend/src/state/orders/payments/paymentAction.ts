@@ -1,13 +1,12 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import {createAsyncThunk} from "@reduxjs/toolkit";
 import api from "../../../utils/api.ts";
 
 export const deletePayment = createAsyncThunk(
     "orders/deletePayment", async (customerId: number, {rejectWithValue}) => {
         try {
-            await api().delete(`/payments/${customerId}?delete=true`);
+            const res = await api().delete(`/payments/${customerId}?delete=true`);
 
-            return customerId
-
+            return res.data.data;
         } catch (err: any) {
             if (!err.response) {
                 throw err;

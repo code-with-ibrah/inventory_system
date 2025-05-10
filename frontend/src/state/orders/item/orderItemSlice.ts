@@ -57,7 +57,8 @@ const initialState: OrderItemState= {
         unitPriceAtSale: 0,
         totalCost: 0,
         isActive: false,
-        isDeleted: false
+        isDeleted: false,
+        product: []
     }
 };
 
