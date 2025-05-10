@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Api\query\models\OrderQuery;
+use App\Http\Api\response\ApiResponse;
 use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Requests\order\OrderRequest;
 use App\Http\Resources\order\OrderResource;
 use App\Http\Resources\order\OrderResourceCollection;
 use App\Models\Order;
+use App\Models\Stock;
 use App\Utils\Globals;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -34,7 +37,6 @@ class OrderController extends Controller
             return new OrderResourceCollection(
                 Order::where($queryItems)
                     ->with('user')
-                    ->with('installmentPlan')
                     ->with('customer')
                     ->with('payments')
                     ->orderBy('date', 'desc')
@@ -111,13 +113,66 @@ class OrderController extends Controller
     }
 
 
+    // public function updateOrderStatus(Request $request, $id)
+    // {
+    //    $order = Order::with('payments')->findOrFail($id);
+    //    $order->status = $request->status;
+
+    //    if($request->status == "delivered"){
+    //         // fetch all the order items
+    //         // target all the order items
+    //         // target the stock on the order items
+    //         // target the products on the stocks
+    //         // reduce the quantity of the stock product by what was purchased!
+    //    }
+
+
+    //    $order->save();
+
+    //     $this->clearCache($this->cachePrefix, $id);
+    //     return new OrderResource($order);
+    // }
+
+
+    public function test(Request $request){
+        return Order::with("payments","orderItems")->get(["id", "date"]);
+    }
+
+
     public function updateOrderStatus(Request $request, $id)
     {
-       $order = Order::with('payments')->findOrFail($id);
-       $order->status = $request->status;
-       $order->save();
+            $order = DB::transaction(function() use ($request, $id){
+                $order = Order::with('payments', 'orderItems')->findOrFail($id);
+                $order->status = $request->status;
 
-        $this->clearCache($this->cachePrefix, $id);
-        return new OrderResource($order);
+                if($request->status == "delivered"){
+                    // fetch all the order items (already loaded)
+                    $orderItems = $order->orderItems;
+
+                    // target all the order items
+                    foreach ($orderItems as $orderItem) {
+                        // target the stock ID on the order items
+                        if ($stock = Stock::where("productId", $orderItem->productId)->firstOrFail()) {
+                            // reduce the quantity of the stock by what was purchased!
+                            $stock->quantityOnHand -= $orderItem->quantity;
+                            $stock->save();
+                        }
+                    }
+                }
+                $order->save();
+
+                return $order;
+            });
+
+
+            $this->clearCache($this->cachePrefix, $id);
+            return new OrderResource($order);
     }
+
+
+
+
+
+
+
 }

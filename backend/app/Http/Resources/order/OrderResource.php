@@ -20,21 +20,12 @@ class OrderResource extends JsonResource
             "amount" => $this->amount,
             "status" => $this->status,
             "discount" => $this->discount,
-            "installmentPlanId" => $this->installmentPlanId,
-            "installmentPlan" => $this->installmentPlan ? [
-                "name" => $this->installmentPlan->name
-            ] : null,
             "userId" => $this->id,
             "user" => $this->user ? [
                 "name" => $this->user->name
             ] : null,
-//            "payments" => $this->whenLoaded('payments', function($payments){
-//                return $payments->map(function($payment){
-//                    return $payment->only(["id", "amount"]);
-//                });
-//            }),
             'totalPayments' => $this->whenLoaded('payments', function ($payments) {
-                return number_format($payments->sum('amount'), 2);
+                return (float) $payments->sum('amount');
             }),
             "originalPrice" => $this->originalPrice
         ];

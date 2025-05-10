@@ -34,6 +34,7 @@ class PaymentController extends Controller
             return new PaymentResourceCollection(
                 Payment::where($queryItems)
                     ->with('customer')
+                    ->order('date', 'desc')
                     ->paginate($perPage)
             );
         });

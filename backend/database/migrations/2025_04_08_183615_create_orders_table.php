@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId("customerId")->constrained("customers");
             $table->decimal("amount", 10, 2);
             $table->string("status")->default("preparing")->nullable();
-            $table->foreignId("installmentPlanId")->constrained("installment_plans");
             $table->string("currency")->nullable();
             $table->decimal("discount", 10, 2)->default(0.00)->nullable();
             $table->decimal("tax-amount", 10, 2)->default(0.00)->nullable();
