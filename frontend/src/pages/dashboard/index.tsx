@@ -13,14 +13,17 @@ const Analytics: React.FC = (props: any) => {
     const [fromDate, toDate] = dates;
     const user = useAppSelector(state => state.auth.user);
 
-    const handleDateChange = (values) => {
+    const handleDateChange = (values: any) => {
         setDates(values);
     };
 
     const handleFilter = () => {
         if (props.onFilter) {
+
             props.onFilter({
+                // @ts-ignore
                 fromDate: fromDate ? fromDate.format('YYYY-MM-DD') : undefined,
+                // @ts-ignore
                 toDate: toDate ? toDate.format('YYYY-MM-DD') : undefined,
             });
         }
