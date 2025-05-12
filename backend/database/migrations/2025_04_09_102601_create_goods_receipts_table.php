@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string("date");
             $table->decimal("totalAmount", 10, 2);
             $table->string("conditionOfGoods")->nullable();
-            $table->foreignId("currencyId")->constrained("currencies");
             $table->boolean("isActive")->default(true);
             $table->boolean("isDeleted")->default(false);
             $table->boolean("isRecorded")->default(false);
