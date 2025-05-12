@@ -13,6 +13,7 @@ import {Order} from "../../types/order.ts";
 import {setOrderItem} from "../../state/orders/orderSlice.ts";
 import {getAllOrders} from "../../state/orders/receiptAction.ts";
 import {orderStatus} from "../../utils/order-status.ts";
+import {TlaErrorTag, TlaInfoTag, TlaSuccessTag} from "../../common/tla-tag.tsx";
 
 
 const DeliveredOrders: React.FC = () => {
@@ -44,10 +45,14 @@ const DeliveredOrders: React.FC = () => {
 
                     <Column title="Date" render={(record: Order) => <span>{formatDate(record?.date)}</span>}/>
                     <Column title="Customer" render={(record: Order) => <span>{record?.customer?.name}</span>}/>
-                    <Column title="Status" className={'capitalize'} dataIndex={"status"}/>
+                    <Column title="Order Status" className={'capitalize'} render={(record: any) => <span>
+                        {record?.status == orderStatus.preparing ? <TlaInfoTag text={orderStatus.preparing}/> : ''}
+                        {record?.status == orderStatus.delivered ? <TlaSuccessTag text={orderStatus.delivered}/> : ''}
+                        {record?.status == orderStatus.cancelled ? <TlaErrorTag text={orderStatus.cancelled}/> : ''}
+                    </span>}/>
                     <Column title="Total Paid Amount" render={(record: Order) => <span>{currencyFormat(+record?.totalPayments)}</span>}/>
                     <Column title="Payment Status" render={(record: Order) => <span>
-                        {(+record?.totalPayments >= +record?.amount) ? 'Fully Paid' : 'Partial Payments'}
+                        {(+record?.totalPayments >= +record?.amount) ? <TlaSuccessTag text={'Fully Paid'}/> : <TlaErrorTag text={'Partial Payments'}/>}
                     </span>}/>
                 </TlaTableWrapper>
             </div>

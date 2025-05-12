@@ -157,7 +157,6 @@ Route::group(['prefix' => ''], function()
 
     // orders endpoint
     Route::apiResource("order-items", OrderItemController::class);
-    Route::get("test", [OrderController::class, "test"]);
 
 
     // payment endpoint

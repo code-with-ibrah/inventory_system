@@ -21,6 +21,8 @@ const OrdersInvoice = () => {
     const covidPercentage = 6;
     const vatPercentage = 15;
 
+    console.log(order);
+
 
     return <>
         <div className="bg-gray-100">
@@ -49,10 +51,11 @@ const OrdersInvoice = () => {
                         </div>
                     </div>
 
-                    <div className="mb-4 text-sm">
-                        <div><span className="font-semibold">Invoice For:</span> {order?.customer?.name}</div>
-                        <div><span className="font-semibold">Payable To:</span> Jessden Ventres</div>
-                        <div><span className="font-semibold">Description:</span> Purchase of goods</div>
+                    <div className="mb-8 text-sm">
+                        <div className={'my-2'}><span className="font-semibold">Customer:</span> {order?.customer?.name}</div>
+                        <div className={'my-2'}><span className="font-semibold">Payable To:</span> Jessden Ventres</div>
+                        <div className={'my-2'}><span className="font-semibold">Description:</span> Purchase of goods</div>
+                        <div className={'my-2 capitalize'}><span className="font-semibold">Status: </span>{ order?.status }</div>
                     </div>
                 </div>
 
@@ -87,36 +90,70 @@ const OrdersInvoice = () => {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td className="border px-4 py-2">Subtotal</td>
+                            <td className="border px-4 py-2 font-semibold">Subtotal</td>
                             <td className="border px-4 py-2">{currencyFormat(subTotal)}</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td className="border px-4 py-2">NHIL/GetFund/Covid ({covidPercentage}%)</td>
-                            <td className="border px-4 py-2">{currencyFormat(getPercentAmount(subTotal, covidPercentage))}</td>
+                            <td className="border px-4 py-2 font-semibold">Discount</td>
+                            <td className="border px-4 py-2">{currencyFormat(order?.discount)} %</td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="border px-4 py-2">II VAT ({vatPercentage}%)</td>
-                            <td className="border px-4 py-2">
-                                {currencyFormat(getPercentAmount(subTotal, vatPercentage))}
-                            </td>
-                        </tr>
+                        {/*<tr>*/}
+                        {/*    <td></td>*/}
+                        {/*    <td></td>*/}
+                        {/*    <td></td>*/}
+                        {/*    <td className="border px-4 py-2 font-semibold">Amount</td>*/}
+                        {/*    <td className="border px-4 py-2">{currencyFormat(+order?.amount)}</td>*/}
+                        {/*</tr>*/}
+                        {/*<tr>*/}
+                        {/*    <td></td>*/}
+                        {/*    <td></td>*/}
+                        {/*    <td></td>*/}
+                        {/*    <td className="border px-4 py-2 font-semibold">NHIL/GetFund/Covid ({covidPercentage}%)</td>*/}
+                        {/*    <td className="border px-4 py-2">{currencyFormat(getPercentAmount(order?.amount, covidPercentage))}</td>*/}
+                        {/*</tr>*/}
+                        {/*<tr>*/}
+                        {/*    <td></td>*/}
+                        {/*    <td></td>*/}
+                        {/*    <td></td>*/}
+                        {/*    <td className="border px-4 py-2 font-semibold">II VAT ({vatPercentage}%)</td>*/}
+                        {/*    <td className="border px-4 py-2">*/}
+                        {/*        {currencyFormat(getPercentAmount(order?.amount, vatPercentage))}*/}
+                        {/*    </td>*/}
+                        {/*</tr>*/}
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td className="border px-4 py-2 font-semibold">Total</td>
-                            <td className="border px-4 py-2  font-bold">
+                            <td className="border px-4 py-2">
                                 {
                                     currencyFormat(
-                                        subTotal - (getPercentAmount(subTotal, covidPercentage) + getPercentAmount(subTotal, vatPercentage))
+                                        +order?.amount - (getPercentAmount(order?.amount, covidPercentage) + getPercentAmount(subTotal, vatPercentage))
                                     )
                                 }
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td className="border px-4 py-2 font-semibold">Amount Paid</td>
+                            <td className="border px-4 py-2">
+                                {(+order?.totalPayments >= +order?.amount) ? 'Fully Paid' : currencyFormat(order?.totalPayments) }
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td className="border px-4 py-2 font-semibold">Remaining</td>
+                            <td className="border px-4 py-2">
+                                {(+order?.totalPayments >= +order?.amount) ? 'GHS 0.00' : currencyFormat((+order?.amount) - (+order?.totalPayments)) }
                             </td>
                         </tr>
 
@@ -126,12 +163,12 @@ const OrdersInvoice = () => {
                 </div>
 
 
-                <div className="mb-4 text-xs text-gray-700">
+                <div className="mb-4 text-xs text-gray-700 text-center my-20">
                     <h2 className="font-semibold mb-1">Terms:</h2>
                     <p>100% 30 days deferred Payment after complete installation Production Leadtime is 3 days</p>
                 </div>
 
-                <div className="text-center text-sm text-gray-600">
+                <div className="text-center text-sm text-gray-600 mt-6">
                     <p>Thank you for your business!</p>
                 </div>
             </div>

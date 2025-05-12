@@ -30,12 +30,12 @@ const Counts: React.FC = () => {
                         <SingleItem title={"Total Products"} value={counters?.totalAwards ?? 0}/>
                     </div>
                     <div className={'border-r'}>
-                        <SingleItem title={"New Orders"} value={counters?.ongoingAwards ?? 0}/>
+                        <SingleItem title={"Orders"} value={counters?.ongoingAwards ?? 0}/>
                     </div>
                     <div className={'border-r'}>
-                        <SingleItem title={"Today Sales"} value={counters?.totalOrganisation ?? 0}/>
+                        <SingleItem title={"Sales"} value={counters?.totalOrganisation ?? 0}/>
                     </div>
-                    <SingleItem title={"Unread Notifications"} value={counters?.totalNomineeRequests ?? 0}/>
+                    <SingleItem title={"Suppliers"} value={counters?.totalNomineeRequests ?? 0}/>
                 </div>
             </div>
         </Spin>

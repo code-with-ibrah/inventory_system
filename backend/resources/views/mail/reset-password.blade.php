@@ -1,4 +1,4 @@
-@extends("mailr.mail-layout")
+@extends("mail.mail-layout")
 
 @section('title', "Password Reset Request -")
 

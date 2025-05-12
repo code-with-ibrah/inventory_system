@@ -8,6 +8,7 @@ import {TlaModal} from "../../common/pop-ups/TlaModal.tsx";
 import {updateOrderStatus} from "../../state/orders/receiptAction.ts";
 import InputFake from "../../common/input-fake.tsx";
 import {orderStatus} from "../../utils/order-status.ts";
+import {setOrderItem} from "../../state/orders/orderSlice.ts";
 
 
 const UpdateOrdersStatusForm: React.FC = () => {
@@ -21,7 +22,6 @@ const UpdateOrdersStatusForm: React.FC = () => {
         if(values.status == orderStatus.delivered)
         {
             if(!confirm("Are you sure ? This action cannot be reversed")){
-                // navigate(-1);
                 return;
             }
         }
@@ -29,7 +29,10 @@ const UpdateOrdersStatusForm: React.FC = () => {
         setLoading(true);
         dispatch(updateOrderStatus({ data: values, id: state?.data?.id}))
             .then(unwrapResult)
-            .then(() => {
+            .then((res: any) => {
+
+                dispatch(setOrderItem(res))
+
                 TlaSuccess("Successful");
                 setLoading(true);
                 navigate(-1);

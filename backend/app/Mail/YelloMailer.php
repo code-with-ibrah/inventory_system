@@ -13,9 +13,7 @@ class YelloMailer extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
+
     public $obj;
     public $subject;
     public $templatePath;
@@ -26,9 +24,7 @@ class YelloMailer extends Mailable
         $this->templatePath = $templatePath;
     }
 
-    /**
-     * Get the message envelope.
-     */
+
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -36,9 +32,7 @@ class YelloMailer extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
+
     public function content(): Content
     {
         return new Content(
@@ -49,11 +43,7 @@ class YelloMailer extends Mailable
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
+
     public function attachments(): array
     {
         return [];

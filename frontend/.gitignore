@@ -26,4 +26,4 @@ dist-ssr
 .env
 
 #custom
-src/config/env.ts
+#src/config/env.ts

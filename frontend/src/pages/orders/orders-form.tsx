@@ -23,6 +23,8 @@ const OrdersForm: React.FC = () => {
     const [form] = Form.useForm<any>();
     const navigate = useNavigate();
     const user = useAppSelector(state => state.auth.user);
+    // const order = useAppSelector(state => state.order.orderItem);
+
 
     const onFinish = (values: any) => {
         setLoading(true);
@@ -79,7 +81,12 @@ const OrdersForm: React.FC = () => {
                     <Form.Item
                         rules={[{required: true, message: "Required"}]}
                         name={"originalPrice"} label={"Amount *"}>
-                        <Input type={'number'} min={'0'} step={'any'} placeholder={'8952.78'}/>
+                        <Input
+                            readOnly={ state?.data?.status == orderStatus.delivered }
+                            type={'number'}
+                            min={'0'}
+                            step={'any'}
+                            placeholder={'8952.78'}/>
                     </Form.Item>
 
                     <Form.Item
@@ -106,11 +113,10 @@ const OrdersForm: React.FC = () => {
                     </Form.Item>
 
                 </div>
-                {
-                    state?.data?.status == orderStatus.preparing ? <Button className={'btn-red flex ml-auto'} htmlType={"submit"}>
-                        Save
-                    </Button> : null
-                }
+
+                <Button className={'btn-red flex ml-auto'} htmlType={"submit"}>
+                    Save
+                </Button>
             </Form>
         </TlaModal>
     )

@@ -58,19 +58,21 @@ const Orders: React.FC = () => {
 
                     <Column title="Date" render={(record: Order) => <span>{formatDate(record?.date)}</span>}/>
                     <Column title="Customer" render={(record: Order) => <span>{record?.customer?.name}</span>}/>
-                    {/*<Column title="Discount Percentage" render={(record: Order) => <span>{record?.discount}%</span>}/>*/}
-                    <Column title="Discount Amount" render={(record: Order) => <span className={'font-semibold'}>{currencyFormat(+record?.amount)}</span>}/>
-                    <Column title="Status" className={'capitalize'} render={(record: any) => <span>
+
+                    <Column title="Order Status" className={'capitalize'} render={(record: any) => <span>
                         {record?.status == orderStatus.preparing ? <TlaInfoTag text={orderStatus.preparing}/> : ''}
                         {record?.status == orderStatus.delivered ? <TlaSuccessTag text={orderStatus.delivered}/> : ''}
                         {record?.status == orderStatus.cancelled ? <TlaErrorTag text={orderStatus.cancelled}/> : ''}
                     </span>}/>
 
+                    {/*<Column title="Discount Percentage" render={(record: Order) => <span>{record?.discount}%</span>}/>*/}
+                    <Column title="Discount Amount" render={(record: Order) => <span className={'font-semibold'}>{currencyFormat(+record?.amount)}</span>}/>
+
                     {/*<Column title="Total Paid Amount" render={(record: Order) => <span>{currencyFormat(+record?.totalPayments)}</span>}/>*/}
 
-                    {/*<Column title="Payment Status" render={(record: Order) => <span>*/}
-                    {/*    {(+record?.totalPayments >= +record?.amount) ? 'Fully Paid' : 'Partial Payments'}*/}
-                    {/*</span>}/>*/}
+                    <Column title="Payment Status" render={(record: Order) => <span>
+                        {(+record?.totalPayments >= +record?.amount) ? <TlaSuccessTag text={'Fully Paid'}/> : <TlaErrorTag text={'Partial Payments'}/>}
+                    </span>}/>
 
                     <Column title={'Action'} render={(record) => (
                         <TableActions items={[

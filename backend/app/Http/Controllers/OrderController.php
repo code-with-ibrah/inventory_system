@@ -113,25 +113,6 @@ class OrderController extends Controller
     }
 
 
-    // public function updateOrderStatus(Request $request, $id)
-    // {
-    //    $order = Order::with('payments')->findOrFail($id);
-    //    $order->status = $request->status;
-
-    //    if($request->status == "delivered"){
-    //         // fetch all the order items
-    //         // target all the order items
-    //         // target the stock on the order items
-    //         // target the products on the stocks
-    //         // reduce the quantity of the stock product by what was purchased!
-    //    }
-
-
-    //    $order->save();
-
-    //     $this->clearCache($this->cachePrefix, $id);
-    //     return new OrderResource($order);
-    // }
 
 
     public function test(Request $request){
@@ -150,7 +131,10 @@ class OrderController extends Controller
                     $orderItems = $order->orderItems;
 
                     // target all the order items
+                    $orderTotalCost = 0;
                     foreach ($orderItems as $orderItem) {
+                        $orderTotalCost += $orderItem->totalCost;
+
                         // target the stock ID on the order items
                         if ($stock = Stock::where("productId", $orderItem->productId)->firstOrFail()) {
                             // reduce the quantity of the stock by what was purchased!
@@ -158,6 +142,10 @@ class OrderController extends Controller
                             $stock->save();
                         }
                     }
+
+                    $discountAmount = ($order->discount / 100) * $orderTotalCost;
+                    $order->amount = ($orderTotalCost - $discountAmount);
+                    $order->originalPrice = $orderTotalCost;
                 }
                 $order->save();
 
