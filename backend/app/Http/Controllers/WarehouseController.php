@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\warehouse\WarehouseResourceCollection;
 use App\Utils\Globals;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
@@ -11,7 +12,6 @@ use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Requests\warehouse\UpdateWarehouseRequest;
 use App\Http\Requests\warehouse\WarehouseRequest;
 use App\Http\Resources\warehouse\WarehouseResource;
-use App\Http\Resources\Warehouse\WarehouseResourceCollection;
 
 class WarehouseController extends Controller
 {
