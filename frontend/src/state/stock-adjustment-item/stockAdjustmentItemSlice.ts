@@ -1,7 +1,6 @@
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
 import {env} from "../../config/env";
 import {
-    createBulkStockAdjustmentItems,
     createStockAdjustmentItem, deleteStockAdjustmentItem, getAllStockAdjustmentItems,
     toggleStockAdjustmentItem,
     updateStockAdjustmentItem
@@ -65,10 +64,12 @@ const stockAdjustmentItemSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(createStockAdjustmentItem.fulfilled, (state, action: PayloadAction<StockAdjustmentItem>) => {
             state.stockAdjustmentItem.data.push(action.payload)
-        }).addCase(createBulkStockAdjustmentItems.fulfilled, (state, action: PayloadAction<[]>) => {
+        })
+            // .addCase(createBulkStockAdjustmentItems.fulfilled, (state, action: PayloadAction<[]>) => {
             // state.stockAdjustmentItem.data.push(action.payload)
-            state.stockAdjustmentItem.data.push(...action.payload);
-        }).addCase(getAllStockAdjustmentItems.fulfilled, (state, action) => {
+            // state.stockAdjustmentItem.data.push(...action.payload);
+            // })
+            .addCase(getAllStockAdjustmentItems.fulfilled, (state, action) => {
             state.stockAdjustmentItem = action.payload;
         }).addCase(updateStockAdjustmentItem.fulfilled, (state, action: PayloadAction<any>) => {
             state.stockAdjustmentItem.data = state.stockAdjustmentItem.data.map((stockAdjustment) => {

@@ -15,8 +15,6 @@ import {Brand} from "../../types/brand.ts";
 import {getAllStockUnits} from "../../state/stock-unit/stockUnitAction.ts";
 import {StockUnit} from "../../types/stock-unit.ts";
 import TextArea from "antd/es/input/TextArea";
-import {getAllSuppliers} from "../../state/supplier/supplierAction.ts";
-import {Supplier} from "../../types/supplier.ts";
 import {getAllWarehouses} from "../../state/warehouse/warehouseAction.ts";
 import {Warehouse} from "../../types/warehouse.ts";
 
@@ -33,6 +31,7 @@ const ProductForm: React.FC = () => {
     const onFinish = (values: any) => {
         values.companyId = user?.companyId;
         values.expirationDate = values.expirationDate || null;
+        values.stockAlertLevel = 10;
 
         setLoading(true);
         ((state?.data && state?.data?.id) ? dispatch(updateProduct({
@@ -65,14 +64,14 @@ const ProductForm: React.FC = () => {
                         name="name"
                         className="col-span-full sm:col-span-1"
                         style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
-                        <Input disabled={disabled} size={"large"} placeholder="GHS 99"/>
+                        <Input disabled={disabled} size={"large"} placeholder="Milk"/>
                     </Form.Item>
 
                     <Form.Item
-                        label={'SKU'}
+                        label={'SKU (optional)'}
                         name="sku"
                         className="col-span-full sm:col-span-1"
-                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        style={{marginBottom: 0}}>
                         <Input disabled={disabled} size={"large"} placeholder="SKU"/>
                     </Form.Item>
 
@@ -135,24 +134,24 @@ const ProductForm: React.FC = () => {
                         />
                     </Form.Item>
 
-                    <Form.Item
-                        name={"supplierId"} label={"Supplier (optional)"}>
-                        <DropdownSearch
-                            defaultValue={state?.data?.supplierName}
-                            object
-                            disabled={disabled}
-                            searchApi={getAllSuppliers}
-                            extraParams={commonQuery()}
-                            placeholder="click to select suppliers"
-                            setResult={(supplier: Supplier) => {
-                                if (supplier) {
-                                    form.setFieldValue('supplierId', supplier?.id);
-                                    return
-                                }
-                                form.setFieldValue('supplierId', null)
-                            }}
-                        />
-                    </Form.Item>
+                    {/*<Form.Item*/}
+                    {/*    name={"supplierId"} label={"Supplier (optional)"}>*/}
+                    {/*    <DropdownSearch*/}
+                    {/*        defaultValue={state?.data?.supplierName}*/}
+                    {/*        object*/}
+                    {/*        disabled={disabled}*/}
+                    {/*        searchApi={getAllSuppliers}*/}
+                    {/*        extraParams={commonQuery()}*/}
+                    {/*        placeholder="click to select suppliers"*/}
+                    {/*        setResult={(supplier: Supplier) => {*/}
+                    {/*            if (supplier) {*/}
+                    {/*                form.setFieldValue('supplierId', supplier?.id);*/}
+                    {/*                return*/}
+                    {/*            }*/}
+                    {/*            form.setFieldValue('supplierId', null)*/}
+                    {/*        }}*/}
+                    {/*    />*/}
+                    {/*</Form.Item>*/}
 
                     <Form.Item
                         label={'Cost Price'}
@@ -164,7 +163,7 @@ const ProductForm: React.FC = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label={'Quantity'}
+                        label={'Stock Quantity'}
                         name="quantity"
                         className="col-span-full sm:col-span-1"
                         style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
@@ -172,20 +171,20 @@ const ProductForm: React.FC = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label={'Location in Warehouse'}
+                        label={'Warehouse Location'}
                         name="locationInWarehouse"
                         className="col-span-full sm:col-span-1"
                         style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
-                        <Input disabled={disabled} size={"large"} placeholder="Front"/>
+                        <Input disabled={disabled} size={"large"} placeholder="Shelves"/>
                     </Form.Item>
 
-                    <Form.Item
-                        label={'Stock Alert Level'}
-                        name="stockAlertLevel"
-                        className="col-span-full sm:col-span-1"
-                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
-                        <InputNumber style={{width: "100%"}} disabled={disabled} size={"large"} placeholder="14"/>
-                    </Form.Item>
+                    {/*<Form.Item*/}
+                    {/*    label={'Stock Alert Level'}*/}
+                    {/*    name="stockAlertLevel"*/}
+                    {/*    className="col-span-full sm:col-span-1"*/}
+                    {/*    style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>*/}
+                    {/*    <InputNumber style={{width: "100%"}} disabled={disabled} size={"large"} placeholder="14"/>*/}
+                    {/*</Form.Item>*/}
 
 
                     <Form.Item
@@ -217,7 +216,7 @@ const ProductForm: React.FC = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label={'Standard Package Quantity'}
+                        label={'Package Quantity'}
                         name={'standardPackageQuantity'}
                         className="col-span-full sm:col-span-1"
                         style={{marginBottom: 0}}
@@ -228,26 +227,26 @@ const ProductForm: React.FC = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label={'Expiration Date (optional)'}
+                        label={'Expiry Date (optional)'}
                         name="expirationDate"
                         className="col-span-full sm:col-span-1"
                         style={{marginBottom: 0}}>
                         <Input disabled={disabled} size={"large"} type="date"/>
                     </Form.Item>
 
-                    <Form.Item
-                        label={'Serial Number (optional)'}
-                        name="serialNumber"
-                        className="col-span-full sm:col-span-1">
-                        <Input disabled={disabled} size={"large"}/>
-                    </Form.Item>
+                    {/*<Form.Item*/}
+                    {/*    label={'Serial Number (optional)'}*/}
+                    {/*    name="serialNumber"*/}
+                    {/*    className="col-span-full sm:col-span-1">*/}
+                    {/*    <Input disabled={disabled} size={"large"}/>*/}
+                    {/*</Form.Item>*/}
 
-                    <Form.Item
-                        label={'Batch Number (optional)'}
-                        name="batchNumber"
-                        className="col-span-full sm:col-span-1">
-                        <Input disabled={disabled} size={"large"}/>
-                    </Form.Item>
+                    {/*<Form.Item*/}
+                    {/*    label={'Batch Number (optional)'}*/}
+                    {/*    name="batchNumber"*/}
+                    {/*    className="col-span-full sm:col-span-1">*/}
+                    {/*    <Input disabled={disabled} size={"large"}/>*/}
+                    {/*</Form.Item>*/}
 
                     <Form.Item
                         label={'Description (optional)'}

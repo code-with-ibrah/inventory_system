@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string("registrationDate");
             $table->boolean("isActive")->default(true);
             $table->boolean("isDeleted")->default(false);
-            $table->foreignId("companyId")->constrained("companies");
             $table->timestamps();
         });
     }

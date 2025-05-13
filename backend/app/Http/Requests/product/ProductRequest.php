@@ -20,7 +20,7 @@ class ProductRequest extends FormRequest
             "costPrice" => ["required", "numeric"],
             "unitPrice" => ["required", "numeric"],
             "quantity" => ["required", "numeric"],
-            "standardPackageQuantity" => ["required", "numeric"],
+            "standardPackageQuantity" => ["nullable", "numeric"],
             "locationInWarehouse" => ["required"],
             "stockAlertLevel" => ["required", "numeric"],
             "companyId" => ["required", "numeric", "exists:companies,id"],

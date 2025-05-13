@@ -12,6 +12,8 @@ import {Supplier} from "../../types/supplier.ts";
 import InputFake from "../../common/input-fake.tsx";
 import {createGoodsReceipt, updateGoodsReceipt} from "../../state/goods-receipt/goodsReceiptAction.ts";
 import {generateUniqueCode} from "../../utils";
+import {MenuLinks} from "../../utils/menu-links.ts";
+import {setGoodsReceipt} from "../../state/goods-receipt/goodsReceiptSlice.ts";
 
 
 const GoodsReceiptForm: React.FC = () => {
@@ -30,10 +32,11 @@ const GoodsReceiptForm: React.FC = () => {
         ((state?.data && state?.data?.id) ? dispatch(updateGoodsReceipt({ data: values, id: state?.data?.id}))
             : dispatch(createGoodsReceipt(values)))
             .then(unwrapResult)
-            .then(() => {
+            .then((record: any) => {
                 TlaSuccess("Successful");
-                setLoading(true);
-                navigate(-1);
+                dispatch(setGoodsReceipt(record));
+                navigate(MenuLinks.admin.goodsReceipt.itemIndex);
+                setLoading(false);
             })
             .catch((err) => {
                 TlaError(err?.message ?? "");

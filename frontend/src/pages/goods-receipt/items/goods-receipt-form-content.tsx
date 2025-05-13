@@ -30,14 +30,24 @@ const GoodsReceiptFormContent: React.FC<Props> = ({setLoading, form}) => {
 
     const onFinish = (values: any) => {
         setLoading(true);
-        const goodsReceiptItem = values.goodsReceiptItem.map((item: any) => {
-            const record = item;
+
+        const uniqueItems: any[] = [];
+        const seenItemIds = new Set();
+
+        values.goodsReceiptItem.forEach((item: any) => {
+            if (!seenItemIds.has(item.productId)) {
+                seenItemIds.add(item.productId);
+                uniqueItems.push(item);
+            }
+        });
+
+        const goodsReceiptItem = uniqueItems.map((item: any) => {
+            const record = { ...item };
             record.companyId = user?.companyId;
             record.goodsReceiptId = selectedGoodsReceiptItem?.id;
             return record;
         });
 
-        
 
         dispatch(createBulkGoodsReceiptItems(goodsReceiptItem))
             .then(unwrapResult).then(() => {

@@ -21,6 +21,7 @@ import {setSupplier} from "../../state/supplier/supplierSlice.ts";
 import {setGoodsReceipt} from "../../state/goods-receipt/goodsReceiptSlice.ts";
 import TlaToggleActive from "../../common/tla-toggle-active.tsx";
 import {FilePdfOutlined} from "@ant-design/icons";
+import {TlaInfoTag, TlaSuccessTag} from "../../common/tla-tag.tsx";
 
 
 
@@ -69,12 +70,12 @@ const GoodsReceipts: React.FC = () => {
                         </span>
                         )}/>
                     <Column title="Creator" dataIndex={["user", "name"]}/>
-                    <Column title="Total Amount" render={(record: any) => (<span>{ currencyFormat(+record?.totalAmount) }</span>)}/>
+                    <Column title="Total Amount" render={(record: any) => (<span className={'font-semibold'}>{ currencyFormat(+record?.totalAmount) }</span>)}/>
                     <Column title="Condition of Goods" render={(record: GoodsReceipt) => <span>
                         { record?.conditionOfGoods ?? "-" }
                     </span>}/>
 
-                    <Column title="Status" render={(record) => <span>{record.isRecorded ? "Recorded" : "Not recorded"}</span>}/>
+                    <Column title="Status" render={(record) => <span>{record.isRecorded ? <TlaSuccessTag text={'Recorded'}/> : <TlaInfoTag text={'Not recorded'}/> }</span>}/>
 
                     <Column title={'Action'} render={(record) => (
                             <TableActions items={[
@@ -85,13 +86,6 @@ const GoodsReceipts: React.FC = () => {
                                             <FiEdit3/>
                                             Edit
                                         </TlaOpen>
-                                    ),
-                                },
-                                {
-                                    key: '2',
-                                    label: (
-                                        <TlaDelete title={'goods receipt'} column={record.id}
-                                                   callBack={deleteGoodsReceipt}/>
                                     ),
                                 },
                                 {
@@ -115,7 +109,16 @@ const GoodsReceipts: React.FC = () => {
                                                              callBack={toggleGoodsReceipt}/>
                                         </div> : null
                                     )
-                                }
+                                },
+                                {
+                                    key: '5',
+                                    label: (
+                                        <>
+                                            { !record?.isRecorded ? <TlaDelete title={'goods receipt'} column={record.id}
+                                                        callBack={deleteGoodsReceipt}/> : null }
+                                        </>
+                                    ),
+                                },
                             ]}/>
                     )}/>
                 </TlaTableWrapper>

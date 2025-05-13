@@ -6,6 +6,8 @@ import {TlaError, TlaSuccess} from "../../utils/messages.ts";
 import {TlaModal} from "../../common/pop-ups/TlaModal.tsx";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {createStockAdjustment, updateStockAdjustment} from "../../state/stock-adjustment/stockAdjustmentAction.ts";
+import {MenuLinks} from "../../utils/menu-links.ts";
+import {setStockAdjustment} from "../../state/stock-adjustment/stockAdjustmentSlice.ts";
 
 
 const StockAdjustmentForm: React.FC = () => {
@@ -25,10 +27,11 @@ const StockAdjustmentForm: React.FC = () => {
             dispatch(updateStockAdjustment({ data: values, id: state?.data?.id})) :
             dispatch(createStockAdjustment(values)))
             .then(unwrapResult)
-            .then(() => {
+            .then((record: any) => {
                 TlaSuccess("Successful")
                 setLoading(true)
-                navigate(-1)
+                dispatch(setStockAdjustment(record));
+                navigate(MenuLinks.admin.stockAdjustment.details);
             })
             .catch((err: any) => {
                 TlaError(err?.message ?? "")

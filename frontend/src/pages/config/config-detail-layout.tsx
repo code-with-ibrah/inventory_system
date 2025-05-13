@@ -20,11 +20,11 @@ const ConfigDetailLayoutMenu: Menu[] = [
         link: MenuLinks.admin.config.roles,
         icon: appIconLabels.role,
     },
-    {
-        label: 'Installment Plan',
-        link: MenuLinks.admin.config.installmentPlan,
-        icon: appIconLabels.stockUnit,
-    },
+    // {
+    //     label: 'Installment Plan',
+    //     link: MenuLinks.admin.config.installmentPlan,
+    //     icon: appIconLabels.stockUnit,
+    // },
     {
         label: 'Payment Methods',
         link: MenuLinks.admin.config.paymentMethod,

@@ -18,7 +18,7 @@ const OrdersInfo = () => {
         <div className={"mb-5"}>
             <div className={'gap-2 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2'}>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem className={'capitalize'} title={"Status"} value={order?.status}/>
+                    <SingleItem className={'capitalize'} title={"Status"} value={order?.status ?? 'Preparing '}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Order Number"} value={order?.orderNumber}/>
@@ -31,9 +31,9 @@ const OrdersInfo = () => {
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Customer"} className={'capitalize'} value={order?.customer?.name}/>
                 </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
+                {order?.totalPayments ? <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Amount Paid"} value={currencyFormat(Math.abs(+order?.totalPayments))}/>
-                </div>
+                </div> : null}
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Discount Percentage"} value={order?.discount + '%'}/>
                 </div>

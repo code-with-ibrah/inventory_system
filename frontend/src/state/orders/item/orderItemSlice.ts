@@ -2,7 +2,6 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import { env } from "../../../config/env.ts";
 import {OrderItem, OrderItemState} from "../../../types/order.ts";
 import {
-    createBulkOrderItems,
     createOrderItem,
     deleteOrderItem,
     getAllOrderItems,
@@ -74,9 +73,11 @@ const orderItemSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(createOrderItem.fulfilled, (state, action) => {
             state.orderItem.data.push(action.payload)
-        }).addCase(createBulkOrderItems.fulfilled, (state, action) => {
-                state.orderItem.data.push(...action.payload);
-        }).addCase(getAllOrderItems.fulfilled, (state, action) => {
+        })
+            // .addCase(createBulkOrderItems.fulfilled, (state, action) => {
+            //     state.orderItem.data.push(...action.payload);
+            // })
+            .addCase(getAllOrderItems.fulfilled, (state, action) => {
             state.orderItem = action.payload
         }).addCase(updateOrderItem.fulfilled, (state, action) => {
             state.orderItem.data = state.orderItem.data.map((orderItem) => {

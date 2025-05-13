@@ -27,8 +27,19 @@ const OrderItemFormContent: React.FC<Props> = ({setLoading, form}) => {
 
     const onFinish = (values: any) => {
         setLoading(true);
-        const orderItem = values.orderItem.map((item: any) => {
-            const record = item;
+
+        const uniqueItems: any[] = [];
+        const seenItemIds = new Set();
+
+        values.orderItem.forEach((item: any) => {
+            if (!seenItemIds.has(item.productId)) {
+                seenItemIds.add(item.productId);
+                uniqueItems.push(item);
+            }
+        });
+
+        const orderItem = uniqueItems.map((item: any) => {
+            const record = { ...item };
             record.orderId = order?.id;
             return record;
         });

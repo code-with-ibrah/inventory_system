@@ -14,6 +14,7 @@ import {createOrders, updateOrders} from "../../state/orders/receiptAction.ts";
 import {setOrderItem} from "../../state/orders/orderSlice.ts";
 import {Order} from "../../types/order.ts";
 import {orderStatus} from "../../utils/order-status.ts";
+import {MenuLinks} from "../../utils/menu-links.ts";
 
 
 const OrdersForm: React.FC = () => {
@@ -39,7 +40,8 @@ const OrdersForm: React.FC = () => {
                 .then(unwrapResult)
                 .then((res: Order) => {
                     dispatch(setOrderItem(res));
-                    navigate(-1)
+                    navigate(-1);
+                    setLoading(false);
                 })
                 .catch((err) => {
                     TlaError(err?.message ?? "");
@@ -50,10 +52,11 @@ const OrdersForm: React.FC = () => {
         {
             dispatch(createOrders(values))
                 .then(unwrapResult)
-                .then(() => {
+                .then((record: any) => {
                     TlaSuccess("Successful");
-                    setLoading(true);
-                    navigate(-1);
+                    dispatch(setOrderItem(record));
+                    navigate(MenuLinks.admin.order.details.index);
+                    setLoading(false)
                 })
                 .catch((err) => {
                     TlaError(err?.message ?? "");

@@ -80,12 +80,12 @@ const WarehouseForm: React.FC = () => {
 
                     <Form.Item
                         name={"type"} label={"Type (optional)"}>
-                        <Input/>
+                        <Input placeholder={'eg. storage'}/>
                     </Form.Item>
 
                     <Form.Item
                         name={"capacity"} label={"Capacity (optional)"}>
-                        <Input/>
+                        <Input placeholder={'eg. 20 meters long'}/>
                     </Form.Item>
 
                     <Form.Item className={'col-span-2'}

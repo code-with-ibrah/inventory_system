@@ -31,14 +31,24 @@ const StockAdjustmentFormContent: React.FC<Props> = ({setLoading, form}) => {
     const onFinish = (values: any) => {
         setLoading(true);
 
-        const stockAdjustmentItem = values.stockAdjustmentItem.map((item: any) => {
-            const record = item;
-            record.adjustedQuantity = (item.status == "addition") ? +item.adjustedQuantity : (item.adjustedQuantity * -1);
+        const uniqueItems: any[] = [];
+        const seenItemIds = new Set();
+
+        values.stockAdjustmentItem.forEach((item: any) => {
+            if (!seenItemIds.has(item.productId)) {
+                seenItemIds.add(item.productId);
+                uniqueItems.push(item);
+            }
+        });
+
+        const stockAdjustmentItem = uniqueItems.map((item: any) => {
+            const record = { ...item };
+            record.adjustedQuantity = (item.status == "addition") ? +item.adjustedQuantity : (+item.adjustedQuantity * -1);
             record.adjustmentId = adjustment.id;
             record.companyId = user?.companyId;
             return record;
         });
-        
+
 
         dispatch(createBulkStockAdjustmentItems(stockAdjustmentItem))
             .then(unwrapResult).then(() => {

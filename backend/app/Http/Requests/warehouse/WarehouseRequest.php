@@ -17,7 +17,7 @@ class WarehouseRequest extends FormRequest
             "name" => ["required", "min:3", "unique:warehouses,name"],
             "location" => ["required"],
             "code" => ["required", "unique:warehouses,code"],
-            "creatorId" => ["required", "exists:users,id"],
+//            "creatorId" => ["required", "exists:users,id"],
             "companyId" => ["required", "exists:companies,id"]
         ];
     }
