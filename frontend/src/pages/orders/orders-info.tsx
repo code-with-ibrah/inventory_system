@@ -101,40 +101,12 @@ const OrdersInfo = () => {
                     </div>
                 </div>
 
-
-                {/* list the prdouct items in the order */}
-                <p className={'font-medium text-xl  mt-5 mb-2'}>Order Items</p>
-                {/*<div className={'bg-white rounded px-5 col-span-4'}>*/}
-                {/*    /!*<p className={'text-gray-500 font-medium text-md'}>Order Items</p>*!/*/}
-                {/*    <div className="bg-white rounded-lg">*/}
-
-                {/*        <div className="overflow-x-auto">*/}
-                {/*            <table className="min-w-full divide-y divide-gray-200">*/}
-                {/*                <tbody className="bg-white divide-y divide-gray-200">*/}
-                {/*                    {orderItems.length ? orderItems.map((item: any) => (*/}
-                {/*                        <tr key={item?.id}>*/}
-                {/*                            <td className="p-2 whitespace-nowrap">*/}
-                {/*                                <span className="">{item?.product?.name}</span>*/}
-                {/*                            </td>*/}
-                {/*                            <td className="p-2 whitespace-nowrap">*/}
-                {/*                                <span className="text-gray-700 ">x {item?.quantity}</span>*/}
-                {/*                            </td>*/}
-                {/*                            <td className="p-2 whitespace-nowrap text-right">*/}
-                {/*                                <span className="font-medium ">{currencyFormat(+item?.totalCost)}</span>*/}
-                {/*                            </td>*/}
-                {/*                        </tr>*/}
-                {/*                    )) : <Empty className={'p-5'} description={'No items were found for this order.'} />}*/}
-                {/*                </tbody>*/}
-                {/*            </table>*/}
-                {/*        </div>*/}
-
-                {/*    </div>*/}
-                {/*</div>*/}
             </div>
 
 
-            <div className="max-w-4xl bg-white rounded-lg shadow-md p-6 receipt-content">
+            <p className={'font-medium text-xl  mt-5 mb-2'}>Order Items</p>
 
+            <div className="max-w-4xl bg-white rounded-lg shadow-md p-6 receipt-content">
 
                 <div className="overflow-x-auto mr-auto">
                     <table className="min-w-full table-auto text-sm">
@@ -168,7 +140,7 @@ const OrdersInfo = () => {
                                     <span className="font-medium ">{currencyFormat(+item?.totalCost)}</span>
                                 </td>
                             </tr>
-                        )) : <Empty className={'p-5'} description={'No items were found for this order.'} />}
+                        )) : <Empty className={'p-5'} description={'No items were found for this order.'}/>}
 
 
                         </tbody>
