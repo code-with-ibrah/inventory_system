@@ -1,10 +1,11 @@
 import React from "react";
 import DashboardChart from "./dashboard-chart.tsx";
-import Counts from "./counts.tsx";
+import DashboardCounts from "./dashboard-counts.tsx";
 import {Button, Calendar, DatePicker, Form} from "antd";
 import 'dayjs/locale/en-gb';
 import {FilterOutlined} from "@ant-design/icons";
 import {useAppSelector} from "../../hooks";
+import RevenueCounts from "./revenue-counts.tsx";
 
 
 const Analytics: React.FC = (props: any) => {
@@ -44,16 +45,16 @@ const Analytics: React.FC = (props: any) => {
                             value={fromDate}
                             onChange={(date) => handleDateChange([date, toDate])}
                             format="YYYY-MM-DD"
-                            style={{ width: 150 }}
+                            style={{width: 150}}
                         />
                         <DatePicker
                             placeholder="To Date"
                             value={toDate}
                             onChange={(date) => handleDateChange([fromDate, date])}
                             format="YYYY-MM-DD"
-                            style={{ width: 150 }}
+                            style={{width: 150}}
                         />
-                        <Button type="primary" className={'btn-red'} icon={<FilterOutlined />} onClick={handleFilter}>
+                        <Button type="primary" className={'btn-red'} icon={<FilterOutlined/>} onClick={handleFilter}>
                             Filter
                         </Button>
                     </Form>
@@ -61,10 +62,18 @@ const Analytics: React.FC = (props: any) => {
             </div>
 
 
+            <div className={'counters'}>
+                <p className="text-app-red text-2xl uppercase font-semibold mb-2 mt-8">dashboard counters</p>
+                <div className="bg-white rounded-lg mb-5">
+                    <DashboardCounts/>
+                </div>
+            </div>
 
-
-            <div className={"bg-white rounded-lg mb-5"}>
-                <Counts/>
+            <div className={'revenue-counters'}>
+                <p className="text-app-red text-2xl uppercase font-semibold mb-2 mt-8">Revenue Statistics</p>
+                <div className="bg-white rounded-lg mb-5">
+                    <RevenueCounts/>
+                </div>
             </div>
 
             <div className={"grid grid-cols-1 md:grid-cols-3 gap-y-5 gap-x-0 md:gap-x-5"}>

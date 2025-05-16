@@ -66,13 +66,24 @@ const Orders: React.FC = () => {
                     </span>}/>
 
                     {/*<Column title="Discount Percentage" render={(record: Order) => <span>{record?.discount}%</span>}/>*/}
-                    <Column title="Discount Amount" render={(record: Order) => <span className={'font-semibold'}>{currencyFormat(+record?.amount)}</span>}/>
+                    <Column title="Amount" render={(record: Order) => <span className={'font-medium'}>{currencyFormat(+record?.amount)}</span>}/>
+                    <Column title="Total Paid Amount" render={(record: Order) => <span className={'font-semibold'}>{currencyFormat(+record?.totalPayments)}</span>}/>
 
-                    {/*<Column title="Total Paid Amount" render={(record: Order) => <span>{currencyFormat(+record?.totalPayments)}</span>}/>*/}
 
-                    <Column title="Payment Status" render={(record: Order) => <span>
-                        {(+record?.totalPayments >= +record?.amount) ? <TlaSuccessTag text={'Fully Paid'}/> : <TlaErrorTag text={'Partial Payments'}/>}
-                    </span>}/>
+                    <Column
+                        title="Payment Status"
+                        render={(record: Order) => (
+                            <span>
+                                {+record?.totalPayments === 0 ? (
+                                    <TlaErrorTag text={'Not Paid'}/>
+                                ) : +record?.amount > 0 && +record?.totalPayments >= +record?.amount ? (
+                                    <TlaSuccessTag text={'Fully Paid'}/>
+                                ) : +record?.amount > 0 && +record?.totalPayments < +record?.amount ? (
+                                    <TlaErrorTag text={'Partial Payments'}/>
+                                ) : null}
+                            </span>
+                        )}
+                    />
 
                     <Column title={'Action'} render={(record) => (
                         <TableActions items={[

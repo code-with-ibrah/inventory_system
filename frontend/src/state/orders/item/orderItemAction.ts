@@ -5,9 +5,9 @@ import {ToggleType} from "../../../types/toggle-type.ts";
 export const deleteOrderItem = createAsyncThunk(
     "orderItem/deleteOrderItem", async (orderItemId: number, {rejectWithValue}) => {
         try {
-            await api().delete(`/order-items/${orderItemId}?delete=true`);
+            const res = await api().delete(`/order-items/${orderItemId}?delete=true`);
 
-            return orderItemId;
+            return res.data.data;
 
         } catch (err: any) {
             if (!err.response) {

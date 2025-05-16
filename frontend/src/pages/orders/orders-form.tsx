@@ -15,6 +15,8 @@ import {setOrderItem} from "../../state/orders/orderSlice.ts";
 import {Order} from "../../types/order.ts";
 import {orderStatus} from "../../utils/order-status.ts";
 import {MenuLinks} from "../../utils/menu-links.ts";
+import InputFake from "../../common/input-fake.tsx";
+import {getAllOrderItems} from "../../state/orders/item/orderItemAction.ts";
 
 
 const OrdersForm: React.FC = () => {
@@ -24,7 +26,10 @@ const OrdersForm: React.FC = () => {
     const [form] = Form.useForm<any>();
     const navigate = useNavigate();
     const user = useAppSelector(state => state.auth.user);
-    // const order = useAppSelector(state => state.order.orderItem);
+    const order = useAppSelector(state => state.order.orderItem);
+
+    const formData = {...state?.data };
+    formData.originalPrice = order?.amount;
 
 
     const onFinish = (values: any) => {
@@ -33,6 +38,8 @@ const OrdersForm: React.FC = () => {
         values.userId = user?.id;
         values.amount = values.originalPrice;
         values.orderNumber = generateUniqueCode("ORD-", 12);
+        values.discount = (values.discount) ? values.discount : 0.00;
+        values.amount = (values.amount) ? values.amount : 0.00;
 
         if((state?.data && state?.data?.id))
         {
@@ -55,6 +62,7 @@ const OrdersForm: React.FC = () => {
                 .then((record: any) => {
                     TlaSuccess("Successful");
                     dispatch(setOrderItem(record));
+                    dispatch(getAllOrderItems(commonQuery(`&orderId[eq]=${record?.id}`)));
                     navigate(MenuLinks.admin.order.details.index);
                     setLoading(false)
                 })
@@ -67,9 +75,13 @@ const OrdersForm: React.FC = () => {
 
     return (
         <TlaModal title={"Orders"} loading={loading}>
-            <Form requiredMark={false} form={form} onFinish={onFinish} initialValues={{...state?.data}} size={'large'} layout={"vertical"}>
+            <Form requiredMark={false} form={form} onFinish={onFinish} initialValues={{...formData}} size={'large'} layout={"vertical"}>
                <br/>
                 <div className={'grid grid-cols-1 md:grid-cols-2 gap-2'}>
+                    <Form.Item label={'Order Creator'}>
+                        <InputFake value={user?.name}/>
+                    </Form.Item>
+
                     <Form.Item
                         rules={[
                             {
@@ -82,14 +94,13 @@ const OrdersForm: React.FC = () => {
                     </Form.Item>
 
                     <Form.Item
-                        rules={[{required: true, message: "Required"}]}
-                        name={"originalPrice"} label={"Amount *"}>
+                        name={"originalPrice"} label={"Amount (optional)"}>
                         <Input
                             readOnly={ state?.data?.status == orderStatus.delivered }
                             type={'number'}
                             min={'0'}
                             step={'any'}
-                            placeholder={'8952.78'}/>
+                            placeholder={'Auto detect'}/>
                     </Form.Item>
 
                     <Form.Item
@@ -110,10 +121,10 @@ const OrdersForm: React.FC = () => {
                             }}/>
                     </Form.Item>
 
-                    <Form.Item
-                        name={"discount"} label={"Discount (optional)"}>
-                        <Input type={'number'} min={'0'} max={'100'} placeholder={'50%'}/>
-                    </Form.Item>
+                    {/*<Form.Item*/}
+                    {/*    name={"discount"} label={"Discount (optional)"}>*/}
+                    {/*    <Input type={'number'} min={'0'} max={'100'} placeholder={'50%'}/>*/}
+                    {/*</Form.Item>*/}
 
                 </div>
 

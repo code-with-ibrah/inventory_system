@@ -12,6 +12,7 @@ import {commonQuery} from "../../../utils/query.ts";
 import {Product} from "../../../types/product.ts";
 import {Order} from "../../../types/order.ts";
 import {createBulkOrderItems, getAllOrderItems} from "../../../state/orders/item/orderItemAction.ts";
+import {setOrderItem} from "../../../state/orders/orderSlice.ts";
 
 
 interface Props {
@@ -45,10 +46,15 @@ const OrderItemFormContent: React.FC<Props> = ({setLoading, form}) => {
         });
 
         dispatch(createBulkOrderItems(orderItem))
-            .then(unwrapResult).then(() => {
-            setLoading(false);
-            dispatch(getAllOrderItems(commonQuery(`&orderId[eq]=${order?.id}`)));
-            TlaSuccess("Success");
+            .then(unwrapResult).then((result: Order) => {
+                const currentOrder = result;
+                currentOrder.totalPayments = order.totalPayments;
+            dispatch(setOrderItem(currentOrder));
+            dispatch(getAllOrderItems(commonQuery(`&orderId[eq]=${order?.id}`)))
+                .then(() => {
+                    setLoading(false);
+                    TlaSuccess("Success");
+                })
             navigate(-1);
         }).catch((err: any) => {
             TlaError(err?.message ?? "");

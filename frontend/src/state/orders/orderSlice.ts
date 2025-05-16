@@ -54,7 +54,7 @@ const initialState: OrdersState= {
         date: "",
         customerId: 0,
         amount: 0,
-        status: "",
+        status: "preparing",
         installmentPlanId: 0,
         currency: 0,
         paymentMethodId: 0,

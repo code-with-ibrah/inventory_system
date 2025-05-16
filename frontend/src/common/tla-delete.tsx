@@ -29,7 +29,7 @@ const TlaDelete = ({ callBack, query, column, title, btnName = "Delete", confirm
                             message: `${title} Deleted Successfully`
                         }))
                     })
-                    .catch((obj) => {
+                    .catch((obj: any) => {
                         dispatch(updateState({
                             status: "failed",
                             errors: obj.errors

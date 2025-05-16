@@ -98,9 +98,26 @@ body{
 
 
 
+
+
+
+
+
+/* print media settings */
+
+
 @media print {
     .no-print {
         display: none !important;
+    }
+
+    body {
+        width: 100% !important;
+        margin: 0 auto;
+    }
+
+    .receipt-container {
+        width: 100%;
     }
 }
 

@@ -10,12 +10,15 @@ import {deleteOrderItem, getAllOrderItems} from "../../../state/orders/item/orde
 import TlaOpen from "../../../common/pop-ups/TlaOpen.tsx";
 import {Button} from "antd";
 import {FiPlusCircle} from "react-icons/fi";
-import TlaDelete from "../../../common/tla-delete.tsx";
 import { currencyFormat } from "../../../utils/index.ts";
 import { OrderItem } from "../../../types/order.ts";
 import {orderStatus} from "../../../utils/order-status.ts";
 import {setProduct} from "../../../state/product/productSlice.ts";
 import {useNavigate} from "react-router-dom";
+import {setOrderItem} from "../../../state/orders/orderSlice.ts";
+import {unwrapResult} from "@reduxjs/toolkit";
+import {resetState, updateState} from "../../../state/errorSlice.ts";
+import TlaConfirm from "../../../common/tla-confirm.tsx";
 
 
 const OrderItems: React.FC = () => {
@@ -57,7 +60,27 @@ const OrderItems: React.FC = () => {
                             render={((record) => (
                                     <div className={'flex items-center gap-2'}>
                                         <TlaEdit data={record} link={MenuLinks.admin.order.details.singleProductForm}/>
-                                        <TlaDelete title={'order product'} column={record.id} callBack={deleteOrderItem}/>
+                                        <TlaConfirm
+                                            title={'Confirm Delete'}
+                                            fullText={`Do you really want to delete this order item ?`}
+                                            callBack={() => {
+                                                dispatch(deleteOrderItem(record?.id))
+                                                    .then(unwrapResult)
+                                                    .then((result: any) => {
+                                                        const currentOrder = (result);
+                                                        currentOrder.totalPayments = order.totalPayments;
+                                                        dispatch(setOrderItem(currentOrder));
+                                                        dispatch(getAllOrderItems(commonQuery(`&orderId[eq]=${order?.id}`)))
+                                                    })
+                                                    .catch((obj: any) => {
+                                                        dispatch(updateState({
+                                                            status: "failed",
+                                                            errors: obj.errors
+                                                        }))
+                                                    }).finally(() => dispatch(resetState()))
+                                            }}>
+                                            Delete
+                                        </TlaConfirm>
                                     </div>
                                 )
                             )}/>

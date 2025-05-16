@@ -1,27 +1,54 @@
-import {Spin} from "antd";
-import {useAppSelector} from "../../hooks";
+import {Empty, Spin} from "antd";
+import {useAppDispatch, useAppSelector} from "../../hooks";
 import {useEffect, useState} from "react";
 import SingleItem from "../../common/single-item.tsx";
 import {currencyFormat, formatDate} from "../../utils";
+import {commonQuery} from "../../utils/query.ts";
+import {getAllOrderItems} from "../../state/orders/item/orderItemAction.ts";
+import {TlaErrorTag, TlaSuccessTag} from "../../common/tla-tag.tsx";
 
 const OrdersInfo = () => {
     const order: any = useAppSelector(state => state.order.orderItem);
     const [loading, setLoading] = useState<boolean>(true);
+    const dispatch = useAppDispatch();
+    const {data: orderItems} = useAppSelector(state => state.orderItem.orderItem);
+
 
     useEffect(() => {
         setTimeout(() => {
             setLoading(false);
         }, 500)
+
+        dispatch(getAllOrderItems(commonQuery(`&orderId[eq]=${order?.id}`)));
+
     }, [loading]);
 
+
     return (<Spin spinning={loading}>
+
+        <p className={'font-medium text-xl mt-5 mb-2'}>Order Summery</p>
         <div className={"mb-5"}>
             <div className={'gap-2 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2'}>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
+                    <SingleItem title={"Order Number"} value={order?.orderNumber}/>
+                </div>
+
+                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem className={'capitalize'} title={"Status"} value={order?.status ?? 'Preparing '}/>
                 </div>
+
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Order Number"} value={order?.orderNumber}/>
+                    <p className={'text-gray-500 font-medium text-md'}>Payment Status</p>
+
+                    <span>
+                        {(+order?.amount == 0) || (+order?.totalPayments == 0) ? (
+                            <TlaErrorTag text={'Not Paid'}/>
+                        ) : +order?.amount > 0 && +order?.totalPayments >= +order?.amount ? (
+                            <TlaSuccessTag text={'Fully Paid'}/>
+                        ) : +order?.amount > 0 && +order?.totalPayments < +order?.amount ? (
+                            <TlaErrorTag text={'Partial Payments'}/>
+                        ) : null}
+                    </span>
                 </div>
 
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
@@ -31,25 +58,123 @@ const OrdersInfo = () => {
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Customer"} className={'capitalize'} value={order?.customer?.name}/>
                 </div>
-                {order?.totalPayments ? <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Amount Paid"} value={currencyFormat(Math.abs(+order?.totalPayments))}/>
-                </div> : null}
+                {/*{order?.totalPayments ? <div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Amount customer Paid"} value={currencyFormat(Math.abs(+order?.totalPayments))}/>*/}
+                {/*</div> : null}*/}
+
+
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Discount Percentage"} value={order?.discount + '%'}/>*/}
+                {/*</div>*/}
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Original Amount"} value={currencyFormat(+order?.originalPrice)}/>*/}
+                {/*</div>*/}
+
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Creator"} value={order?.user?.name}/>*/}
+                {/*</div>*/}
+
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Discount Percentage"} value={order?.discount + '%'}/>
+                    <SingleItem title={"Amount"} value={currencyFormat(+order?.amount)}/>
                 </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Original Amount"} value={currencyFormat(+order?.originalPrice)}/>
+
+                {!(order?.totalPayments) || (order?.totalPayments < 1) ? <div className={'bg-white rounded-xl p-5'}>
+                        <SingleItem title={'Amount Customer Paid'} value={currencyFormat(0)}/>
+                    </div> :
+                    <div className={'bg-white rounded-xl p-5'}>
+                        <SingleItem title={'Amount Customer Paid'}
+                                    value={currencyFormat(Math.abs(+order?.totalPayments))}/>
+                    </div>}
+
+                <div className={'bg-white rounded-xl p-5'}>
+
+                    <div className={''}>
+                        <p className={'text-gray-500 font-medium text-md'}>Remaining Balance</p>
+                        <div>
+                            <p className={'font-medium'}>
+                                {(+order?.amount >= +order?.totalPayments)
+                                    ? <span> {currencyFormat(+order?.amount - +order?.totalPayments)} </span>
+                                    : <span> {currencyFormat(0)} </span>
+                                }
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Discount Amount"} value={currencyFormat(+order?.amount)}/>
+
+
+                {/* list the prdouct items in the order */}
+                <p className={'font-medium text-xl  mt-5 mb-2'}>Order Items</p>
+                {/*<div className={'bg-white rounded px-5 col-span-4'}>*/}
+                {/*    /!*<p className={'text-gray-500 font-medium text-md'}>Order Items</p>*!/*/}
+                {/*    <div className="bg-white rounded-lg">*/}
+
+                {/*        <div className="overflow-x-auto">*/}
+                {/*            <table className="min-w-full divide-y divide-gray-200">*/}
+                {/*                <tbody className="bg-white divide-y divide-gray-200">*/}
+                {/*                    {orderItems.length ? orderItems.map((item: any) => (*/}
+                {/*                        <tr key={item?.id}>*/}
+                {/*                            <td className="p-2 whitespace-nowrap">*/}
+                {/*                                <span className="">{item?.product?.name}</span>*/}
+                {/*                            </td>*/}
+                {/*                            <td className="p-2 whitespace-nowrap">*/}
+                {/*                                <span className="text-gray-700 ">x {item?.quantity}</span>*/}
+                {/*                            </td>*/}
+                {/*                            <td className="p-2 whitespace-nowrap text-right">*/}
+                {/*                                <span className="font-medium ">{currencyFormat(+item?.totalCost)}</span>*/}
+                {/*                            </td>*/}
+                {/*                        </tr>*/}
+                {/*                    )) : <Empty className={'p-5'} description={'No items were found for this order.'} />}*/}
+                {/*                </tbody>*/}
+                {/*            </table>*/}
+                {/*        </div>*/}
+
+                {/*    </div>*/}
+                {/*</div>*/}
+            </div>
+
+
+            <div className="max-w-4xl bg-white rounded-lg shadow-md p-6 receipt-content">
+
+
+                <div className="overflow-x-auto mr-auto">
+                    <table className="min-w-full table-auto text-sm">
+                        <thead className="bg-gray-100">
+                        <tr>
+                            <th className="p-2 text-left text-gray-700">#</th>
+                            <th className="p-2 text-left text-gray-700">Product</th>
+                            <th className="p-2 text-right text-gray-700">Qty</th>
+                            <th className="p-2 text-right text-gray-700">Unit Price</th>
+                            <th className="p-2 text-right text-gray-700">Total Cost</th>
+                        </tr>
+                        </thead>
+
+                        <tbody className="">
+
+                        {orderItems.length ? orderItems.map((item: any, index) => (
+                            <tr key={item?.id} className={'divide-y divide-gray-200'}>
+                                <td className="p-2 whitespace-nowrap text-gray-700 text-left">
+                                    <span className="">{++index}</span>
+                                </td>
+                                <td className="p-2 whitespace-nowrap text-gray-700 text-left">
+                                    <span className="">{item?.product?.name}</span>
+                                </td>
+                                <td className="p-2 whitespace-nowrap text-gray-700 text-right">
+                                    <span className="text-gray-700">{item?.quantity}</span>
+                                </td>
+                                <td className="p-2 whitespace-nowrap text-gray-700 text-right">
+                                    <span className="text-gray-700">{item?.unitPriceAtSale}</span>
+                                </td>
+                                <td className="p-2 whitespace-nowrap text-gray-700 text-right">
+                                    <span className="font-medium ">{currencyFormat(+item?.totalCost)}</span>
+                                </td>
+                            </tr>
+                        )) : <Empty className={'p-5'} description={'No items were found for this order.'} />}
+
+
+                        </tbody>
+                    </table>
                 </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Creator"} value={order?.user?.name}/>
-                </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Payment Status"}
-                                value={(+order?.totalPayments >= +order?.amount) ? 'Fully Paid' : 'Partial Payment'}/>
-                </div>
+
 
             </div>
         </div>

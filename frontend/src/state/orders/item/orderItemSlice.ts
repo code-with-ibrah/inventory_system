@@ -84,7 +84,7 @@ const orderItemSlice = createSlice({
                 return orderItem.id === action.payload.id ? action.payload : orderItem
             })
         }) .addCase(deleteOrderItem.fulfilled, (state, action: PayloadAction<any>) => {
-            state.orderItem.data = state.orderItem.data.filter((orderItem: OrderItem) => orderItem.id !== action.payload)
+            state.orderItem.data = state.orderItem.data.filter((orderItem: OrderItem) => orderItem.id !== action.payload.id)
         }).addCase(toggleOrderItem.fulfilled, (state, action) => {
             state.orderItem.data = state.orderItem.data.map((orderItem: OrderItem) => {
                 return orderItem.id == action.payload.id ? action.payload : orderItem

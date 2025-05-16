@@ -7,8 +7,10 @@ use App\Http\Api\response\ApiResponse;
 use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Requests\order_item\OrderItemRequest;
 use App\Http\Requests\order_item\UpdateOrderItemRequest;
+use App\Http\Resources\order\OrderResource;
 use App\Http\Resources\order_item\OrderItemResource;
 use App\Http\Resources\order_item\OrderItemResourceCollection;
+use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Stock;
@@ -16,6 +18,7 @@ use App\Utils\Globals;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use function Symfony\Component\VarDumper\Dumper\echoLine;
 
 class OrderItemController extends Controller
 {
@@ -49,11 +52,27 @@ class OrderItemController extends Controller
         $createdItems = collect();
         $updatedStocks = collect();
 
+        $orderIdFromFirstItem = -5;
+        if (!empty($orderItemData) && is_array($orderItemData[0]) && isset($orderItemData[0]['orderId'])) {
+            $orderIdFromFirstItem = $orderItemData[0]['orderId'];
+        }
+        else{
+            return ApiResponse::badRequest("Order id not found on the first product");
+        }
+
         try {
-            $createdOrderItems = DB::transaction(function () use ($orderItemData, &$createdItems, &$updatedStocks) {
+
+            $targetOrder = DB::transaction(function () use ($orderItemData, &$createdItems, &$updatedStocks, &$orderIdFromFirstItem) {
+                $targetOrder = new Order();
+                if($orderIdFromFirstItem > 0){
+                    $targetOrder = Order::findOrFail($orderIdFromFirstItem);
+                }
+
+
                 $productIds = collect($orderItemData)->pluck('productId')->unique()->toArray();
                 $allProductInStock = Stock::whereIn('productId', $productIds)->get()->keyBy('productId');
 
+                $totalCostForAllProducts = 0;
                 foreach ($orderItemData as $orderItem) {
                     $productId = $orderItem['productId'];
 
@@ -71,6 +90,8 @@ class OrderItemController extends Controller
 
                         $product = Product::findOrFail($payload['productId']);
                         $unitPrice = $payload["unitPriceAtSale"] ?? $product->unitPrice;
+                        $totalCost = doubleval($payload['quantity']) * $unitPrice;
+
                         $createdItems->push(new OrderItem(array_merge($payload, [
                             'productId' => $currentProductId,
                             'quantity' => $payload["quantity"],
@@ -79,9 +100,15 @@ class OrderItemController extends Controller
                             'orderId' => $payload['orderId'],
                         ])));
 
+                        $totalCostForAllProducts += $totalCost;
+
                         $updatedStocks->put($stock->id, $stock);
                     }
                 }
+
+                // add the total cost to products
+                $targetOrder->amount += $totalCostForAllProducts;
+                $targetOrder->save();
 
                 // Batch insert OrderItems after processing all
                 OrderItem::insert($createdItems->toArray());
@@ -91,11 +118,11 @@ class OrderItemController extends Controller
                     $stock->save();
                 });
 
-                return $createdItems;
+                return $targetOrder;
             });
 
             // Clear relevant cache on create
-            return new OrderItemResourceCollection($createdOrderItems);
+            return new OrderResource($targetOrder);
 
         } catch (\Exception $e) {
             return ApiResponse::duplicate($e->getMessage());
@@ -130,6 +157,11 @@ class OrderItemController extends Controller
         $payload["unitPriceAtSale"] = $unitPrice;
         $payload["totalCost"] = $unitPrice * $payload["quantity"];
 
+        $order = Order::findOrFail($orderItem->orderId);
+        $order->amount -= $orderItem->totalCost;
+        $order->amount += doubleval($payload["totalCost"]);
+        $order->save();
+
         $orderItem->update($payload);
 
         // Clear relevant cache on update
@@ -142,17 +174,26 @@ class OrderItemController extends Controller
     public function destroy(OrderItem $orderItem, Request $request)
     {
         $shouldDeletePermantely = $request->query("delete");
-        if($shouldDeletePermantely){
-            $orderItem->delete();
-        }
-        else{
-            $orderItem->isDeleted = true;
-            $orderItem->save();
-        }
+
+        $order = DB::transaction(function() use (&$orderItem, $shouldDeletePermantely){
+            $order = Order::findOrFail($orderItem->orderId);
+            $order->amount -= doubleval($orderItem->totalCost);
+            $order->save();
+
+            if($shouldDeletePermantely){
+                $orderItem->delete();
+            }
+            else {
+                $orderItem->isDeleted = true;
+                $orderItem->save();
+            }
+
+            return $order;
+        });
 
         // Clear relevant cache on delete
         $this->clearCache($this->cachePrefix, $orderItem->id);
-        return new OrderItemResource($orderItem);
+        return new OrderResource($order);
     }
 
 

@@ -7,7 +7,7 @@ import {getDashboardCount} from "../../state/dashboard/dashboardAction.ts";
 
 
 
-const Counts: React.FC = () => {
+const DashboardCounts: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const dispatch = useAppDispatch();
     const counters: any = useAppSelector(state => state.dashboardCounter.dashboardCounter);
@@ -33,7 +33,7 @@ const Counts: React.FC = () => {
                         <SingleItem title={"Orders"} value={counters?.ongoingAwards ?? 0}/>
                     </div>
                     <div className={'border-r'}>
-                        <SingleItem title={"Sales"} value={counters?.totalOrganisation ?? 0}/>
+                        <SingleItem title={"Warehouses"} value={counters?.totalOrganisation ?? 0}/>
                     </div>
                     <SingleItem title={"Suppliers"} value={counters?.totalNomineeRequests ?? 0}/>
                 </div>
@@ -42,4 +42,4 @@ const Counts: React.FC = () => {
     )
 }
 
-export default Counts
+export default DashboardCounts

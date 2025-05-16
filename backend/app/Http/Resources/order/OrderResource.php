@@ -18,7 +18,7 @@ class OrderResource extends JsonResource
                 "name" => $this->customer->name
             ] : null,
             "amount" => $this->amount,
-            "status" => $this->status,
+            "status" => $this->status ?? "preparing",
             "discount" => $this->discount,
             "userId" => $this->id,
             "user" => $this->user ? [
@@ -26,7 +26,7 @@ class OrderResource extends JsonResource
             ] : null,
             'totalPayments' => $this->whenLoaded('payments', function ($payments) {
                 return (float) $payments->sum('amount');
-            }),
+            }, 0),
             "originalPrice" => $this->originalPrice
         ];
     }

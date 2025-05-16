@@ -59,6 +59,7 @@ class OrderController extends Controller
         $payload["amount"] = $newAmount;
         $order = Order::create($payload);
 
+
         // Clear relevant cache on create
         $this->clearCache($this->cachePrefix, $order->id);
         return new OrderResource($order);
