@@ -18,6 +18,7 @@ use App\Utils\Globals;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use mysql_xdevapi\Exception;
 use function Symfony\Component\VarDumper\Dumper\echoLine;
 
 class OrderItemController extends Controller
@@ -89,6 +90,24 @@ class OrderItemController extends Controller
                         }
 
                         $product = Product::findOrFail($payload['productId']);
+
+                        // check if stocks can serve the qty demanded
+                        if($targetStock = Stock::where("productId", $productId)->first()){
+                            $quantityAfterDeduction = (int) $targetStock->quantityOnHand  -= (int) $orderItem["quantity"];
+
+                            if($quantityAfterDeduction < 0){
+                                throw new \Exception("The product '$product->name' currently has a stock level of '$targetStock->quantityOnHand' units. Please verify the requested quantity and try again.");
+                            }
+
+                        }
+                        else{
+                            throw new \Exception("$product->name is not found in stocks, verify and re-try");
+                        }
+
+
+
+
+
                         $unitPrice = $payload["unitPriceAtSale"] ?? $product->unitPrice;
                         $totalCost = doubleval($payload['quantity']) * $unitPrice;
 

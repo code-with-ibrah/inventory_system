@@ -6,6 +6,7 @@ use App\Http\Api\query\models\ProductQuery;
 use App\Http\Api\response\ApiResponse;
 use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Requests\product\ProductRequest;
+use App\Http\Requests\product\UpdateProductRequest;
 use App\Http\Resources\product\ProductResource;
 use App\Http\Resources\product\ProductResourceCollection;
 use App\Http\Resources\product_supplier\ProductSupplierResource;
@@ -126,7 +127,7 @@ class ProductController extends Controller
     }
 
 
-    public function update(ProductRequest $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
         try{
             $product = DB::transaction(function () use ($request, $id) {
@@ -141,8 +142,11 @@ class ProductController extends Controller
                     // Delete old image after new upload
                     ImageUpload::removePreviousImage($oldImagePath);
                 }
+
                 $product->update($payload);
-                $product->suppliers()->sync([$request->supplierId]);
+                if($request->supplierId){
+                    $product->suppliers()->sync([$request->supplierId]);
+                }
                 return $product;
             });
 

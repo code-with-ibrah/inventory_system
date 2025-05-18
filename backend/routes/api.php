@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoodsReceiptController;
 use App\Http\Controllers\GoodsReceiptItemController;
 use App\Http\Controllers\InstallmentPlanController;
@@ -48,7 +49,10 @@ Route::group(['prefix' => ''], function()
 
     // dashboard endpoints
     Route::prefix("home")->group(function(){
-       Route::get("/dashboard-count", function (){ return []; });
+       Route::get("/dashboard-count", [DashboardController::class, "statistics"]);
+       Route::get("/dashboard-count", [DashboardController::class, "statistics"]);
+       Route::get("/dashboard-count-period", [DashboardController::class, "statisticsByPeriod"]);
+
        Route::get("/chart-data", function (){ return []; });
     });
 

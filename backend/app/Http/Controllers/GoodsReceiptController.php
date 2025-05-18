@@ -10,7 +10,6 @@ use App\Http\Requests\goods_receipt\UpdateGoodsReceiptRequest;
 use App\Http\Resources\goods_receipt\GoodsReceiptResource;
 use App\Http\Resources\goods_receipt\GoodsReceiptResourceCollection;
 use App\Models\GoodsReceipt;
-use App\Models\GoodsReceiptItem;
 use App\Models\Stock;
 use App\Utils\Globals;
 use Illuminate\Http\Request;
