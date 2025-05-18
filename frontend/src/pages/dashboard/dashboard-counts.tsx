@@ -7,6 +7,8 @@ type PropsType = {
 
 const DashboardCounts = ({ data }: PropsType) => {
 
+    console.log(data);
+
     return (
         <div>
             <p className="text-gray-600 uppercase font-semibold mb-2 mt-8">dashboard counters</p>
@@ -24,7 +26,7 @@ const DashboardCounts = ({ data }: PropsType) => {
                     <div className={'border-r'}>
                         <SingleItem title={"Unrecorded Receipts"} value={data?.unrecordedReceipt ?? 0}/>
                     </div>
-                    <SingleItem title={"Suppliers"} value={data.supplierCount ?? 0}/>
+                    <SingleItem title={"Suppliers"} value={data?.supplierCount ?? 0}/>
                 </div>
             </div>
         </div>
