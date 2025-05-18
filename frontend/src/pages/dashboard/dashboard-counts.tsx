@@ -7,8 +7,6 @@ type PropsType = {
 
 const DashboardCounts = ({ data }: PropsType) => {
 
-    console.log(data);
-
     return (
         <div>
             <p className="text-gray-600 uppercase font-semibold mb-2 mt-8">dashboard counters</p>

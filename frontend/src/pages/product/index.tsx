@@ -47,7 +47,7 @@ const Products: React.FC = () => {
                         </span>
                     )}/>
 
-                <Column title="Sku" dataIndex="sku"/>
+                <Column title="Sku" render={(record: any) => <span>{record?.sku ?? '-'}</span>}/>
                 <Column title="Cost Price" render={(record: Product) => (<span>
                     {currencyFormat(+record.costPrice)}
                 </span>)}/>

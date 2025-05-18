@@ -24,6 +24,7 @@ import OrdersPaymentForm from "../../pages/orders/orders-payment-form.tsx";
 import UpdateOrdersStatusForm from "../../pages/orders/update-orders-status-form.tsx";
 import SingleOrderItemForm from "../../pages/orders/item/single-order-item-form.tsx";
 import OrderItemForm from "../../pages/orders/item/order-item-form.tsx";
+import UserForm from "../../pages/config/users/user-form.tsx";
 
 
 export const ModalRoute = () => {
@@ -44,7 +45,7 @@ export const ModalRoute = () => {
             <Route path={MenuLinks.admin.stockAdjustment.singleItemForm} element={<SingleStockAdjustmentItemForm/>}/>
 
             <Route path={MenuLinks.admin.customers.form} element={<CustomerForm/>}/>
-            <Route path={MenuLinks.admin.config.userForm} element={<InstallmentPlanForm/>}/>
+            <Route path={MenuLinks.admin.config.userForm} element={<UserForm/>}/>
             <Route path={MenuLinks.admin.config.roleForm} element={<RoleForm/>}/>
             <Route path={MenuLinks.admin.config.paymentMethodForm} element={<PaymentMethodForm/>}/>
             <Route path={MenuLinks.admin.config.installmentPlanForm} element={<InstallmentPlanForm/>}/>
@@ -59,9 +60,6 @@ export const ModalRoute = () => {
 
             <Route path={MenuLinks.admin.order.details.singleProductForm} element={<SingleOrderItemForm/>} />
             <Route path={MenuLinks.admin.order.details.manyProductForm} element={<OrderItemForm/>} />
-
-
-
 
         </Routes>
     )

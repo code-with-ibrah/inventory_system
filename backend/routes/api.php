@@ -38,8 +38,9 @@ Route::group(['prefix' => ''], function()
     Route::post("/login", [AuthController::class, "login"]);
     Route::post("/register", [AuthController::class, "register"]);
     Route::post("/change-password", [AuthController::class, "changePassword"]);
-    Route::post("/verify-password-reset", [AuthController::class, "verifyPasswordReset"]);
-    Route::post("/request-password-reset", [AuthController::class, "requestPasswordReset"]);
+    Route::post("/change-password", [AuthController::class, "changePassword"]);
+    Route::post("/request-password-reset/{email}", [AuthController::class, "requestPasswordReset"]);
+    Route::get("/verify-password-reset", [AuthController::class, "verifyPasswordReset"]);
 
 
     // user endpoint

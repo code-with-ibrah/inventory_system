@@ -28,13 +28,9 @@ class AuthController extends Controller
     {
         $payload = PrepareRequestPayload::prepare($request);
         $payload["password"] = Hash::make(env("DEFAULT_USER_PASSWORD"));
-//        $user = User::create($payload);
-//        $token = $user->createToken(self::TOKEN_KEY)->plainTextToken;
+        $user = User::create($payload);
+        $token = $user->createToken(self::TOKEN_KEY)->plainTextToken;
         $company =  Company::findOrFail($payload["companyId"]);
-
-        $user = User::findOrFail(1);
-        $user->name = $payload["name"];
-        $user->email = $payload["email"];
 
         $response = [
             "user" => new UserResource($user),
@@ -43,7 +39,6 @@ class AuthController extends Controller
         $user->companyName = $company->name;
 
         // send mail to notify user
-
         $mailer = new YelloMailer("Your New Account Has Been Created", $user, "create-account");
         Mail::to($request->email)->send($mailer);
 

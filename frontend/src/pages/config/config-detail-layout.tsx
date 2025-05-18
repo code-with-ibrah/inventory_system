@@ -15,21 +15,21 @@ const ConfigDetailLayoutMenu: Menu[] = [
         link: MenuLinks.admin.config.users,
         icon: appIconLabels.user,
     },
-    {
-        label: 'Roles',
-        link: MenuLinks.admin.config.roles,
-        icon: appIconLabels.role,
-    },
+    // {
+    //     label: 'Roles',
+    //     link: MenuLinks.admin.config.roles,
+    //     icon: appIconLabels.role,
+    // },
     // {
     //     label: 'Installment Plan',
     //     link: MenuLinks.admin.config.installmentPlan,
     //     icon: appIconLabels.stockUnit,
     // },
-    {
-        label: 'Payment Methods',
-        link: MenuLinks.admin.config.paymentMethod,
-        icon: appIconLabels.payment,
-    },
+    // {
+    //     label: 'Payment Methods',
+    //     link: MenuLinks.admin.config.paymentMethod,
+    //     icon: appIconLabels.payment,
+    // },
 ]
 
 

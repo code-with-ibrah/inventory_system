@@ -7,6 +7,7 @@ import {unwrapResult} from "@reduxjs/toolkit";
 import {MenuLinks} from "../../utils/menu-links.ts";
 import {TlaError, TlaSuccess} from "../../utils/messages.ts";
 import Title from "./verification/title.tsx";
+import Login from "./login.tsx";
 
 type FieldType = {
     password: string,
@@ -28,8 +29,8 @@ const SetNewPassword: React.FC = () => {
             .then(unwrapResult)
             .then((_) => {
                 TlaSuccess("Password changed successfully.");
-                navigate(MenuLinks.login);
-                return;
+                // navigate(MenuLinks.login);
+                return <Login/>
             })
             .catch((obj) => {
                 setLoading(false);
@@ -63,7 +64,7 @@ const SetNewPassword: React.FC = () => {
                           {required: true, message: 'Enter your new password'},
                           {min: 4, message: 'Password must be at least 6 characters'},
                       ]}>
-                    <Input rootClassName={"auth-input"}/>
+                    <Input.Password rootClassName={"auth-input"}/>
                 </Form.Item>
 
                 <Form.Item<FieldType> className={'mb-2'} label={'Confirm password'} name="confirmPassword"
@@ -78,7 +79,7 @@ const SetNewPassword: React.FC = () => {
                               },
                           })
                       ]}>
-                    <Input rootClassName={"auth-input"}/>
+                    <Input.Password rootClassName={"auth-input"}/>
                 </Form.Item>
 
                 <Button className={'btn-red'} block htmlType="submit">

@@ -2,8 +2,8 @@
 
 
 <?php
-    $link = "https://vote.yelloevents.com/login?email=$obj->email";
-    // $link = "http://localhost:5173/login?email=$obj->email";
+    $link = "https://jessden.com/login?email=$obj->email";
+//     $link = "http://localhost:5173/login?email=$obj->email";
 ?>
 
 

@@ -79,10 +79,9 @@
 <body>
     <div class="container" style="text-align: center">
         <main>
-            <a href="https://vote.yelloevents.com" style="text-decoration: none; color: white;" class="logo">
-                <img src="https://vote.yelloevents.com/assets/logo-CrB2V9mQ.png" alt="Logo">
+            <a href="https://jessden.com" style="text-decoration: none; color: white;" class="logo">
+                <img src="https://node619.namehero.net:2083/cpsess0993085323/viewer/home%2fyelloev1%2fpublic_html/jessden%20logo.jpg" alt="Logo">
             </a>
-
 
             @yield('content')
         </main>
