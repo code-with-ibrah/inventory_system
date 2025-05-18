@@ -56,9 +56,9 @@ const rootReducers = combineReducers({
     awardBonusPackage: awardBonusSlice,
     percentageShare: shareSlice,
     role: roleSlice,
-    dashboardCounter: dashboardSlice,
 
     // inventory
+    dashboardCounter: dashboardSlice,
     product: productSlice,
     category: categorySlice,
     brand: brandSlice,

@@ -20,6 +20,16 @@ export const formatDate = (date: string, format = 'ddd, MMM DD, YYYY'): null | s
     return null
 }
 
+export const htmlDateFormat = (antDatePickerObject: any) => {
+    const nativeDate = antDatePickerObject.toDate();
+
+    const year = nativeDate.getFullYear();
+    const month = String(nativeDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const day = String(nativeDate.getDate()).padStart(2, '0');
+
+    return(`${year}-${month}-${day}`);
+}
+
 export const currencyFormat = (number: number) => {
     const numberString = number.toString();
 

@@ -3,7 +3,7 @@ import {Button, Form, Input, InputNumber} from "antd";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../hooks";
-import {createProduct, updateProduct} from "../../state/product/productAction.ts";
+import {createProduct, getAllProducts, updateProduct} from "../../state/product/productAction.ts";
 import {TlaError, TlaSuccess} from "../../utils/messages.ts";
 import {TlaModal} from "../../common/pop-ups/TlaModal.tsx";
 import DropdownSearch from "../../common/dropdown-search.tsx";
@@ -41,6 +41,9 @@ const ProductForm: React.FC = () => {
             .then(unwrapResult)
             .then(() => {
                 TlaSuccess("Successful");
+
+                dispatch(getAllProducts(commonQuery()));
+
                 setLoading(false);
                 navigate(-1);
             })
@@ -95,7 +98,8 @@ const ProductForm: React.FC = () => {
                         />
                     </Form.Item>
 
-                    <Form.Item
+
+                    {!state?.data?.id ?  <Form.Item
                         rules={[{required: true, message: "Required"}]}
                         name={"wareHouseId"} label={"Warehouse"}>
                         <DropdownSearch
@@ -112,7 +116,8 @@ const ProductForm: React.FC = () => {
                                 form.setFieldValue('wareHouseId', null)
                             }}
                         />
-                    </Form.Item>
+                    </Form.Item> : null}
+
 
                     <Form.Item
                         rules={[{required: true, message: "Required"}]}
@@ -162,21 +167,7 @@ const ProductForm: React.FC = () => {
                                      placeholder="GHS 238"/>
                     </Form.Item>
 
-                    <Form.Item
-                        label={'Stock Quantity'}
-                        name="quantity"
-                        className="col-span-full sm:col-span-1"
-                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
-                        <InputNumber style={{width: "100%"}} disabled={disabled} size={"large"} placeholder="900"/>
-                    </Form.Item>
 
-                    <Form.Item
-                        label={'Warehouse Location'}
-                        name="locationInWarehouse"
-                        className="col-span-full sm:col-span-1"
-                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
-                        <Input disabled={disabled} size={"large"} placeholder="Shelves"/>
-                    </Form.Item>
 
                     {/*<Form.Item*/}
                     {/*    label={'Stock Alert Level'}*/}
@@ -187,6 +178,15 @@ const ProductForm: React.FC = () => {
                     {/*</Form.Item>*/}
 
 
+                    {!state?.data?.id ? <Form.Item
+                        label={'Location in warehouse'}
+                        name="locationInWarehouse"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
+                        <Input disabled={disabled} size={"large"} placeholder="Shelves"/>
+                    </Form.Item> : null }
+
+
                     <Form.Item
                         label={'Unit Price'}
                         name="unitPrice"
@@ -194,6 +194,19 @@ const ProductForm: React.FC = () => {
                         style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
                         <Input disabled={disabled} size={"large"} type="number" placeholder="GHS 99"/>
                     </Form.Item>
+
+
+                    {!state?.data?.id ? <Form.Item
+                        label={'Stock Quantity'}
+                        name={'quantity'}
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}}
+                        rules={[
+                            {required: true, message: "Required"}
+                        ]}>
+                        <InputNumber min={0} style={{width: "100%"}} disabled={disabled} size={'large'}/>
+                    </Form.Item> : null}
+
 
                     <Form.Item
                         rules={[{required: true, message: "Required"}]}

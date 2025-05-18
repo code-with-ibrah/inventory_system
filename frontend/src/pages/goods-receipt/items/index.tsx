@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Column from "antd/es/table/Column";
 import {Button, Spin} from "antd";
-import {FiCheck, FiEdit3, FiEye, FiPlusCircle} from "react-icons/fi";
+import {FiCheck, FiEdit3, FiEye, FiPlusCircle, FiPrinter} from "react-icons/fi";
 import {useAppDispatch, useAppSelector} from "../../../hooks";
 import { MenuLinks } from "../../../utils/menu-links.ts";
 import TlaOpen from "../../../common/pop-ups/TlaOpen.tsx";
@@ -15,6 +15,7 @@ import {
     getAllGoodsReceiptItems,
 } from "../../../state/goods-receipt/items/goodsReceiptItemAction.ts";
 import {markGoodsReceiptAsCompleted} from "../../../state/goods-receipt/goodsReceiptAction.ts";
+import {Link} from "react-router-dom";
 
 
 const GoodsReceiptItems: React.FC = () => {
@@ -25,13 +26,10 @@ const GoodsReceiptItems: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const markReceiptAsRecordedHandler = () => {
-
         if(!confirm('Are you sure to record receipt products ?')){
             return;
         }
-
         setLoading(true);
-
         dispatch(markGoodsReceiptAsCompleted(goodsReceiptItem?.id))
             .then(() => {
                 setShowRecordButton(false);
@@ -45,18 +43,26 @@ const GoodsReceiptItems: React.FC = () => {
     return (
         <>
             <div className={'bg-white p-3 rounded-lg inner-header mb-2'}>
-                <h2 className={'capitalize'}>
-                    <span className={' text-2xl font-medium'}>Goods Receipts Information</span>
-                    &nbsp; supplied by &nbsp;
-                    <span style={{fontSize: "17px"}}>({
-                        // @ts-ignore
-                        goodsReceiptItem?.supplier?.name ?? "-"
-                    })</span>
-                </h2>
+
+                <div className="flex justify-between">
+                    <h2 className={'capitalize'}>
+                        <span className={' text-2xl font-medium'}>Goods Receipts Information</span>
+                        &nbsp; supplied by &nbsp;
+                        <span style={{fontSize: "17px"}}>({
+                            // @ts-ignore
+                            goodsReceiptItem?.supplier?.name ?? "-"
+                        })</span>
+                    </h2>
+
+                    <Link to={MenuLinks.admin.goodsReceipt.invoice}>
+                        <Button icon={<FiPrinter/>} className={'btn btn-red'}>Print invoice</Button>
+                    </Link>
+                </div>
+
 
                 {goodsReceiptItem?.receiptNumber ? <h1 className={'flex text-xl items-center gap-x-3 my-2'}>
                     Receipt Number: {goodsReceiptItem?.receiptNumber}
-                </h1>: null}
+                </h1> : null}
 
                 <div className={'flex flex-wrap justify-between items-center'}>
                     <TlaOpen title={"Edit Stock"} data={goodsReceiptItem} modal={true}

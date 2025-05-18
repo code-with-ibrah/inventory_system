@@ -42,7 +42,7 @@ const OrdersInvoice = () => {
 
                     <div className="flex justify-between mb-4 text-sm">
                         <div>
-                            <span className="font-semibold">Invoice No.:</span> {order?.orderNumber}
+                            <span className="font-semibold">Invoice No: </span> {order?.orderNumber}
                         </div>
                         <div>
                             <span className="font-semibold">Date:</span> {formatDate(order?.date)}
@@ -61,7 +61,7 @@ const OrdersInvoice = () => {
                     <table className="min-w-full table-auto text-left text-sm font-mono">
                         <thead className="bg-gray-300">
                         <tr>
-                            <th className="px-4 py-2">Deliverables</th>
+                            <th className="px-4 py-2">Product</th>
                             <th className="px-4 py-2">Unit Price</th>
                             <th className="px-4 py-2">Quantity</th>
                             <th className="px-4 py-2">Total</th>
@@ -69,8 +69,6 @@ const OrdersInvoice = () => {
                         </thead>
                         <tbody>
                         {data.map((item: any, index: number) => {
-                            // subTotal += ((item.unitPriceAtSale) * (item.quantity));
-
                             return <tr key={index}>
                                 <td className="border px-4 py-2">{item?.product?.name}</td>
                                 <td className="border px-4 py-2 font-medium">{item.unitPriceAtSale}</td>
@@ -138,98 +136,6 @@ const OrdersInvoice = () => {
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-        {/*<div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6 receipt-content">*/}
-        {/*    <div className="text-center mb-4">*/}
-        {/*        <h1 className="dancing-script text-3xl font-bold text-gray-800">Receipt</h1>*/}
-        {/*        <div className="text-sm text-gray-600">*/}
-        {/*            <p>123 Main Street</p>*/}
-        {/*            <p>Accra, Ghana</p>*/}
-        {/*            <p>Tel: 05XXXXXXXX</p>*/}
-        {/*        </div>*/}
-        {/*    </div>*/}
-
-        {/*    <div className="flex justify-between text-sm text-gray-700 mb-2">*/}
-        {/*        <div>Date: 2024-08-03</div>*/}
-        {/*        <div>Time: 14:35</div>*/}
-        {/*    </div>*/}
-
-        {/*    <div className="overflow-x-auto">*/}
-        {/*        <table className="min-w-full table-auto text-sm">*/}
-        {/*            <thead className="bg-gray-100">*/}
-        {/*            <tr>*/}
-        {/*                <th className="px-2 py-1 text-left text-gray-700">Product</th>*/}
-        {/*                <th className="px-2 py-1 text-right text-gray-700">Qty</th>*/}
-        {/*                <th className="px-2 py-1 text-right text-gray-700">Unit Price</th>*/}
-        {/*                <th className="px-2 py-1 text-right text-gray-700">Total Cost</th>*/}
-        {/*            </tr>*/}
-        {/*            </thead>*/}
-        {/*            <tbody className="divide-y divide-gray-200">*/}
-        {/*            <tr className="border-bottom-dotted">*/}
-        {/*                <td className="px-2 py-1 text-gray-700">Item 1</td>*/}
-        {/*                <td className="px-2 py-1 text-right text-gray-600">2</td>*/}
-        {/*                <td className="px-2 py-1 text-right text-gray-600">10.00</td>*/}
-        {/*                <td className="px-2 py-1 text-right text-gray-800 font-semibold">20.00</td>*/}
-        {/*            </tr>*/}
-        {/*            <tr className="border-bottom-dotted">*/}
-        {/*                <td className="px-2 py-1 text-gray-700">Item 2</td>*/}
-        {/*                <td className="px-2 py-1 text-right text-gray-600">1</td>*/}
-        {/*                <td className="px-2 py-1 text-right text-gray-600">25.00</td>*/}
-        {/*                <td className="px-2 py-1 text-right text-gray-800 font-semibold">25.00</td>*/}
-        {/*            </tr>*/}
-        {/*            <tr className="border-bottom-dotted">*/}
-        {/*                <td className="px-2 py-1 text-gray-700">Item 3</td>*/}
-        {/*                <td className="px-2 py-1 text-right text-gray-600">3</td>*/}
-        {/*                <td className="px-2 py-1 text-right text-gray-600">15.50</td>*/}
-        {/*                <td className="px-2 py-1 text-right text-gray-800 font-semibold">46.50</td>*/}
-        {/*            </tr>*/}
-        {/*            </tbody>*/}
-        {/*        </table>*/}
-        {/*    </div>*/}
-
-        {/*    <div className="border-t border-dashed border-gray-300 my-2"></div>*/}
-
-        {/*    <div className="flex justify-between items-center py-2">*/}
-        {/*        <div className="text-lg font-bold text-gray-800">AMOUNT</div>*/}
-        {/*        <div className="text-lg font-bold text-gray-800">91.50</div>*/}
-        {/*    </div>*/}
-
-        {/*    <div className="pt-2">*/}
-        {/*        <div className="flex justify-between text-sm text-gray-700">*/}
-        {/*            <div>Sub-total</div>*/}
-        {/*            <div>91.50</div>*/}
-        {/*        </div>*/}
-        {/*        <div className="flex justify-between text-sm text-gray-700">*/}
-        {/*            <div>Sales Tax</div>*/}
-        {/*            <div>0.00</div>*/}
-        {/*        </div>*/}
-        {/*        <div className="flex justify-between text-sm text-gray-700">*/}
-        {/*            <div>Balance</div>*/}
-        {/*            <div>91.50</div>*/}
-        {/*        </div>*/}
-        {/*    </div>*/}
-
-        {/*    <div className="text-center mt-4">*/}
-        {/*        <div className="w-48 h-12 bg-gray-300 mx-auto rounded-md flex items-center justify-center">*/}
-        {/*            <span className="text-xs text-gray-700">Barcode Here</span>*/}
-        {/*        </div>*/}
-        {/*    </div>*/}
-        {/*    <div className="mt-4 pt-4 border-t border-gray-200 text-center text-xs text-gray-500 no-print">*/}
-        {/*        Thank you for your purchase.*/}
-        {/*    </div>*/}
-        {/*</div>*/}
-
-
-
-
-
 
     </>
 }

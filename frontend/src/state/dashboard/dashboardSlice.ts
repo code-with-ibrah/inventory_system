@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import { getDashboardCount } from "./dashboardAction.ts";
+import {getDashboardCount, getDashboardCountByPeriod} from "./dashboardAction.ts";
 
 const initialState = {
     dashboardCounter: []
@@ -12,6 +12,8 @@ const dashboardSlice = createSlice({
     initialState,
     extraReducers: (builder) => {
         builder.addCase(getDashboardCount.fulfilled, (state, action) => {
+            state.dashboardCounter = action.payload
+        }).addCase(getDashboardCountByPeriod.fulfilled, (state, action) => {
             state.dashboardCounter = action.payload
         })
     }

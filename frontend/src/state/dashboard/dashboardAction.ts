@@ -16,3 +16,18 @@ export const getDashboardCount = createAsyncThunk("analytics/getDashboardCount",
         }
     }
 )
+
+export const getDashboardCountByPeriod = createAsyncThunk("analytics/getDashboardCountByPeriod", async (filterType: string = "today", {rejectWithValue}) => {
+        try {
+            const res = await api().get(`/home/dashboard-count-period?filterType=${filterType}`);
+
+            return res.data;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err;
+            }
+            throw rejectWithValue(err.response.data)
+        }
+    }
+)

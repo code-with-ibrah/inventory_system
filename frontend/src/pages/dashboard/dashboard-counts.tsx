@@ -1,44 +1,33 @@
-import React, {useEffect, useState} from "react";
 import SingleItem from "./single-item.tsx";
-import {Spin} from "antd";
-import {unwrapResult} from "@reduxjs/toolkit";
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import {getDashboardCount} from "../../state/dashboard/dashboardAction.ts";
 
 
+type PropsType = {
+    data: any
+}
 
-const DashboardCounts: React.FC = () => {
-    const [loading, setLoading] = useState(true);
-    const dispatch = useAppDispatch();
-    const counters: any = useAppSelector(state => state.dashboardCounter.dashboardCounter);
-
-    const filter = "";
-
-    useEffect(() => {
-        dispatch(getDashboardCount(filter))
-            .then(unwrapResult)
-            .then((_: any) => {
-                setLoading(false)
-            }).catch(() => setLoading(false))
-    }, []);
+const DashboardCounts = ({ data }: PropsType) => {
 
     return (
-        <Spin spinning={loading}>
+        <div>
+            <p className="text-gray-600 uppercase font-semibold mb-2 mt-8">dashboard counters</p>
             <div className={"bg-white p-2 md:p-5 rounded-lg mb-5"}>
-                <div className={"grid grid-cols-4 gap-5 p-5 border-none md:border-y"}>
+                <div className={"grid grid-cols-5 gap-5 p-5 border-none md:border-y"}>
                     <div className={'border-r'}>
-                        <SingleItem title={"Total Products"} value={counters?.totalAwards ?? 0}/>
+                        <SingleItem title={"Total Products"} value={data?.productCount ?? 0}/>
                     </div>
                     <div className={'border-r'}>
-                        <SingleItem title={"Orders"} value={counters?.ongoingAwards ?? 0}/>
+                        <SingleItem title={"Low Stock Product"} value={data?.lowStocksCount ?? 0}/>
                     </div>
                     <div className={'border-r'}>
-                        <SingleItem title={"Warehouses"} value={counters?.totalOrganisation ?? 0}/>
+                        <SingleItem title={"Pending Orders  "} value={data?.pendingOrdersCount ?? 0}/>
                     </div>
-                    <SingleItem title={"Suppliers"} value={counters?.totalNomineeRequests ?? 0}/>
+                    <div className={'border-r'}>
+                        <SingleItem title={"Unrecorded Receipts"} value={data?.unrecordedReceipt ?? 0}/>
+                    </div>
+                    <SingleItem title={"Suppliers"} value={data.supplierCount ?? 0}/>
                 </div>
             </div>
-        </Spin>
+        </div>
     )
 }
 

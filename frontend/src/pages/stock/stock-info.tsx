@@ -51,12 +51,12 @@ const StockInfo = () => {
                         stock?.product?.standardPackageQty ?? '-'
                     }/>
                 </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Total Sales"} value={
-                        // @ts-ignore
-                        '-'
-                    }/>
-                </div>
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Total Sales"} value={*/}
+                {/*        // @ts-ignore*/}
+                {/*        '-'*/}
+                {/*    }/>*/}
+                {/*</div>*/}
             </div>
         </div>
     </Spin>);

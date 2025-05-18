@@ -1,44 +1,30 @@
-import React, {useEffect, useState} from "react";
 import SingleItem from "./single-item.tsx";
-import {Spin} from "antd";
-import {unwrapResult} from "@reduxjs/toolkit";
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import {getDashboardCount} from "../../state/dashboard/dashboardAction.ts";
+import {currencyFormat} from "../../utils";
 
+type PropsType = {
+    data: any
+}
 
-
-const RevenueCounts: React.FC = () => {
-    const [loading, setLoading] = useState(true);
-    const dispatch = useAppDispatch();
-    const counters: any = useAppSelector(state => state.dashboardCounter.dashboardCounter);
-
-    const filter = "";
-
-    useEffect(() => {
-        dispatch(getDashboardCount(filter))
-            .then(unwrapResult)
-            .then((_: any) => {
-                setLoading(false)
-            }).catch(() => setLoading(false))
-    }, []);
+const RevenueCounts = ({ data }: PropsType) => {
 
     return (
-        <Spin spinning={loading}>
+        <div>
+            <p className="text-gray-600 uppercase font-semibold mb-2 mt-8">revenue statistics</p>
             <div className={"bg-white p-2 md:p-5 rounded-lg mb-5"}>
                 <div className={"grid grid-cols-4 gap-5 p-5 border-none md:border-y"}>
                     <div className={'border-r'}>
-                        <SingleItem title={"Total Revenue"} value={counters?.totalAwards ?? 0}/>
+                        <SingleItem title={"Total Revenue"} value={ currencyFormat(+data?.totalRevenue ?? 0)}/>
                     </div>
                     <div className={'border-r'}>
-                        <SingleItem title={"Total sales"} value={counters?.ongoingAwards ?? 0}/>
+                        <SingleItem title={"Total Orders"} value={data?.orderCount ?? 0}/>
                     </div>
                     <div className={'border-r'}>
-                        <SingleItem title={"Expenses"} value={counters?.totalOrganisation ?? 0}/>
+                        <SingleItem title={"Expenses"} value={ currencyFormat(+data?.totalExpenses ?? 0) }/>
                     </div>
-                    <SingleItem title={"Profit"} value={counters?.totalNomineeRequests ?? 0}/>
+                    <SingleItem className={(data?.profit >= 0) ? '' : 'text-red-700' } title={"Profit"} value={ currencyFormat(data?.profit ?? 0)}/>
                 </div>
             </div>
-        </Spin>
+        </div>
     )
 }
 

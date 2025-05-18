@@ -41,7 +41,7 @@ export const createProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
     "auth/updateProduct", async (data: any, {rejectWithValue}) => {
         try {
-            const res = await api('multipart/form-data').post(`/products/${data.id}`, data.data);
+            const res = await api().put(`/products/${data.id}`, data.data);
 
             return res.data.data
 
