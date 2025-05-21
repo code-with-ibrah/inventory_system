@@ -66,9 +66,6 @@ const Analytics: React.FC = () => {
 
             <Spin spinning={loading} tip={'Please wait...'}>
                 <div className="filter flex justify-between mt-5 mb-9">
-                    {/*<div className="welcome">*/}
-                    {/*    <p className="text-app-red text-2xl font-semibold">Welcome {user?.name}!</p>*/}
-                    {/*</div>*/}
 
                     <div className={'filter-by-date bg-white p-4 rounded-lg ml-auto'}>
 

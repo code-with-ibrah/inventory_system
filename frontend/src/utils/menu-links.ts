@@ -34,6 +34,13 @@ export const MenuLinks = {
           details: {
               index: "/admin/suppliers/details",
               product: "/admin/suppliers/details/products",
+              receipt: {
+                  index: "/admin/suppliers/details/receipts",
+                  items: "/admin/suppliers/details/receipts/items",
+                  itemForm: "/admin/suppliers/details/receipts/items-form",
+                  singleForm: "/admin/suppliers/details/receipts/single-items-form",
+                  invoice: "/admin/suppliers/details/receipts/items/receipt-invoice",
+              },
               supplierProductForm: "/admin/suppliers-product-form",
           }
         },
@@ -104,7 +111,7 @@ export const MenuLinks = {
                 singleProductForm: "/admin/orders/single-product",
                 manyProductForm: "/admin/orders/many-product-form",
             },
-            invoice: "/admin/orders/invoice",
+            invoice: "/admin/orders/details/invoice",
             invoiceForm: "/admin/orders/invoice-form",
         }
 

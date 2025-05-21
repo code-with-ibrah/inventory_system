@@ -29,10 +29,12 @@ const GoodsReceipts: React.FC = () => {
     const {data, meta} = useAppSelector(state => state.goodsReceipt.goodsReceipt);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const supplier = useAppSelector(state => state.supplier.supplierItem);
+
 
     const goToDetails = (record: any) => {
         dispatch(setGoodsReceipt(record));
-        navigate(MenuLinks.admin.goodsReceipt.itemIndex);
+        navigate(MenuLinks.admin.supplier.details.receipt.items);
     };
 
     const goToSupplierDetail = (record: any) => {
@@ -43,7 +45,7 @@ const GoodsReceipts: React.FC = () => {
     const goToInvoiceDetails = (record: any) => {
         dispatch(setGoodsReceipt(record));
         dispatch(setSupplier(record?.supplier));
-        navigate(MenuLinks.admin.goodsReceipt.invoice);
+        navigate(MenuLinks.admin.supplier.details.receipt.invoice);
     }
 
     return (
@@ -53,7 +55,7 @@ const GoodsReceipts: React.FC = () => {
                     <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New</Button>
                 </TlaOpen>
 
-                <TlaTableWrapper getData={getAllGoodsReceipts} data={data} filter={commonQuery()} meta={meta}>
+                <TlaTableWrapper getData={getAllGoodsReceipts} data={data} filter={commonQuery(`&supplierId[eq]=${supplier?.id}`)} meta={meta}>
                     <Column
                         title="Receipt Number"
                         render={(record: GoodsReceipt) => (

@@ -70,7 +70,6 @@ export const updateOrderStatus = createAsyncThunk(
         }
     }
 );
-
  
 
 export const getAllOrders = createAsyncThunk(
@@ -130,6 +129,36 @@ export const markOrdersAsCompleted = createAsyncThunk(
             const res = await api().put(`/orders-received/${id}`);
 
             return res.data.data
+        } catch (err: any) {
+            if (!err.response) {
+                throw err;
+            }
+            throw rejectWithValue(err.response.data)
+        }
+    }
+)
+
+export const filterOrders = createAsyncThunk(
+    "orders/filterOrders", async (params: string = "", {rejectWithValue}) => {
+        try {
+            const res = await api().get(`/orders-filter?${params}`);
+
+            return res.data
+        } catch (err: any) {
+            if (!err.response) {
+                throw err;
+            }
+            throw rejectWithValue(err.response.data)
+        }
+    }
+)
+
+export const filterOrdersByPeriod = createAsyncThunk(
+    "orders/filterOrdersByPeriod", async (params: string = "", {rejectWithValue}) => {
+        try {
+            const res = await api().get(`/orders-filter-by-period?filterType=${params}`);
+
+            return res.data
         } catch (err: any) {
             if (!err.response) {
                 throw err;

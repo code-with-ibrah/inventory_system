@@ -34,7 +34,11 @@ export const ModalRoute = () => {
             <Route path={MenuLinks.admin.productSettings.categoryForm} element={<CategoryForm/>}/>
             <Route path={MenuLinks.admin.productSettings.brandForm} element={<BrandForm/>}/>
             <Route path={MenuLinks.admin.productSettings.stockUnitForm} element={<StockUnitsForm/>}/>
+
             <Route path={MenuLinks.admin.supplier.form} element={<SupplierForm/>}/>
+            <Route path={MenuLinks.admin.supplier.details.receipt.itemForm} element={<GoodsReceiptItemForm/>}/>
+            <Route path={MenuLinks.admin.supplier.details.receipt.singleForm} element={<SingleGoodsReceiptItemForm/>}/>
+
             <Route path={MenuLinks.admin.supplier.details.supplierProductForm} element={<SupplierProductForm/>}/>
             <Route path={MenuLinks.admin.product.details.productSuppliersForm} element={<ProductSupplierForm/>}/>
             <Route path={MenuLinks.admin.warehouse.form} element={<WarehouseForm/>}/>

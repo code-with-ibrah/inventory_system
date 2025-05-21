@@ -1,11 +1,10 @@
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import {useEffect} from "react";
-import { getAllGoodsReceiptItems } from "../../state/goods-receipt/items/goodsReceiptItemAction";
-import {commonQuery} from "../../utils/query.ts";
 import {Button} from "antd";
+import {useEffect} from "react";
 import {FiPrinter} from "react-icons/fi";
+import {commonQuery} from "../../utils/query.ts";
+import {useAppDispatch, useAppSelector} from "../../hooks";
 import {currencyFormat, formatDate, getPercentAmount} from "../../utils";
-// import {currencyFormat, formatDate} from "../../utils";
+import { getAllGoodsReceiptItems } from "../../state/goods-receipt/items/goodsReceiptItemAction";
 
 
 const GoodsReceiptInvoice = () => {
@@ -53,9 +52,6 @@ const GoodsReceiptInvoice = () => {
                     <div className="mb-8 text-sm">
                         <div className={'my-2'}><span className="font-semibold">Supplier:</span> {goodsReceipt?.supplier?.name}</div>
                         <div className={'my-2'}><span className="font-semibold">Total Products:</span> { goodReceiptItemList?.length }</div>
-                        <div className={'my-2'}>
-                            <span className="font-semibold">Description:</span> Purchase of goods
-                        </div>
                         <div className={'my-2 capitalize'}>
                             <span className="font-semibold">Receipt Status:</span> {goodsReceipt?.isRecorded ? 'Recorded' : 'Not Recorded'}
                         </div>
@@ -75,10 +71,10 @@ const GoodsReceiptInvoice = () => {
                         <tbody>
                             {goodReceiptItemList.map((item: any, index: number) => {
                                 return <tr key={index}>
-                                    <td className="bgoodsReceipt px-4 py-2">{item?.product?.name}</td>
-                                    <td className="bgoodsReceipt px-4 py-2">{item?.unitPriceAtReceipt}</td>
-                                    <td className="bgoodsReceipt px-4 py-2 font-medium">{item.quantityReceived}</td>
-                                    <td className="bgoodsReceipt px-4 py-2">{ currencyFormat(item?.unitPriceAtReceipt * item?.quantityReceived) }</td>
+                                    <td className="border px-4 py-2">{item?.product?.name}</td>
+                                    <td className="border px-4 py-2">{item?.unitPriceAtReceipt}</td>
+                                    <td className="border px-4 py-2 font-medium">{item.quantityReceived}</td>
+                                    <td className="border px-4 py-2">{ currencyFormat(item?.unitPriceAtReceipt * item?.quantityReceived) }</td>
                                 </tr>
                             })}
                         </tbody>
@@ -89,20 +85,20 @@ const GoodsReceiptInvoice = () => {
                         <tr>
                             <td></td>
                             <td></td>
-                            <td className="bgoodsReceipt px-4 py-2 font-semibold">Subtotal</td>
-                            <td className="bgoodsReceipt px-4 py-2 font-semibold">{currencyFormat(+goodsReceipt?.totalAmount)}</td>
+                            <td className="border px-4 py-2 font-semibold">Subtotal</td>
+                            <td className="border px-4 py-2 font-semibold">{currencyFormat(+goodsReceipt?.totalAmount)}</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
-                            <td className="bgoodsReceipt px-4 py-2 font-semibold">NHIL/GetFund/Covid ({covidPercentage} %)</td>
-                            <td className="bgoodsReceipt px-4 py-2 font-semibold">{currencyFormat(getPercentAmount(goodsReceipt?.totalAmount, covidPercentage))}</td>
+                            <td className="border px-4 py-2 font-semibold">NHIL/GetFund/Covid ({covidPercentage} %)</td>
+                            <td className="border px-4 py-2 font-semibold">{currencyFormat(getPercentAmount(goodsReceipt?.totalAmount, covidPercentage))}</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
-                            <td className="bgoodsReceipt px-4 py-2 font-semibold">II VAT ({vatPercentage} %)</td>
-                            <td className="bgoodsReceipt px-4 py-2 font-semibold">
+                            <td className="border px-4 py-2 font-semibold">II VAT ({vatPercentage} %)</td>
+                            <td className="border px-4 py-2 font-semibold">
                                 {currencyFormat(getPercentAmount(goodsReceipt?.totalAmount, vatPercentage))}
                             </td>
                         </tr>
@@ -111,7 +107,6 @@ const GoodsReceiptInvoice = () => {
                         </tfoot>
                     </table>
                 </div>
-
 
             </div>
         </div>

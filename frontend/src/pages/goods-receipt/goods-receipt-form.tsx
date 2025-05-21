@@ -5,11 +5,6 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {TlaError, TlaSuccess} from "../../utils/messages.ts";
 import {TlaModal} from "../../common/pop-ups/TlaModal.tsx";
-import DropdownSearch from "../../common/dropdown-search.tsx";
-import {commonQuery} from "../../utils/query.ts";
-import {getAllSuppliers} from "../../state/supplier/supplierAction.ts";
-import {Supplier} from "../../types/supplier.ts";
-import InputFake from "../../common/input-fake.tsx";
 import {createGoodsReceipt, updateGoodsReceipt} from "../../state/goods-receipt/goodsReceiptAction.ts";
 import {generateUniqueCode} from "../../utils";
 import {MenuLinks} from "../../utils/menu-links.ts";
@@ -23,11 +18,13 @@ const GoodsReceiptForm: React.FC = () => {
     const [form] = Form.useForm<any>();
     const navigate = useNavigate();
     const user = useAppSelector(state => state.auth.user);
+    const supplier = useAppSelector(state => state.supplier.supplierItem);
 
     const onFinish = (values: any) => {
         setLoading(true);
         values.companyId = user?.companyId;
         values.userId = user?.id;
+        values.supplierId = supplier?.id;
         values.receiptNumber = generateUniqueCode("REC-", 12);
         ((state?.data && state?.data?.id) ? dispatch(updateGoodsReceipt({ data: values, id: state?.data?.id}))
             : dispatch(createGoodsReceipt(values)))
@@ -35,7 +32,7 @@ const GoodsReceiptForm: React.FC = () => {
             .then((record: any) => {
                 TlaSuccess("Successful");
                 dispatch(setGoodsReceipt(record));
-                navigate(MenuLinks.admin.goodsReceipt.itemIndex);
+                navigate(MenuLinks.admin.supplier.details.receipt.items);
                 setLoading(false);
             })
             .catch((err) => {
@@ -49,9 +46,9 @@ const GoodsReceiptForm: React.FC = () => {
             <Form requiredMark={false} form={form} onFinish={onFinish} initialValues={{...state?.data}} size={'large'} layout={"vertical"}>
                <br/>
                 <div className={'grid grid-cols-1 md:grid-cols-2 gap-2'}>
-                    <Form.Item label={"Creator"}>
-                        <InputFake value={user?.name}/>
-                    </Form.Item>
+                    {/*<Form.Item label={"Creator"}>*/}
+                    {/*    <InputFake value={user?.name}/>*/}
+                    {/*</Form.Item>*/}
 
                     <Form.Item
                         rules={[
@@ -64,23 +61,23 @@ const GoodsReceiptForm: React.FC = () => {
                         <Input type={'date'}/>
                     </Form.Item>
 
-                    <Form.Item
-                        rules={[{required:true, message:"Required"}]}
-                        name={"supplierId"} label={"Supplier"}>
-                        <DropdownSearch
-                            defaultValue={state?.data?.supplier?.name}
-                            object
-                            searchApi={getAllSuppliers}
-                            placeholder="click to select supplier"
-                            extraParams={commonQuery()}
-                            setResult={(supplier: Supplier) => {
-                                if (supplier) {
-                                    form.setFieldValue('supplierId', supplier?.id);
-                                    return
-                                }
-                                form.setFieldValue('supplierId', null)
-                            }}/>
-                    </Form.Item>
+                    {/*<Form.Item*/}
+                    {/*    rules={[{required:true, message:"Required"}]}*/}
+                    {/*    name={"supplierId"} label={"Supplier"}>*/}
+                    {/*    <DropdownSearch*/}
+                    {/*        defaultValue={state?.data?.supplier?.name}*/}
+                    {/*        object*/}
+                    {/*        searchApi={getAllSuppliers}*/}
+                    {/*        placeholder="click to select supplier"*/}
+                    {/*        extraParams={commonQuery()}*/}
+                    {/*        setResult={(supplier: Supplier) => {*/}
+                    {/*            if (supplier) {*/}
+                    {/*                form.setFieldValue('supplierId', supplier?.id);*/}
+                    {/*                return*/}
+                    {/*            }*/}
+                    {/*            form.setFieldValue('supplierId', null)*/}
+                    {/*        }}/>*/}
+                    {/*</Form.Item>*/}
 
                     <Form.Item
                        rules={[

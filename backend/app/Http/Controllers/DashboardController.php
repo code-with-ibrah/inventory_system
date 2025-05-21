@@ -114,10 +114,9 @@ class DashboardController extends Controller
 
     public function statisticsByPeriod(Request $request){
         $filterType = $request->query("filterType");
-
         $willFilter = true;
-
         $now = Carbon::now('Africa/Accra');
+        $fromDate = $toDate = "";
 
         switch ($filterType) {
             case 'today':

@@ -78,6 +78,9 @@ export const AppProtectedRoutes = () => {
                     <Route path={MenuLinks.admin.supplier.details.index} element={<SupplierDetailLayout/>}>
                         <Route index element={<SupplierInfo/>} />
                         <Route path={MenuLinks.admin.supplier.details.product} element={<SupplierProductList/>}/>
+                        <Route path={MenuLinks.admin.supplier.details.receipt.index} element={<GoodsReceipt/>}/>
+                        <Route path={MenuLinks.admin.supplier.details.receipt.items} element={<GoodsReceiptItems/>}/>
+                        <Route path={MenuLinks.admin.supplier.details.receipt.invoice} element={<GoodsReceiptInvoice/>}/>
                     </Route>
 
                     {/* warehouse */}

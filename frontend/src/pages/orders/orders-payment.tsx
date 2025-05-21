@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Button} from "antd";
 import Column from "antd/es/table/Column";
 import {useAppDispatch, useAppSelector} from "../../hooks";
@@ -15,8 +15,9 @@ import {TlaErrorTag, TlaInfoTag, TlaSuccessTag} from "../../common/tla-tag.tsx";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {resetState, updateState} from "../../state/errorSlice.ts";
 import TlaConfirm from "../../common/tla-confirm.tsx";
-import {decreaseOrderPayment} from "../../state/orders/orderSlice.ts";
+import {decreaseOrderPayment, setOrderItem} from "../../state/orders/orderSlice.ts";
 import {orderStatus} from "../../utils/order-status.ts";
+import {updateOrderStatus} from "../../state/orders/receiptAction.ts";
 
 
 
@@ -24,8 +25,20 @@ const OrderPayments: React.FC = () => {
     const {data, meta} = useAppSelector(state => state.payment.payment);
     const order = useAppSelector(state => state.order.orderItem);
     const dispatch = useAppDispatch();
-
     const currentOrderStatus = (order?.status) ? order.status : "preparing";
+    const orderHasBeenPaidInFull = +order?.amount > 0 && +order?.totalPayments >= +order?.amount;
+
+    useEffect(() => {
+        if(orderHasBeenPaidInFull && currentOrderStatus.toLowerCase() != orderStatus.delivered){
+            const data = {...order};
+            data.status = orderStatus.delivered;
+            dispatch(updateOrderStatus({ data: data, id: data?.id}))
+                .then(unwrapResult)
+                .then((updatedOrder: any) => {
+                    dispatch(setOrderItem(updatedOrder))
+                })
+        }
+    }, [currentOrderStatus, order]);
 
 
     return (

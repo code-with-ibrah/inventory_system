@@ -22,7 +22,13 @@ const SupplierDetailLayoutMenu: Menu[] = [
         label: 'Products',
         link: MenuLinks.admin.supplier.details.product,
         icon: appIconLabels.products,
-    }
+    },
+    {
+        label: 'Goods Receipts',
+        link: MenuLinks.admin.supplier.details.receipt.index,
+        icon: appIconLabels.receipt,
+    },
+
 ]
 
 

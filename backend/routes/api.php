@@ -51,7 +51,6 @@ Route::group(['prefix' => ''], function()
     // dashboard endpoints
     Route::prefix("home")->group(function(){
        Route::get("/dashboard-count", [DashboardController::class, "statistics"]);
-       Route::get("/dashboard-count", [DashboardController::class, "statistics"]);
        Route::get("/dashboard-count-period", [DashboardController::class, "statisticsByPeriod"]);
 
        Route::get("/chart-data", function (){ return []; });
@@ -158,6 +157,8 @@ Route::group(['prefix' => ''], function()
 
     // orders endpoint
     Route::apiResource("orders", OrderController::class);
+    Route::get("orders-filter", [OrderController::class, "indexFilter"]);
+    Route::get("orders-filter-by-period", [OrderController::class, "indexFilterByPeriod"]);
     Route::put("orders/status/{id}", [OrderController::class, "updateOrderStatus"]);
 
     // orders endpoint

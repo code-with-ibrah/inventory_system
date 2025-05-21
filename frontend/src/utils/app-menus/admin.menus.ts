@@ -20,11 +20,11 @@ export const AdminMenus: Menu[] = [
         create: MenuLinks.admin.stock.form,
         icon: appIconLabels.stocks
     },
-    {
-        label: 'Goods Receipt',
-        link: MenuLinks.admin.goodsReceipt.index,
-        icon: appIconLabels.receipt
-    },
+    // {
+    //     label: 'Goods Receipt',
+    //     link: MenuLinks.admin.goodsReceipt.index,
+    //     icon: appIconLabels.receipt
+    // },
     {
         label: 'Orders',
         link: MenuLinks.admin.order.index,

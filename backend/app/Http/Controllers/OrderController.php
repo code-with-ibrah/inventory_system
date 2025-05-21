@@ -11,6 +11,7 @@ use App\Http\Resources\order\OrderResourceCollection;
 use App\Models\Order;
 use App\Models\Stock;
 use App\Utils\Globals;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +44,82 @@ class OrderController extends Controller
                     ->paginate($perPage)
             );
         });
+    }
+
+    public function indexFilter(Request $request){
+        $fromDate = $request->query("fromDate");
+        $toDate = $request->query("toDate");
+
+        $orders = Order::where("isDeleted", 0)
+            ->whereBetween('created_at', [$fromDate, $toDate])
+            ->where("isActive", 1)
+            ->with('user')
+            ->with('customer')
+            ->with('payments')
+            ->orderBy('date', 'desc')
+            ->paginate(Globals::getDefaultPaginationNumber());
+
+        return new OrderResourceCollection($orders);
+    }
+
+    public function indexFilterByPeriod(Request $request){
+        $filterType = $request->query("filterType");
+
+        $now = Carbon::now('Africa/Accra');
+
+        $fromDate = $toDate = "";
+
+        switch ($filterType) {
+            case 'today':
+                $fromDate = $now->copy()->startOfDay()->toDateString();
+                $toDate = $now->copy()->endOfDay()->toDateString();
+                break;
+            case 'yesterday':
+                $fromDate = $now->copy()->subDay()->startOfDay()->toDateString();
+                $toDate = $now->copy()->subDay()->endOfDay()->toDateString();
+                break;
+            case 'last_2_days':
+                $fromDate = $now->copy()->subDays(2)->startOfDay()->toDateString();
+                $toDate = $now->copy()->endOfDay()->toDateString();
+                break;
+            case 'last_3_days':
+                $fromDate = $now->copy()->subDays(3)->startOfDay()->toDateString();
+                $toDate = $now->copy()->endOfDay()->toDateString();
+                break;
+            case 'last_4_days':
+                $fromDate = $now->copy()->subDays(4)->startOfDay()->toDateString();
+                $toDate = $now->copy()->endOfDay()->toDateString();
+                break;
+            case 'week':
+                $fromDate = $now->copy()->startOfWeek()->toDateString();
+                $toDate = $now->copy()->endOfWeek()->toDateString();
+                break;
+            case 'month':
+                $fromDate = $now->copy()->startOfMonth()->toDateString();
+                $toDate = $now->copy()->endOfMonth()->toDateString();
+                break;
+            case 'last_month':
+                $fromDate = $now->copy()->subMonth()->startOfMonth()->toDateString();
+                $toDate = $now->copy()->subMonth()->endOfMonth()->toDateString();
+                break;
+            case 'year':
+                $fromDate = $now->copy()->startOfYear()->toDateString();
+                $toDate = $now->copy()->endOfYear()->toDateString();
+                break;
+        }
+
+
+
+        $orders = Order::where("isDeleted", 0)
+            ->where("isActive", 1)
+            ->whereBetween('created_at', [$fromDate, $toDate])
+            ->with('user')
+            ->with('customer')
+            ->with('payments')
+            ->orderBy('date', 'desc')
+            ->paginate(Globals::getDefaultPaginationNumber());
+
+        return new OrderResourceCollection($orders);
     }
 
 

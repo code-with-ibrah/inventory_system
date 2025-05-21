@@ -45,24 +45,24 @@ const GoodsReceiptItems: React.FC = () => {
             <div className={'bg-white p-3 rounded-lg inner-header mb-2'}>
 
                 <div className="flex justify-between">
-                    <h2 className={'capitalize'}>
-                        <span className={' text-2xl font-medium'}>Goods Receipts Information</span>
-                        &nbsp; supplied by &nbsp;
-                        <span style={{fontSize: "17px"}}>({
-                            // @ts-ignore
-                            goodsReceiptItem?.supplier?.name ?? "-"
-                        })</span>
-                    </h2>
+                    {/*<h2 className={'capitalize'}>*/}
+                    {/*    <span className={' text-2xl font-medium'}>Goods Receipts Information</span>*/}
+                    {/*    &nbsp; supplied by &nbsp;*/}
+                    {/*    <span style={{fontSize: "17px"}}>({*/}
+                    {/*        // @ts-ignore*/}
+                    {/*        goodsReceiptItem?.supplier?.name ?? "-"*/}
+                    {/*    })</span>*/}
+                    {/*</h2>*/}
 
-                    <Link to={MenuLinks.admin.goodsReceipt.invoice}>
+                    {goodsReceiptItem?.receiptNumber ? <h1 className={'flex text-xl items-center gap-x-3 my-2'}>
+                        Receipt Number: {goodsReceiptItem?.receiptNumber}
+                    </h1> : null}
+
+                    <Link to={MenuLinks.admin.supplier.details.receipt.invoice}>
                         <Button icon={<FiPrinter/>} className={'btn btn-red'}>Print invoice</Button>
                     </Link>
                 </div>
 
-
-                {goodsReceiptItem?.receiptNumber ? <h1 className={'flex text-xl items-center gap-x-3 my-2'}>
-                    Receipt Number: {goodsReceiptItem?.receiptNumber}
-                </h1> : null}
 
                 <div className={'flex flex-wrap justify-between items-center'}>
                     <TlaOpen title={"Edit Stock"} data={goodsReceiptItem} modal={true}

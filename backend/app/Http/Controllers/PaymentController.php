@@ -45,7 +45,6 @@ class PaymentController extends Controller
     {
         $payload = PrepareRequestPayload::prepare($request);
         $payment = Payment::create($payload);
-
         // Clear relevant cache on create
         $this->clearCache($this->cachePrefix, $payment->id);
         return new PaymentResource($payment);
@@ -75,7 +74,6 @@ class PaymentController extends Controller
     public function destroy(Payment $payment, Request $request)
     {
         $shouldDeletePermantely = $request->query("delete");
-
         if($shouldDeletePermantely){
             $payment->delete();
         }
@@ -86,7 +84,6 @@ class PaymentController extends Controller
 
         // Clear relevant cache on delete
         $this->clearCache($this->cachePrefix, $payment->id);
-
         return new PaymentResource($payment);
     }
 
