@@ -90,8 +90,7 @@ const Orders: React.FC = () => {
                                 <div className="flex gap-2 align-center">
                                     <label className={'font-medium text-lg'} htmlFor="#">Filter: </label>
                                     <Form.Item>
-                                        <Select defaultValue={null} onChange={handlerFilterOnchange}
-                                                style={{minWidth: 460}}>
+                                        <Select defaultValue={null} onChange={handlerFilterOnchange} style={{minWidth: 460}}>
                                             <Select.Option key={0} value={null}>Choose one</Select.Option>
                                             <Select.Option key={1} value="today">Today</Select.Option>
                                             <Select.Option key={2} value="yesterday">Yesterday</Select.Option>
@@ -159,8 +158,7 @@ const Orders: React.FC = () => {
                     </TlaOpen>
 
                     <div className={'flex-1 my-5'}>
-                        <SearchInput placeholderColumn={'order number'} getData={getAllOrders}
-                                     columns={["orderNumber"]}/>
+                        <SearchInput placeholderColumn={'order number'} getData={getAllOrders} columns={["orderNumber"]}/>
                     </div>
 
                     <TlaTableWrapper getData={getAllOrders} data={data} filter={commonQuery()} meta={meta}>
@@ -169,8 +167,7 @@ const Orders: React.FC = () => {
                             render={(record: Order) => (
                                 <span className={'cursor-pointer underline'} onClick={() => goToDetails(record)}>
                             {record?.orderNumber ?? "view details"}
-                        </span>
-                            )}/>
+                        </span>)}/>
 
                         <Column title="Date" render={(record: Order) => <span>{formatDate(record?.date)}</span>}/>
                         <Column title="Customer" render={(record: Order) => <span>{record?.customer?.name}</span>}/>

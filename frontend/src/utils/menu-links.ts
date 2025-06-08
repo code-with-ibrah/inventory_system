@@ -113,15 +113,22 @@ export const MenuLinks = {
             },
             invoice: "/admin/orders/details/invoice",
             invoiceForm: "/admin/orders/invoice-form",
+        },
+
+        statement: {
+            index: "/admin/statements",
+            customers: "/admin/statements/customers",
+            customerStatements: "/admin/statements/customers/statements",
+            supplier: "/admin/statements/suppliers",
+            supplierStatements: "/admin/statements/suppliers/statements",
         }
 
     },
 
-
-
     company: {
         dashboard: '/company',
     },
+
 
 
 };

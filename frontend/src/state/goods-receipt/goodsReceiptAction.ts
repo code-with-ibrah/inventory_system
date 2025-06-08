@@ -102,3 +102,18 @@ export const markGoodsReceiptAsCompleted = createAsyncThunk(
         }
     }
 )
+
+export const filterGoodsReceiptForSuppliers = createAsyncThunk(
+    "goodsReceipt/filterGoodsReceiptForSuppliers", async (params: string = "", {rejectWithValue}) => {
+        try {
+            const res = await api().get(`/filter-goods-receipt-for-suppliers?${params}`);
+
+            return res.data
+        } catch (err: any) {
+            if (!err.response) {
+                throw err;
+            }
+            throw rejectWithValue(err.response.data)
+        }
+    }
+)

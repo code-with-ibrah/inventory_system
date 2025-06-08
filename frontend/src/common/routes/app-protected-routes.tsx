@@ -43,6 +43,11 @@ import CancelledOrders from "../../pages/orders/cancelled-orders.tsx";
 import OrderItems from "../../pages/orders/item";
 import PreparingOrders from "../../pages/orders/preparing-orders.tsx";
 import OrdersInvoice from "../../pages/orders/orders-invoice.tsx";
+import StatementLayout from "../../pages/statements/statement-layout.tsx";
+import CustomerStatementIndex from "../../pages/statements/customer-statment-index.tsx";
+import CustomerStatements from "../../pages/statements/customer-statement.tsx";
+import SupplierStatementIndex from "../../pages/statements/supplier-statment-index.tsx";
+import SupplierStatements from "../../pages/statements/supplier-statement.tsx";
 
 
 export const AppProtectedRoutes = () => {
@@ -125,6 +130,17 @@ export const AppProtectedRoutes = () => {
                         <Route path={MenuLinks.admin.order.details.payment} element={<OrdersPayment/>} />
                     </Route>
                     <Route path={MenuLinks.admin.order.invoice} element={<OrdersInvoice/>}/>
+
+
+                    {/* statements */}
+                    <Route path={MenuLinks.admin.statement.index} element={<StatementLayout/>}>
+                        <Route index element={<CustomerStatementIndex/>} />
+                        <Route path={MenuLinks.admin.statement.index} element={<CustomerStatementIndex/>} />
+                        <Route path={MenuLinks.admin.statement.customers} element={<CustomerStatementIndex/>}/>
+                        <Route path={MenuLinks.admin.statement.customerStatements} element={<CustomerStatements/>} />
+                        <Route path={MenuLinks.admin.statement.supplier} element={<SupplierStatementIndex/>} />
+                        <Route path={MenuLinks.admin.statement.supplierStatements} element={<SupplierStatements/>} />
+                    </Route>
 
 
 

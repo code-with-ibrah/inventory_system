@@ -131,4 +131,23 @@ class GoodsReceiptController extends Controller
         $this->clearCache($this->cachePrefix, $id);
         return new GoodsReceiptResource($goodsReceipt);
     }
+
+
+    public function indexFilterForSupplier(Request $request){
+        $fromDate = $request->query("fromDate");
+        $toDate = $request->query("toDate");
+        $supplierId = $request->query("supplierId");
+
+        $orders = GoodsReceipt::where("isDeleted", 0)
+            ->whereBetween('date', [$fromDate, $toDate])
+            ->where("supplierId", $supplierId)
+            ->where("isActive", 1)
+            ->orderBy('date', 'desc')
+            ->get();
+
+
+        return new GoodsReceiptResourceCollection($orders);
+    }
+
+
 }

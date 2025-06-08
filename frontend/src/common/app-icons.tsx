@@ -5,7 +5,7 @@ import {FaEarthAfrica} from "react-icons/fa6";
 import {SiCircuitverse, SiGoogleanalytics, SiGoogleclassroom} from "react-icons/si";
 import {GiPayMoney, GiReceiveMoney,  GiStorkDelivery, GiVote} from "react-icons/gi";
 import {MdEditNote, MdOutlineMergeType, MdOutlineWarehouse} from "react-icons/md";
-import {IoAddCircleOutline} from "react-icons/io5";
+import {IoAddCircleOutline, IoReceiptOutline} from "react-icons/io5";
 import {BiCategory, BiChart} from "react-icons/bi";
 import {HistoryOutlined, StockOutlined} from "@ant-design/icons";
 import {CgDialpad} from "react-icons/cg";
@@ -54,7 +54,7 @@ export const appIconLabels = {
     completed: 'completed',
     preparing: 'preparing',
     print: 'print',
-
+    statement: 'statement',
 };
 
 
@@ -95,7 +95,8 @@ export const appIcons: { [key: string]: React.ReactNode } = {
     cancelled: <AiFillCloseCircle/>,
     completed: <FiCheck/>,
     preparing: <TbTruckLoading />,
-    print: <FiPrinter/>
+    print: <FiPrinter/>,
+    statement: <IoReceiptOutline />,
 
 };
 
