@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {env} from "../../config/env";
 import {
     createGoodsReceipt,
-    deleteGoodsReceipt, getAllGoodsReceipts, markGoodsReceiptAsCompleted,
+    deleteGoodsReceipt, filterGoodsReceiptForSuppliers, getAllGoodsReceipts, markGoodsReceiptAsCompleted,
     toggleGoodsReceipt,
     updateGoodsReceipt
 } from "./goodsReceiptAction.ts";
@@ -74,6 +74,8 @@ const goodsReceiptSlice = createSlice({
         builder.addCase(createGoodsReceipt.fulfilled, (state, action) => {
             state.goodsReceipt.data.push(action.payload)
         }).addCase(getAllGoodsReceipts.fulfilled, (state, action) => {
+            state.goodsReceipt = action.payload
+        }).addCase(filterGoodsReceiptForSuppliers.fulfilled, (state, action) => {
             state.goodsReceipt = action.payload
         }).addCase(updateGoodsReceipt.fulfilled, (state, action) => {
             state.goodsReceipt.data = state.goodsReceipt.data.map((goodsReceipt) => {

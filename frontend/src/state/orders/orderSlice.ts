@@ -3,7 +3,7 @@ import {env} from "../../config/env";
 import {Order, OrdersState} from "../../types/order.ts";
 import {
     createOrders,
-    deleteOrders, filterOrders, filterOrdersByPeriod,
+    deleteOrders, filterOrders, filterOrdersByPeriod, filterOrdersForCustomers,
     getAllOrders, getOrderById,
     markOrdersAsCompleted,
     toggleOrders,
@@ -92,6 +92,8 @@ const orderSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(createOrders.fulfilled, (state, action: PayloadAction<Order>) => {
             state.order.data.push(action.payload)
+        }).addCase(filterOrdersForCustomers.fulfilled, (state, action) => {
+            state.order = action.payload;
         }).addCase(filterOrders.fulfilled, (state, action) => {
             state.order = action.payload;
         }).addCase(filterOrdersByPeriod.fulfilled, (state, action) => {

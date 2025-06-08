@@ -133,6 +133,7 @@ Route::group(['prefix' => ''], function()
     Route::apiResource("goods-receipts", GoodsReceiptController::class);
     Route::put("goods-receipts-toggle/{column}/{id}", [GoodsReceiptController::class, "handleToggleAction"]);
     Route::put("goods-receipts-received/{goodsReceiptId}", [GoodsReceiptController::class, "markGoodsReceiptAsCompleted"]);
+    Route::get("filter-goods-receipt-for-suppliers", [GoodsReceiptController::class, "indexFilterForSupplier"]);
 
 
     // goods receipt item endpoints
@@ -158,10 +159,11 @@ Route::group(['prefix' => ''], function()
     // orders endpoint
     Route::apiResource("orders", OrderController::class);
     Route::get("orders-filter", [OrderController::class, "indexFilter"]);
+    Route::get("orders-filter-for-customers", [OrderController::class, "indexFilterForCustomers"]);
     Route::get("orders-filter-by-period", [OrderController::class, "indexFilterByPeriod"]);
     Route::put("orders/status/{id}", [OrderController::class, "updateOrderStatus"]);
 
-    // orders endpoint
+    // order items endpoint
     Route::apiResource("order-items", OrderItemController::class);
 
 

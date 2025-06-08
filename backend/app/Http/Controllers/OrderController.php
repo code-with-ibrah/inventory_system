@@ -49,18 +49,45 @@ class OrderController extends Controller
     public function indexFilter(Request $request){
         $fromDate = $request->query("fromDate");
         $toDate = $request->query("toDate");
+        $filter = $request->query("filter");
+
+        if($filter){
+            $orders = Order::where("isDeleted", 0)
+                ->whereBetween('date', [$fromDate, $toDate])
+                ->where("isActive", 1)
+                ->with('user')
+                ->with('customer')
+                ->with('payments')
+                ->orderBy('date', 'desc')
+                ->paginate(Globals::getDefaultPaginationNumber());
+
+            return new OrderResourceCollection($orders);
+        }
+        else{
+            return $this->index($request);
+        }
+    }
+
+
+    public function indexFilterForCustomers(Request $request){
+        $fromDate = $request->query("fromDate");
+        $toDate = $request->query("toDate");
+        $customerId = $request->query("customerId");
 
         $orders = Order::where("isDeleted", 0)
-            ->whereBetween('created_at', [$fromDate, $toDate])
+            ->whereBetween('date', [$fromDate, $toDate])
             ->where("isActive", 1)
+            ->where("customerId", $customerId)
+            ->where("status", "delivered")
             ->with('user')
             ->with('customer')
             ->with('payments')
             ->orderBy('date', 'desc')
-            ->paginate(Globals::getDefaultPaginationNumber());
+            ->get();
 
         return new OrderResourceCollection($orders);
     }
+
 
     public function indexFilterByPeriod(Request $request){
         $filterType = $request->query("filterType");
@@ -112,7 +139,7 @@ class OrderController extends Controller
 
         $orders = Order::where("isDeleted", 0)
             ->where("isActive", 1)
-            ->whereBetween('created_at', [$fromDate, $toDate])
+            ->whereBetween('date', [$fromDate, $toDate])
             ->with('user')
             ->with('customer')
             ->with('payments')
