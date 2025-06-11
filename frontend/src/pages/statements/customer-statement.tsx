@@ -135,12 +135,12 @@ const CustomerStatements: React.FC = () => {
 
             {/* Customer Info */}
             <div className="mb-4">
-                <p className="text-2xl fw-bold my-4">Statement of Account (delivered orders)</p>
+                <p className="text-2xl fw-bold my-4 text-center">Statement of Account (delivered orders)</p>
 
-                <div className="flex gap-2">
+                <div className="flex gap-4 justify-center my-5">
                     {
                         selectedFromDate ? (
-                            <div className={'bg-white p-2 rounded flex-1 border-r'}> {/* Added flex-1 */}
+                            <div className={'bg-white p-2 rounded flex-1'}>
                                 <p className={'text-gray-500 font-medium text-md'}>{'Period'}</p>
                                 <div>
                                     <p className={'font-medium'}>
@@ -150,11 +150,13 @@ const CustomerStatements: React.FC = () => {
                             </div>
                         ) : null
                     }
-                    <SingleItem className={'bg-white p-2 rounded flex-1 border-r'} title={'Customer'}
+                    <SingleItem className={'bg-white p-2 rounded  border-r'} title={'Customer'}
                                 value={customer?.name}/>
-                    <SingleItem className={'bg-white p-2 rounded flex-1'} title={'Company'}
+                    <SingleItem className={'bg-white p-2 rounded'} title={'Company'}
                                 value={customer?.companyName}/>
                 </div>
+
+                <hr/>
 
 
                 <div className="flex gap-4 my-8 w-full border-r">
@@ -173,70 +175,87 @@ const CustomerStatements: React.FC = () => {
             <Spin spinning={loading} tip={'Please wait...'}>
                 {
                     displayRecords ?
-                        <div className={'bg-white rounded-2xl mb-20'}>
 
-                            <div className="overflow-x-auto bg-white shadow-sm rounded-lg receipt-container">
-                                <table className="min-w-full leading-normal">
+                        <div className="bg-white rounded-2xl shadow-lg mb-20 font-sans">
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full leading-normal table-auto rounded-lg overflow-hidden">
+                                    {/* Table Header */}
                                     <thead>
                                     <tr>
-                                        <th className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        <th className="px-3 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-950 uppercase tracking-wider rounded-tl-lg">
                                             Order Number
                                         </th>
-                                        {/*<th className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>*/}
-                                        <th className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
-                                        <th className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        <th className="px-3 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-950 uppercase tracking-wider">
+                                            Date
+                                        </th>
+                                        <th className="px-3 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-950 uppercase tracking-wider">
                                             Total Cost
                                         </th>
-                                        <th className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        <th className="px-3 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-950 uppercase tracking-wider">
                                             Amount Paid
                                         </th>
-                                        <th
-                                            className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        <th className="px-3 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-950 uppercase tracking-wider rounded-tr-lg">
                                             Remaining
                                         </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {data.map((record) => (
-                                        <tr key={record.id} className="hover:bg-gray-50">
-                                            <td className="px-3 py-2 border-b border-gray-200 bg-white text-sm">
-                                    <span className={'cursor-pointer underline text-blue-600 hover:text-blue-800'}
-                                          onClick={() => goToDetails(record)}>
-                                        {record?.orderNumber ?? "view details"}
-                                    </span>
-                                            </td>
-                                            {/*<td className="px-3 py-2 border-b border-gray-200 bg-white text-sm">*/}
-                                            {/*    <span className="relative inline-block px-2 py-1 capitalize text-green-900 leading-tight">*/}
-                                            {/*        <span aria-hidden className="absolute inset-0 bg-green-200 opacity-50 rounded-full"/>*/}
-                                            {/*        <span className="relative">{record?.status}</span>*/}
-                                            {/*    </span>*/}
-                                            {/*</td>*/}
-                                            <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
-                                                <span>{formatDate(record?.date)}</span>
-                                            </td>
-                                            <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
-                                                <span>{currencyFormat(+record?.amount)}</span>
-                                            </td>
-                                            <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
-                                                <span>{currencyFormat(+record?.totalPayments)}</span>
-                                            </td>
-                                            <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
-                            <span>
-                                {
-                                    ((+record?.amount) - (+record?.totalPayments)) < 0 ? currencyFormat(0) : currencyFormat((+record?.amount) - (+record?.totalPayments))
-                                }
-                            </span>
-                                            </td>
-                                        </tr>
+                                    {data.map((record: any) => (
+                                        <React.Fragment key={record.id}>
+                                            {/* Main Order Record Row */}
+                                            <tr className="">
+                                                <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
+                                                        <span className="cursor-pointer underline text-blue-600 hover:text-blue-800" onClick={() => goToDetails && goToDetails(record)}>
+                                                            {record?.orderNumber ?? "view details"}
+                                                        </span>
+                                                        </td>
+                                                        <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
+                                                            <span>{formatDate(record?.date)}</span>
+                                                        </td>
+                                                        <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
+                                                            <span>{currencyFormat(+record?.amount)}</span>
+                                                        </td>
+                                                        <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
+                                                            <span>{currencyFormat(+record?.totalPayments)}</span>
+                                                        </td>
+                                                        <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
+                                                        <span>
+                                                            {currencyFormat(Math.max(0, (+record?.amount) - (+record?.totalPayments)) )}
+                                                        </span>
+                                                </td>
+                                            </tr>
+
+                                            {/* Sub-Records for Payments - Always displayed if payments exist */}
+                                            {record?.payments && record?.payments?.length > 0 && (
+                                                <>
+                                                    <tr className="bg-gray-50 mb-5">
+                                                        <td colSpan={5}
+                                                            className="px-3 py-2 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider pl-8">
+                                                            Payment Details:
+                                                        </td>
+                                                    </tr>
+                                                    {record?.payments?.map((payment: any, index: number) => (
+                                                        <tr key={payment.id || `payment-${record.id}-${index}`} className="bg-gray-100 transition duration-150 ease-in-out">
+                                                            <td className="px-3 py-2 border-b border-gray-200 text-sm text-gray-700 pl-8">
+                                                                {formatDate(payment.date)}
+                                                            </td>
+                                                            <td className="px-3 py-2 border-b border-gray-200 text-sm text-gray-700">
+                                                                {currencyFormat(+payment.amount)}
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </>
+                                            )}
+                                        </React.Fragment>
                                     ))}
                                     </tbody>
-                                    {/* --- Table Footer for Overall Remaining Balance --- */}
+                                    {/* Table Footer for Overall Remaining Balance */}
                                     <tfoot>
                                     <tr>
                                         {/* Empty cells to span across the columns before "Remaining" */}
-                                        <td className="px-3 py-2 bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase"
-                                            colSpan={2}>
-                                            Overall Total Balance
+                                        <td className="px-3 py-3 bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase rounded-bl-lg"
+                                            colSpan={2}> {/* This colspan remains 3 to align 'Overall Totals' across the first three data columns */}
+                                            Overall Totals
                                         </td>
                                         <td className="px-3 py-3 bg-gray-100 text-left text-sm font-bold text-gray-900">
                                             {currencyFormat(totalCostSoFar)}
@@ -244,15 +263,15 @@ const CustomerStatements: React.FC = () => {
                                         <td className="px-3 py-3 bg-gray-100 text-left text-sm font-bold text-gray-900">
                                             {currencyFormat(amountPaidSooFar)}
                                         </td>
-                                        <td className="px-3 py-3 bg-gray-100 text-left text-sm font-bold text-gray-900">
+                                        <td className="px-3 py-3 bg-gray-100 text-left text-sm font-bold text-gray-900 rounded-br-lg">
                                             {currencyFormat(overallRemainingBalance)}
                                         </td>
                                     </tr>
                                     </tfoot>
                                 </table>
                             </div>
-
                         </div>
+
                         : <div className="bg-white p-5 rounded-2xl mb-20 text-center">
                             Filter to get records
                         </div>
