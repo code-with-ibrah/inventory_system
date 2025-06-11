@@ -27,7 +27,9 @@ class OrderResource extends JsonResource
             'totalPayments' => $this->whenLoaded('payments', function ($payments) {
                 return (float) $payments->sum('amount');
             }, 0),
-            "originalPrice" => $this->originalPrice
+            "originalPrice" => $this->originalPrice,
+
+            'payments' => $this->whenLoaded('payments', $this->payments, []),
         ];
     }
 }
