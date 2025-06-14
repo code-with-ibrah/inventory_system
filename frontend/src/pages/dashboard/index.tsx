@@ -65,39 +65,37 @@ const Analytics: React.FC = () => {
         <div>
 
             <Spin spinning={loading} tip={'Please wait...'}>
-                <div className="filter flex justify-between mt-5 mb-9">
-
-                    <div className={'filter-by-date bg-white p-4 rounded-lg ml-auto'}>
-
+                <div className="filter flex flex-col md:flex-row md:justify-end mt-5 mb-9 w-full px-4">
+                    <div className="filter-by-date bg-white p-4 rounded-lg shadow-md w-full md:w-auto">
                         {/* first filter */}
-                        <div className={''}>
+                        <div className="">
                             <Form>
-                                <div className="flex items-center ">
-                                    <div className="flex gap-2 align-center">
-                                        <label className={'font-medium text-lg'} htmlFor="#">Filter: </label>
-                                        <Form.Item>
-                                            <Select defaultValue={null} onChange={handlerFilterOnchange} style={{minWidth: 460}}>
-                                                <Select.Option key={0} value={null}>Choose one</Select.Option>
-                                                <Select.Option key={1} value="today">Today</Select.Option>
-                                                <Select.Option key={2} value="yesterday">Yesturday</Select.Option>
-                                                <Select.Option key={3} value="last_2_days">Last Two Days</Select.Option>
-                                                <Select.Option key={4} value="last_3_days">Last Three Days</Select.Option>
-                                                <Select.Option key={5} value="last_4_days">Last Four Days</Select.Option>
-                                                <Select.Option key={6} value="week">This Week</Select.Option>
-                                                <Select.Option key={7} value="month">This Month</Select.Option>
-                                                <Select.Option key={8} value="last_month">Last Month</Select.Option>
-                                                <Select.Option key={9} value="year">This Year</Select.Option>
-                                            </Select>
-                                        </Form.Item>
-                                    </div>
+                                <div className="flex flex-col md:flex-row md:items-center md:gap-4 gap-2">
+                                    <label style={{ marginTop: "-20px"}} className="font-medium text-lg min-w-[70px]" htmlFor="#">Filter:</label>
+                                    <Form.Item>
+                                        <Select defaultValue={null} onChange={handlerFilterOnchange}
+                                                style={{minWidth: '150px'}}>
+                                            <Select.Option key={0} value={null}>Choose one</Select.Option>
+                                            <Select.Option key={1} value="today">Today</Select.Option>
+                                            <Select.Option key={2} value="yesterday">Yesterday</Select.Option>
+                                            <Select.Option key={3} value="last_2_days">Last Two Days</Select.Option>
+                                            <Select.Option key={4} value="last_3_days">Last Three Days</Select.Option>
+                                            <Select.Option key={5} value="last_4_days">Last Four Days</Select.Option>
+                                            <Select.Option key={6} value="week">This Week</Select.Option>
+                                            <Select.Option key={7} value="month">This Month</Select.Option>
+                                            <Select.Option key={8} value="last_month">Last Month</Select.Option>
+                                            <Select.Option key={9} value="year">This Year</Select.Option>
+                                        </Select>
+                                    </Form.Item>
                                 </div>
                             </Form>
                         </div>
 
 
                         {/* second filter */}
-                        <Form className="filter flex gap-2" onFinish={onFinish}>
-                            <label className={'font-medium text-lg'} htmlFor="#">Custom Filter: </label>
+                        <Form className="filter flex flex-col md:flex-row md:items-center md:gap-4 gap-2"
+                              onFinish={onFinish}>
+                            <label style={{ marginTop: "-25px"}} className="font-medium text-lg min-w-[130px]" htmlFor="#">Custom Filter:</label>
                             <Form.Item rules={[{required: true, message: "Required"}]} name={'fromDate'}>
                                 <DatePicker
                                     type={'date'}
@@ -105,7 +103,7 @@ const Analytics: React.FC = () => {
                                     value={fromDate}
                                     onChange={(date) => handleDateChange([date, toDate])}
                                     format="YYYY-MM-DD"
-                                    style={{width: 150}}
+                                    style={{width: '100%'}}
                                 />
                             </Form.Item>
 
@@ -116,24 +114,23 @@ const Analytics: React.FC = () => {
                                     value={toDate}
                                     onChange={(date) => handleDateChange([fromDate, date])}
                                     format="YYYY-MM-DD"
-                                    style={{width: 150}}
+                                    style={{width: '100%'}}
                                 />
                             </Form.Item>
 
-                            <Button htmlType={'submit'} type="primary" className={'btn-red'} icon={<FilterOutlined/>}>
+                            <Button htmlType={'submit'} style={{ marginTop: "-25px"}} type="primary" className={'btn-red w-full md:w-auto'}
+                                    icon={<FilterOutlined/>}>
                                 Filter
                             </Button>
                         </Form>
 
                         {/* third filter */}
-                        <Button type="primary" className={'btn-red'} icon={<MdOutlineAutorenew/>}
+                        <Button type="primary" className={'btn-red w-full md:w-auto my-3'} icon={<MdOutlineAutorenew/>}
                                 onClick={resetFilterHandler}>
-                            Fetch overrall records
+                            Fetch overall revenue records
                         </Button>
                     </div>
-
                 </div>
-
 
                 <div className={'revenue-counters'}>
                     <RevenueCounts data={dashboardCounter}/>
