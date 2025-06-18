@@ -38,6 +38,7 @@ class ProductResource extends JsonResource
             "categoryId" => $this->categoryId,
             "categoryName" => $category ? $category->name : null,
             "brandId" => $this->brandId,
+            "site" => $this->site,
             "brandName" => $brand ? $brand->name : null,
             "stockUnitId" => $this->stockUnitId,
             "stockUnitName" => $stockUnit ? $stockUnit->name : null,

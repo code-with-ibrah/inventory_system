@@ -11,7 +11,7 @@ class Product extends Model
         "companyId", "categoryId", "brandId", "taxRate",
         "barcode", "isActive", "isDeleted", "image",
         "expirationDate", "serialNumber", "batchNumber",
-        "longDescription", "shortDescription"
+        "longDescription", "shortDescription", "site"
     ];
 
     public function category(){

@@ -202,21 +202,24 @@ const ProductForm: React.FC = () => {
                     <Form.Item
                         label={'Package Quantity'}
                         name={'standardPackageQuantity'}
-                        className="col-span-full sm:col-span-2"
+                        className="col-span-full sm:col-span-1"
                         style={{marginBottom: 0}}
                         rules={[
                             {required: true, message: "Required"}
                         ]}>
-                        <InputNumber min={0} style={{width: "100%"}} disabled={disabled} size={'large'}/>
+                        <InputNumber min={0} style={{width: "100%"}} placeholder={'292'} disabled={disabled} size={'large'}/>
                     </Form.Item>
 
-                    {/*<Form.Item*/}
-                    {/*    label={'Expiry Date (optional)'}*/}
-                    {/*    name="expirationDate"*/}
-                    {/*    className="col-span-full sm:col-span-1"*/}
-                    {/*    style={{marginBottom: 0}}>*/}
-                    {/*    <Input disabled={disabled} size={"large"} type="date"/>*/}
-                    {/*</Form.Item>*/}
+                    <Form.Item
+                        label={'Site'}
+                        name="site"
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}}
+                        rules={[
+                            {required: true, message: "Required"}
+                        ]}>
+                        <Input disabled={disabled} placeholder={'China'} size={"large"} type="text"/>
+                    </Form.Item>
 
                     <Form.Item
                         label={'Description (optional)'}
