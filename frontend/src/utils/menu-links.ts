@@ -70,9 +70,11 @@ export const MenuLinks = {
             details: "/admin/warehouses/details",
         },
         stock: {
+            supplier: "/admin/stocks/supplier",
             index: "/admin/stocks",
             form: "/admin/stock-form",
             details: "/admin/stocks/details",
+
         },
         stockAdjustment: {
             index: "/admin/stock-adjustments",

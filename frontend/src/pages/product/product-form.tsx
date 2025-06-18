@@ -70,13 +70,13 @@ const ProductForm: React.FC = () => {
                         <Input disabled={disabled} size={"large"} placeholder="Milk"/>
                     </Form.Item>
 
-                    <Form.Item
-                        label={'SKU (optional)'}
-                        name="sku"
-                        className="col-span-full sm:col-span-1"
-                        style={{marginBottom: 0}}>
-                        <Input disabled={disabled} size={"large"} placeholder="SKU"/>
-                    </Form.Item>
+                    {/*<Form.Item*/}
+                    {/*    label={'SKU (optional)'}*/}
+                    {/*    name="sku"*/}
+                    {/*    className="col-span-full sm:col-span-1"*/}
+                    {/*    style={{marginBottom: 0}}>*/}
+                    {/*    <Input disabled={disabled} size={"large"} placeholder="SKU"/>*/}
+                    {/*</Form.Item>*/}
 
                     <Form.Item
                         rules={[{required: true, message: "Required"}]}
@@ -139,25 +139,6 @@ const ProductForm: React.FC = () => {
                         />
                     </Form.Item>
 
-                    {/*<Form.Item*/}
-                    {/*    name={"supplierId"} label={"Supplier (optional)"}>*/}
-                    {/*    <DropdownSearch*/}
-                    {/*        defaultValue={state?.data?.supplierName}*/}
-                    {/*        object*/}
-                    {/*        disabled={disabled}*/}
-                    {/*        searchApi={getAllSuppliers}*/}
-                    {/*        extraParams={commonQuery()}*/}
-                    {/*        placeholder="click to select suppliers"*/}
-                    {/*        setResult={(supplier: Supplier) => {*/}
-                    {/*            if (supplier) {*/}
-                    {/*                form.setFieldValue('supplierId', supplier?.id);*/}
-                    {/*                return*/}
-                    {/*            }*/}
-                    {/*            form.setFieldValue('supplierId', null)*/}
-                    {/*        }}*/}
-                    {/*    />*/}
-                    {/*</Form.Item>*/}
-
                     <Form.Item
                         label={'Cost Price'}
                         name="costPrice"
@@ -168,23 +149,13 @@ const ProductForm: React.FC = () => {
                     </Form.Item>
 
 
-
-                    {/*<Form.Item*/}
-                    {/*    label={'Stock Alert Level'}*/}
-                    {/*    name="stockAlertLevel"*/}
+                    {/*{!state?.data?.id ? <Form.Item*/}
+                    {/*    label={'Location in warehouse'}*/}
+                    {/*    name="locationInWarehouse"*/}
                     {/*    className="col-span-full sm:col-span-1"*/}
                     {/*    style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>*/}
-                    {/*    <InputNumber style={{width: "100%"}} disabled={disabled} size={"large"} placeholder="14"/>*/}
-                    {/*</Form.Item>*/}
-
-
-                    {!state?.data?.id ? <Form.Item
-                        label={'Location in warehouse'}
-                        name="locationInWarehouse"
-                        className="col-span-full sm:col-span-1"
-                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
-                        <Input disabled={disabled} size={"large"} placeholder="Shelves"/>
-                    </Form.Item> : null }
+                    {/*    <Input disabled={disabled} size={"large"} placeholder="Shelves"/>*/}
+                    {/*</Form.Item> : null }*/}
 
 
                     <Form.Item
@@ -196,21 +167,21 @@ const ProductForm: React.FC = () => {
                     </Form.Item>
 
 
-                    {!state?.data?.id ? <Form.Item
-                        label={'Stock Quantity'}
-                        name={'quantity'}
-                        className="col-span-full sm:col-span-1"
-                        style={{marginBottom: 0}}
-                        rules={[
-                            {required: true, message: "Required"}
-                        ]}>
-                        <InputNumber min={0} style={{width: "100%"}} disabled={disabled} size={'large'}/>
-                    </Form.Item> : null}
+                    {/*{!state?.data?.id ? <Form.Item*/}
+                    {/*    label={'Stock Quantity'}*/}
+                    {/*    name={'quantity'}*/}
+                    {/*    className="col-span-full sm:col-span-1"*/}
+                    {/*    style={{marginBottom: 0}}*/}
+                    {/*    rules={[*/}
+                    {/*        {required: true, message: "Required"}*/}
+                    {/*    ]}>*/}
+                    {/*    <InputNumber min={0} style={{width: "100%"}} disabled={disabled} size={'large'}/>*/}
+                    {/*</Form.Item> : null}*/}
 
 
                     <Form.Item
                         rules={[{required: true, message: "Required"}]}
-                        name={"stockUnitId"} label={"Stock Unit "}>
+                        name={"stockUnitId"} label={"Type "}>
                         <DropdownSearch
                             defaultValue={state?.data?.stockUnitName}
                             object
@@ -231,7 +202,7 @@ const ProductForm: React.FC = () => {
                     <Form.Item
                         label={'Package Quantity'}
                         name={'standardPackageQuantity'}
-                        className="col-span-full sm:col-span-1"
+                        className="col-span-full sm:col-span-2"
                         style={{marginBottom: 0}}
                         rules={[
                             {required: true, message: "Required"}
@@ -239,26 +210,12 @@ const ProductForm: React.FC = () => {
                         <InputNumber min={0} style={{width: "100%"}} disabled={disabled} size={'large'}/>
                     </Form.Item>
 
-                    <Form.Item
-                        label={'Expiry Date (optional)'}
-                        name="expirationDate"
-                        className="col-span-full sm:col-span-1"
-                        style={{marginBottom: 0}}>
-                        <Input disabled={disabled} size={"large"} type="date"/>
-                    </Form.Item>
-
                     {/*<Form.Item*/}
-                    {/*    label={'Serial Number (optional)'}*/}
-                    {/*    name="serialNumber"*/}
-                    {/*    className="col-span-full sm:col-span-1">*/}
-                    {/*    <Input disabled={disabled} size={"large"}/>*/}
-                    {/*</Form.Item>*/}
-
-                    {/*<Form.Item*/}
-                    {/*    label={'Batch Number (optional)'}*/}
-                    {/*    name="batchNumber"*/}
-                    {/*    className="col-span-full sm:col-span-1">*/}
-                    {/*    <Input disabled={disabled} size={"large"}/>*/}
+                    {/*    label={'Expiry Date (optional)'}*/}
+                    {/*    name="expirationDate"*/}
+                    {/*    className="col-span-full sm:col-span-1"*/}
+                    {/*    style={{marginBottom: 0}}>*/}
+                    {/*    <Input disabled={disabled} size={"large"} type="date"/>*/}
                     {/*</Form.Item>*/}
 
                     <Form.Item

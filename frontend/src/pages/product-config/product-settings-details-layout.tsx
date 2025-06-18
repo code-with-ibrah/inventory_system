@@ -22,7 +22,7 @@ const ProductSettingsDetailsLayoutMenu: Menu[] = [
         icon: appIconLabels.brand,
     },
     {
-        label: 'Stock Units',
+        label: 'Type',
         link: MenuLinks.admin.productSettings.stockUnit,
         icon: appIconLabels.stockUnit,
     },

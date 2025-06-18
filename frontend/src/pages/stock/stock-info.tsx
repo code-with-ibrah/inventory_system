@@ -42,15 +42,17 @@ const StockInfo = () => {
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Stock Alert Level"} value={stock?.stockAlertLevel ?? '-'}/>
                 </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Location"} value={stock?.locationInWarehouse ?? '-'}/>
-                </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Full Package Quantity"} value={
-                        // @ts-ignore
-                        stock?.product?.standardPackageQty ?? '-'
-                    }/>
-                </div>
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Location"} value={stock?.locationInWarehouse ?? '-'}/>*/}
+                {/*</div>*/}
+
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Full Package Quantity"} value={*/}
+                {/*        // @ts-ignore*/}
+                {/*        stock?.product?.quantity ?? '-'*/}
+                {/*    }/>*/}
+                {/*</div>*/}
+
                 {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
                 {/*    <SingleItem title={"Total Sales"} value={*/}
                 {/*        // @ts-ignore*/}

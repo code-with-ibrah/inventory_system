@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\stock;
 
+use App\Http\Resources\product\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,14 +23,7 @@ class StockResource extends JsonResource
             "companyId" => $this->companyId,
             "warehouseId" => $this->wareHouseId,
             "warehouse" => $this->warehouse->name,
-            "product" => $product ?
-              [
-                "id" => $product->id,
-                "name" => $product->name,
-                "unitPrice" => $product->unitPrice,
-                "costPrice" => $product->costPrice,
-                "standardPackageQty" => $product->standardPackageQuantity
-            ] : null,
+            "product" => $product ? new ProductResource($product) : null,
             "isActive" => $this->isActive,
             "isDeleted" => $this->isDeleted
         ];

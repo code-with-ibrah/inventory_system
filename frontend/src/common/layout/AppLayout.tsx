@@ -2,7 +2,6 @@ import AppHeader from "./AppHeader.tsx";
 import { AppSidebar } from "./app-sidebar";
 import {useEffect, useState} from 'react';
 import {Affix} from "antd";
-import PageCrumbs from "../page-crumbs.tsx";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {getAppRoles} from "../../state/analytics/analyticsActions";
 import {Outlet} from "react-router-dom";
@@ -32,7 +31,7 @@ export const AppLayout = () => {
                         <AppHeader/>
                     </Affix>
                     <div className={'rounded-lg'}>
-                        <PageCrumbs/>
+                        {/*<PageCrumbs/>*/}
                         <Outlet/>
                     </div>
                 </div>

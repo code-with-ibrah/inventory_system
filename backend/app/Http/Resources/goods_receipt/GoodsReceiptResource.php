@@ -27,7 +27,17 @@ class GoodsReceiptResource extends JsonResource
             "isActive" => $this->isActive,
             "isDeleted" => $this->isDeleted,
             "isRecorded" => $this->isRecorded,
-            "updatedAt" => $this->updated_at
+            "updatedAt" => $this->updated_at,
+            "items" => $this->whenLoaded('goodsReceiptItems', function ($goodsReceiptItemsCollection) {
+                return $goodsReceiptItemsCollection->map(function ($item) {
+                    return [
+                        "id" => $item->id,
+                        "name" => $item->product->name,
+                        "quantity" => $item->quantityReceived,
+                        "unitPrice" => $item->unitPriceAtReceipt
+                    ];
+                });
+            }, [])
         ];
     }
 }

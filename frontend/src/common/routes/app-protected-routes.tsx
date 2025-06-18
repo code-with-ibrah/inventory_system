@@ -95,6 +95,7 @@ export const AppProtectedRoutes = () => {
                     {/* stocks */}
                     <Route path={MenuLinks.admin.stock.index} element={<Stocks/>} />
                     <Route path={MenuLinks.admin.stock.details} element={<StockDetails/>} />
+                    <Route path={MenuLinks.admin.stock.supplier} element={<ProductSupplier/>} />
 
                     {/* stocks adjustment */}
                     <Route path={MenuLinks.admin.stockAdjustment.index} element={<StockAdjustments/>}/>

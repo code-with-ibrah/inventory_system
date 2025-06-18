@@ -47,14 +47,14 @@ const Products: React.FC = () => {
                         </span>
                     )}/>
 
-                <Column title="Sku" render={(record: any) => <span>{record?.sku ?? '-'}</span>}/>
+                {/*<Column title="Sku" render={(record: any) => <span>{record?.sku ?? '-'}</span>}/>*/}
                 <Column title="Cost Price" render={(record: Product) => (<span>
                     {currencyFormat(+record.costPrice)}
                 </span>)}/>
-                <Column title="Unit Price" dataIndex="unitPrice"/>
+                <Column title="Unit Price" render={(record: any) => <span>{ currencyFormat(+record.unitPrice) }</span>} />
                 <Column title="Category" dataIndex={"categoryName"}/>
                 <Column title="Brand" dataIndex={"brandName"}/>
-                <Column title="Unit" dataIndex={"stockUnitName"}/>
+                <Column title="Type" dataIndex={"stockUnitName"}/>
                 <Column title={'Action'} render={((record) => (
                     <TableActions items={[
                         {

@@ -3,6 +3,27 @@ import {MenuLinks} from "../../utils/menu-links.ts";
 import {FiEdit3} from "react-icons/fi";
 import {useAppSelector} from "../../hooks";
 import StockInfo from "./stock-info.tsx";
+import AppMenu1 from "../../common/layout/app-menu-1.tsx";
+import {Menu} from "../../types/common.ts";
+import {appIconLabels} from "../../common/app-icons.tsx";
+
+
+
+
+const menus: Menu[] = [
+    {
+        label: 'Stock Info',
+        link: MenuLinks.admin.stock.details,
+        icon: appIconLabels.products,
+    },
+    {
+        label: 'Product Info',
+        link: MenuLinks.admin.product.details.index,
+        icon: appIconLabels.supplier,
+    }
+]
+
+
 
 const StockDetails = () => {
     const stock = useAppSelector(state => state.stock.stockItem);
@@ -24,6 +45,9 @@ const StockDetails = () => {
                                 Edit Stock Info <FiEdit3/>
                             </span>
                         </TlaOpen>
+                    </div>
+                    <div className={'flex flex-wrap items-center gap-3 my-3'}>
+                        <AppMenu1 menus={menus}/>
                     </div>
                 </div>
             </div>
