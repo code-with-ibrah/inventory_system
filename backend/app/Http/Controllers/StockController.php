@@ -44,6 +44,22 @@ class StockController extends Controller
     }
 
 
+    public function indexByfilter(Request $request)
+    {
+        $filter = $request->query("filter");
+
+
+        return new StockResourceCollection(
+            Stock::whereHas("product", function ($query) use ($filter) {
+                $query->where("stockUnitId", $filter);
+            })
+                ->with("product")
+                ->with("warehouse")
+                ->paginate(Globals::getDefaultPaginationNumber())
+        );
+    }
+
+
     public function store(StockRequest $request)
     {
         $product = Product::findOrFail($request->productId);

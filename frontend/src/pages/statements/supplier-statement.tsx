@@ -54,7 +54,7 @@ const SupplierStatements: React.FC = () => {
     const resetFilterHandler = () => {
         setLoading(true);
         setSelectedFromDate(false);
-        const filter = `&supplierId[eq]=${supplier?.id}`;
+        const filter = `&supplierId[eq]=${supplier?.id}&isRecorded[eq]=1`;
         dispatch(getAllGoodsReceipts(filter))
             .then(unwrapResult)
             .then((_: any) => {
@@ -152,7 +152,6 @@ const SupplierStatements: React.FC = () => {
 
 
             {/* actual works */}
-
             <Spin spinning={loading} tip={'Please wait...'}>
                 {displayRecords ?
                     <div className={'bg-white rounded-2xl mb-20'}>
@@ -161,59 +160,84 @@ const SupplierStatements: React.FC = () => {
                             <table className="min-w-full leading-normal">
                                 <thead>
                                 <tr>
-                                    <th className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    <th className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider rounded-tl-lg">
                                         Receipt Number
                                     </th>
-                                    {/*<th className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>*/}
                                     <th className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
                                     <th className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                         Condition of Goods
                                     </th>
-                                    {/*<th className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">*/}
-                                    {/*    Status*/}
-                                    {/*</th>*/}
-                                    <th className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    <th className="px-3 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider rounded-tr-lg">
                                         Total Amount
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {data.map((record: any) => (
-                                    <tr key={record.id} className="hover:bg-gray-50">
-                                        <td className="px-3 py-2 border-b border-gray-200 bg-white text-sm">
-                                        <span className={'cursor-pointer underline text-blue-600 hover:text-blue-800'}
-                                              onClick={() => goToDetails(record)}>
-                                            {record?.receiptNumber ?? "view details"}
-                                        </span>
-                                        </td>
+                                    // Use React.Fragment to group rows without adding extra DOM nodes
+                                    <React.Fragment key={record.id}>
+                                        <tr className="hover:bg-gray-50">
+                                            <td className="px-3 py-2 border-b border-gray-200 bg-white text-sm text-underline cursor-pointer" onClick={() => goToDetails(record)}>
+                                                <span className={'text-blue-600'}>
+                                                    {record?.receiptNumber ?? "N/A"}
+                                                </span>
+                                            </td>
 
-                                        <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
-                                            <span>{formatDate(record?.date)}</span>
-                                        </td>
-                                        <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
-                                            <span>{record?.conditionOfGoods ?? "-"}</span>
-                                        </td>
-                                        {/*<td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">*/}
-                                        {/*    <span>*/}
-                                        {/*        {record?.isRecorded ? 'Recorded' : 'Not Recorded'}*/}
-                                        {/*    </span>*/}
-                                        {/*</td>*/}
-                                        <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
-                                            <span>{currencyFormat(+record?.totalAmount)}</span>
-                                        </td>
-                                    </tr>
+                                            <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
+                                                <span>{formatDate(record?.date)}</span>
+                                            </td>
+                                            <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
+                                                <span>{record?.conditionOfGoods ?? "-"}</span>
+                                            </td>
+                                            <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">
+                                                <span>{currencyFormat(+record?.totalAmount)}</span>
+                                            </td>
+                                        </tr>
+                                        {/* Always expanded row for items */}
+                                        <tr>
+                                            <td colSpan={4} className="px-3 py-2 bg-gray-50 border-b border-gray-200">
+                                                <div className="p-4 rounded-lg bg-gray-100">
+                                                    <h4 className="text-sm font-semibold text-gray-700 mb-3">Products in Receipt: {record.receiptNumber}</h4>
+                                                    {record.items && record.items.length > 0 ? (
+                                                        <table className="min-w-full text-xs product-items-table">
+                                                            <thead>
+                                                            <tr className="bg-gray-200">
+                                                                <th className="px-3 py-2 text-left font-semibold text-gray-600 uppercase tracking-wider rounded-tl-lg">Product Name</th>
+                                                                <th className="px-3 py-2 text-left font-semibold text-gray-600 uppercase tracking-wider">Quantity</th>
+                                                                <th className="px-3 py-2 text-left font-semibold text-gray-600 uppercase tracking-wider">Unit Price</th>
+                                                                <th className="px-3 py-2 text-left font-semibold text-gray-600 uppercase tracking-wider rounded-tr-lg">Total Cost</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {record.items.map((item: any) => (
+                                                                <tr key={item.id} className="border-t border-gray-200">
+                                                                    <td className="px-3 py-2 text-gray-800">{item.name ?? '-'}</td>
+                                                                    <td className="px-3 py-2 text-gray-800">{item.quantity}</td>
+                                                                    <td className="px-3 py-2 text-gray-800">{currencyFormat(+item.unitPrice)}</td>
+                                                                    <td className="px-3 py-2 text-gray-800">
+                                                                        {currencyFormat(+item.quantity * +item.unitPrice)}
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                            </tbody>
+                                                        </table>
+                                                    ) : (
+                                                        <p className="text-gray-600 italic">No product items for this receipt.</p>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </React.Fragment>
                                 ))}
                                 </tbody>
-                                {/* --- Table Footer for Overall Remaining Balance --- */}
                                 <tfoot>
                                 <tr>
-                                    {/* Empty cells to span across the columns before "Remaining" */}
-                                    <td className="px-3 py-2 bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase"
+                                    <td className="px-3 py-2 bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase rounded-bl-lg"
                                         colSpan={3}>
                                         Overall Total Balance
                                     </td>
 
-                                    <td className="px-3 py-3 bg-gray-100 text-left text-sm font-bold text-gray-900">
+                                    <td className="px-3 py-3 bg-gray-100 text-left text-sm font-bold text-gray-900 rounded-br-lg">
                                         {currencyFormat(totalCostSoFar)}
                                     </td>
                                 </tr>
@@ -222,11 +246,12 @@ const SupplierStatements: React.FC = () => {
                         </div>
 
                     </div>
-                    : <div className="bg-white p-5 rounded-2xl mb-20 text-center">
+                    : <div className="bg-white p-5 rounded-2xl mb-20 text-center text-gray-600">
                         Filter to get records
                     </div>
                 }
             </Spin>
+
         </>
     )
 }

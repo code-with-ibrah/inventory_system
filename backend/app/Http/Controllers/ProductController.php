@@ -76,11 +76,14 @@ class ProductController extends Controller
     {
         try{
             $product = DB::transaction(function () use ($request) {
+                $request->quantity = $request->standardPackageQuantity;
+
                 $payload = PrepareRequestPayload::prepare($request);
                 if ($request->hasFile("image")) {
                     $imageUri = ImageUpload::init($request->file("image"));
                     $payload["image"] = $imageUri;
                 }
+
                 $product = Product::create($payload);
                 $product->suppliers()->attach($request->supplierId);
 
@@ -89,7 +92,7 @@ class ProductController extends Controller
                     "productId" => $product->id,
                     "wareHouseId" => $request->wareHouseId,
                     "quantityOnHand" => $request->quantity,
-                    "locationInWarehouse" => $request->locationInWarehouse,
+                    "locationInWarehouse" => $request->locationInWarehouse ?? "",
                     "stockAlertLevel" => $request->stockAlertLevel,
                     "companyId" => $request->companyId,
                     "productName" => $product->name

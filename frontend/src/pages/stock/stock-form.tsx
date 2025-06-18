@@ -90,16 +90,16 @@ const StockForm: React.FC = () => {
                         <Input type={'number'}/>
                     </Form.Item>
 
-                    <Form.Item
-                        rules={[
-                            {
-                                required: true,
-                                message: "Required"
-                            }
-                        ]}
-                        name={"locationInWarehouse"} label={"Location in warehouse *"}>
-                        <Input/>
-                    </Form.Item>
+                    {/*<Form.Item*/}
+                    {/*    rules={[*/}
+                    {/*        {*/}
+                    {/*            required: true,*/}
+                    {/*            message: "Required"*/}
+                    {/*        }*/}
+                    {/*    ]}*/}
+                    {/*    name={"locationInWarehouse"} label={"Location in warehouse *"}>*/}
+                    {/*    <Input/>*/}
+                    {/*</Form.Item>*/}
                 </div>
                <div>
                    <Button className={'btn-red block ml-auto'} htmlType={"submit"}>

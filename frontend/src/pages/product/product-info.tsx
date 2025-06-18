@@ -3,7 +3,7 @@ import {useAppSelector} from "../../hooks";
 import {useEffect, useState} from "react";
 import SingleItem from "../../common/single-item.tsx";
 import {Product} from "../../types/product.ts";
-import {currencyFormat, formatDate} from "../../utils";
+import {currencyFormat} from "../../utils";
 
 const ProductInfo = () => {
     const product: Product = useAppSelector(state => state.product.productItem);
@@ -39,15 +39,15 @@ const ProductInfo = () => {
                     </div>
                 </div> : null}
 
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Sku"} value={product?.sku ?? '-'}/>
-                </div>
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Sku"} value={product?.sku ?? '-'}/>*/}
+                {/*</div>*/}
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Stock Alert Level"} value={product?.stockAlertLevel ?? '-'}/>
                 </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Full Package Quantity"} value={product?.standardPackageQuantity ?? '-'}/>
-                </div>
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Full Package Quantity"} value={product?.standardPackageQuantity ?? '-'}/>*/}
+                {/*</div>*/}
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Cost Price"} value={ currencyFormat(+product?.costPrice) ?? '-'}/>
                 </div>
@@ -61,29 +61,32 @@ const ProductInfo = () => {
                     <SingleItem title={"Brand"} value={product?.brandName ?? '-'}/>
                 </div>
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Stock Unit"} value={product?.stockUnitName ?? '-'}/>
+                    <SingleItem title={"Type"} value={product?.stockUnitName ?? '-'}/>
                 </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Expiration Date"} value={
-                        product?.expirationDate 
-                            ? formatDate(product?.expirationDate)?.toString()
-                            : 'not applicable'
-                        }/>
-                </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Serial Number"} value={product?.serialNumber ?? '-'}/>
-                </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Batch Number"} value={product?.batchNumber ?? '-'}/>
-                </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <p className={'text-gray-500 font-medium text-md'}>Description</p>
-                    <div>
-                       <p>
-                           {product?.longDescription ?? '-'}
-                       </p>
-                    </div>
-                </div>
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Expiration Date"} value={*/}
+                {/*        product?.expirationDate */}
+                {/*            ? formatDate(product?.expirationDate)?.toString()*/}
+                {/*            : 'not applicable'*/}
+                {/*        }/>*/}
+                {/*</div>*/}
+
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Serial Number"} value={product?.serialNumber ?? '-'}/>*/}
+                {/*</div>*/}
+
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Batch Number"} value={product?.batchNumber ?? '-'}/>*/}
+                {/*</div>*/}
+
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <p className={'text-gray-500 font-medium text-md'}>Description</p>*/}
+                {/*    <div>*/}
+                {/*       <p>*/}
+                {/*           {product?.longDescription ?? '-'}*/}
+                {/*       </p>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </div>
         </div>
     </Spin>);

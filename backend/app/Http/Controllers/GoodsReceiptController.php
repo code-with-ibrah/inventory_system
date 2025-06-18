@@ -37,6 +37,7 @@ class GoodsReceiptController extends Controller
         return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
             return new GoodsReceiptResourceCollection(
                 GoodsReceipt::where($queryItems)
+                    ->with('goodsReceiptItems')
                     ->with('user')
                     ->with('supplier')
                     ->orderBy('date', 'desc')
@@ -139,6 +140,7 @@ class GoodsReceiptController extends Controller
         $supplierId = $request->query("supplierId");
 
         $orders = GoodsReceipt::where("isDeleted", 0)
+            ->with('goodsReceiptItems')
             ->whereBetween('date', [$fromDate, $toDate])
             ->where("supplierId", $supplierId)
             ->where("isActive", 1)
