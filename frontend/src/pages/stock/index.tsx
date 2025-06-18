@@ -13,7 +13,6 @@ import {useNavigate} from "react-router-dom";
 import {setStock} from "../../state/stock/stockSlice.ts";
 import {getAllStocks, getAllStocksByFilter} from "../../state/stock/stockAction.ts";
 import {setProduct} from "../../state/product/productSlice.ts";
-import {currencyFormat} from "../../utils";
 import {FilterOutlined} from "@ant-design/icons";
 import {getAllStockUnits} from "../../state/stock-unit/stockUnitAction.ts";
 import {unwrapResult} from "@reduxjs/toolkit";
@@ -140,8 +139,11 @@ const Stocks: React.FC = () => {
                         <Column title="Quantity" dataIndex="quantityOnHand"/>
                         <Column title="stock Alert Level" dataIndex="stockAlertLevel"/>
                         <Column title="Type" render={(record: any) => <span>{record?.product?.stockUnitName}</span>}/>
-                        <Column title="Unit Price" render={(record: any) => <span>{currencyFormat(+record?.product?.unitPrice)}</span>}/>
-                        <Column title="Stock Price" render={(record: any) => <span>{currencyFormat(+record?.product?.costPrice)}</span>}/>
+
+                        {/*<Column title="Unit Price" render={(record: any) => <span>{currencyFormat(+record?.product?.unitPrice)}</span>}/>*/}
+
+                        {/*<Column title="Stock Price" render={(record: any) => <span>{currencyFormat(+record?.product?.costPrice)}</span>}/>*/}
+
                         {/*<Column*/}
                         {/*    title={'Action'}*/}
                         {/*    render={((record) => (*/}
