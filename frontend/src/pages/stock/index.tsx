@@ -16,6 +16,7 @@ import {setProduct} from "../../state/product/productSlice.ts";
 import {FilterOutlined} from "@ant-design/icons";
 import {getAllStockUnits} from "../../state/stock-unit/stockUnitAction.ts";
 import {unwrapResult} from "@reduxjs/toolkit";
+import {TlaErrorTag, TlaSuccessTag} from "../../common/tla-tag.tsx";
 
 
 
@@ -139,6 +140,19 @@ const Stocks: React.FC = () => {
                         <Column title="Quantity" dataIndex="quantityOnHand"/>
                         <Column title="stock Alert Level" dataIndex="stockAlertLevel"/>
                         <Column title="Type" render={(record: any) => <span>{record?.product?.stockUnitName}</span>}/>
+
+                        <Column
+                            title={'Status'}
+                            render={((record) => (
+                                    <div className={'flex items-center gap-2'}>
+                                        {
+                                            (+record?.quantityOnHand <= +record?.stockAlertLevel) ?
+                                                <TlaErrorTag text={'Alert Stock'}/> :
+                                                <TlaSuccessTag text={'Available'}/>
+                                        }
+                                    </div>
+                                )
+                            )}/>
 
                         {/*<Column title="Unit Price" render={(record: any) => <span>{currencyFormat(+record?.product?.unitPrice)}</span>}/>*/}
 

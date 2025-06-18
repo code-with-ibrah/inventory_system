@@ -17,7 +17,7 @@ const DashboardCounts = ({ data }: PropsType) => {
                         <SingleItem title={"Total Products"} value={data?.productCount ?? 0}/>
                     </div>
                     <div className={'border-b pb-4 sm:border-r sm:border-b-0 sm:pb-0 lg:border-r border-gray-200'}>
-                        <SingleItem title={"Low Stock Product"} value={data?.lowStocksCount ?? 0}/>
+                        <SingleItem title={"Stock Alert"} value={data?.lowStocksCount ?? 0}/>
                     </div>
                     <div className={'border-b pb-4 sm:border-r sm:border-b-0 sm:pb-0 lg:border-r border-gray-200'}>
                         <SingleItem title={"Pending Orders"} value={data?.pendingOrdersCount ?? 0}/>
@@ -25,7 +25,7 @@ const DashboardCounts = ({ data }: PropsType) => {
                     <div className={'border-b pb-4 sm:border-r sm:border-b-0 sm:pb-0 lg:border-r border-gray-200'}>
                         <SingleItem title={"Unrecorded Receipts"} value={data?.unrecordedReceipt ?? 0}/>
                     </div>
-                    <div> {/* Last item in the row does not have a right border */}
+                    <div>
                         <SingleItem title={"Suppliers"} value={data?.supplierCount ?? 0}/>
                     </div>
                 </div>

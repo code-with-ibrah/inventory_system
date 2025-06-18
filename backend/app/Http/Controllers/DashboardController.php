@@ -51,7 +51,7 @@ class DashboardController extends Controller
 
         $lowStocksCount = Stock::where("isDeleted", 0)
             ->where("isActive", 1)
-            ->where("quantityOnHand", "<=", "stockAlertLevel")
+            ->whereColumn("quantityOnHand", "<=", "stockAlertLevel")
             ->when($willFilter, function ($query) use ($fromDate, $toDate) {
                 return $query->whereBetween('created_at', [$fromDate, $toDate]);
             })
