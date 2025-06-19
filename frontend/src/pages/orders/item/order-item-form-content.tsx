@@ -92,9 +92,23 @@ const OrderItemFormContent: React.FC<Props> = ({setLoading, form}) => {
                                 </Form.Item>
 
                                 <Form.Item
-                                    name={[name, "quantity"]} label={"Quantity *"}
-                                    rules={[{ required: true, message: "Required" }]}>
-                                    <Input type="number" min={'0'}/>
+                                    name={[name, "quantity"]} label={"Quantity*"}
+                                    rules={[
+                                        { required: true, message: "Quantity is required." },
+                                        {
+                                            validator: (_, value) => {
+                                                const numValue = Number(value);
+                                                if (isNaN(numValue) || numValue <= 0) {
+                                                    return Promise.reject(new Error('Quantity must be greater than zero.'));
+                                                }
+                                                else if(numValue.toString().indexOf(".") > -1){
+                                                    return Promise.reject(new Error('Quantity must be whole numbers.'));
+                                                }
+                                                return Promise.resolve();
+                                            },
+                                        },
+                                    ]}>
+                                    <Input type="number" step={1} min={'1'}/>
                                 </Form.Item>
 
                                 <Form.Item

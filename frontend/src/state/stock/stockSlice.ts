@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {env} from "../../config/env";
 import {
-    createStock, deleteStock, getAllStocks, getAllStocksByFilter, toggleStock, updateStock,
+    createStock, deleteStock, getAllStocks, getAllStocksByFilter, getAllStockStatusByFilter, toggleStock, updateStock,
 } from "./stockAction.ts";
 import {StocksState} from "../../types/stock.ts";
 
@@ -76,6 +76,8 @@ const stockSlice = createSlice({
         }).addCase(getAllStocks.fulfilled, (state, action) => {
             state.stock = action.payload
         }).addCase(getAllStocksByFilter.fulfilled, (state, action) => {
+            state.stock = action.payload
+        }).addCase(getAllStockStatusByFilter.fulfilled, (state, action) => {
             state.stock = action.payload
         }).addCase(updateStock.fulfilled, (state, action) => {
             state.stock.data = state.stock.data.map((stock) => {

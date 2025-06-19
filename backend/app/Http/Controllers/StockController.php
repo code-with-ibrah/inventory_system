@@ -13,6 +13,8 @@ use App\Http\Requests\stock\StockRequest;
 use App\Http\Resources\stock\StockResource;
 use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Resources\stock\StockResourceCollection;
+use Illuminate\Support\Facades\DB;
+
 
 class StockController extends Controller
 {
@@ -58,6 +60,47 @@ class StockController extends Controller
                 ->paginate(Globals::getDefaultPaginationNumber())
         );
     }
+
+
+    public function indexByStockStatusFilter(Request $request)
+    {
+        $filter = $request->query("filter"); // => all, in, low, out
+        $productTypeId = $request->query("type"); // =>
+
+
+        $query = Stock::query();
+
+        if ($productTypeId != 'all') {
+            $query->whereHas("product", function ($q) use ($productTypeId) {
+                $q->where("stockUnitId", $productTypeId);
+            });
+        }
+
+        switch ($filter) {
+            case 'in':
+                $query->where('quantityOnHand', '>', DB::raw('stockAlertLevel'));
+                break;
+
+            case 'low':
+                $query->where('quantityOnHand', '<=', DB::raw('stockAlertLevel'));
+                break;
+
+            case 'out':
+                $query->where('quantityOnHand', '=', 0);
+                break;
+
+            default:
+                // No additional 'where' clause needed for 'all' or other filters
+                break;
+        }
+
+        $record = $query->with("product")
+            ->with("warehouse")
+            ->paginate(Globals::getDefaultPaginationNumber());
+
+        return new StockResourceCollection($record);
+    }
+
 
 
     public function store(StockRequest $request)

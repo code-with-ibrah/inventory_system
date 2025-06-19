@@ -144,6 +144,7 @@ Route::group(['prefix' => ''], function()
     // stocks endpoints
     Route::apiResource("stocks", StockController::class);
     Route::get("stocks-by-filter", [StockController::class, "indexByfilter"]);
+    Route::get("stocks-status-by-filter", [StockController::class, "indexByStockStatusFilter"]);
     Route::put("stocks-toggle/{column}/{id}", [StockController::class, "handleToggleAction"]);
 
 

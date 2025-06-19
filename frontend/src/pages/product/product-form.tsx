@@ -31,7 +31,7 @@ const ProductForm: React.FC = () => {
     const onFinish = (values: any) => {
         values.companyId = user?.companyId;
         values.expirationDate = values.expirationDate || null;
-        values.stockAlertLevel = 10;
+        values.stockAlertLevel = (values.stockAlertLevel) ?? 10;
 
         setLoading(true);
         ((state?.data && state?.data?.id) ? dispatch(updateProduct({
@@ -70,13 +70,6 @@ const ProductForm: React.FC = () => {
                         <Input disabled={disabled} size={"large"} placeholder="Milk"/>
                     </Form.Item>
 
-                    {/*<Form.Item*/}
-                    {/*    label={'SKU (optional)'}*/}
-                    {/*    name="sku"*/}
-                    {/*    className="col-span-full sm:col-span-1"*/}
-                    {/*    style={{marginBottom: 0}}>*/}
-                    {/*    <Input disabled={disabled} size={"large"} placeholder="SKU"/>*/}
-                    {/*</Form.Item>*/}
 
                     <Form.Item
                         rules={[{required: true, message: "Required"}]}
@@ -139,14 +132,16 @@ const ProductForm: React.FC = () => {
                         />
                     </Form.Item>
 
-                    <Form.Item
-                        label={'Cost Price'}
-                        name="costPrice"
-                        className="col-span-full sm:col-span-1"
-                        style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>
-                        <InputNumber style={{width: "100%"}} disabled={disabled} size={"large"}
-                                     placeholder="GHS 238"/>
-                    </Form.Item>
+
+                    {/*<Form.Item*/}
+                    {/*    label={'Cost Price'}*/}
+                    {/*    name="costPrice"*/}
+                    {/*    className="col-span-full sm:col-span-1"*/}
+                    {/*    style={{marginBottom: 0}} rules={[{required: true, message: "Required"}]}>*/}
+                    {/*    <InputNumber style={{width: "100%"}} disabled={disabled} size={"large"}*/}
+                    {/*                 placeholder="GHS 238"/>*/}
+                    {/*</Form.Item>*/}
+
 
 
                     {/*{!state?.data?.id ? <Form.Item*/}
@@ -180,6 +175,20 @@ const ProductForm: React.FC = () => {
 
 
                     <Form.Item
+                        label={'Stock Alert Level (optional)'}
+                        name="stockAlertLevel"
+                        tooltip={'Alert you when product quantity get to this level'}
+                        className="col-span-full sm:col-span-1"
+                        style={{marginBottom: 0}}>
+                        <Input type={'number'}
+                               title={'Alert you when product quantity get to this level'}
+                               min={1} step={1}
+                               disabled={disabled}
+                               size={"large"} placeholder="10"/>
+                    </Form.Item>
+
+
+                    <Form.Item
                         rules={[{required: true, message: "Required"}]}
                         name={"stockUnitId"} label={"Type "}>
                         <DropdownSearch
@@ -200,7 +209,7 @@ const ProductForm: React.FC = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label={'Package Quantity'}
+                        label={'Available Quantity'}
                         name={'standardPackageQuantity'}
                         className="col-span-full sm:col-span-1"
                         style={{marginBottom: 0}}

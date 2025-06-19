@@ -79,6 +79,8 @@ class ProductController extends Controller
                 $request->quantity = $request->standardPackageQuantity;
 
                 $payload = PrepareRequestPayload::prepare($request);
+                $payload["costPrice"] = 0.0;
+
                 if ($request->hasFile("image")) {
                     $imageUri = ImageUpload::init($request->file("image"));
                     $payload["image"] = $imageUri;

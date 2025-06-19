@@ -98,3 +98,21 @@ export const getAllStocksByFilter = createAsyncThunk(
         }
     }
 )
+
+
+export const getAllStockStatusByFilter = createAsyncThunk(
+    "stock/getAllStockStatusByFilter", async (params: string, {rejectWithValue}) => {
+        try {
+            const res = await api().get(`/stocks-status-by-filter?${params}`);
+
+            return res.data
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err;
+            }
+            throw rejectWithValue(err.response.data)
+        }
+    }
+)
+

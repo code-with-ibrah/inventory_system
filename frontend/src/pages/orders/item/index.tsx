@@ -19,6 +19,7 @@ import {setOrderItem} from "../../../state/orders/orderSlice.ts";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {resetState, updateState} from "../../../state/errorSlice.ts";
 import TlaConfirm from "../../../common/tla-confirm.tsx";
+import SingleItem from "../../../common/single-item.tsx";
 
 
 const OrderItems: React.FC = () => {
@@ -35,12 +36,17 @@ const OrderItems: React.FC = () => {
 
     return (
         <>
+            <div className="bg-white p-4 my-4 rounded-xl">
+                <SingleItem title={'Total Cost'} value={currencyFormat(+order?.amount)}/>
+            </div>
+
             <div className={'bg-white rounded-2xl p-5'}>
                 {order?.status == orderStatus.preparing ? <TlaOpen to={MenuLinks.admin.order.details.manyProductForm}>
                     <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New Products</Button>
-                </TlaOpen> : null }
+                </TlaOpen> : null}
 
-                <TlaTableWrapper getData={getAllOrderItems} data={data} filter={commonQuery(`&orderId[eq]=${order?.id}`)} meta={meta}>
+                <TlaTableWrapper getData={getAllOrderItems} data={data}
+                                 filter={commonQuery(`&orderId[eq]=${order?.id}`)} meta={meta}>
                     <Column
                         title="Product"
                         render={(record: Product) => (
@@ -51,40 +57,42 @@ const OrderItems: React.FC = () => {
                                 }
                             </span>
                         )}/>
-                    <Column title="Unit Price" render={(record: OrderItem) => <span>{ currencyFormat(+record?.unitPriceAtSale)}</span>}/>
+                    <Column title="Unit Price"
+                            render={(record: OrderItem) => <span>{currencyFormat(+record?.unitPriceAtSale)}</span>}/>
                     <Column title="Quantity" dataIndex="quantity"/>
-                    <Column title="Total Cost" render={(record: OrderItem) => <span className={'font-semibold'}>{ currencyFormat(+record?.totalCost) }</span>}/>
+                    <Column title="Total Cost" render={(record: OrderItem) => <span
+                        className={'font-semibold'}>{currencyFormat(+record?.totalCost)}</span>}/>
                     {
                         order?.status == orderStatus.preparing ? <Column
-                            title={'Action'}
-                            render={((record) => (
-                                    <div className={'flex items-center gap-2'}>
-                                        <TlaEdit data={record} link={MenuLinks.admin.order.details.singleProductForm}/>
-                                        <TlaConfirm
-                                            title={'Confirm Delete'}
-                                            fullText={`Do you really want to delete this order item ?`}
-                                            callBack={() => {
-                                                dispatch(deleteOrderItem(record?.id))
-                                                    .then(unwrapResult)
-                                                    .then((result: any) => {
-                                                        const currentOrder = (result);
-                                                        currentOrder.totalPayments = order.totalPayments;
-                                                        dispatch(setOrderItem(currentOrder));
-                                                        dispatch(getAllOrderItems(commonQuery(`&orderId[eq]=${order?.id}`)))
-                                                    })
-                                                    .catch((obj: any) => {
-                                                        dispatch(updateState({
-                                                            status: "failed",
-                                                            errors: obj.errors
-                                                        }))
-                                                    }).finally(() => dispatch(resetState()))
-                                            }}>
-                                            Delete
-                                        </TlaConfirm>
-                                    </div>
-                                )
-                            )}/>
-                            :null
+                                title={'Action'}
+                                render={((record) => (
+                                        <div className={'flex items-center gap-2'}>
+                                            <TlaEdit data={record} link={MenuLinks.admin.order.details.singleProductForm}/>
+                                            <TlaConfirm
+                                                title={'Confirm Delete'}
+                                                fullText={`Do you really want to delete this order item ?`}
+                                                callBack={() => {
+                                                    dispatch(deleteOrderItem(record?.id))
+                                                        .then(unwrapResult)
+                                                        .then((result: any) => {
+                                                            const currentOrder = (result);
+                                                            currentOrder.totalPayments = order.totalPayments;
+                                                            dispatch(setOrderItem(currentOrder));
+                                                            dispatch(getAllOrderItems(commonQuery(`&orderId[eq]=${order?.id}`)))
+                                                        })
+                                                        .catch((obj: any) => {
+                                                            dispatch(updateState({
+                                                                status: "failed",
+                                                                errors: obj.errors
+                                                            }))
+                                                        }).finally(() => dispatch(resetState()))
+                                                }}>
+                                                Delete
+                                            </TlaConfirm>
+                                        </div>
+                                    )
+                                )}/>
+                            : null
                     }
 
                 </TlaTableWrapper>

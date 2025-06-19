@@ -9,8 +9,9 @@ import DropdownSearch from "../../../common/dropdown-search.tsx";
 import {getAllProducts} from "../../../state/product/productAction.ts";
 import {commonQuery} from "../../../utils/query.ts";
 import {Product} from "../../../types/product.ts";
-import {updateOrderItem} from "../../../state/orders/item/orderItemAction.ts";
+import {getAllOrderItems, updateOrderItem} from "../../../state/orders/item/orderItemAction.ts";
 import {Order} from "../../../types/order.ts";
+import {setOrderItem} from "../../../state/orders/orderSlice.ts";
 
 
 const SingleOrderItemForm: React.FC = () => {
@@ -27,10 +28,17 @@ const SingleOrderItemForm: React.FC = () => {
 
         dispatch(updateOrderItem({ data: values, id: state?.data?.id}))
             .then(unwrapResult)
-            .then(() => {
-                TlaSuccess("Successful");
-                setLoading(false);
-                navigate(-1);
+            .then((record: any) => {
+
+                dispatch(setOrderItem(record));
+
+                dispatch(getAllOrderItems(commonQuery(`&orderId[eq]=${order?.id}`)))
+                    .then(() => {
+                        setLoading(false);
+                        TlaSuccess("Successful");
+                        setLoading(false);
+                        navigate(-1);
+                    })
             })
             .catch((err) => {
                 TlaError(err?.message ?? "");
@@ -65,8 +73,22 @@ const SingleOrderItemForm: React.FC = () => {
 
                     <Form.Item
                         name={"quantity"} label={"Quantity *"}
-                        rules={[{ required: true, message: "Required" }]}>
-                        <Input type="number" min={'0'}/>
+                        rules={[
+                            { required: true, message: "Quantity is required." },
+                            {
+                                validator: (_, value) => {
+                                    const numValue = Number(value);
+                                    if (isNaN(numValue) || numValue <= 0) {
+                                        return Promise.reject(new Error('Quantity must be greater than zero.'));
+                                    }
+                                    else if(numValue.toString().indexOf(".") > -1){
+                                        return Promise.reject(new Error('Quantity must be whole numbers.'));
+                                    }
+                                    return Promise.resolve();
+                                },
+                            },
+                        ]}>
+                        <Input type="number" min={'1'}/>
                     </Form.Item>
 
                     <Form.Item

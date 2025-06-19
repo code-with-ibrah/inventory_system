@@ -30,12 +30,12 @@ const StockInfo = () => {
                         currencyFormat(+stock?.product?.unitPrice) ?? '-'
                     }/>
                 </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Cost Price"} value={
-                        // @ts-ignore
-                        currencyFormat(+stock?.product?.costPrice)  ?? '-'
-                    }/>
-                </div>
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Cost Price"} value={*/}
+                {/*        // @ts-ignore*/}
+                {/*        currencyFormat(+stock?.product?.costPrice)  ?? '-'*/}
+                {/*    }/>*/}
+                {/*</div>*/}
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Quantity On Hand"} value={stock?.quantityOnHand ?? '-'}/>
                 </div>

@@ -18,8 +18,6 @@ use App\Utils\Globals;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use mysql_xdevapi\Exception;
-use function Symfony\Component\VarDumper\Dumper\echoLine;
 
 class OrderItemController extends Controller
 {
@@ -93,10 +91,13 @@ class OrderItemController extends Controller
 
                         // check if stocks can serve the qty demanded
                         if($targetStock = Stock::where("productId", $productId)->first()){
+                            $quantityBeforeDeduction = $targetStock->quantityOnHand;
                             $quantityAfterDeduction = (int) $targetStock->quantityOnHand  -= (int) $orderItem["quantity"];
 
                             if($quantityAfterDeduction < 0){
-                                throw new \Exception("The product '$product->name' currently has a stock level of '$targetStock->quantityOnHand' units. Please verify the requested quantity and try again.");
+                                // throw new \Exception("The product '$product->name' currently has a stock level of '$targetStock->quantityOnHand' units. Please verify the requested quantity and try again.");
+                                $requestedQty = $orderItem["quantity"];
+                                throw new \Exception("You are buying more than the available quantity for '$product->name'. You requested for '$requestedQty' and the Available stock is '$quantityBeforeDeduction' ");
                             }
 
                         }
@@ -161,7 +162,15 @@ class OrderItemController extends Controller
     public function update(UpdateOrderItemRequest $request, $id)
     {
         $orderItem = OrderItem::with('product')->findOrFail($id);
+        $productStock = Stock::where("productId", $orderItem->product->id)->first();
         $payload = PrepareRequestPayload::prepare($request);
+
+        $newQuantity = $request->quantity;
+        $existingQuantity = $productStock->quantityOnHand;
+
+        if($newQuantity > $existingQuantity){
+            return ApiResponse::general("Quantity is more than the available. Requested: $newQuantity, Available: $existingQuantity", 400);
+        }
 
         $existingOrderItem = OrderItem
             ::where("productId", $payload['productId'])
@@ -185,7 +194,9 @@ class OrderItemController extends Controller
 
         // Clear relevant cache on update
         $this->clearCache($this->cachePrefix, $id);
-        return new OrderItemResource($orderItem);
+
+        return new OrderResource($order);
+        // return new OrderItemResource($orderItem);
     }
 
 

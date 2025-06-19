@@ -237,16 +237,40 @@ class OrderController extends Controller
 
                     // target all the order items
                     $orderTotalCost = 0;
+
+                    // old implementation that allows negatives
+//                    foreach ($orderItems as $orderItem) {
+//                        $orderTotalCost += $orderItem->totalCost;
+//
+//                        // target the stock ID on the order items
+//                        if ($stock = Stock::where("productId", $orderItem->productId)->firstOrFail()) {
+//                            // reduce the quantity of the stock by what was purchased!
+//                            $stock->quantityOnHand -= $orderItem->quantity;
+//                            $stock->save();
+//                        }
+//                    }
+
+
+                    // new implementation that prevents negatives
                     foreach ($orderItems as $orderItem) {
                         $orderTotalCost += $orderItem->totalCost;
 
-                        // target the stock ID on the order items
                         if ($stock = Stock::where("productId", $orderItem->productId)->firstOrFail()) {
-                            // reduce the quantity of the stock by what was purchased!
-                            $stock->quantityOnHand -= $orderItem->quantity;
+
+                            $currentQuantity = (float) $stock->quantityOnHand;
+                            $deductQuantity = (float) $orderItem->quantity;
+
+                            if ($currentQuantity < $deductQuantity) {
+                                // Throw an exception if there isn't enough stock
+                                throw new \Exception("Insufficient stock for product '{$orderItem->product->name}'. Available: {$currentQuantity}, Requested: {$deductQuantity}.");
+                            }
+
+                            // If stock is sufficient, proceed to reduce the quantity
+                            $stock->quantityOnHand -= $deductQuantity;
                             $stock->save();
                         }
                     }
+
 
                     $discountAmount = ($order->discount / 100) * $orderTotalCost;
                     $order->amount = ($orderTotalCost - $discountAmount);

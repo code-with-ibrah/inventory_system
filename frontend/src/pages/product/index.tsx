@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React from "react";
 import Column from "antd/es/table/Column";
 import {Button} from "antd";
 import {FiEdit3, FiPlusCircle} from "react-icons/fi";
@@ -48,15 +48,15 @@ const Products: React.FC = () => {
                     )}/>
 
                 {/*<Column title="Sku" render={(record: any) => <span>{record?.sku ?? '-'}</span>}/>*/}
-                <Column title="Cost Price" render={(record: Product) => (<span>
-                    {currencyFormat(+record.costPrice)}
-                </span>)}/>
-                <Column title="Unit Price" render={(record: any) => <span>{ currencyFormat(+record.unitPrice) }</span>} />
+                {/*<Column title="Cost Price" render={(record: Product) => (<span>*/}
+                {/*    {currencyFormat(+record.costPrice)}*/}
+                {/*</span>)}/>*/}
+
                 <Column title="Category" dataIndex={"categoryName"}/>
                 <Column title="Brand" dataIndex={"brandName"}/>
                 <Column title="Type" dataIndex={"stockUnitName"}/>
-                <Column title="Site" render={(record: any) => <span> { record?.site ?? ' - '}
-                    <Fragment></Fragment>         </span>} />
+                <Column title="Site" render={(record: any) => <span> { record?.site ?? ' - '}  </span>} />
+                <Column title="Unit Price" render={(record: any) => <span>{ currencyFormat(+record.unitPrice) }</span>} />
                 <Column title={'Action'} render={((record) => (
                     <TableActions items={[
                         {

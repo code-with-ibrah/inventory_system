@@ -44,9 +44,9 @@ const ProductInfo = () => {
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Stock Alert Level"} value={product?.stockAlertLevel ?? '-'}/>
                 </div>
-                <div className={'bg-white p-2 md:p-5 rounded-lg'}>
-                    <SingleItem title={"Cost Price"} value={currencyFormat(+product?.costPrice) ?? '-'}/>
-                </div>
+                {/*<div className={'bg-white p-2 md:p-5 rounded-lg'}>*/}
+                {/*    <SingleItem title={"Cost Price"} value={currencyFormat(+product?.costPrice) ?? '-'}/>*/}
+                {/*</div>*/}
                 <div className={'bg-white p-2 md:p-5 rounded-lg'}>
                     <SingleItem title={"Unit Price"} value={currencyFormat(+product?.unitPrice) ?? '-'}/>
                 </div>
