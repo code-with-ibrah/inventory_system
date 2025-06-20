@@ -120,16 +120,20 @@ const Products: React.FC = () => {
         <>
             <Spin spinning={loading} tip={'Please wait...'}>
 
-                <div className="p-4 bg-white rounded-2xl shadow-lg max-w-md ml-auto my-8 font-inter">
-                    <h3 className="text-xl font-semibold mb-4 text-gray-800">Apply Filter</h3>
+                <h3 className="text-xl font-semibold mb-4 text-gray-800">Filter Product</h3>
+                <div className="p-4 bg-white rounded-2xl sh o mb-8 font-inter">
 
-                    <div className="flex flex-col sm:flex-row items-center mb-4 space-y-4 sm:space-y-0 sm:space-x-4">
-                        <div className="flex-1 w-full">
-                            <label htmlFor="filter-type" className="block text-sm font-medium text-gray-700 mb-1">
+                    {/* main filter */}
+                    <div className="flex flex-col sm:flex-row items-end w-full gap-4 overflow-x-auto pb-2">
+                        {/* Category Filter */}
+                        {/* On small screens, this div will take full width, stacking vertically. */}
+                        {/* On sm: breakpoint and up, flex-1 will allow it to take available horizontal space. */}
+                        <div className="flex-1 w-full sm:min-w-[200px]">
+                            <label htmlFor="filter-category" className="block text-sm font-medium text-gray-700 mb-1">
                                 Select Category:
                             </label>
                             <Select
-                                id="filter-type"
+                                id="filter-category"
                                 defaultValue={selectedCategoryFilter}
                                 style={{width: '100%'}}
                                 onChange={onChangeCategoryFilter}
@@ -143,28 +147,27 @@ const Products: React.FC = () => {
                                 className="rounded-md shadow-sm border-gray-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                             />
                         </div>
-
-                        <div className="w-full sm:w-auto mt-4 sm:mt-0">
+                        {/* This div containing the button will also stack vertically on small screens. */}
+                        {/* On sm: breakpoint and up, flex-shrink-0 keeps its size in the horizontal row. */}
+                        <div className="w-full sm:w-auto flex-shrink-0">
                             <Button
-                                style={{marginTop: "25px"}}
                                 type="primary"
                                 icon={<FilterOutlined/>}
                                 onClick={handleCategoryFilter}
                                 size="large"
-                                className="w-full sm:w-auto bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
+                                className="w-full bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
                             >
                                 Apply Filter
                             </Button>
                         </div>
-                    </div>
 
-                    <div className="flex flex-col sm:flex-row items-center mb-4 space-y-4 sm:space-y-0 sm:space-x-4">
-                        <div className="flex-1 w-full">
-                            <label htmlFor="filter-type" className="block text-sm font-medium text-gray-700 mb-1">
+                        {/* Brand Filter */}
+                        <div className="flex-1 w-full sm:min-w-[200px]">
+                            <label htmlFor="filter-brand" className="block text-sm font-medium text-gray-700 mb-1">
                                 Select Brand:
                             </label>
                             <Select
-                                id="filter-type"
+                                id="filter-brand"
                                 defaultValue={selectedBrandFilter}
                                 style={{width: '100%'}}
                                 onChange={onChangeBrandFilter}
@@ -178,23 +181,20 @@ const Products: React.FC = () => {
                                 className="rounded-md shadow-sm border-gray-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                             />
                         </div>
-
-                        <div className="w-full sm:w-auto mt-4 sm:mt-0">
+                        <div className="w-full sm:w-auto flex-shrink-0">
                             <Button
-                                style={{marginTop: "25px"}}
                                 type="primary"
                                 icon={<FilterOutlined/>}
                                 onClick={handleBrandFilter}
                                 size="large"
-                                className="w-full sm:w-auto bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
+                                className="w-full bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
                             >
                                 Apply Filter
                             </Button>
                         </div>
-                    </div>
 
-                    <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                        <div className="flex-1 w-full">
+                        {/* Type Filter */}
+                        <div className="flex-1 w-full sm:min-w-[200px]">
                             <label htmlFor="filter-type" className="block text-sm font-medium text-gray-700 mb-1">
                                 Select Type:
                             </label>
@@ -213,20 +213,19 @@ const Products: React.FC = () => {
                                 className="rounded-md shadow-sm border-gray-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                             />
                         </div>
-
-                        <div className="w-full sm:w-auto mt-4 sm:mt-0">
+                        <div className="w-full sm:w-auto flex-shrink-0">
                             <Button
-                                style={{marginTop: "25px"}}
                                 type="primary"
                                 icon={<FilterOutlined/>}
                                 onClick={handleTypeFilter}
                                 size="large"
-                                className="w-full sm:w-auto bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
+                                className="w-full bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
                             >
                                 Apply Filter
                             </Button>
                         </div>
                     </div>
+
                 </div>
 
 

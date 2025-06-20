@@ -106,80 +106,91 @@ const Stocks: React.FC = () => {
 
         <div>
             <Spin spinning={loading} tip={'Applying Filter...'}>
-                <div className="p-4 bg-white rounded-2xl shadow-lg max-w-md ml-auto my-8 font-inter">
-                    <h3 className="text-xl font-semibold mb-4 text-gray-800">Apply Filter</h3>
+                <h3 className="text-xl font-semibold mb-4 text-gray-800">Apply Filter</h3>
 
-                    <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                        <div className="flex-1 w-full">
-                            <label htmlFor="filter-type" className="block text-sm font-medium text-gray-700 mb-1">
-                                Select Type:
-                            </label>
-                            <Select
-                                id="filter-type"
-                                defaultValue={selectedType}
-                                style={{width: '100%'}}
-                                onChange={handleChange}
-                                options={[
-                                    {value: 'all', label: 'All'},
-                                    ...stockUnit.data.map(item => {
-                                        return {value: item.id, label: item.name};
-                                    })
-                                ]}
-                                size="large"
-                                className="rounded-md shadow-sm border-gray-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                            />
+                <div className="p-4 bg-white rounded-2xl shadow-lg max-w-full mx-auto mb-8 font-inter">
+
+                    {/* This outer div arranges the two main filter sections in a row on sm screens and up */}
+                    <div
+                        className="flex flex-col sm:flex-row items-start justify-start sm:space-x-8 space-y-4 sm:space-y-0">
+
+                        {/* First Filter Group: Select Type */}
+                        <div className="flex-1 w-full sm:w-1/2">
+                            <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                                <div className="flex-1 w-full">
+                                    <label htmlFor="filter-type"
+                                           className="block text-sm font-medium text-gray-700 mb-1">
+                                        Select Type:
+                                    </label>
+                                    <Select
+                                        id="filter-type"
+                                        defaultValue={selectedType}
+                                        style={{width: '100%'}}
+                                        onChange={handleChange}
+                                        options={[
+                                            {value: 'all', label: 'All'},
+                                            ...stockUnit.data.map(item => {
+                                                return {value: item.id, label: item.name};
+                                            })
+                                        ]}
+                                        size="large"
+                                        className="rounded-md shadow-sm border-gray-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                    />
+                                </div>
+
+                                <div className="w-full sm:w-auto" style={{marginTop: 24}}>
+                                    <Button
+                                        type="primary"
+                                        icon={<FilterOutlined/>}
+                                        onClick={handleFilter}
+                                        size="large"
+                                        className="w-full bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
+                                    >
+                                        Apply Filter
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="w-full sm:w-auto mt-4 sm:mt-0">
-                            <Button
-                                style={{marginTop: "25px"}}
-                                type="primary"
-                                icon={<FilterOutlined/>}
-                                onClick={handleFilter}
-                                size="large"
-                                className="w-full sm:w-auto bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
-                            >
-                                Apply Filter
-                            </Button>
+                        {/* Second Filter Group: Stocks Status */}
+                        <div className="flex-1 w-full sm:w-1/2">
+                            {/* This inner div arranges the Select and Button in a row on sm screens and up */}
+                            <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                                <div className="flex-1 w-full">
+                                    <label htmlFor="stocks-status"
+                                           className="block text-sm font-medium text-gray-700 mb-1">
+                                        Stocks Status:
+                                    </label>
+                                    <Select
+                                        id="stocks-status"
+                                        defaultValue="all"
+                                        style={{width: '100%'}}
+                                        onChange={handleStockStatusChange}
+                                        options={[
+                                            {value: 'all', label: 'All'},
+                                            {value: 'in', label: 'In Stock'},
+                                            {value: 'low', label: 'Low Stock'},
+                                            {value: 'out', label: 'Out of Stock'},
+                                        ]}
+                                        size="large"
+                                        className="rounded-md shadow-sm border-gray-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                    />
+                                </div>
+
+                                <div className="w-full sm:w-auto" style={{marginTop: 24}}>
+                                    <Button
+                                        type="primary"
+                                        icon={<FilterOutlined/>}
+                                        onClick={handleApplyStockStatusFilter}
+                                        size="large"
+                                        className="w-full bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
+                                    >
+                                        Apply Status Filter
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
-                        <div className="flex-1 w-full">
-                            <label htmlFor="stocks-status" className="block text-sm font-medium text-gray-700 mb-1">
-                                Stocks Status:
-                            </label>
-                            <Select
-                                id="stocks-status"
-                                defaultValue="all"
-                                style={{width: '100%'}}
-                                onChange={handleStockStatusChange}
-                                options={[
-                                    {value: 'all', label: 'All'},
-                                    {value: 'in', label: 'In Stock'},
-                                    {value: 'low', label: 'Low Stock'},
-                                    {value: 'out', label: 'Out of Stock'},
-                                ]}
-                                size="large"
-                                className="rounded-md shadow-sm border-gray-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                            />
-                        </div>
-
-                        <div className="w-full sm:w-auto mt-4 sm:mt-0">
-                            <Button
-                                style={{marginTop: "25px"}}
-                                type="primary"
-                                icon={<FilterOutlined/>}
-                                onClick={handleApplyStockStatusFilter}
-                                size="large"
-                                className="w-full sm:w-auto bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
-                            >
-                                Apply Status Filter
-                            </Button>
-                        </div>
-                    </div>
-
-
                 </div>
 
 
