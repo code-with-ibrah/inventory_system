@@ -9,9 +9,12 @@ use App\Http\Requests\supplier\SupplierRequest;
 use App\Http\Resources\product_supplier\ProductSupplierResource;
 use App\Http\Resources\supplier\SupplierResource;
 use App\Http\Resources\supplier\SupplierResourceCollection;
+use App\Models\GoodsReceipt;
+use App\Models\GoodsReceiptPayments;
 use App\Models\ProductSupplier;
 use App\Models\Supplier;
 use App\Utils\Globals;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -136,4 +139,124 @@ class SupplierController extends Controller
         $this->clearCache($this->cachePrefix, $id);
         return new SupplierResource($supplier);
     }
+
+
+//    public function supplierStatements(Request $request)
+//    {
+//        $supplierId = $request->query("id");
+//        $fromDate = $request->query("fromDate");
+//        $toDate = $request->query("toDate");
+//
+//        // Set default date range if not provided
+//        if (!$fromDate || !$toDate) {
+//            $year = now()->year;
+//            $fromDate = $fromDate ?: Carbon::create($year)->startOfYear()->toDateString();
+//            $toDate = $toDate ?: Carbon::create($year)->endOfYear()->toDateString();
+//        }
+//
+//        // Fetch goods receipts
+//        $receipts = GoodsReceipt::where('supplierId', $supplierId)
+//            ->whereBetween('date', [$fromDate, $toDate])
+//            ->get()
+//            ->map(fn($receipt) => [
+//                'date' => $receipt->date,
+//                'debit' => (float) $receipt->totalAmount,
+//                'credit' => null,
+//                'raw_date' => $receipt->created_at,
+//            ]);
+//
+//        // Fetch supplier payments
+//        $payments = GoodsReceiptPayments::where('supplierId', $supplierId)
+//            ->whereBetween('date', [$fromDate, $toDate])
+//            ->get()
+//            ->map(fn($payment) => [
+//                'date' => $payment->date,
+//                'debit' => null,
+//                'credit' => (float) $payment->amount,
+//                'raw_date' => $payment->created_at,
+//            ]);
+//
+//        // Merge and sort transactions
+//        $transactions = $receipts->merge($payments)
+//            ->sortBy('date')
+//            ->values();
+//
+//        // Compute running balance
+//        $balance = 0;
+//        $transactionsWithBalance = $transactions->map(function ($item) use (&$balance) {
+//            $debit = $item['debit'] ?? 0;
+//            $credit = $item['credit'] ?? 0;
+//            $balance += ($debit - $credit);
+//
+//            return [
+//                'date' => $item['date'],
+//                'debit' => $item['debit'] !== null ? $debit : '',
+//                'credit' => $item['credit'] !== null ? $credit : '',
+//                'balance' => $balance,
+//            ];
+//        });
+//
+//        return response()->json($transactionsWithBalance);
+//    }
+
+    public function supplierStatements(Request $request)
+    {
+        $supplierId = $request->query("id");
+        $fromDate = $request->query("fromDate");
+        $toDate = $request->query("toDate");
+
+        // Set default date range if not provided
+        if (!$fromDate || !$toDate) {
+            $year = now()->year;
+            $fromDate = $fromDate ?: Carbon::create($year)->startOfYear()->toDateString();
+            $toDate = $toDate ?: Carbon::create($year)->endOfYear()->toDateString();
+        }
+
+        // Fetch goods receipts
+        $receipts = GoodsReceipt::where('supplierId', $supplierId)
+            ->whereBetween('date', [$fromDate, $toDate])
+            ->get()
+            ->map(fn($receipt) => (object) [
+                'date' => $receipt->date,
+                'debit' => (float) $receipt->totalAmount,
+                'credit' => null,
+                'raw_date' => $receipt->created_at,
+            ]);
+
+        // Fetch supplier payments
+        $payments = GoodsReceiptPayments::where('supplierId', $supplierId)
+            ->whereBetween('date', [$fromDate, $toDate])
+            ->get()
+            ->map(fn($payment) => (object) [
+                'date' => $payment->date,
+                'debit' => null,
+                'credit' => (float) $payment->amount,
+                'raw_date' => $payment->created_at,
+            ]);
+
+        // Merge and sort transactions
+        $transactions = $receipts->concat($payments)
+            ->sortBy('date')
+            ->values();
+
+        // Compute running balance
+        $balance = 0;
+        $transactionsWithBalance = $transactions->map(function ($item) use (&$balance) {
+            $debit = $item->debit ?? 0;
+            $credit = $item->credit ?? 0;
+            $balance += ($debit - $credit);
+
+            return [
+                'date' => $item->date,
+                'debit' => $item->debit !== null ? $debit : '',
+                'credit' => $item->credit !== null ? $credit : '',
+                'balance' => $balance,
+            ];
+        });
+
+        return response()->json($transactionsWithBalance);
+    }
+
+
+
 }

@@ -41,6 +41,7 @@ class PaymentController extends Controller
     }
 
 
+
     public function store(PaymentRequest $request)
     {
         $payload = PrepareRequestPayload::prepare($request);

@@ -9,11 +9,13 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoodsReceiptController;
 use App\Http\Controllers\GoodsReceiptItemController;
+use App\Http\Controllers\GoodsReceiptPaymentsController;
 use App\Http\Controllers\InstallmentPlanController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\PaymentOrderTotalsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductSupplierController;
 use App\Http\Controllers\RoleController;
@@ -93,6 +95,7 @@ Route::group(['prefix' => ''], function()
     Route::apiResource("suppliers", SupplierController::class);
     Route::get("suppliers-by-product/{productId}", [SupplierController::class, "products"]);
     Route::put("suppliers-toggle/{column}/{id}", [SupplierController::class, "handleToggleAction"]);
+    Route::get("suppliers-statements", [SupplierController::class, "supplierStatements"]);
 
 
     // products endpoints
@@ -171,5 +174,12 @@ Route::group(['prefix' => ''], function()
 
     // payment endpoint
     Route::apiResource("payments", PaymentController::class);
+    Route::apiResource("goods-receipt-payments", GoodsReceiptPaymentsController::class);
+    Route::get("goods-receipt-payments/total-payments/{supplierId}", [GoodsReceiptPaymentsController::class, "totalPayments"]);
+
+
+    // payments-orders-stats
+    Route::get("payment-orders-stats/{customerId}", [PaymentOrderTotalsController::class, "index"]);
+    Route::get("customer-statements", [PaymentOrderTotalsController::class, "customerStatements"]);
 
 });
