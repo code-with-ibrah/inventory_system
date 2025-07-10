@@ -11,9 +11,7 @@ use App\Http\Resources\goods_receitp_payments\GoodsReceiptPaymentResource;
 use App\Http\Resources\goods_receitp_payments\GoodsReceiptPaymentResourceCollection;
 use App\Models\GoodsReceipt;
 use App\Models\GoodsReceiptPayments;
-use App\Models\Payment;
 use App\Utils\Globals;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
