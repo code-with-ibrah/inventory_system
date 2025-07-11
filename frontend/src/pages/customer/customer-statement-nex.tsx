@@ -162,7 +162,7 @@ const CustomerStatements: React.FC = () => {
                         </table>
                     </div>
                 ) : (
-                    <div className="text-center bg-white p-6 rounded-xl">Filter to view customer ledger</div>
+                    <div className="text-center bg-white p-6 rounded-xl">Filter to view customer statement</div>
                 )}
             </Spin>
         </div>
