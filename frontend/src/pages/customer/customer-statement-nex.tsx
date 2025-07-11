@@ -146,7 +146,6 @@ const CustomerStatements: React.FC = () => {
                             <thead>
                             <tr className="bg-gray-100">
                                 <th className="px-4 py-2 border">Date</th>
-                                <th className="px-4 py-2 border">Details</th>
                                 <th className="px-4 py-2 border text-right">Debit (GHS)</th>
                                 <th className="px-4 py-2 border text-right">Credit (GHS)</th>
                                 <th className="px-4 py-2 border text-right">Balance (GHS)</th>
@@ -156,7 +155,6 @@ const CustomerStatements: React.FC = () => {
                             {data.map((record: any, index: number) => (
                                 <tr key={index}>
                                     <td className="px-4 py-2 border">{formatDate(record.date)}</td>
-                                    <td className="px-4 py-2 border">{record.details}</td>
                                     <td className="px-4 py-2 border text-right">{record.debit ? currencyFormat(+record.debit) : '-'}</td>
                                     <td className="px-4 py-2 border text-right">{record.credit ? currencyFormat(+record.credit) : '-'}</td>
                                     <td className="px-4 py-2 border text-right font-semibold">{currencyFormat(+record.balance)}</td>
