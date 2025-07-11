@@ -115,11 +115,14 @@ const CustomerStatements: React.FC = () => {
                             icon={<FilterOutlined/>}>Fetch all records</Button>
                     </Form>
 
-                    {data?.length > 0 && (
-                        <Button className="ml-4" type="primary" icon={<PrinterFilled />} onClick={printHandler}>
-                            Print Statement
-                        </Button>
-                    )}
+                    {data?.length > 0 ? (
+                        <Button
+                            className="btn btn-red"
+                            size={'large'}
+                            onClick={printHandler}
+                            type="primary"
+                            icon={<FilterOutlined/>}>Print Statements</Button>
+                    ) : ''}
                 </div>
             </div>
 
