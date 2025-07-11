@@ -3,7 +3,7 @@ import {Button, DatePicker, Form, Spin} from "antd";
 import {currencyFormat, formatDate, htmlDateFormat} from "../../utils";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {useNavigate} from "react-router-dom";
-import {FilterOutlined, PrinterFilled} from "@ant-design/icons";
+import {FilterOutlined} from "@ant-design/icons";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {TlaError} from "../../utils/messages.ts";
 import {getAllCustomerStatements} from "../../state/customer/customerAction.ts";
@@ -141,7 +141,7 @@ const CustomerStatements: React.FC = () => {
             {/* Ledger Table */}
             <Spin spinning={loading}>
                 {displayRecords ? (
-                    <div className="bg-white rounded-xl shadow p-4 overflow-auto">
+                    <div className="bg-white rounded-xl shadow p-4 overflow-auto mb-6">
                         <table className="min-w-full border border-gray-300 text-sm">
                             <thead>
                             <tr className="bg-gray-100">
