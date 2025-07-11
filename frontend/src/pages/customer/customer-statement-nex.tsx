@@ -129,11 +129,12 @@ const CustomerStatements: React.FC = () => {
             {/* Statement Header */}
             {displayRecords && (
                 <div className="mb-6 text-center">
-                    <h2 className="text-2xl font-semibold">Statement of Account</h2>
-                    <p className="text-md text-gray-600 mt-1">
-                        Period: <strong>{fromDate}</strong> to <strong>{toDate}</strong>
-                    </p>
-                    <p className="text-md font-medium">Customer: {customer?.name} ({customer?.companyName})</p>
+                    <h2 className="text-2xl font-semibold my-3">Statement of Account</h2>
+                    {/*<p className="text-md text-gray-600 mt-1">*/}
+                    {/*    Period: <strong>{fromDate}</strong> to <strong>{toDate}</strong>*/}
+                    {/*</p>*/}
+                    <p className="text-md font-medium">Customer: {customer?.name}</p>
+                    <p className="text-md font-medium">Company: {customer?.companyName}</p>
                 </div>
             )}
 
