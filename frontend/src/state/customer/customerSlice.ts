@@ -1,7 +1,14 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {env} from "../../config/env";
 import {Customer, CustomersState} from "../../types/customer.ts";
-import {createCustomer, deleteCustomer, getAllCustomers, toggleCustomer, updateCustomer} from "./customerAction.ts";
+import {
+    createCustomer,
+    deleteCustomer,
+    getAllCustomerPaymentStats,
+    getAllCustomers, getAllCustomerStatements,
+    toggleCustomer,
+    updateCustomer
+} from "./customerAction.ts";
 
 const initialState: CustomersState = {
     customer: {
@@ -48,7 +55,13 @@ const initialState: CustomersState = {
         phone: "",
         address: "",
         registrationDate: ""
-    }
+    },
+
+    customerOrderStats: {
+        data: []
+    },
+
+    statements: {}
 };
 
 
@@ -62,18 +75,22 @@ const customerSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(createCustomer.fulfilled, (state, action) => {
-            state.customer.data.push(action.payload)
+            state.customer.data.push(action.payload);
         }).addCase(getAllCustomers.fulfilled, (state, action) => {
-            state.customer = action.payload
+            state.customer = action.payload;
+        }).addCase(getAllCustomerPaymentStats.fulfilled, (state, action) => {
+            state.customerOrderStats = action.payload
+        }).addCase(getAllCustomerStatements.fulfilled, (state, action) => {
+            state.statements = action.payload;
         }) .addCase(updateCustomer.fulfilled, (state, action) => {
             state.customer.data = state.customer.data.map((customer) => {
-                return customer.id === action.payload.id ? action.payload : customer
+                return customer.id === action.payload.id ? action.payload : customer;
             })
         }) .addCase(deleteCustomer.fulfilled, (state, action: PayloadAction<any>) => {
             state.customer.data = state.customer.data.filter((customer: Customer) => customer.id !== action.payload)
         }).addCase(toggleCustomer.fulfilled, (state, action) => {
             state.customer.data = state.customer.data.map((customer: Customer) => {
-                return customer.id == action.payload.id ? action.payload : customer
+                return customer.id == action.payload.id ? action.payload : customer;
             })
         })
     }

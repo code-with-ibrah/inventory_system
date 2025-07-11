@@ -72,6 +72,39 @@ export const getAllCustomers = createAsyncThunk(
     }
 );
 
+export const getAllCustomerPaymentStats = createAsyncThunk(
+    "customer/getAllCustomerPaymentStats", async (customerId: number, {rejectWithValue}) => {
+        try {
+            const res = await api().get(`/payment-orders-stats/${customerId}`);
+
+            return res.data
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err;
+            }
+            throw rejectWithValue(err.response.data)
+        }
+    }
+);
+
+
+export const getAllCustomerStatements = createAsyncThunk(
+    "customer/getAllCustomerStatements", async (params: string, {rejectWithValue}) => {
+        try {
+            const res = await api().get(`/customer-statements?${params}`);
+
+            return res.data
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err;
+            }
+            throw rejectWithValue(err.response.data)
+        }
+    }
+);
+
 
 export const toggleCustomer = createAsyncThunk(
     "customer/toggleCustomer", async (data: ToggleType, {rejectWithValue}) => {

@@ -48,6 +48,10 @@ import CustomerStatementIndex from "../../pages/statements/customer-statment-ind
 import CustomerStatements from "../../pages/statements/customer-statement.tsx";
 import SupplierStatementIndex from "../../pages/statements/supplier-statment-index.tsx";
 import SupplierStatements from "../../pages/statements/supplier-statement.tsx";
+import CustomerDetailLayout from "../../pages/customer/customer-detail-layout.tsx";
+import CustomerInfo from "../../pages/customer/customer-info.tsx";
+import CustomerPayments from "../../pages/customer/customer-payment.tsx";
+import CustomerStatementNex from "../../pages/customer/customer-statement-nex.tsx";
 
 
 export const AppProtectedRoutes = () => {
@@ -103,6 +107,12 @@ export const AppProtectedRoutes = () => {
 
                     {/* customers */}
                     <Route path={MenuLinks.admin.customers.index} element={<Customers/>}/>
+                    <Route path={MenuLinks.admin.customers.details.index} element={<CustomerDetailLayout/>}>
+                        <Route index element={<CustomerInfo/>}/>
+                        <Route path={MenuLinks.admin.customers.details.orders} element={<Orders/>}/>
+                        <Route path={MenuLinks.admin.customers.details.payments} element={<CustomerPayments/>}/>
+                        <Route path={MenuLinks.admin.customers.details.statements} element={<CustomerStatementNex/>}/>
+                    </Route>
 
                     {/* config */}
                     <Route path={MenuLinks.admin.config.index} element={<ConfigDetailLayout/>}>

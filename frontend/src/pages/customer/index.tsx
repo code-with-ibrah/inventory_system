@@ -11,12 +11,21 @@ import {formatDate} from "../../utils";
 import {MenuLinks} from "../../utils/menu-links.ts";
 import TlaEdit from "../../common/tla-edit.tsx";
 import TlaDelete from "../../common/tla-delete.tsx";
-import {useAppSelector} from "../../hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks";
 import {Customer} from "../../types/customer.ts";
+import {useNavigate} from "react-router-dom";
+import {setCustomer} from "../../state/customer/customerSlice.ts";
 
 
 const Customers: React.FC = () => {
     const {data, meta} = useAppSelector(state => state.customer.customer);
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    const gotoDetails = (record: any) => {
+        dispatch(setCustomer(record));
+        navigate(MenuLinks.admin.customers.details.index);
+    };
 
     return (
         <div className={'bg-white rounded-2xl p-5'}>
@@ -29,7 +38,8 @@ const Customers: React.FC = () => {
             </div>
 
             <TlaTableWrapper getData={getAllCustomers} data={data} filter={commonQuery()} meta={meta}>
-                <Column title="Name" dataIndex="name"/>
+                <Column title="Name" render={(record) =>
+                    <span onClick={()=> gotoDetails(record)} className={'cursor-pointer underline'}> {record.name} </span>}/>
                 <Column title="Company" dataIndex="companyName"/>
                 <Column title="Location" dataIndex="location"/>
                 <Column title="Phone" dataIndex="phone"/>

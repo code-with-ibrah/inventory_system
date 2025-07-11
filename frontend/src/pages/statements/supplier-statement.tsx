@@ -7,7 +7,6 @@ import {useNavigate} from "react-router-dom";
 import {MdOutlineAutorenew} from "react-icons/md";
 import {FilterOutlined, PrinterFilled} from "@ant-design/icons";
 import {unwrapResult} from "@reduxjs/toolkit";
-import SingleItem from "../../common/single-item.tsx";
 import {setGoodsReceipt} from "../../state/goods-receipt/goodsReceiptSlice.ts";
 import {filterGoodsReceiptForSuppliers, getAllGoodsReceipts} from "../../state/goods-receipt/goodsReceiptAction.ts";
 import {TlaError} from "../../utils/messages.ts";
@@ -73,10 +72,6 @@ const SupplierStatements: React.FC = () => {
     }, [selectedFromDate]);
 
 
-    // Calculate total cost so far
-    const totalCostSoFar = data.reduce((sum, record) => sum + (+record?.totalAmount), 0);
-
-
     return (
         <>
             <div className="filter flex justify-between mt-5 mb-9 no-print">
@@ -116,7 +111,7 @@ const SupplierStatements: React.FC = () => {
                         Fetch overall records
                     </Button> &nbsp;
 
-                    {data?.length > 0 ? <Button type="primary" className={'btn-red'} icon={<PrinterFilled/>} onClick={printStatementHandler}>
+                    {data?.length > 0 ? <Button type="primary" className={'btn btn-red'} icon={<PrinterFilled/>} onClick={printStatementHandler}>
                         Print Statement
                     </Button> : null }
                 </div>
@@ -140,12 +135,7 @@ const SupplierStatements: React.FC = () => {
                             </div>
                         ) : null
                     }
-                    <SingleItem className={'bg-white p-2 rounded flex-1 border-r'} title={'supplier'}
-                                value={supplier?.name}/>
-                    <SingleItem className={'bg-white p-2 rounded flex-1 border-r'} title={'Company'}
-                                value={supplier?.companyName}/>
-                    <SingleItem className={'bg-white p-2 rounded flex-1'} title={'Total Cost'}
-                                value={displayRecords ? currencyFormat(totalCostSoFar) : 'GHS 0'}/>
+
 
                 </div>
             </div>
@@ -237,9 +227,7 @@ const SupplierStatements: React.FC = () => {
                                         Overall Total Balance
                                     </td>
 
-                                    <td className="px-3 py-3 bg-gray-100 text-left text-sm font-bold text-gray-900 rounded-br-lg">
-                                        {currencyFormat(totalCostSoFar)}
-                                    </td>
+
                                 </tr>
                                 </tfoot>
                             </table>

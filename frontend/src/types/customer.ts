@@ -18,4 +18,6 @@ export interface CustomerType extends PaginatedData {
 export interface CustomersState {
     customer: CustomerType,
     customerItem: Customer,
+    customerOrderStats: any,
+    statements: any
 }

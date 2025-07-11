@@ -30,6 +30,7 @@ const Orders: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [dates, setDates] = React.useState([]);
     const [fromDate, toDate] = dates;
+    const customer = useAppSelector(state => state.customer.customerItem);
 
     const goToDetails = (record: any) => {
         dispatch(setOrderItem(record));
@@ -45,7 +46,7 @@ const Orders: React.FC = () => {
         const fromDate = htmlDateFormat(values.fromDate);
         const toDate = htmlDateFormat(values.toDate);
         setLoading(true);
-        const filter = `fromDate=${fromDate}&toDate=${toDate}&filter=true`
+        const filter = `customerId[eq]=${customer?.id}&fromDate=${fromDate}&toDate=${toDate}&filter=true`
         dispatch((filterOrders(filter)))
             .then(unwrapResult)
             .then((_: any) => {
@@ -59,7 +60,7 @@ const Orders: React.FC = () => {
 
     const resetFilterHandler = () => {
         setLoading(true);
-        const filter = ``
+        const filter = `customerId[eq]=${customer?.id}`
         dispatch(filterOrders(filter))
             .then(unwrapResult)
             .then((_: any) => {
@@ -161,7 +162,7 @@ const Orders: React.FC = () => {
                         <SearchInput placeholderColumn={'order number'} getData={getAllOrders} columns={["orderNumber"]}/>
                     </div>
 
-                    <TlaTableWrapper getData={getAllOrders} data={data} filter={commonQuery()} meta={meta}>
+                    <TlaTableWrapper getData={getAllOrders} data={data} filter={commonQuery(`&customerId[eq]=${customer?.id}`)} meta={meta}>
                         <Column
                             title="Order Number"
                             render={(record: Order) => (
@@ -182,24 +183,24 @@ const Orders: React.FC = () => {
                         {/*<Column title="Discount Percentage" render={(record: Order) => <span>{record?.discount}%</span>}/>*/}
                         <Column title="Amount" render={(record: Order) => <span
                             className={'font-medium'}>{currencyFormat(+record?.amount)}</span>}/>
-                        <Column title="Total Paid Amount" render={(record: Order) => <span
-                            className={'font-semibold'}>{currencyFormat(+record?.totalPayments)}</span>}/>
+                        {/*<Column title="Total Paid Amount" render={(record: Order) => <span*/}
+                        {/*    className={'font-semibold'}>{currencyFormat(+record?.totalPayments)}</span>}/>*/}
 
 
-                        <Column
-                            title="Payment Status"
-                            render={(record: Order) => (
-                                <span>
-                                {+record?.totalPayments === 0 ? (
-                                    <TlaErrorTag text={'Not Paid'}/>
-                                ) : +record?.amount > 0 && +record?.totalPayments >= +record?.amount ? (
-                                    <TlaSuccessTag text={'Fully Paid'}/>
-                                ) : +record?.amount > 0 && +record?.totalPayments < +record?.amount ? (
-                                    <TlaErrorTag text={'Partial Payments'}/>
-                                ) : null}
-                            </span>
-                            )}
-                        />
+                        {/*<Column*/}
+                        {/*    title="Payment Status"*/}
+                        {/*    render={(record: Order) => (*/}
+                        {/*        <span>*/}
+                        {/*        {+record?.totalPayments === 0 ? (*/}
+                        {/*            <TlaErrorTag text={'Not Paid'}/>*/}
+                        {/*        ) : +record?.amount > 0 && +record?.totalPayments >= +record?.amount ? (*/}
+                        {/*            <TlaSuccessTag text={'Fully Paid'}/>*/}
+                        {/*        ) : +record?.amount > 0 && +record?.totalPayments < +record?.amount ? (*/}
+                        {/*            <TlaErrorTag text={'Partial Payments'}/>*/}
+                        {/*        ) : null}*/}
+                        {/*    </span>*/}
+                        {/*    )}*/}
+                        {/*/>*/}
 
                         <Column title={'Action'} render={(record) => (
                             <TableActions items={[

@@ -15,7 +15,7 @@ class PaymentRequest extends FormRequest
     {
         return [
             "customerId" => ["required", "exists:customers,id"],
-            "orderId" => ["required", "exists:orders,id"],
+            "orderId" => ["nullable", "exists:orders,id"],
             "date" => ["required"],
             "amount" => ["required", "numeric"]
         ];

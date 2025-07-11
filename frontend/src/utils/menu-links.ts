@@ -86,7 +86,14 @@ export const MenuLinks = {
         },
         customers: {
             index: "/admin/customers",
-            form: "/admin/customers/form"
+            form: "/admin/customers/form",
+            details: {
+                index: "/admin/customers/details",
+                payments: "/admin/customers/details/payments",
+                paymentForm: "/admin/customers/details/payments-form",
+                statements: "/admin/customers/details/statements",
+                orders: "/admin/customers/details/orders",
+            }
         },
         goodsReceipt: {
             index: "/admin/goods-receipt",
