@@ -141,7 +141,7 @@ const CustomerStatements: React.FC = () => {
             {/* Ledger Table */}
             <Spin spinning={loading}>
                 {displayRecords ? (
-                    <div className="bg-white rounded-xl shadow p-4 overflow-auto mb-6">
+                    <div className="bg-white rounded-xl shadow overflow-auto mb-6">
                         <table className="min-w-full border border-gray-300 text-sm">
                             <thead>
                             <tr className="bg-gray-100">
