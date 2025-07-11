@@ -43,12 +43,12 @@ export const AdminMenus: Menu[] = [
         create: MenuLinks.admin.customers.form,
         icon: appIconLabels.user
     },
-    {
-        label: 'Statements',
-        link: MenuLinks.admin.statement.index,
-        create: MenuLinks.admin.customers.form,
-        icon: appIconLabels.statement
-    },
+    // {
+    //     label: 'Statements',
+    //     link: MenuLinks.admin.statement.index,
+    //     create: MenuLinks.admin.customers.form,
+    //     icon: appIconLabels.statement
+    // },
     {
         label: 'Warehouse',
         link: MenuLinks.admin.warehouse.index,
