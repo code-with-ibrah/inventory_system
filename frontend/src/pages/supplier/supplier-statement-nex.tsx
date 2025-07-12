@@ -6,12 +6,12 @@ import {useNavigate} from "react-router-dom";
 import {FilterOutlined} from "@ant-design/icons";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {TlaError} from "../../utils/messages.ts";
-import {getAllCustomerStatements} from "../../state/customer/customerAction.ts";
+import {getAllSupplierStatements} from "../../state/supplier/supplierAction.ts";
 
 
 
-const CustomerStatements: React.FC = () => {
-    const data = useAppSelector(state => state.customer.statements);
+const SupplierStatements: React.FC = () => {
+    const data = useAppSelector(state => state.supplier.statements);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [dates] = React.useState([]);
@@ -19,9 +19,7 @@ const CustomerStatements: React.FC = () => {
     const [selectedFromDate, setSelectedFromDate] = useState<any>();
     const [_, setSelectedToDate] = useState<any>();
     const [displayRecords, setDisplayRecords] = useState<boolean>(false);
-
-    const customer = useAppSelector(state => state.customer.customerItem);
-    // const customerOrderPayment = useAppSelector(state => state.customer.customerOrderStats?.data);
+    const supplier = useAppSelector(state => state.supplier.supplierItem);
     const dispatch = useAppDispatch();
 
 
@@ -38,8 +36,8 @@ const CustomerStatements: React.FC = () => {
         setSelectedToDate(toDate);
 
         setLoading(true);
-        const filter = `fromDate=${fromDate}&toDate=${toDate}&id=${customer?.id}`
-        dispatch((getAllCustomerStatements(filter)))
+        const filter = `fromDate=${fromDate}&toDate=${toDate}&id=${supplier?.id}`
+        dispatch((getAllSupplierStatements(filter)))
             .then(unwrapResult)
             .then((_: any) => {
                 setDisplayRecords(true);
@@ -50,8 +48,8 @@ const CustomerStatements: React.FC = () => {
     const resetStatmentHandler = () => {
         setLoading(true);
         setSelectedFromDate(false);
-        const filter = `&id[eq]=${customer?.id}`;
-        dispatch(getAllCustomerStatements(filter))
+        const filter = `&id[eq]=${supplier?.id}`;
+        dispatch(getAllSupplierStatements(filter))
             .then(unwrapResult)
             .then((_: any) => {
                 setLoading(false);
@@ -76,7 +74,7 @@ const CustomerStatements: React.FC = () => {
             <div className="filter flex justify-between mt-5 mb-9 no-print">
                 <div className="bg-white p-4 rounded-lg ml-auto">
                     <Form layout="inline" onFinish={onFinish}>
-                        <label className="font-medium text-md">Custom Filter: &nbsp; </label>
+                        <label className="font-medium text-md">Custom Filter: &nbsp;</label>
 
 
                         <Form.Item rules={[{required: true, message: "Required"}]} name={'fromDate'}>
@@ -133,8 +131,8 @@ const CustomerStatements: React.FC = () => {
                     {/*<p className="text-md text-gray-600 mt-1">*/}
                     {/*    Period: <strong>{fromDate}</strong> to <strong>{toDate}</strong>*/}
                     {/*</p>*/}
-                    <p className="text-md font-medium">Customer: {customer?.name}</p>
-                    <p className="text-md font-medium">Company: {customer?.companyName}</p>
+                    <p className="text-md font-medium">Supplier: {supplier?.name}</p>
+                    <p className="text-md font-medium">Company: {supplier?.companyName}</p>
                 </div>
             )}
 
@@ -156,7 +154,7 @@ const CustomerStatements: React.FC = () => {
                             {data.map((record: any, index: number) => (
                                 <tr key={index}>
                                     <td className="px-4 py-2 border">{formatDate(record.date)}</td>
-                                    <td className="px-4 py-2 border">{record?.paymentNumber ?? '-'}</td>
+                                    <td className="px-4 py-2 border">{record?.paymentNumber}</td>
                                     <td className="px-4 py-2 border text-right">{record.debit ? currencyFormat(+record.debit) : ''}</td>
                                     <td className="px-4 py-2 border text-right">{record.credit ? currencyFormat(+record.credit) : ''}</td>
                                     <td className="px-4 py-2 border text-right font-semibold">{currencyFormat(+record.balance)}</td>
@@ -166,7 +164,7 @@ const CustomerStatements: React.FC = () => {
                         </table>
                     </div>
                 ) : (
-                    <div className="text-center bg-white p-6 rounded-xl">Filter to view customer statement</div>
+                    <div className="text-center bg-white p-6 rounded-xl">Filter to view supplier statement</div>
                 )}
             </Spin>
         </div>
@@ -175,4 +173,4 @@ const CustomerStatements: React.FC = () => {
 
 }
 
-export default CustomerStatements;
+export default SupplierStatements;

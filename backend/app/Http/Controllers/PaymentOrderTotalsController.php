@@ -19,70 +19,134 @@ class PaymentOrderTotalsController extends Controller
                 "totalPayment" => $totalPayments,
                 "totalOrders" => $totalOrders,
                 "remaining" => doubleval($totalOrders) - doubleval($totalPayments),
-                "hasPaidMore" => ($totalPayments > $totalOrders)
+                "hasPaidMore" => ($totalPayments >= $totalOrders)
             ]
         ]);
     }
 
 
+//
+//    public function customerStatements(Request $request){
+//
+//        $fromDate = $request->query("fromDate");
+//        $toDate = $request->query("toDate");
+//        $customerId = $request->query("id");
+//
+//        if (!$fromDate || !$toDate) {
+//            $currentYear = now()->year;
+//            $fromDate = $fromDate ?: Carbon::create($currentYear)->startOfYear()->toDateString();
+//            $toDate = $toDate ?: Carbon::create($currentYear)->endOfYear()->toDateString();
+//        }
+//
+//
+//        $orders = Order::where('customerId', $customerId)
+//            ->whereBetween('date', [$fromDate, $toDate])
+//            ->get()
+//            ->map(function ($order) {
+//                return [
+//                    'date' => $order->date,
+//                    'debit' => floatval($order->amount),
+//                    'credit' => null,
+//                    'raw_date' => $order->created_at,
+//                ];
+//            });
+//
+//        $payments = Payment::where('customerId', $customerId)
+//             ->whereBetween('date', [$fromDate, $toDate])
+//            ->get()
+//            ->map(function ($payment) {
+//                return [
+//                    'date' => $payment->date,
+//                    'debit' => null,
+//                    'credit' => floatval($payment->amount),
+//                    'raw_date' => $payment->created_at,
+//                ];
+//            });
+//
+//        // Combine and sort all transactions
+//        $transactions = $orders->merge($payments)->sortBy('date')->values();
+//
+//        // Add running balance
+//        $balance = 0;
+//        $transactionsWithBalance = $transactions->map(function ($item) use (&$balance) {
+//            $debit = $item['debit'] ?? 0;
+//            $credit = $item['credit'] ?? 0;
+//            $balance += ($debit - $credit);
+//
+//            return [
+//                'date' => $item['date'],
+//                'debit' => $item['debit'] !== null ? ($debit) : '',
+//                'credit' => $item['credit'] !== null ? ($credit) : '',
+//                'balance' => ($balance),
+//            ];
+//        });
+//
+//        return $transactionsWithBalance;
+//    }
+//
+//
 
-    public function customerStatements(Request $request){
 
-        $fromDate = $request->query("fromDate");
-        $toDate = $request->query("toDate");
-        $customerId = $request->query("id");
+        public function customerStatements(Request $request)
+        {
+            $fromDate = $request->query("fromDate");
+            $toDate = $request->query("toDate");
+            $customerId = $request->query("id");
 
-        if (!$fromDate || !$toDate) {
-            $currentYear = now()->year;
-            $fromDate = $fromDate ?: Carbon::create($currentYear)->startOfYear()->toDateString();
-            $toDate = $toDate ?: Carbon::create($currentYear)->endOfYear()->toDateString();
+            if (!$fromDate || !$toDate) {
+                $currentYear = now()->year;
+                $fromDate = $fromDate ?: Carbon::create($currentYear)->startOfYear()->toDateString();
+                $toDate = $toDate ?: Carbon::create($currentYear)->endOfYear()->toDateString();
+            }
+
+            $orders = Order::where('customerId', $customerId)
+                ->whereBetween('date', [$fromDate, $toDate])
+                ->get()
+                ->map(function ($order) {
+                    return [
+                        'date' => $order->date,
+                        'debit' => floatval($order->amount),
+                        'credit' => null,
+                        'raw_date' => $order->created_at,
+                        'paymentNumber' => $order->orderNumber,
+                        ];
+                });
+
+            $payments = Payment::where('customerId', $customerId)
+                ->whereBetween('date', [$fromDate, $toDate])
+                ->get()
+                ->map(function ($payment) {
+                    return [
+                        'date' => $payment->date,
+                        'debit' => null,
+                        'credit' => floatval($payment->amount),
+                        'raw_date' => $payment->created_at,
+                        'paymentNumber' => $payment->paymentNumber, // ✅ real paymentNumber
+                    ];
+                });
+
+            // Combine and sort all transactions
+            $transactions = $orders->merge($payments)->sortBy('date')->values();
+
+            // Add running balance
+            $balance = 0;
+            $transactionsWithBalance = $transactions->map(function ($item) use (&$balance) {
+                $debit = $item['debit'] ?? 0;
+                $credit = $item['credit'] ?? 0;
+                $balance += ($debit - $credit);
+
+                return [
+                    'date' => $item['date'],
+                    'debit' => $item['debit'] !== null ? $debit : '',
+                    'credit' => $item['credit'] !== null ? $credit : '',
+                    'balance' => $balance,
+                    'paymentNumber' => $item['paymentNumber'], // ✅ unified field for all
+                ];
+            });
+
+            return $transactionsWithBalance;
         }
 
-
-        $orders = Order::where('customerId', $customerId)
-            ->whereBetween('date', [$fromDate, $toDate])
-            ->get()
-            ->map(function ($order) {
-                return [
-                    'date' => $order->date,
-                    'debit' => floatval($order->amount),
-                    'credit' => null,
-                    'raw_date' => $order->created_at,
-                ];
-            });
-
-        $payments = Payment::where('customerId', $customerId)
-             ->whereBetween('date', [$fromDate, $toDate])
-            ->get()
-            ->map(function ($payment) {
-                return [
-                    'date' => $payment->date,
-                    'debit' => null,
-                    'credit' => floatval($payment->amount),
-                    'raw_date' => $payment->created_at,
-                ];
-            });
-
-        // Combine and sort all transactions
-        $transactions = $orders->merge($payments)->sortBy('date')->values();
-
-        // Add running balance
-        $balance = 0;
-        $transactionsWithBalance = $transactions->map(function ($item) use (&$balance) {
-            $debit = $item['debit'] ?? 0;
-            $credit = $item['credit'] ?? 0;
-            $balance += ($debit - $credit);
-
-            return [
-                'date' => $item['date'],
-                'debit' => $item['debit'] !== null ? ($debit) : '',
-                'credit' => $item['credit'] !== null ? ($credit) : '',
-                'balance' => ($balance),
-            ];
-        });
-
-        return $transactionsWithBalance;
-    }
 
 
 

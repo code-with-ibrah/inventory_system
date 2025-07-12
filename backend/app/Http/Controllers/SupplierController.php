@@ -140,7 +140,7 @@ class SupplierController extends Controller
         return new SupplierResource($supplier);
     }
 
-
+//
 //    public function supplierStatements(Request $request)
 //    {
 //        $supplierId = $request->query("id");
@@ -158,7 +158,7 @@ class SupplierController extends Controller
 //        $receipts = GoodsReceipt::where('supplierId', $supplierId)
 //            ->whereBetween('date', [$fromDate, $toDate])
 //            ->get()
-//            ->map(fn($receipt) => [
+//            ->map(fn($receipt) => (object) [
 //                'date' => $receipt->date,
 //                'debit' => (float) $receipt->totalAmount,
 //                'credit' => null,
@@ -169,7 +169,7 @@ class SupplierController extends Controller
 //        $payments = GoodsReceiptPayments::where('supplierId', $supplierId)
 //            ->whereBetween('date', [$fromDate, $toDate])
 //            ->get()
-//            ->map(fn($payment) => [
+//            ->map(fn($payment) => (object) [
 //                'date' => $payment->date,
 //                'debit' => null,
 //                'credit' => (float) $payment->amount,
@@ -177,27 +177,28 @@ class SupplierController extends Controller
 //            ]);
 //
 //        // Merge and sort transactions
-//        $transactions = $receipts->merge($payments)
+//        $transactions = $receipts->concat($payments)
 //            ->sortBy('date')
 //            ->values();
 //
 //        // Compute running balance
 //        $balance = 0;
 //        $transactionsWithBalance = $transactions->map(function ($item) use (&$balance) {
-//            $debit = $item['debit'] ?? 0;
-//            $credit = $item['credit'] ?? 0;
+//            $debit = $item->debit ?? 0;
+//            $credit = $item->credit ?? 0;
 //            $balance += ($debit - $credit);
 //
 //            return [
-//                'date' => $item['date'],
-//                'debit' => $item['debit'] !== null ? $debit : '',
-//                'credit' => $item['credit'] !== null ? $credit : '',
+//                'date' => $item->date,
+//                'debit' => $item->debit !== null ? $debit : '',
+//                'credit' => $item->credit !== null ? $credit : '',
 //                'balance' => $balance,
 //            ];
 //        });
 //
 //        return response()->json($transactionsWithBalance);
 //    }
+
 
     public function supplierStatements(Request $request)
     {
@@ -221,6 +222,7 @@ class SupplierController extends Controller
                 'debit' => (float) $receipt->totalAmount,
                 'credit' => null,
                 'raw_date' => $receipt->created_at,
+                'paymentNumber' => $receipt->receiptNumber, // ✅ map receiptNumber to paymentNumber
             ]);
 
         // Fetch supplier payments
@@ -232,6 +234,7 @@ class SupplierController extends Controller
                 'debit' => null,
                 'credit' => (float) $payment->amount,
                 'raw_date' => $payment->created_at,
+                'paymentNumber' => $payment->paymentNumber, // ✅ use paymentNumber directly
             ]);
 
         // Merge and sort transactions
@@ -251,11 +254,18 @@ class SupplierController extends Controller
                 'debit' => $item->debit !== null ? $debit : '',
                 'credit' => $item->credit !== null ? $credit : '',
                 'balance' => $balance,
+                'paymentNumber' => $item->paymentNumber, // ✅ unified key
             ];
         });
 
         return response()->json($transactionsWithBalance);
     }
+
+
+
+
+
+
 
 
 

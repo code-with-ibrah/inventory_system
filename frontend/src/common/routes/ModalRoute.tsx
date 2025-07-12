@@ -26,6 +26,7 @@ import SingleOrderItemForm from "../../pages/orders/item/single-order-item-form.
 import OrderItemForm from "../../pages/orders/item/order-item-form.tsx";
 import UserForm from "../../pages/config/users/user-form.tsx";
 import CustomerPaymentForm from "../../pages/customer/customer-payment-form.tsx";
+import SupplierPaymentForm from "../../pages/supplier/supplier-payment-form.tsx";
 
 
 export const ModalRoute = () => {
@@ -37,6 +38,8 @@ export const ModalRoute = () => {
             <Route path={MenuLinks.admin.productSettings.stockUnitForm} element={<StockUnitsForm/>}/>
 
             <Route path={MenuLinks.admin.supplier.form} element={<SupplierForm/>}/>
+            <Route path={MenuLinks.admin.supplier.form} element={<SupplierForm/>}/>
+            <Route path={MenuLinks.admin.supplier.details.paymentForm} element={<SupplierPaymentForm/>}/>
             <Route path={MenuLinks.admin.supplier.details.receipt.itemForm} element={<GoodsReceiptItemForm/>}/>
             <Route path={MenuLinks.admin.supplier.details.receipt.singleForm} element={<SingleGoodsReceiptItemForm/>}/>
 

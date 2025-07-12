@@ -9,7 +9,7 @@ class Payment extends Model
     protected $fillable = [
         "date", "amount", "customerId",
         "orderId", "isActive", "isDeleted",
-        "companyId"
+        "companyId", "paymentNumber"
     ];
 
     public function customer(){

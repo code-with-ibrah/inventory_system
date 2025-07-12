@@ -17,7 +17,8 @@ class GoodsReceiptPaymentRequest extends FormRequest
         return [
             "amount" => ["required"],
             "date" => ["required", "date"],
-            "supplierId" => ["required", "numeric", "exists:suppliers,id"]
+            "supplierId" => ["required", "numeric", "exists:suppliers,id"],
+            "paymentNumber" => ["required", "unique:goods_receipt_payments"]
         ];
     }
 }

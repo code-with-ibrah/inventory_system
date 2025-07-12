@@ -5,30 +5,29 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {TlaError, TlaSuccess} from "../../utils/messages.ts";
 import {TlaModal} from "../../common/pop-ups/TlaModal.tsx";
-import {createPayment, updatePayment} from "../../state/orders/payments/paymentAction.ts";
-import {getAllCustomerPaymentStats} from "../../state/customer/customerAction.ts";
+import {getAllGoodsReceiptPaymentStats} from "../../state/supplier/supplierAction.ts";
+import { createGoodsReceiptPayment, updateGoodsReceiptPayment } from "../../state/goods-receipt-payments/goodsReceiptPaymentAction.ts";
 import {generateUniqueCode} from "../../utils";
 
 
-const CustomerPaymentForm: React.FC = () => {
+const SupplierPaymentForm: React.FC = () => {
     const { state } = useLocation();
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false)
     const [form] = Form.useForm<any>();
     const navigate = useNavigate();
     const user = useAppSelector(state => state.auth.user);
-    const customer = useAppSelector(state => state.customer.customerItem);
-
+    const supplier = useAppSelector(state => state.supplier.supplierItem);
 
 
     const onFinish = (values: any) => {
         setLoading(true);
         values.companyId = user?.companyId;
-        values.customerId = customer?.id;
+        values.supplierId = supplier?.id;
         values.paymentNumber = generateUniqueCode("PAY-");
 
         if((state?.data && state?.data?.id)){
-            dispatch(updatePayment({ data: values, id: state?.data?.id}))
+            dispatch(updateGoodsReceiptPayment({ data: values, id: state?.data?.id}))
         }
         else{
 
@@ -37,11 +36,11 @@ const CustomerPaymentForm: React.FC = () => {
                 return;
             }
 
-            dispatch(createPayment(values))
+            dispatch(createGoodsReceiptPayment(values))
                 .then(unwrapResult)
                 .then(() => {
 
-                    dispatch(getAllCustomerPaymentStats(customer?.id))
+                    dispatch(getAllGoodsReceiptPaymentStats(supplier?.id))
                         .then(unwrapResult)
                         .then(_ => {
                             TlaSuccess("Successful");
@@ -87,4 +86,4 @@ const CustomerPaymentForm: React.FC = () => {
     )
 }
 
-export default CustomerPaymentForm;
+export default SupplierPaymentForm;

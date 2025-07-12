@@ -82,3 +82,36 @@ export const getAllSuppliers = createAsyncThunk(
     }
 )
 
+
+export const getAllGoodsReceiptPaymentStats = createAsyncThunk(
+    "supplier/getAllGoodsReceiptPaymentStats", async (supplierId: number, {rejectWithValue}) => {
+        try {
+            const res = await api().get(`/goods-receipt-payments/total-payments/${supplierId}`);
+
+            return res.data
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err;
+            }
+            throw rejectWithValue(err.response.data)
+        }
+    }
+);
+
+
+export const getAllSupplierStatements = createAsyncThunk(
+    "supplier/getAllSupplierStatements", async (params: string, {rejectWithValue}) => {
+        try {
+            const res = await api().get(`/suppliers-statements?${params}`);
+
+            return res.data
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err;
+            }
+            throw rejectWithValue(err.response.data)
+        }
+    }
+);

@@ -9,7 +9,7 @@ class GoodsReceiptPayments extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        "supplierId", "amount", "date"
+        "supplierId", "amount", "date", "paymentNumber"
     ];
 
     public function supplier(){

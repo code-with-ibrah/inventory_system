@@ -33,6 +33,7 @@ import goodsReceiptItemSlice from "./goods-receipt/items/goodsReceiptItemSlice.t
 import orderSlice from "./orders/orderSlice.ts";
 import paymentSlice from "./orders/payments/paymentSlice.ts";
 import orderItemSlice from "./orders/item/orderItemSlice";
+import goodsReceiptPaymentSlice from "./goods-receipt-payments/goodsReceiptPaymentSlice.ts";
 
 const persistConfig = {
     key: "root",
@@ -77,6 +78,7 @@ const rootReducers = combineReducers({
     order: orderSlice,
     payment: paymentSlice,
     orderItem: orderItemSlice,
+    goodsReceiptPayment: goodsReceiptPaymentSlice
 
 })
 

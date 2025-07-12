@@ -64,7 +64,7 @@ class GoodsReceiptPaymentsController extends Controller
     }
 
 
-    public function update(PaymentRequest $request, $id)
+    public function update(GoodsReceiptPaymentRequest $request, $id)
     {
         $payment = GoodsReceiptPayments::findOrFail($id);
         $payload = PrepareRequestPayload::prepare($request);
@@ -75,20 +75,14 @@ class GoodsReceiptPaymentsController extends Controller
     }
 
 
-    public function destroy(GoodsReceiptPayments $payment, Request $request)
+    public function destroy($id)
     {
-        $shouldDeletePermantely = $request->query("delete");
-        if($shouldDeletePermantely){
-            $payment->delete();
-        }
-        else{
-            $payment->isDeleted = true;
-            $payment->save();
-        }
-
+        $payment = GoodsReceiptPayments::findOrFail($id);
+        $result = $payment;
+        $payment->delete();
         // Clear relevant cache on delete
-        $this->clearCache($this->cachePrefix, $payment->id);
-        return new GoodsReceiptPaymentResource($payment);
+        $this->clearCache($this->cachePrefix, $result->id);
+        return new GoodsReceiptPaymentResource($result);
     }
 
 
@@ -102,7 +96,7 @@ class GoodsReceiptPaymentsController extends Controller
                 "totalPayments" => $totalPayments,
                 "totalGoodsReceipts" => $totalGoodsReceipt,
                 "remaining" => doubleval($totalGoodsReceipt) - doubleval($totalPayments),
-                "hasPaidMore" => ($totalPayments > $totalGoodsReceipt)
+                "hasPaidMore" => ($totalPayments >= $totalGoodsReceipt)
             ]
         ]);
     }

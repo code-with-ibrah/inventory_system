@@ -28,6 +28,16 @@ const SupplierDetailLayoutMenu: Menu[] = [
         link: MenuLinks.admin.supplier.details.receipt.index,
         icon: appIconLabels.receipt,
     },
+    {
+        label: 'Payments',
+        link: MenuLinks.admin.supplier.details.payments,
+        icon: appIconLabels.payment,
+    },
+    {
+        label: 'Statements',
+        link: MenuLinks.admin.supplier.details.statement,
+        icon: appIconLabels.statement,
+    },
 
 ]
 
@@ -36,7 +46,7 @@ const SupplierDetailLayoutMenu: Menu[] = [
 const SupplierDetailLayout: React.FC<Props> = () => {
     return (
         <div>
-            <div className={'bg-white p-3 rounded-lg inner-header mb-2'}>
+            <div className={'bg-white p-3 rounded-lg inner-header mb-2 no-print'}>
                 <SupplierDetail/>
                 <div className={'flex flex-wrap items-center gap-3 my-3'}>
                     <AppMenu1 menus={SupplierDetailLayoutMenu}/>

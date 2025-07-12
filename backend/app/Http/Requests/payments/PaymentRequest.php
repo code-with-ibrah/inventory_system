@@ -17,7 +17,8 @@ class PaymentRequest extends FormRequest
             "customerId" => ["required", "exists:customers,id"],
             "orderId" => ["nullable", "exists:orders,id"],
             "date" => ["required"],
-            "amount" => ["required", "numeric"]
+            "amount" => ["required", "numeric"],
+            "paymentNumber" => ["required", "unique:payments"]
         ];
     }
 }

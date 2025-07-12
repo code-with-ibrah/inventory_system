@@ -34,6 +34,9 @@ export const MenuLinks = {
           details: {
               index: "/admin/suppliers/details",
               product: "/admin/suppliers/details/products",
+              statement: "/admin/suppliers/details/statements",
+              payments: "/admin/suppliers/details/payments",
+              paymentForm: "/admin/suppliers/details/payments-form",
               receipt: {
                   index: "/admin/suppliers/details/receipts",
                   items: "/admin/suppliers/details/receipts/items",

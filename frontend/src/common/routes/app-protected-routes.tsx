@@ -52,6 +52,8 @@ import CustomerDetailLayout from "../../pages/customer/customer-detail-layout.ts
 import CustomerInfo from "../../pages/customer/customer-info.tsx";
 import CustomerPayments from "../../pages/customer/customer-payment.tsx";
 import CustomerStatementNex from "../../pages/customer/customer-statement-nex.tsx";
+import SupplierPayments from "../../pages/supplier/supplier-payment.tsx";
+import SupplierStatementNex from "../../pages/supplier/supplier-statement-nex.tsx";
 
 
 export const AppProtectedRoutes = () => {
@@ -88,6 +90,8 @@ export const AppProtectedRoutes = () => {
                         <Route index element={<SupplierInfo/>} />
                         <Route path={MenuLinks.admin.supplier.details.product} element={<SupplierProductList/>}/>
                         <Route path={MenuLinks.admin.supplier.details.receipt.index} element={<GoodsReceipt/>}/>
+                        <Route path={MenuLinks.admin.supplier.details.payments} element={<SupplierPayments/>}/>
+                        <Route path={MenuLinks.admin.supplier.details.statement} element={<SupplierStatementNex/>}/>
                         <Route path={MenuLinks.admin.supplier.details.receipt.items} element={<GoodsReceiptItems/>}/>
                         <Route path={MenuLinks.admin.supplier.details.receipt.invoice} element={<GoodsReceiptInvoice/>}/>
                     </Route>
