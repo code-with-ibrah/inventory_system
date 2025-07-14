@@ -216,6 +216,7 @@ class SupplierController extends Controller
         // Fetch goods receipts
         $receipts = GoodsReceipt::where('supplierId', $supplierId)
             ->whereBetween('date', [$fromDate, $toDate])
+            ->where("isRecorded", 1)
             ->get()
             ->map(fn($receipt) => (object) [
                 'date' => $receipt->date,

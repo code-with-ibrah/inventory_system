@@ -19,7 +19,6 @@ import {setOrderItem} from "../../../state/orders/orderSlice.ts";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {resetState, updateState} from "../../../state/errorSlice.ts";
 import TlaConfirm from "../../../common/tla-confirm.tsx";
-import SingleItem from "../../../common/single-item.tsx";
 
 
 const OrderItems: React.FC = () => {
@@ -36,10 +35,6 @@ const OrderItems: React.FC = () => {
 
     return (
         <>
-            <div className="bg-white p-4 my-4 rounded-xl">
-                <SingleItem title={'Total Cost'} value={currencyFormat(+order?.amount)}/>
-            </div>
-
             <div className={'bg-white rounded-2xl p-5'}>
                 {order?.status == orderStatus.preparing ? <TlaOpen to={MenuLinks.admin.order.details.manyProductForm}>
                     <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New Products</Button>

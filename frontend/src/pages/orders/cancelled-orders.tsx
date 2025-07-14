@@ -5,7 +5,7 @@ import {FiPlusCircle} from "react-icons/fi";
 import TlaTableWrapper from "../../common/tla-table-wrapper.tsx";
 import TlaOpen from "../../common/pop-ups/TlaOpen.tsx";
 import {commonQuery} from "../../utils/query.ts";
-import {currencyFormat, formatDate} from "../../utils";
+import { formatDate} from "../../utils";
 import {MenuLinks} from "../../utils/menu-links.ts";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {useNavigate} from "react-router-dom";
@@ -50,10 +50,6 @@ const CancelledOrders: React.FC = () => {
                         {record?.status == orderStatus.preparing ? <TlaInfoTag text={orderStatus.preparing}/> : ''}
                         {record?.status == orderStatus.delivered ? <TlaSuccessTag text={orderStatus.delivered}/> : ''}
                         {record?.status == orderStatus.cancelled ? <TlaErrorTag text={orderStatus.cancelled}/> : ''}
-                    </span>}/>
-                    <Column title="Total Paid Amount" render={(record: Order) => <span>{currencyFormat(+record?.totalPayments)}</span>}/>
-                    <Column title="Payment Status" render={(record: Order) => <span>
-                        {(+record?.totalPayments >= +record?.amount) ? <TlaSuccessTag text={'Fully Paid'}/> : <TlaErrorTag text={'Partial Payments'}/>}
                     </span>}/>
                 </TlaTableWrapper>
             </div>

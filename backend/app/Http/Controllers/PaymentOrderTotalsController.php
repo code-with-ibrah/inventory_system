@@ -101,6 +101,7 @@ class PaymentOrderTotalsController extends Controller
 
             $orders = Order::where('customerId', $customerId)
                 ->whereBetween('date', [$fromDate, $toDate])
+                ->where("status", "!=", "cancelled")
                 ->get()
                 ->map(function ($order) {
                     return [

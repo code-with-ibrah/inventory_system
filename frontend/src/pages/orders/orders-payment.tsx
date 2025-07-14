@@ -10,8 +10,7 @@ import TlaOpen from "../../common/pop-ups/TlaOpen.tsx";
 import {FiPlusCircle} from "react-icons/fi";
 import TlaTableWrapper from "../../common/tla-table-wrapper.tsx";
 import {deletePayment, getAllPayments} from "../../state/orders/payments/paymentAction.ts";
-import SingleItem from "../../common/single-item.tsx";
-import {TlaErrorTag, TlaInfoTag, TlaSuccessTag} from "../../common/tla-tag.tsx";
+import {TlaErrorTag, TlaSuccessTag} from "../../common/tla-tag.tsx";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {resetState, updateState} from "../../state/errorSlice.ts";
 import TlaConfirm from "../../common/tla-confirm.tsx";
@@ -43,38 +42,6 @@ const OrderPayments: React.FC = () => {
 
     return (
         <>
-            <div className={'grid gap-3 md:grid-cols-3 sm:grid-cols-2 my-5'}>
-
-                <div className={'bg-white rounded-xl p-5'}>
-                    <SingleItem title={'Amount to pay'} value={currencyFormat(+order?.amount)}/>
-                </div>
-
-                {!(order?.totalPayments) || (order?.totalPayments < 1) ? <div className={'bg-white rounded-xl p-5'}>
-                        <SingleItem title={'Amount Paid'} value={currencyFormat(0)}/>
-                    </div>
-                    :
-                    <div className={'bg-white rounded-xl p-5'}>
-                    <SingleItem title={'Amount Paid'} value={currencyFormat(Math.abs(+order?.totalPayments))}/>
-                </div>}
-
-                <div className={'bg-white rounded-xl p-5'}>
-
-                    <div className={''}>
-                        <p className={'text-gray-500 font-medium text-md'}>Remaining Balance</p>
-                        <div>
-                            <p className={'font-medium'}>
-                                {(+order?.amount >= +order?.totalPayments)
-                                        ? <span> {currencyFormat(+order?.amount - +order?.totalPayments)} </span>
-                                        : <span> {currencyFormat(0)} </span>
-                                }
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
             <div className={'bg-white rounded-2xl p-5'}>
 
                 <div className="flex items-center gap-2">
@@ -85,17 +52,6 @@ const OrderPayments: React.FC = () => {
                             </TlaOpen> : null
                         : null
                     }
-
-                    <span>
-                        {+order?.totalPayments === 0 ? (
-                            <TlaErrorTag text={'Not Paid'}/>
-                        ) : +order?.amount > 0 && +order?.totalPayments >= +order?.amount ? (
-                            <TlaSuccessTag text={'Fully Paid'}/>
-                        ) : +order?.amount > 0 && +order?.totalPayments < +order?.amount ? (
-                            <TlaErrorTag text={'Partial Payments'}/>
-                        ) : <TlaInfoTag text={'Partial Payments'}/>}
-                    </span>
-
                 </div>
 
                 <TlaTableWrapper getData={getAllPayments} data={data} filter={commonQuery(`&orderId[eq]=${order?.id}`)} meta={meta}>

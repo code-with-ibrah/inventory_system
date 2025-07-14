@@ -71,7 +71,6 @@ const GoodsReceipts: React.FC = () => {
                             { record?.supplier?.name ?? "-" }
                         </span>
                         )}/>
-                    <Column title="Creator" dataIndex={["user", "name"]}/>
                     <Column title="Total Amount" render={(record: any) => (<span className={'font-semibold'}>{ currencyFormat(+record?.totalAmount) }</span>)}/>
                     <Column title="Condition of Goods" render={(record: GoodsReceipt) => <span>
                         { record?.conditionOfGoods ?? "-" }

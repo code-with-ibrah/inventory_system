@@ -23,13 +23,14 @@ import {unwrapResult} from "@reduxjs/toolkit";
 
 
 
-const Orders: React.FC = () => {
+const CustomerOrders: React.FC = () => {
     const {data, meta} = useAppSelector(state => state.order.order);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [dates, setDates] = React.useState([]);
     const [fromDate, toDate] = dates;
+    const customer = useAppSelector(state => state.customer.customerItem);
 
     const goToDetails = (record: any) => {
         dispatch(setOrderItem(record));
@@ -45,7 +46,7 @@ const Orders: React.FC = () => {
         const fromDate = htmlDateFormat(values.fromDate);
         const toDate = htmlDateFormat(values.toDate);
         setLoading(true);
-        const filter = `fromDate=${fromDate}&toDate=${toDate}&filter=true`
+        const filter = `customerId[eq]=${customer?.id}&fromDate=${fromDate}&toDate=${toDate}&filter=true`
         dispatch((filterOrders(filter)))
             .then(unwrapResult)
             .then((_: any) => {
@@ -59,7 +60,7 @@ const Orders: React.FC = () => {
 
     const resetFilterHandler = () => {
         setLoading(true);
-        const filter = ``
+        const filter = `customerId[eq]=${customer?.id}`
         dispatch(filterOrders(filter))
             .then(unwrapResult)
             .then((_: any) => {
@@ -81,109 +82,87 @@ const Orders: React.FC = () => {
         <>
             <div className="filter flex justify-between mt-5 mb-9">
 
-                <div className="filter-by-date bg-white p-4 rounded-lg w-full max-w-7xl mx-auto">
-                    {/* Responsive container */}
-                    <div className="flex flex-col lg:flex-row lg:items-center gap-4 w-full flex-wrap">
+                <div className={'filter-by-date bg-white p-4 rounded-lg ml-auto'}>
 
-                        {/* Filter by preset */}
-                        <Form className="w-full lg:w-auto">
-                            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                                <label className="font-medium text-base min-w-[100px]">Filter:</label>
-                                <Form.Item className="m-0 w-full sm:w-auto">
-                                    <Select
-                                        defaultValue={null}
-                                        onChange={handlerFilterOnchange}
-                                        style={{minWidth: 200, width: '100%'}}
-                                    >
-                                        <Select.Option key={0} value={null}>Choose one</Select.Option>
-                                        <Select.Option key={1} value="today">Today</Select.Option>
-                                        <Select.Option key={2} value="yesterday">Yesterday</Select.Option>
-                                        <Select.Option key={3} value="last_2_days">Last Two Days</Select.Option>
-                                        <Select.Option key={4} value="last_3_days">Last Three Days</Select.Option>
-                                        <Select.Option key={5} value="last_4_days">Last Four Days</Select.Option>
-                                        <Select.Option key={6} value="week">This Week</Select.Option>
-                                        <Select.Option key={7} value="month">This Month</Select.Option>
-                                        <Select.Option key={8} value="last_month">Last Month</Select.Option>
-                                        <Select.Option key={9} value="year">This Year</Select.Option>
-                                    </Select>
-                                </Form.Item>
+                    {/* first filter */}
+                    <div className={''}>
+                        <Form>
+                            <div className="flex items-center ">
+                                <div className="flex gap-2 align-center">
+                                    <label className={'font-medium text-lg'} htmlFor="#">Filter: </label>
+                                    <Form.Item>
+                                        <Select defaultValue={null} onChange={handlerFilterOnchange} style={{minWidth: 460}}>
+                                            <Select.Option key={0} value={null}>Choose one</Select.Option>
+                                            <Select.Option key={1} value="today">Today</Select.Option>
+                                            <Select.Option key={2} value="yesterday">Yesterday</Select.Option>
+                                            <Select.Option key={3} value="last_2_days">Last Two Days</Select.Option>
+                                            <Select.Option key={4} value="last_3_days">Last Three Days</Select.Option>
+                                            <Select.Option key={5} value="last_4_days">Last Four Days</Select.Option>
+                                            <Select.Option key={6} value="week">This Week</Select.Option>
+                                            <Select.Option key={7} value="month">This Month</Select.Option>
+                                            <Select.Option key={8} value="last_month">Last Month</Select.Option>
+                                            <Select.Option key={9} value="year">This Year</Select.Option>
+                                        </Select>
+                                    </Form.Item>
+                                </div>
                             </div>
                         </Form>
-
-                        {/* Custom Date Filter */}
-                        <Form
-                            className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full sm:w-auto"
-                            onFinish={onFinish}
-                        >
-                            <label className="font-medium text-base min-w-[120px]">Custom Filter:</label>
-                            <Form.Item
-                                rules={[{required: true, message: "Required"}]}
-                                name={'fromDate'}
-                                className="m-0"
-                            >
-                                <DatePicker
-                                    placeholder="From Date"
-                                    value={fromDate}
-                                    onChange={(date) => handleDateChange([date, toDate])}
-                                    format="YYYY-MM-DD"
-                                    style={{width: 150}}
-                                />
-                            </Form.Item>
-                            <Form.Item
-                                rules={[{required: true, message: "Required"}]}
-                                name={'toDate'}
-                                className="m-0"
-                            >
-                                <DatePicker
-                                    placeholder="To Date"
-                                    value={toDate}
-                                    onChange={(date) => handleDateChange([fromDate, date])}
-                                    format="YYYY-MM-DD"
-                                    style={{width: 150}}
-                                />
-                            </Form.Item>
-
-                            <Button
-                                htmlType="submit"
-                                type="primary"
-                                className="btn-red"
-                                icon={<FilterOutlined/>}
-                            >
-                                Filter
-                            </Button>
-                        </Form>
-
-                        {/* Reset Button */}
-                        <div className="w-full sm:w-auto">
-                            <Button
-                                type="primary"
-                                className="btn-red w-full sm:w-auto"
-                                icon={<MdOutlineAutorenew/>}
-                                onClick={resetFilterHandler}
-                            >
-                                Fetch overall records
-                            </Button>
-                        </div>
                     </div>
-                </div>
 
+
+                    {/* second filter */}
+                    <Form className="filter flex gap-2" onFinish={onFinish}>
+                        <label className={'font-medium text-lg'} htmlFor="#">Custom Filter: </label>
+                        <Form.Item rules={[{required: true, message: "Required"}]} name={'fromDate'}>
+                            <DatePicker
+                                type={'date'}
+                                placeholder="From Date"
+                                value={fromDate}
+                                onChange={(date) => handleDateChange([date, toDate])}
+                                format="YYYY-MM-DD"
+                                style={{width: 150}}
+                            />
+                        </Form.Item>
+
+                        <Form.Item rules={[{required: true, message: "Required"}]} name={'toDate'}>
+                            <DatePicker
+                                type={'date'}
+                                placeholder="To Date"
+                                value={toDate}
+                                onChange={(date) => handleDateChange([fromDate, date])}
+                                format="YYYY-MM-DD"
+                                style={{width: 150}}
+                            />
+                        </Form.Item>
+
+                        <Button htmlType={'submit'} type="primary" className={'btn-red'} icon={<FilterOutlined/>}>
+                            Filter
+                        </Button>
+                    </Form>
+
+                    {/* third filter */}
+                    <Button type="primary" className={'btn-red'} icon={<MdOutlineAutorenew/>}
+                            onClick={resetFilterHandler}>
+                        Fetch overall records
+                    </Button>
+                </div>
 
             </div>
 
 
+
             {/* actual works */}
             <Spin spinning={loading} tip={'Please wait...'}>
-                <div className={'bg-white rounded-2xl p-5 mb-6'}>
+                <div className={'bg-white rounded-2xl p-5'}>
                     <TlaOpen to={MenuLinks.admin.order.form}>
                         <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New</Button>
                     </TlaOpen>
 
                     <div className={'flex-1 my-5'}>
-                        <SearchInput placeholderColumn={'order number'} getData={getAllOrders}
-                                     columns={["orderNumber"]}/>
+                        <SearchInput placeholderColumn={'order number'} getData={getAllOrders} columns={["orderNumber"]}/>
                     </div>
 
-                    <TlaTableWrapper getData={getAllOrders} data={data} filter={commonQuery('')} meta={meta}>
+                    <TlaTableWrapper getData={getAllOrders} data={data} filter={commonQuery(`&customerId[eq]=${customer?.id}`)} meta={meta}>
                         <Column
                             title="Order Number"
                             render={(record: Order) => (
@@ -192,7 +171,6 @@ const Orders: React.FC = () => {
                         </span>)}/>
 
                         <Column title="Date" render={(record: Order) => <span>{formatDate(record?.date)}</span>}/>
-                        <Column title="Customer" render={(record: Order) => <span>{record?.customer?.name}</span>}/>
 
                         <Column title="Amount" render={(record: Order) => <span
                             className={'font-medium'}>{currencyFormat(+record?.amount)}</span>}/>
@@ -202,7 +180,7 @@ const Orders: React.FC = () => {
                             {record?.status == orderStatus.delivered ?
                                 <TlaSuccessTag text={orderStatus.delivered}/> : ''}
                             {record?.status == orderStatus.cancelled ? <TlaErrorTag text={orderStatus.cancelled}/> : ''}
-                        </span>}/>
+                    </span>}/>
 
                         <Column title={'Action'} render={(record) => (
                             <TableActions items={[
@@ -252,4 +230,4 @@ const Orders: React.FC = () => {
     )
 }
 
-export default Orders;
+export default CustomerOrders;

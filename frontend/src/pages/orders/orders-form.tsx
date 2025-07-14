@@ -77,9 +77,6 @@ const OrdersForm: React.FC = () => {
             <Form requiredMark={false} form={form} onFinish={onFinish} initialValues={{...formData}} size={'large'} layout={"vertical"}>
                <br/>
                 <div className={'grid grid-cols-1 md:grid-cols-2 gap-2'}>
-                    {/*<Form.Item label={'Order Creator'}>*/}
-                    {/*    <InputFake value={user?.name}/>*/}
-                    {/*</Form.Item>*/}
 
                     <Form.Item
                         rules={[
@@ -91,16 +88,6 @@ const OrdersForm: React.FC = () => {
                         name={"date"} label={"Date *"}>
                         <Input type={'date'} style={{ width: "100%"}}/>
                     </Form.Item>
-
-                    {/*<Form.Item*/}
-                    {/*    name={"originalPrice"} label={"Amount (optional)"}>*/}
-                    {/*    <Input*/}
-                    {/*        readOnly={ state?.data?.status == orderStatus.delivered }*/}
-                    {/*        type={'number'}*/}
-                    {/*        min={'0'}*/}
-                    {/*        step={'any'}*/}
-                    {/*        placeholder={'Auto detect'}/>*/}
-                    {/*</Form.Item>*/}
 
                     <Form.Item
                         rules={[{required:true, message:"Required"}]}

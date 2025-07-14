@@ -116,14 +116,20 @@ class GoodsReceiptController extends Controller
     public function markGoodsReceiptAsCompleted($id)
     {
         $goodsReceipt = DB::transaction(function () use ($id) {
+
             $goodsReceipt = GoodsReceipt::with('goodsReceiptItems')->findOrFail($id);
+
+            $totalAmount = 0;
             foreach ($goodsReceipt->goodsReceiptItems as $item) {
                 if($stock = Stock::where('productId', $item->productId)->first()){
                     $stock->update(['quantityOnHand' => $stock->quantityOnHand + $item->quantityReceived]);
                 }
+                $totalAmount += doubleval($item->quantityReceived) * doubleval($item->unitPriceAtReceipt);
             }
             $goodsReceipt->isRecorded = true;
+            $goodsReceipt->totalAmount = $totalAmount;
             $goodsReceipt->save();
+
             return $goodsReceipt;
         });
 

@@ -23,11 +23,11 @@ const OrderDetailLayoutMenu: Menu[] = [
         link: MenuLinks.admin.order.details.products,
         icon: appIconLabels.order,
     },
-    {
-        label: 'Payments',
-        link: MenuLinks.admin.order.details.payment,
-        icon: appIconLabels.payment,
-    }
+    // {
+    //     label: 'Payments',
+    //     link: MenuLinks.admin.order.details.payment,
+    //     icon: appIconLabels.payment,
+    // }
 ]
 
 

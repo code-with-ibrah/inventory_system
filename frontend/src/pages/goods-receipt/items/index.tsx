@@ -16,6 +16,8 @@ import {
 } from "../../../state/goods-receipt/items/goodsReceiptItemAction.ts";
 import {markGoodsReceiptAsCompleted} from "../../../state/goods-receipt/goodsReceiptAction.ts";
 import {Link} from "react-router-dom";
+import {setGoodsReceipt} from "../../../state/goods-receipt/goodsReceiptSlice.ts";
+import {unwrapResult} from "@reduxjs/toolkit";
 
 
 const GoodsReceiptItems: React.FC = () => {
@@ -31,7 +33,8 @@ const GoodsReceiptItems: React.FC = () => {
         }
         setLoading(true);
         dispatch(markGoodsReceiptAsCompleted(goodsReceiptItem?.id))
-            .then(() => {
+            .then(unwrapResult).then((res) => {
+                dispatch(setGoodsReceipt(res));
                 setShowRecordButton(false);
                 setLoading(false);
             })
