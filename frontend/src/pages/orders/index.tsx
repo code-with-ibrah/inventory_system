@@ -83,17 +83,18 @@ const Orders: React.FC = () => {
 
                 <div className="filter-by-date bg-white p-4 rounded-lg w-full max-w-7xl mx-auto">
                     {/* Responsive container */}
-                    <div className="flex flex-col lg:flex-row lg:items-center gap-4 w-full flex-wrap">
+                    <div className="flex flex-col sm:flex-row items-end w-full gap-4 overflow-x-auto pb-2">
 
-                        {/* Filter by preset */}
-                        <Form className="w-full lg:w-auto">
-                            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                                <label className="font-medium text-base min-w-[100px]">Filter:</label>
-                                <Form.Item className="m-0 w-full sm:w-auto">
+                        {/* Preset Filter */}
+                        <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:flex-1">
+                            <label className="font-medium text-sm min-w-[100px]">Filter:</label>
+                            <Form className="w-full">
+                                <Form.Item className="m-0 w-full">
                                     <Select
                                         defaultValue={null}
                                         onChange={handlerFilterOnchange}
                                         style={{minWidth: 200, width: '100%'}}
+                                        size="large"
                                     >
                                         <Select.Option key={0} value={null}>Choose one</Select.Option>
                                         <Select.Option key={1} value="today">Today</Select.Option>
@@ -107,64 +108,67 @@ const Orders: React.FC = () => {
                                         <Select.Option key={9} value="year">This Year</Select.Option>
                                     </Select>
                                 </Form.Item>
-                            </div>
-                        </Form>
+                            </Form>
+                        </div>
 
                         {/* Custom Date Filter */}
-                        <Form
-                            className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full sm:w-auto"
-                            onFinish={onFinish}
-                        >
-                            <label className="font-medium text-base min-w-[120px]">Custom Filter:</label>
-                            <Form.Item
-                                rules={[{required: true, message: "Required"}]}
-                                name={'fromDate'}
-                                className="m-0"
+                        <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:flex-1">
+                            <label className="font-medium text-sm min-w-[120px]">Custom Filter:</label>
+                            <Form
+                                className="flex flex-col sm:flex-row items-center gap-2 w-full"
+                                onFinish={onFinish}
                             >
-                                <DatePicker
-                                    placeholder="From Date"
-                                    value={fromDate}
-                                    onChange={(date) => handleDateChange([date, toDate])}
-                                    format="YYYY-MM-DD"
-                                    style={{width: 150}}
-                                />
-                            </Form.Item>
-                            <Form.Item
-                                rules={[{required: true, message: "Required"}]}
-                                name={'toDate'}
-                                className="m-0"
-                            >
-                                <DatePicker
-                                    placeholder="To Date"
-                                    value={toDate}
-                                    onChange={(date) => handleDateChange([fromDate, date])}
-                                    format="YYYY-MM-DD"
-                                    style={{width: 150}}
-                                />
-                            </Form.Item>
-
-                            <Button
-                                htmlType="submit"
-                                type="primary"
-                                className="btn-red"
-                                icon={<FilterOutlined/>}
-                            >
-                                Filter
-                            </Button>
-                        </Form>
+                                <Form.Item
+                                    rules={[{required: true, message: "Required"}]}
+                                    name={'fromDate'}
+                                    className="m-0"
+                                >
+                                    <DatePicker
+                                        placeholder="From Date"
+                                        value={fromDate}
+                                        onChange={(date) => handleDateChange([date, toDate])}
+                                        format="YYYY-MM-DD"
+                                        style={{width: 150}}
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    rules={[{required: true, message: "Required"}]}
+                                    name={'toDate'}
+                                    className="m-0"
+                                >
+                                    <DatePicker
+                                        placeholder="To Date"
+                                        value={toDate}
+                                        onChange={(date) => handleDateChange([fromDate, date])}
+                                        format="YYYY-MM-DD"
+                                        style={{width: 150}}
+                                    />
+                                </Form.Item>
+                                <Button
+                                    htmlType="submit"
+                                    type="primary"
+                                    className="bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
+                                    icon={<FilterOutlined/>}
+                                >
+                                    Filter
+                                </Button>
+                            </Form>
+                        </div>
 
                         {/* Reset Button */}
-                        <div className="w-full sm:w-auto">
+                        <div className="w-full sm:w-auto flex-shrink-0">
                             <Button
                                 type="primary"
-                                className="btn-red w-full sm:w-auto"
+                                className="w-full bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
                                 icon={<MdOutlineAutorenew/>}
                                 onClick={resetFilterHandler}
                             >
                                 Fetch overall records
                             </Button>
                         </div>
+
                     </div>
+
                 </div>
 
 

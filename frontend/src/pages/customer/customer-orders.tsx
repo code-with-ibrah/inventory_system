@@ -82,16 +82,20 @@ const CustomerOrders: React.FC = () => {
         <>
             <div className="filter flex justify-between mt-5 mb-9">
 
-                <div className={'filter-by-date bg-white p-4 rounded-lg ml-auto'}>
+                <div className="filter-by-date bg-white p-4 rounded-lg w-full max-w-7xl mx-auto">
+                        <div className="flex flex-col sm:flex-row items-end w-full gap-4 overflow-x-auto pb-2">
 
-                    {/* first filter */}
-                    <div className={''}>
-                        <Form>
-                            <div className="flex items-center ">
-                                <div className="flex gap-2 align-center">
-                                    <label className={'font-medium text-lg'} htmlFor="#">Filter: </label>
-                                    <Form.Item>
-                                        <Select defaultValue={null} onChange={handlerFilterOnchange} style={{minWidth: 460}}>
+                            {/* Preset Filter */}
+                            <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:flex-1">
+                                <label className="font-medium text-sm min-w-[100px]">Filter:</label>
+                                <Form className="w-full">
+                                    <Form.Item className="m-0 w-full">
+                                        <Select
+                                            defaultValue={null}
+                                            onChange={handlerFilterOnchange}
+                                            style={{minWidth: 200, width: '100%'}}
+                                            size="large"
+                                        >
                                             <Select.Option key={0} value={null}>Choose one</Select.Option>
                                             <Select.Option key={1} value="today">Today</Select.Option>
                                             <Select.Option key={2} value="yesterday">Yesterday</Select.Option>
@@ -104,130 +108,151 @@ const CustomerOrders: React.FC = () => {
                                             <Select.Option key={9} value="year">This Year</Select.Option>
                                         </Select>
                                     </Form.Item>
-                                </div>
+                                </Form>
                             </div>
-                        </Form>
+
+                            {/* Custom Date Filter */}
+                            <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:flex-1">
+                                <label className="font-medium text-sm min-w-[120px]">Custom Filter:</label>
+                                <Form
+                                    className="flex flex-col sm:flex-row items-center gap-2 w-full"
+                                    onFinish={onFinish}
+                                >
+                                    <Form.Item
+                                        rules={[{required: true, message: "Required"}]}
+                                        name={'fromDate'}
+                                        className="m-0"
+                                    >
+                                        <DatePicker
+                                            placeholder="From Date"
+                                            value={fromDate}
+                                            onChange={(date) => handleDateChange([date, toDate])}
+                                            format="YYYY-MM-DD"
+                                            style={{width: 150}}
+                                        />
+                                    </Form.Item>
+                                    <Form.Item
+                                        rules={[{required: true, message: "Required"}]}
+                                        name={'toDate'}
+                                        className="m-0"
+                                    >
+                                        <DatePicker
+                                            placeholder="To Date"
+                                            value={toDate}
+                                            onChange={(date) => handleDateChange([fromDate, date])}
+                                            format="YYYY-MM-DD"
+                                            style={{width: 150}}
+                                        />
+                                    </Form.Item>
+                                    <Button
+                                        htmlType="submit"
+                                        type="primary"
+                                        className="bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
+                                        icon={<FilterOutlined/>}
+                                    >
+                                        Filter
+                                    </Button>
+                                </Form>
+                            </div>
+
+                            {/* Reset Button */}
+                            <div className="w-full sm:w-auto flex-shrink-0">
+                                <Button
+                                    type="primary"
+                                    className="w-full bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
+                                    icon={<MdOutlineAutorenew/>}
+                                    onClick={resetFilterHandler}
+                                >
+                                    Fetch overall records
+                                </Button>
+                            </div>
+
+                        </div>
                     </div>
 
-
-                    {/* second filter */}
-                    <Form className="filter flex gap-2" onFinish={onFinish}>
-                        <label className={'font-medium text-lg'} htmlFor="#">Custom Filter: </label>
-                        <Form.Item rules={[{required: true, message: "Required"}]} name={'fromDate'}>
-                            <DatePicker
-                                type={'date'}
-                                placeholder="From Date"
-                                value={fromDate}
-                                onChange={(date) => handleDateChange([date, toDate])}
-                                format="YYYY-MM-DD"
-                                style={{width: 150}}
-                            />
-                        </Form.Item>
-
-                        <Form.Item rules={[{required: true, message: "Required"}]} name={'toDate'}>
-                            <DatePicker
-                                type={'date'}
-                                placeholder="To Date"
-                                value={toDate}
-                                onChange={(date) => handleDateChange([fromDate, date])}
-                                format="YYYY-MM-DD"
-                                style={{width: 150}}
-                            />
-                        </Form.Item>
-
-                        <Button htmlType={'submit'} type="primary" className={'btn-red'} icon={<FilterOutlined/>}>
-                            Filter
-                        </Button>
-                    </Form>
-
-                    {/* third filter */}
-                    <Button type="primary" className={'btn-red'} icon={<MdOutlineAutorenew/>}
-                            onClick={resetFilterHandler}>
-                        Fetch overall records
-                    </Button>
                 </div>
 
-            </div>
 
+                {/* actual works */}
+                <Spin spinning={loading} tip={'Please wait...'}>
+                    <div className={'bg-white rounded-2xl p-5'}>
+                        <TlaOpen to={MenuLinks.admin.order.form}>
+                            <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New</Button>
+                        </TlaOpen>
 
+                        <div className={'flex-1 my-5'}>
+                            <SearchInput placeholderColumn={'order number'} getData={getAllOrders}
+                                         columns={["orderNumber"]}/>
+                        </div>
 
-            {/* actual works */}
-            <Spin spinning={loading} tip={'Please wait...'}>
-                <div className={'bg-white rounded-2xl p-5'}>
-                    <TlaOpen to={MenuLinks.admin.order.form}>
-                        <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New</Button>
-                    </TlaOpen>
-
-                    <div className={'flex-1 my-5'}>
-                        <SearchInput placeholderColumn={'order number'} getData={getAllOrders} columns={["orderNumber"]}/>
-                    </div>
-
-                    <TlaTableWrapper getData={getAllOrders} data={data} filter={commonQuery(`&customerId[eq]=${customer?.id}`)} meta={meta}>
-                        <Column
-                            title="Order Number"
-                            render={(record: Order) => (
-                                <span className={'cursor-pointer underline'} onClick={() => goToDetails(record)}>
+                        <TlaTableWrapper getData={getAllOrders} data={data}
+                                         filter={commonQuery(`&customerId[eq]=${customer?.id}`)} meta={meta}>
+                            <Column
+                                title="Order Number"
+                                render={(record: Order) => (
+                                    <span className={'cursor-pointer underline'} onClick={() => goToDetails(record)}>
                             {record?.orderNumber ?? "view details"}
                         </span>)}/>
 
-                        <Column title="Date" render={(record: Order) => <span>{formatDate(record?.date)}</span>}/>
+                            <Column title="Date" render={(record: Order) => <span>{formatDate(record?.date)}</span>}/>
 
-                        <Column title="Amount" render={(record: Order) => <span
-                            className={'font-medium'}>{currencyFormat(+record?.amount)}</span>}/>
+                            <Column title="Amount" render={(record: Order) => <span
+                                className={'font-medium'}>{currencyFormat(+record?.amount)}</span>}/>
 
-                        <Column title="Order Status" className={'capitalize'} render={(record: any) => <span>
+                            <Column title="Order Status" className={'capitalize'} render={(record: any) => <span>
                         {record?.status == orderStatus.preparing ? <TlaInfoTag text={orderStatus.preparing}/> : ''}
-                            {record?.status == orderStatus.delivered ?
-                                <TlaSuccessTag text={orderStatus.delivered}/> : ''}
-                            {record?.status == orderStatus.cancelled ? <TlaErrorTag text={orderStatus.cancelled}/> : ''}
+                                {record?.status == orderStatus.delivered ?
+                                    <TlaSuccessTag text={orderStatus.delivered}/> : ''}
+                                {record?.status == orderStatus.cancelled ?
+                                    <TlaErrorTag text={orderStatus.cancelled}/> : ''}
                     </span>}/>
 
-                        <Column title={'Action'} render={(record) => (
-                            <TableActions items={[
-                                {
-                                    key: '1',
-                                    label: (
-                                        <TlaOpen data={record} modal={true} to={MenuLinks.admin.order.form}>
-                                            <FiEdit3/>
-                                            Edit
-                                        </TlaOpen>
-                                    ),
-                                },
-                                {
-                                    key: '2',
-                                    label: (
-                                        <TlaDelete title={'order'} column={record.id} callBack={deleteOrders}/>
-                                    ),
-                                },
-                                {
-                                    key: '3',
-                                    label: (
-                                        <button onClick={() => printInvoiceHandler(record)}>
-                                            <FiPrinter/>
-                                            Print invoice
-                                        </button>
-                                    ),
-                                },
-                                {
-                                    key: '4',
-                                    label: (
-                                        <>
-                                            {(record?.status != orderStatus.delivered) ?
-                                                <TlaOpen data={record} modal={true}
-                                                         to={MenuLinks.admin.order.details.statusForm}>
-                                                    <MdOutlineSystemUpdateAlt/>
-                                                    Update Status
-                                                </TlaOpen> : null}
-                                        </>
-                                    ),
-                                }
-                            ]}/>
-                        )}/>
-                    </TlaTableWrapper>
-                </div>
-            </Spin>
-        </>
-    )
-}
+                            <Column title={'Action'} render={(record) => (
+                                <TableActions items={[
+                                    {
+                                        key: '1',
+                                        label: (
+                                            <TlaOpen data={record} modal={true} to={MenuLinks.admin.order.form}>
+                                                <FiEdit3/>
+                                                Edit
+                                            </TlaOpen>
+                                        ),
+                                    },
+                                    {
+                                        key: '2',
+                                        label: (
+                                            <TlaDelete title={'order'} column={record.id} callBack={deleteOrders}/>
+                                        ),
+                                    },
+                                    {
+                                        key: '3',
+                                        label: (
+                                            <button onClick={() => printInvoiceHandler(record)}>
+                                                <FiPrinter/>
+                                                Print invoice
+                                            </button>
+                                        ),
+                                    },
+                                    {
+                                        key: '4',
+                                        label: (
+                                            <>
+                                                {(record?.status != orderStatus.delivered) ?
+                                                    <TlaOpen data={record} modal={true}
+                                                             to={MenuLinks.admin.order.details.statusForm}>
+                                                        <MdOutlineSystemUpdateAlt/>
+                                                        Update Status
+                                                    </TlaOpen> : null}
+                                            </>
+                                        ),
+                                    }
+                                ]}/>
+                            )}/>
+                        </TlaTableWrapper>
+                    </div>
+                </Spin>
+            </>
+            )
+            }
 
-export default CustomerOrders;
+            export default CustomerOrders;

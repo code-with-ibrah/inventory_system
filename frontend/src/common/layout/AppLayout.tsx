@@ -5,6 +5,7 @@ import {Affix} from "antd";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {getAppRoles} from "../../state/analytics/analyticsActions";
 import {Outlet} from "react-router-dom";
+import PageCrumbs from "../page-crumbs.tsx";
 
 export const AppLayout = () => {
     const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -31,7 +32,7 @@ export const AppLayout = () => {
                         <AppHeader/>
                     </Affix>
                     <div className={'rounded-lg'}>
-                        {/*<PageCrumbs/>*/}
+                        <PageCrumbs/>
                         <Outlet/>
                     </div>
                 </div>
