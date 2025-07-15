@@ -17,6 +17,7 @@ import {StockUnit} from "../../types/stock-unit.ts";
 import TextArea from "antd/es/input/TextArea";
 import {getAllWarehouses} from "../../state/warehouse/warehouseAction.ts";
 import {Warehouse} from "../../types/warehouse.ts";
+import {getAllSuppliers} from "../../state/supplier/supplierAction.ts";
 
 
 const ProductForm: React.FC = () => {
@@ -133,6 +134,27 @@ const ProductForm: React.FC = () => {
                     </Form.Item>
 
 
+                    <Form.Item
+                        rules={[{required: true, message: "Required"}]}
+                        name={"supplierId"} label={"Supplier"}>
+                        <DropdownSearch
+                            defaultValue={state?.data?.supplierId}
+                            object
+                            disabled={disabled}
+                            searchApi={getAllSuppliers}
+                            extraParams={commonQuery()}
+                            placeholder="click to select supplier"
+                            setResult={(supplier: any) => {
+                                if (supplier) {
+                                    form.setFieldValue('supplierId', supplier?.id);
+                                    return
+                                }
+                                form.setFieldValue('supplierId', null)
+                            }}
+                        />
+                    </Form.Item>
+
+
                     {/*<Form.Item*/}
                     {/*    label={'Cost Price'}*/}
                     {/*    name="costPrice"*/}
@@ -222,7 +244,7 @@ const ProductForm: React.FC = () => {
                     <Form.Item
                         label={'Site'}
                         name="site"
-                        className="col-span-full sm:col-span-1"
+                        className="col-span-full col-span-3"
                         style={{marginBottom: 0}}
                         rules={[
                             {required: true, message: "Required"}
