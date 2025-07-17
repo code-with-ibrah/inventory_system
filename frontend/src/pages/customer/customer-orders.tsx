@@ -34,7 +34,7 @@ const CustomerOrders: React.FC = () => {
 
     const goToDetails = (record: any) => {
         dispatch(setOrderItem(record));
-        navigate(MenuLinks.admin.order.details.index);
+        navigate(MenuLinks.admin.customers.details.orderDetails);
     };
 
     const printInvoiceHandler = (record: any) => {
@@ -176,7 +176,7 @@ const CustomerOrders: React.FC = () => {
                 {/* actual works */}
                 <Spin spinning={loading} tip={'Please wait...'}>
                     <div className={'bg-white rounded-2xl p-5'}>
-                        <TlaOpen to={MenuLinks.admin.order.form}>
+                        <TlaOpen to={MenuLinks.admin.customers.details.orderForm}>
                             <Button className={'btn btn-red'} size={'large'} icon={<FiPlusCircle/>}>New</Button>
                         </TlaOpen>
 

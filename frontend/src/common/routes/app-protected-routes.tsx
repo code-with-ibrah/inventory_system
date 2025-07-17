@@ -55,6 +55,7 @@ import CustomerStatementNex from "../../pages/customer/customer-statement-nex.ts
 import SupplierPayments from "../../pages/supplier/supplier-payment.tsx";
 import SupplierStatementNex from "../../pages/supplier/supplier-statement-nex.tsx";
 import CustomerOrders from "../../pages/customer/customer-orders.tsx";
+import CustomerOrderDetailLayout from "../../pages/customer/customer-order-detail-layout.tsx";
 
 
 export const AppProtectedRoutes = () => {
@@ -118,6 +119,13 @@ export const AppProtectedRoutes = () => {
                         <Route path={MenuLinks.admin.customers.details.payments} element={<CustomerPayments/>}/>
                         <Route path={MenuLinks.admin.customers.details.statements} element={<CustomerStatementNex/>}/>
                     </Route>
+
+                    <Route path={MenuLinks.admin.customers.details.orderDetails} element={<CustomerOrderDetailLayout/>}>
+                        <Route index element={<OrdersInfo/>}/>
+                        <Route path={MenuLinks.admin.customers.details.orderDetailProducts} element={<OrderItems/>}/>
+                    </Route>
+
+
 
                     {/* config */}
                     <Route path={MenuLinks.admin.config.index} element={<ConfigDetailLayout/>}>

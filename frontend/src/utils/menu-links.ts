@@ -96,6 +96,11 @@ export const MenuLinks = {
                 paymentForm: "/admin/customers/details/payments-form",
                 statements: "/admin/customers/details/statements",
                 orders: "/admin/customers/details/orders",
+                orderForm: "/admin/customers/details/order-form",
+
+                orderDetails: "/admin/customers/details/orders/info",
+                orderDetailProducts: "/admin/customers/details/orders/info/products",
+
             }
         },
         goodsReceipt: {
