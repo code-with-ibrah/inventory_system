@@ -11,7 +11,12 @@ import TlaDelete from "../../common/tla-delete.tsx";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import TableActions from "../../common/table-actions.tsx";
 import {useNavigate} from "react-router-dom";
-import {deleteOrders, filterOrders, filterOrdersByPeriod, getAllOrders} from "../../state/orders/receiptAction.ts";
+import {
+    deleteOrders,
+    filterOrders,
+    filterOrdersByPeriodForCustomers,
+    getAllOrders
+} from "../../state/orders/receiptAction.ts";
 import {Order} from "../../types/order.ts";
 import {setOrderItem} from "../../state/orders/orderSlice.ts";
 import {MdOutlineAutorenew, MdOutlineSystemUpdateAlt} from "react-icons/md";
@@ -70,7 +75,8 @@ const CustomerOrders: React.FC = () => {
 
     const handlerFilterOnchange = (filterType: any) => {
         setLoading(true);
-        dispatch(filterOrdersByPeriod(filterType))
+        const filter = `filterType=${filterType}&customerId=${customer?.id}`;
+        dispatch(filterOrdersByPeriodForCustomers(filter))
             .then(unwrapResult)
             .then((_: any) => {
                 setLoading(false)

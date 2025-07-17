@@ -150,6 +150,70 @@ class OrderController extends Controller
     }
 
 
+    public function indexFilterByPeriodForCustomer(Request $request){
+        $filterType = $request->query("filterType");
+        $customerId = $request->query("customerId");
+
+        $now = Carbon::now('Africa/Accra');
+
+        $fromDate = $toDate = "";
+
+        switch ($filterType) {
+            case 'today':
+                $fromDate = $now->copy()->startOfDay()->toDateString();
+                $toDate = $now->copy()->endOfDay()->toDateString();
+                break;
+            case 'yesterday':
+                $fromDate = $now->copy()->subDay()->startOfDay()->toDateString();
+                $toDate = $now->copy()->subDay()->endOfDay()->toDateString();
+                break;
+            case 'last_2_days':
+                $fromDate = $now->copy()->subDays(2)->startOfDay()->toDateString();
+                $toDate = $now->copy()->endOfDay()->toDateString();
+                break;
+            case 'last_3_days':
+                $fromDate = $now->copy()->subDays(3)->startOfDay()->toDateString();
+                $toDate = $now->copy()->endOfDay()->toDateString();
+                break;
+            case 'last_4_days':
+                $fromDate = $now->copy()->subDays(4)->startOfDay()->toDateString();
+                $toDate = $now->copy()->endOfDay()->toDateString();
+                break;
+            case 'week':
+                $fromDate = $now->copy()->startOfWeek()->toDateString();
+                $toDate = $now->copy()->endOfWeek()->toDateString();
+                break;
+            case 'month':
+                $fromDate = $now->copy()->startOfMonth()->toDateString();
+                $toDate = $now->copy()->endOfMonth()->toDateString();
+                break;
+            case 'last_month':
+                $fromDate = $now->copy()->subMonth()->startOfMonth()->toDateString();
+                $toDate = $now->copy()->subMonth()->endOfMonth()->toDateString();
+                break;
+            case 'year':
+                $fromDate = $now->copy()->startOfYear()->toDateString();
+                $toDate = $now->copy()->endOfYear()->toDateString();
+                break;
+        }
+
+
+
+        $orders = Order::where("isDeleted", 0)
+            ->where("isActive", 1)
+            ->whereBetween('date', [$fromDate, $toDate])
+            ->where("customerId", $customerId)
+            ->with('user')
+            ->with('customer')
+            ->with('payments')
+            ->orderBy('date', 'desc')
+            ->paginate(Globals::getDefaultPaginationNumber());
+
+        return new OrderResourceCollection($orders);
+    }
+
+
+
     public function store(OrderRequest $request)
     {
         $payload = PrepareRequestPayload::prepare($request);

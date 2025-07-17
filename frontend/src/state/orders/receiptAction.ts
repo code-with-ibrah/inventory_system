@@ -182,3 +182,18 @@ export const filterOrdersByPeriod = createAsyncThunk(
         }
     }
 )
+
+export const filterOrdersByPeriodForCustomers = createAsyncThunk(
+    "orders/filterOrdersByPeriod", async (params: string = "", {rejectWithValue}) => {
+        try {
+            const res = await api().get(`/orders-filter-by-period-for-customers?${params}`);
+
+            return res.data
+        } catch (err: any) {
+            if (!err.response) {
+                throw err;
+            }
+            throw rejectWithValue(err.response.data)
+        }
+    }
+)

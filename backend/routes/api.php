@@ -166,6 +166,7 @@ Route::group(['prefix' => ''], function()
     Route::get("orders-filter", [OrderController::class, "indexFilter"]);
     Route::get("orders-filter-for-customers", [OrderController::class, "indexFilterForCustomers"]);
     Route::get("orders-filter-by-period", [OrderController::class, "indexFilterByPeriod"]);
+    Route::get("orders-filter-by-period-for-customers", [OrderController::class, "indexFilterByPeriodForCustomer"]);
     Route::put("orders/status/{id}", [OrderController::class, "updateOrderStatus"]);
 
     // order items endpoint
