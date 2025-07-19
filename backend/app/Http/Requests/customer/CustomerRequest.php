@@ -17,7 +17,7 @@ class CustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "unique:customers,name"],
+            "name" => ["required"],
             "companyName" => ["required"],
             "location" => ["required"],
             "phone" => ["required"],

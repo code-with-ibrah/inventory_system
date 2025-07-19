@@ -15,7 +15,7 @@ class UpdateWarehouseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "min:3", "unique:warehouses,name"],
+            "name" => ["required", "min:3"],
             "location" => ["required"],
             "creatorId" => ["required", "exists:users,id"],
             "companyId" => ["required", "exists:companies,id"]
