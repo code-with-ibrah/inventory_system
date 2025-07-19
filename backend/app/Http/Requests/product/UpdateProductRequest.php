@@ -19,7 +19,7 @@ class UpdateProductRequest extends FormRequest
             "name" => ["required", "unique:products,name"],
             "sku" => ["nullable"],
             "wareHouseId" => ["nullable", "exists:warehouses,id"],
-            "costPrice" => ["required", "numeric"],
+            "costPrice" => ["nullable", "numeric"],
             "unitPrice" => ["required", "numeric"],
             "standardPackageQuantity" => ["nullable", "numeric"],
             "stockAlertLevel" => ["nullable", "numeric"],

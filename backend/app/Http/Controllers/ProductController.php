@@ -8,8 +8,7 @@ use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Requests\product\ProductRequest;
 use App\Http\Requests\product\UpdateProductRequest;
 use App\Http\Resources\product\ProductResource;
-use App\Http\Resources\product\ProductResourceCollection;
-use App\Http\Resources\product_supplier\ProductSupplierResource;
+use App\Http\Resources\product\ProductResourceCollection; 
 use App\Models\Product;
 use App\Models\ProductSupplier;
 use App\Models\Stock;
@@ -139,6 +138,7 @@ class ProductController extends Controller
                 $product = Product::findOrFail($id);
                 $oldImagePath = $product->image;
                 $payload = PrepareRequestPayload::prepare($request);
+                $payload["costPrice"] = $product->costPrice;
 
                 if($request->hasFile("image"))
                 {
@@ -147,6 +147,7 @@ class ProductController extends Controller
                     // Delete old image after new upload
                     ImageUpload::removePreviousImage($oldImagePath);
                 }
+
 
                 $product->update($payload);
                 if($request->supplierId){
