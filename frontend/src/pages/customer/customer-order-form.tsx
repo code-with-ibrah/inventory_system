@@ -76,6 +76,16 @@ const CustomerOrderForm: React.FC = () => {
             <Form requiredMark={false} form={form} onFinish={onFinish} initialValues={{...formData}} size={'large'} layout={"vertical"}>
                <br/>
                 <div className={'grid grid-cols-1 md:grid-cols-2 gap-2'}>
+                    <Form.Item
+                        rules={[
+                            {
+                                required: true,
+                                message: "Required"
+                            }
+                        ]}
+                        name={"site"} label={"Site *"}>
+                        <Input type={'input'} placeholder={'eg. Takoradi'}/>
+                    </Form.Item>
 
                     <Form.Item
                         rules={[
@@ -84,10 +94,10 @@ const CustomerOrderForm: React.FC = () => {
                                 message: "Required"
                             }
                         ]}
-                        className={'col-span-2'}
                         name={"date"} label={"Date *"}>
                         <Input type={'date'}/>
                     </Form.Item>
+
                 </div>
 
                 <Button className={'btn-red flex ml-auto'} htmlType={"submit"}>

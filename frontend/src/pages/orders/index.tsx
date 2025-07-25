@@ -196,8 +196,8 @@ const Orders: React.FC = () => {
                         </span>)}/>
 
                         <Column title="Date" render={(record: Order) => <span>{formatDate(record?.date)}</span>}/>
+                        <Column title="Site" render={(record: any) => <span> {record?.site ?? "-" } </span>}/>
                         <Column title="Customer" render={(record: Order) => <span>{record?.customer?.name}</span>}/>
-
                         <Column title="Amount" render={(record: Order) => <span
                             className={'font-medium'}>{currencyFormat(+record?.amount)}</span>}/>
 

@@ -19,7 +19,8 @@ class OrderRequest extends FormRequest
             "customerId" => ["required", "exists:customers,id"],
             "amount" => ["required", "numeric"],
             "companyId" => ["required", "exists:companies,id"],
-            "userId" => ["required", "exists:users,id"]
+            "userId" => ["required", "exists:users,id"],
+            "site" => ["required"]
         ];
     }
 }

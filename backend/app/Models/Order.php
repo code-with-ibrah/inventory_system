@@ -9,7 +9,7 @@ class Order extends Model
     protected $fillable = [
         "orderNumber", "date", "amount",
         "customerId", "companyId", "status", "currency",
-        "discount", "tax-amount", "userId",
+        "discount", "tax-amount", "userId", "site",
         "isActive", "isDeleted", "companyId", "originalPrice"
     ];
 
@@ -17,7 +17,7 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class, "orderId", "id");
     }
-    
+
     public function user(){
         return $this->belongsTo(User::class, "userId", "id");
     }

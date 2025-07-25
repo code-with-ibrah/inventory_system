@@ -30,6 +30,7 @@ class OrderResource extends JsonResource
             "originalPrice" => $this->originalPrice,
 
             'payments' => $this->whenLoaded('payments', $this->payments, []),
+            'site' => $this->site
         ];
     }
 }

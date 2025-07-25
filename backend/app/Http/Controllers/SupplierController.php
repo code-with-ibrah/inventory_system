@@ -140,66 +140,6 @@ class SupplierController extends Controller
         return new SupplierResource($supplier);
     }
 
-//
-//    public function supplierStatements(Request $request)
-//    {
-//        $supplierId = $request->query("id");
-//        $fromDate = $request->query("fromDate");
-//        $toDate = $request->query("toDate");
-//
-//        // Set default date range if not provided
-//        if (!$fromDate || !$toDate) {
-//            $year = now()->year;
-//            $fromDate = $fromDate ?: Carbon::create($year)->startOfYear()->toDateString();
-//            $toDate = $toDate ?: Carbon::create($year)->endOfYear()->toDateString();
-//        }
-//
-//        // Fetch goods receipts
-//        $receipts = GoodsReceipt::where('supplierId', $supplierId)
-//            ->whereBetween('date', [$fromDate, $toDate])
-//            ->get()
-//            ->map(fn($receipt) => (object) [
-//                'date' => $receipt->date,
-//                'debit' => (float) $receipt->totalAmount,
-//                'credit' => null,
-//                'raw_date' => $receipt->created_at,
-//            ]);
-//
-//        // Fetch supplier payments
-//        $payments = GoodsReceiptPayments::where('supplierId', $supplierId)
-//            ->whereBetween('date', [$fromDate, $toDate])
-//            ->get()
-//            ->map(fn($payment) => (object) [
-//                'date' => $payment->date,
-//                'debit' => null,
-//                'credit' => (float) $payment->amount,
-//                'raw_date' => $payment->created_at,
-//            ]);
-//
-//        // Merge and sort transactions
-//        $transactions = $receipts->concat($payments)
-//            ->sortBy('date')
-//            ->values();
-//
-//        // Compute running balance
-//        $balance = 0;
-//        $transactionsWithBalance = $transactions->map(function ($item) use (&$balance) {
-//            $debit = $item->debit ?? 0;
-//            $credit = $item->credit ?? 0;
-//            $balance += ($debit - $credit);
-//
-//            return [
-//                'date' => $item->date,
-//                'debit' => $item->debit !== null ? $debit : '',
-//                'credit' => $item->credit !== null ? $credit : '',
-//                'balance' => $balance,
-//            ];
-//        });
-//
-//        return response()->json($transactionsWithBalance);
-//    }
-
-
     public function supplierStatements(Request $request)
     {
         $supplierId = $request->query("id");
@@ -208,9 +148,9 @@ class SupplierController extends Controller
 
         // Set default date range if not provided
         if (!$fromDate || !$toDate) {
-            $year = now()->year;
+            $year = 1500;
             $fromDate = $fromDate ?: Carbon::create($year)->startOfYear()->toDateString();
-            $toDate = $toDate ?: Carbon::create($year)->endOfYear()->toDateString();
+            $toDate = $toDate ?: Carbon::create(now()->year)->endOfYear()->toDateString();
         }
 
         // Fetch goods receipts

@@ -111,8 +111,7 @@ const Stocks: React.FC = () => {
                 <div className="p-4 bg-white rounded-2xl shadow-lg max-w-full mx-auto mb-8 font-inter">
 
                     {/* This outer div arranges the two main filter sections in a row on sm screens and up */}
-                    <div
-                        className="flex flex-col sm:flex-row items-start justify-start sm:space-x-8 space-y-4 sm:space-y-0">
+                    <div className="flex flex-col sm:flex-row items-start justify-start sm:space-x-8 space-y-4 sm:space-y-0">
 
                         {/* First Filter Group: Select Type */}
                         <div className="flex-1 w-full sm:w-1/2">

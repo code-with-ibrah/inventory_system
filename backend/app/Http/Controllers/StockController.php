@@ -27,13 +27,14 @@ class StockController extends Controller
         $queryItems = $filter->transform($request);
         $take = $request->query("take");
         $takeIsDefinedInUrl = ($take && intval($take) && $take > 0);
-        $perPage = ($takeIsDefinedInUrl ? $take : Globals::getDefaultPaginationNumber());
+        $perPage = ($takeIsDefinedInUrl ? $take : 30);
 
         $cacheKey = $this->cachePrefix . 'index:' . md5(serialize([
                 $queryItems,
                 $perPage,
                 $request->query('page', 1),
             ]));
+
 
         return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
             return new StockResourceCollection(
@@ -49,7 +50,6 @@ class StockController extends Controller
     public function indexByfilter(Request $request)
     {
         $filter = $request->query("filter");
-
 
         return new StockResourceCollection(
             Stock::whereHas("product", function ($query) use ($filter) {

@@ -107,6 +107,18 @@ const OrdersForm: React.FC = () => {
                             }}/>
                     </Form.Item>
 
+                    <Form.Item
+                        rules={[
+                            {
+                                required: true,
+                                message: "Required"
+                            }
+                        ]}
+                        className={'col-span-2'}
+                        name={"site"} label={"Site *"}>
+                        <Input type={'input'} placeholder={'eg. Takoradi'}/>
+                    </Form.Item>
+
                 </div>
 
                 <Button className={'btn-red flex ml-auto'} htmlType={"submit"}>

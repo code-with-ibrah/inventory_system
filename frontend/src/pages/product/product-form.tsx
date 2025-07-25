@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Form, Input, InputNumber} from "antd";
+import {Button, Form, Input} from "antd";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../hooks";
@@ -33,6 +33,7 @@ const ProductForm: React.FC = () => {
         values.companyId = user?.companyId;
         values.expirationDate = values.expirationDate || null;
         values.stockAlertLevel = (values.stockAlertLevel) ?? 10;
+        values.standardPackageQuantity = 0;
 
         setLoading(true);
         ((state?.data && state?.data?.id) ? dispatch(updateProduct({
@@ -230,21 +231,20 @@ const ProductForm: React.FC = () => {
                         />
                     </Form.Item>
 
-                    <Form.Item
-                        label={'Available Quantity'}
-                        name={'standardPackageQuantity'}
-                        className="col-span-full sm:col-span-1"
-                        style={{marginBottom: 0}}
-                        rules={[
-                            {required: true, message: "Required"}
-                        ]}>
-                        <InputNumber min={0} style={{width: "100%"}} placeholder={'292'} disabled={disabled} size={'large'}/>
-                    </Form.Item>
+                    {/*<Form.Item*/}
+                    {/*    label={'Available Quantity'}*/}
+                    {/*    name={'standardPackageQuantity'}*/}
+                    {/*    className="col-span-full sm:col-span-1"*/}
+                    {/*    style={{marginBottom: 0}}*/}
+                    {/*    rules={[*/}
+                    {/*        {required: true, message: "Required"}*/}
+                    {/*    ]}>*/}
+                    {/*    <InputNumber min={0} style={{width: "100%"}} placeholder={'292'} disabled={disabled} size={'large'}/>*/}
+                    {/*</Form.Item>*/}
 
                     <Form.Item
                         label={'Site'}
                         name="site"
-                        className="col-span-full col-span-3"
                         style={{marginBottom: 0}}
                         rules={[
                             {required: true, message: "Required"}
