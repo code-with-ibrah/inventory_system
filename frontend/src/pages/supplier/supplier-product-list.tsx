@@ -42,9 +42,9 @@ const SupplierProductList: React.FC = () => {
                     </span>
                     )}/>
 
-                <Column title={'Cost Price'} render={(record: Product) => (<span>
-                    {(record.costPrice)}
-                </span>)}/>
+                {/*<Column title={'Cost Price'} render={(record: Product) => (<span>*/}
+                {/*    {(record.costPrice)}*/}
+                {/*</span>)}/>*/}
 
                 <Column
                     title={'Action'}

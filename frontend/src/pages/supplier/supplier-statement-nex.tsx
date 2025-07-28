@@ -7,6 +7,7 @@ import {FilterOutlined} from "@ant-design/icons";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {TlaError} from "../../utils/messages.ts";
 import {getAllSupplierStatements} from "../../state/supplier/supplierAction.ts";
+import CompanyWatermark from "../common/company-watermark.tsx";
 
 
 
@@ -126,20 +127,46 @@ const SupplierStatements: React.FC = () => {
 
             {/* Statement Header */}
             {displayRecords && (
-                <div className="mb-6 text-center">
-                    <h2 className="text-2xl font-semibold my-3">Statement of Account</h2>
-                    {/*<p className="text-md text-gray-600 mt-1">*/}
-                    {/*    Period: <strong>{fromDate}</strong> to <strong>{toDate}</strong>*/}
-                    {/*</p>*/}
-                    <p className="text-md font-medium">Supplier: {supplier?.name}</p>
-                    <p className="text-md font-medium">Company: {supplier?.companyName}</p>
+                // <div className="mb-6 text-center">
+                //     <h2 className="text-2xl font-semibold my-3">Statement of Account</h2>
+                //     {/*<p className="text-md text-gray-600 mt-1">*/}
+                //     {/*    Period: <strong>{fromDate}</strong> to <strong>{toDate}</strong>*/}
+                //     {/*</p>*/}
+                //     <p className="text-md font-medium">Supplier: {supplier?.name}</p>
+                //     <p className="text-md font-medium">Company: {supplier?.companyName}</p>
+                // </div>
+
+
+                <div className="mb-6 flex justify-between items-center p-3">
+
+                    <div className="text-topline">
+                        <b className={'underline'}>Company Information</b>
+                        <p><b>Company: </b>Jessen Ventures</p>
+                        <p><b>Location:</b> Dome Pillar 2</p>
+                        <p><b>Digital Address:</b> GE-325-9976</p>
+                        <p><b>Phone:</b> +233 50 006 1419</p>
+                    </div>
+
+                    <div className="text-topline">
+                        <b className={'underline'}>Supplier Information</b>
+                        <p><b>Supplier:</b> {supplier?.name ?? "-"}</p>
+                        <p><b>Company: </b> {supplier?.companyName ?? "-"}</p>
+                        <p><b>Address:</b> {supplier?.addressLineOne ?? "-"}</p>
+                        <p><b>Phone:</b> {supplier?.phone ?? "-"}</p>
+                    </div>
+
+                    <div className="image-topline">
+                        <img className={'business-logo'} src="/logo-plain.png" alt=""/>
+                    </div>
                 </div>
+
             )}
 
             {/* Ledger Table */}
             <Spin spinning={loading}>
                 {displayRecords ? (
-                    <div className="bg-white rounded-xl shadow overflow-auto mb-6">
+                    <div className="bg-white rounded-xl shadow overflow-auto mb-6" style={{position: "relative"}}>
+                        <CompanyWatermark/>
                         <table className="min-w-full border border-gray-300 text-sm">
                             <thead>
                             <tr className="bg-gray-100">

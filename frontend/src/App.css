@@ -48,7 +48,18 @@ body{
 }
 
 
+.business-logo{
+    width: 200px;
+    height: 200px;
+}
 
+.watermark-logo{
+    position: absolute;
+    top: 30vh;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.12;
+}
 
 
 .section-title{

@@ -7,6 +7,7 @@ import {FilterOutlined} from "@ant-design/icons";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {TlaError} from "../../utils/messages.ts";
 import {getAllCustomerStatements} from "../../state/customer/customerAction.ts";
+import CompanyWatermark from "../common/company-watermark.tsx";
 
 
 
@@ -73,6 +74,7 @@ const CustomerStatements: React.FC = () => {
 
     return (
         <div>
+
             <div className="filter flex justify-between mt-5 mb-9 no-print">
                 <div className="bg-white p-4 rounded-lg ml-auto">
                     <Form layout="inline" onFinish={onFinish}>
@@ -128,20 +130,39 @@ const CustomerStatements: React.FC = () => {
 
             {/* Statement Header */}
             {displayRecords && (
-                <div className="mb-6 text-center">
-                    <h2 className="text-2xl font-semibold my-3">Statement of Account</h2>
-                    {/*<p className="text-md text-gray-600 mt-1">*/}
-                    {/*    Period: <strong>{fromDate}</strong> to <strong>{toDate}</strong>*/}
-                    {/*</p>*/}
-                    <p className="text-md font-medium">Customer: {customer?.name}</p>
-                    <p className="text-md font-medium">Company: {customer?.companyName}</p>
+                <div className="mb-6 flex justify-between items-center p-3 gap-4">
+
+                    <div className="text-topline">
+                        <b className={'underline'}>Company Information</b>
+                        <p><b>Company: </b>Jessen Ventures</p>
+                        <p><b>Location:</b> Dome Pillar 2</p>
+                        <p><b>Digital Address:</b> GE-325-9976</p>
+                        <p><b>Phone:</b> +233 50 006 1419</p>
+                    </div>
+
+                    <div className="text-topline">
+                        <b className={'underline'}>Customer Information</b>
+                        <p><b>Customer:</b> {customer?.name ?? "-"}</p>
+                        <p><b>Company: </b> {customer?.companyName ?? "-"}</p>
+                        <p><b>Location:</b> {customer?.location ?? "-"}</p>
+                        <p><b>Address:</b> {customer?.address ?? "-"}</p>
+                        <p><b>Phone:</b> {customer?.phone ?? "-"}</p>
+                    </div>
+
+                    <div className="image-topline">
+                        <img className={'business-logo'} src="/logo-plain.png" alt=""/>
+                    </div>
                 </div>
             )}
 
             {/* Ledger Table */}
             <Spin spinning={loading}>
                 {displayRecords ? (
-                    <div className="bg-white rounded-xl shadow overflow-auto mb-6">
+                    <div className="bg-white rounded-xl shadow overflow-auto mb-6" style={{position: "relative"}}>
+
+                        <CompanyWatermark/>
+                        
+                        
                         <table className="min-w-full border border-gray-300 text-sm">
                             <thead>
                             <tr className="bg-gray-100">
