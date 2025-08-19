@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string("name")->unique();
             $table->string("sku")->nullable();
             $table->string("image")->nullable();
+            $table->string("site")->nullable();
             $table->decimal("costPrice", 10, 2)->default(0.00);
             $table->decimal("unitPrice", 10, 2)->default(0.00);
             $table->integer("standardPackageQuantity")->default(0);
