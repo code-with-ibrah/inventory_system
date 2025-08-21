@@ -37,11 +37,6 @@ const GoodsReceipts: React.FC = () => {
         navigate(MenuLinks.admin.supplier.details.receipt.items);
     };
 
-    const goToSupplierDetail = (record: any) => {
-        dispatch(setSupplier(record));
-        navigate(MenuLinks.admin.supplier.details.index);
-    };
-
     const goToInvoiceDetails = (record: any) => {
         dispatch(setGoodsReceipt(record));
         dispatch(setSupplier(record?.supplier));
