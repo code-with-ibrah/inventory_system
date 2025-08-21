@@ -65,7 +65,7 @@ const OrdersInvoice = () => {
                     <div className="mb-4">
                         <h3 className="font-bold text-xl text-gray-800 mb-4">Items Purchased</h3>
                         <table className="min-w-full text-sm">
-                            <thead>
+                            <thead className="bg-gray-300">
                             <tr className={'border-b'}>
                                 <th className="py-2 text-left text-gray-700">Product</th>
                                 <th className="py-2 text-right text-gray-700">Unit Price</th>
@@ -75,7 +75,7 @@ const OrdersInvoice = () => {
                             </thead>
                             <tbody>
                             {data.map((item: any, index: number) => (
-                                <tr key={index} className="border-b border-dashed border-gray-300 last:border-b-0">
+                                <tr key={index} className="border-b border-gray-300 last:border-b-0">
                                     <td className="py-2 text-left pr-2">{item?.product?.name}</td>
                                     <td className="py-2 text-right">{item.unitPriceAtSale}</td>
                                     <td className="py-2 text-right">{item?.quantity}</td>
@@ -84,7 +84,7 @@ const OrdersInvoice = () => {
                             ))}
                             </tbody>
                         </table>
-                        <div className="border-t border-dashed border-gray-400 my-2"></div>
+                        <div className="border-t border-gray-400 my-2"></div>
                     </div>
 
 
@@ -92,27 +92,18 @@ const OrdersInvoice = () => {
                     <div>
                         <table className="min-w-full text-sm">
                             <tbody>
-                            <tr className={'border-b border-dashed border-gray-400 my-2'}>
                                 <td colSpan={2}></td>
                                 <td className="py-1 text-right text-gray-700">II VAT ({vatPercentage}%)</td>
                                 <td className="py-1 text-right text-gray-700">
                                     {currencyFormat(getPercentAmount(order?.amount, vatPercentage))}
                                 </td>
                             </tr>
-
-                            <tr>
-                                <td colSpan={2}></td>
-                                {/* Empty cells for alignment */}
-                                <td className="py-1 text-right font-semibold text-gray-800">Subtotal</td>
-                                <td className="py-1 text-right font-semibold text-gray-800">{currencyFormat(+order?.amount)}</td>
-                            </tr>
-
                             </tbody>
                         </table>
                     </div>
 
                     {/* Receipt Footer (Optional - add thank you message, return policy) */}
-                    <div className="text-center mt-6 pt-4 border-t border-dashed border-gray-400">
+                    <div className="text-center mt-6 pt-4 border-gray-400">
                         <p className="text-gray-700">Thank you for your purchase!</p>
                     </div>
 
