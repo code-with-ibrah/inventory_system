@@ -1,17 +1,17 @@
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import {useEffect} from "react";
-import {commonQuery} from "../../utils/query.ts";
-import {Order} from "../../types/order.ts";
-import { currencyFormat, formatDate, getPercentAmount} from "../../utils";
-import {getAllOrderItems} from "../../state/orders/item/orderItemAction.ts";
-import {Button} from "antd";
-import {FiPrinter} from "react-icons/fi";
-import {getAllPayments} from "../../state/orders/payments/paymentAction.ts";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useEffect } from "react";
+import { commonQuery } from "../../utils/query.ts";
+import { Order } from "../../types/order.ts";
+import { currencyFormat, formatDate, getPercentAmount } from "../../utils";
+import { getAllOrderItems } from "../../state/orders/item/orderItemAction.ts";
+import { Button } from "antd";
+import { FiPrinter } from "react-icons/fi";
+import { getAllPayments } from "../../state/orders/payments/paymentAction.ts";
 
 
 const OrdersInvoice = () => {
     const order: Order = useAppSelector(state => state.order.orderItem);
-    const {data} = useAppSelector(state => state.orderItem.orderItem);
+    const { data } = useAppSelector(state => state.orderItem.orderItem);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -28,7 +28,7 @@ const OrdersInvoice = () => {
             <div className="mx-auto bg-white rounded-md p-8">
 
                 <Button
-                    icon={<FiPrinter/>}
+                    icon={<FiPrinter />}
                     className={'btn btn-primary no-print mb-4'}
                     onClick={() => window.print()}>Print now
                 </Button>
@@ -66,22 +66,22 @@ const OrdersInvoice = () => {
                         <h3 className="font-bold text-xl text-gray-800 mb-4">Items Purchased</h3>
                         <table className="min-w-full text-sm">
                             <thead className="bg-gray-300">
-                            <tr className={'border-b'}>
-                                <th className="py-2 text-left text-gray-700">Product</th>
-                                <th className="py-2 text-right text-gray-700">Unit Price</th>
-                                <th className="py-2 text-right text-gray-700">Qty</th>
-                                <th className="py-2 text-right text-gray-700">Total</th>
-                            </tr>
+                                <tr className={'border-b'}>
+                                    <th className="py-2 text-left text-gray-700">Product</th>
+                                    <th className="py-2 text-right text-gray-700">Unit Price</th>
+                                    <th className="py-2 text-right text-gray-700">Qty</th>
+                                    <th className="py-2 text-right text-gray-700">Total</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {data.map((item: any, index: number) => (
-                                <tr key={index} className="border-b border-gray-300 last:border-b-0">
-                                    <td className="py-2 text-left pr-2">{item?.product?.name}</td>
-                                    <td className="py-2 text-right">{item.unitPriceAtSale}</td>
-                                    <td className="py-2 text-right">{item?.quantity}</td>
-                                    <td className="py-2 text-right">{item?.totalCost}</td>
-                                </tr>
-                            ))}
+                                {data.map((item: any, index: number) => (
+                                    <tr key={index} className="border-b border-gray-300 last:border-b-0">
+                                        <td className="py-2 text-left pr-2">{item?.product?.name}</td>
+                                        <td className="py-2 text-right">{item.unitPriceAtSale}</td>
+                                        <td className="py-2 text-right">{item?.quantity}</td>
+                                        <td className="py-2 text-right">{item?.totalCost}</td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                         <div className="border-t border-gray-400 my-2"></div>
@@ -92,12 +92,18 @@ const OrdersInvoice = () => {
                     <div>
                         <table className="min-w-full text-sm">
                             <tbody>
-                                <td colSpan={2}></td>
-                                <td className="py-1 text-right text-gray-700">II VAT ({vatPercentage}%)</td>
-                                <td className="py-1 text-right text-gray-700">
-                                    {currencyFormat(getPercentAmount(order?.amount, vatPercentage))}
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td colSpan={1}></td>
+                                    <td className="border px-4 py-2 font-semibold">II VAT ({vatPercentage}%)</td>
+                                    <td className="border px-4 py-2 font-semibold">
+                                        {currencyFormat(getPercentAmount(order?.amount, vatPercentage))}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={1}></td>
+                                    <td className="border px-4 py-2 font-semibold">Subtotal</td>
+                                    <td className="border px-4 py-2 font-semibold">{currencyFormat(+order?.amount)}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
