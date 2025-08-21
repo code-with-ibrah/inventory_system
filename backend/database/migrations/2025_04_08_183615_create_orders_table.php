@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string("orderNumber");
             $table->string("date");
+            $table->string("site")->nullable();
             $table->foreignId("customerId")->constrained("customers");
             $table->decimal("amount", 10, 2);
             $table->string("status")->default("preparing")->nullable();

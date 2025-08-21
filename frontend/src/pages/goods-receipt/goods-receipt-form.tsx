@@ -25,6 +25,7 @@ const GoodsReceiptForm: React.FC = () => {
         values.companyId = user?.companyId;
         values.userId = user?.id;
         values.supplierId = supplier?.id;
+        values.totalAmount = 0;
         values.receiptNumber = generateUniqueCode("REC-", 12);
         ((state?.data && state?.data?.id) ? dispatch(updateGoodsReceipt({ data: values, id: state?.data?.id}))
             : dispatch(createGoodsReceipt(values)))
@@ -50,44 +51,15 @@ const GoodsReceiptForm: React.FC = () => {
                     {/*    <InputFake value={user?.name}/>*/}
                     {/*</Form.Item>*/}
 
-                    <Form.Item
+                    <Form.Item className={'col-span-2'}
                         rules={[
                             {
                                 required: true,
                                 message: "Required"
                             }
                         ]}
-                        name={"date"} label={"Date *"}>
+                        name={"date"}  label={"Date *"}>
                         <Input type={'date'}/>
-                    </Form.Item>
-
-                    {/*<Form.Item*/}
-                    {/*    rules={[{required:true, message:"Required"}]}*/}
-                    {/*    name={"supplierId"} label={"Supplier"}>*/}
-                    {/*    <DropdownSearch*/}
-                    {/*        defaultValue={state?.data?.supplier?.name}*/}
-                    {/*        object*/}
-                    {/*        searchApi={getAllSuppliers}*/}
-                    {/*        placeholder="click to select supplier"*/}
-                    {/*        extraParams={commonQuery()}*/}
-                    {/*        setResult={(supplier: Supplier) => {*/}
-                    {/*            if (supplier) {*/}
-                    {/*                form.setFieldValue('supplierId', supplier?.id);*/}
-                    {/*                return*/}
-                    {/*            }*/}
-                    {/*            form.setFieldValue('supplierId', null)*/}
-                    {/*        }}/>*/}
-                    {/*</Form.Item>*/}
-
-                    <Form.Item
-                       rules={[
-                           {
-                               required: true,
-                               message: "Required"
-                           }
-                       ]}
-                       name={"totalAmount"} label={"Total Amount *"}>
-                       <Input type={'number'} placeholder={'9232.93'} min={'0'} step={'any'}/>
                     </Form.Item>
 
 

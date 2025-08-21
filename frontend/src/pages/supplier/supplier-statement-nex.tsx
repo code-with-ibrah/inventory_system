@@ -171,7 +171,7 @@ const SupplierStatements: React.FC = () => {
                             <thead>
                             <tr className="bg-gray-100">
                                 <th className="px-4 py-2 border">Date</th>
-                                <th className="px-4 py-2 border">Number</th>
+                                <th className="px-4 py-2 border">Receipt Number</th>
                                 <th className="px-4 py-2 border text-right">Debit (GHS)</th>
                                 <th className="px-4 py-2 border text-right">Credit (GHS)</th>
                                 <th className="px-4 py-2 border text-right">Balance (GHS)</th>
