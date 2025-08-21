@@ -8,7 +8,6 @@ import { getAllGoodsReceiptItems } from "../../state/goods-receipt/items/goodsRe
 
 
 const GoodsReceiptInvoice = () => {
-    // const supplier = useAppSelector(state => state.supplier.supplierItem);
     const {data: goodReceiptItemList} = useAppSelector(state => state.goodsReceiptItem.goodsReceiptItem);
     const goodsReceipt: any = useAppSelector(state => state.goodsReceipt.goodsReceiptItem);
     const dispatch = useAppDispatch();
@@ -19,8 +18,7 @@ const GoodsReceiptInvoice = () => {
         );
     }, []);
 
-    const covidPercentage = 6;
-    const vatPercentage = 15;
+    const vatPercentage = 3;
 
     return <>
         <div className="bg-gray-100 receipt-container">
@@ -87,12 +85,6 @@ const GoodsReceiptInvoice = () => {
                             <td></td>
                             <td className="border px-4 py-2 font-semibold">Subtotal</td>
                             <td className="border px-4 py-2 font-semibold">{currencyFormat(+goodsReceipt?.totalAmount)}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td className="border px-4 py-2 font-semibold">NHIL/GetFund/Covid ({covidPercentage} %)</td>
-                            <td className="border px-4 py-2 font-semibold">{currencyFormat(getPercentAmount(goodsReceipt?.totalAmount, covidPercentage))}</td>
                         </tr>
                         <tr>
                             <td></td>
