@@ -10,7 +10,6 @@ import {getAllPayments} from "../../state/orders/payments/paymentAction.ts";
 
 
 const OrdersInvoice = () => {
-    const paymentInfo = useAppSelector(state => state.payment.payment);
     const order: Order = useAppSelector(state => state.order.orderItem);
     const {data} = useAppSelector(state => state.orderItem.orderItem);
     const dispatch = useAppDispatch();
@@ -59,7 +58,6 @@ const OrdersInvoice = () => {
                             <div className={'my-2'}><span
                                 className="font-semibold">Customer:</span> {order?.customer?.name}
                             </div>
-                            <div className={'my-2 capitalize'}><span className="font-semibold">Status: </span>{order?.status}</div>
                         </div>
                     </div>
 
@@ -94,24 +92,15 @@ const OrdersInvoice = () => {
                     <div>
                         <table className="min-w-full text-sm">
                             <tbody>
-                            <tr>
-                                <td colSpan={2}></td>
-                                {/* Empty cells for alignment */}
-                                <td className="py-1 text-right font-semibold text-gray-800">Subtotal</td>
-                                <td className="py-1 text-right font-semibold text-gray-800">{currencyFormat(+order?.amount)}</td>
-                            </tr>
-                            <tr className={'border-b border-gray-400 my-2'}>
                                 <td colSpan={2}></td>
                                 <td className="py-1 text-right text-gray-700">II VAT ({vatPercentage}%)</td>
                                 <td className="py-1 text-right text-gray-700">
                                     {currencyFormat(getPercentAmount(order?.amount, vatPercentage))}
                                 </td>
                             </tr>
-
                             </tbody>
                         </table>
                     </div>
-
 
                     {/* Receipt Footer (Optional - add thank you message, return policy) */}
                     <div className="text-center mt-6 pt-4 border-gray-400">

@@ -83,18 +83,18 @@ const GoodsReceiptInvoice = () => {
                         <tr>
                             <td></td>
                             <td></td>
-                            <td className="border px-4 py-2 font-semibold">Subtotal</td>
-                            <td className="border px-4 py-2 font-semibold">{currencyFormat(+goodsReceipt?.totalAmount)}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
                             <td className="border px-4 py-2 font-semibold">II VAT ({vatPercentage} %)</td>
                             <td className="border px-4 py-2 font-semibold">
                                 {currencyFormat(getPercentAmount(goodsReceipt?.totalAmount, vatPercentage))}
                             </td>
                         </tr>
 
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td className="border px-4 py-2 font-semibold">Subtotal</td>
+                            <td className="border px-4 py-2 font-semibold">{currencyFormat(+goodsReceipt?.totalAmount)}</td>
+                        </tr>
 
                         </tfoot>
                     </table>

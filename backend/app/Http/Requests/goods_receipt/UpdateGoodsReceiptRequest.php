@@ -19,7 +19,7 @@ class UpdateGoodsReceiptRequest extends FormRequest
             "supplierId" => ["required", "exists:suppliers,id"],
             "userId" => ["required", "exists:users,id"],
             "date" => ["required"],
-            "totalAmount" => ["required"],
+            "totalAmount" => ["nullable"],
             "conditionOfGoods" => ["nullable"],
         ];
     }

@@ -18,7 +18,7 @@ class GoodsReceiptRequest extends FormRequest
             "userId" => ["required", "exists:users,id"],
             "receiptNumber" => ["required", "unique:goods_receipts,receiptNumber"],
             "date" => ["required"],
-            "totalAmount" => ["required"],
+            "totalAmount" => ["nullable"],
             "conditionOfGoods" => ["nullable"],
             "companyId" => ["required", "exists:companies,id"]
         ];
