@@ -47,7 +47,7 @@ const GoodsReceiptForm: React.FC = () => {
             <Form requiredMark={false} form={form} onFinish={onFinish} initialValues={{...state?.data}} size={'large'} layout={"vertical"}>
                <br/>
                 <div className={'grid grid-cols-1 md:grid-cols-2 gap-2'}>
-                    <Form.Item
+                    <Form.Item className="col-span-2"
                         rules={[
                             {
                                 required: true,
