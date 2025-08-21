@@ -64,13 +64,6 @@ const GoodsReceipts: React.FC = () => {
                         </span>
                         )}/>
                     <Column title="Date" render={(record: GoodsReceipt) => <span>{formatDate(record?.date)}</span>}/>
-                    <Column
-                        title="Supplier"
-                        render={(record: any) => (
-                            <span className={'cursor-pointer underline'} onClick={() => goToSupplierDetail(record?.supplier)}>
-                            { record?.supplier?.name ?? "-" }
-                        </span>
-                        )}/>
                     <Column title="Total Amount" render={(record: any) => (<span className={'font-semibold'}>{ currencyFormat(+record?.totalAmount) }</span>)}/>
                     <Column title="Condition of Goods" render={(record: GoodsReceipt) => <span>
                         { record?.conditionOfGoods ?? "-" }
