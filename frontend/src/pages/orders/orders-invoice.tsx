@@ -20,7 +20,7 @@ const OrdersInvoice = () => {
     }, []);
 
     const vatPercentage = 3;
-
+    const vatAmount = getPercentAmount(order?.amount, vatPercentage);
 
     return <>
 
@@ -93,16 +93,21 @@ const OrdersInvoice = () => {
                         <table className="min-w-full text-sm">
                             <tbody>
                                 <tr>
-                                    <td colSpan={1}></td>
+                                    <td colSpan={6}></td>
                                     <td className="border px-4 py-2 font-semibold">II VAT ({vatPercentage}%)</td>
                                     <td className="border px-4 py-2 font-semibold">
-                                        {currencyFormat(getPercentAmount(order?.amount, vatPercentage))}
+                                        {currencyFormat(+vatAmount)}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colSpan={1}></td>
+                                    <td colSpan={6}></td>
                                     <td className="border px-4 py-2 font-semibold">Subtotal</td>
                                     <td className="border px-4 py-2 font-semibold">{currencyFormat(+order?.amount)}</td>
+                                </tr>
+                                 <tr>
+                                    <td colSpan={6}></td>
+                                    <td className="border px-4 py-2 font-semibold">Grand Total</td>
+                                    <td className="border px-4 py-2 font-semibold">{currencyFormat(+order?.amount + +order?.amount)}</td>
                                 </tr>
                             </tbody>
                         </table>

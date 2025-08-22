@@ -20,6 +20,8 @@ const GoodsReceiptInvoice = () => {
 
     const vatPercentage = 3;
 
+    const vatAmount = getPercentAmount(goodsReceipt?.totalAmount, vatPercentage);
+
     return <>
         <div className="bg-gray-100 receipt-container">
             <div className="mx-auto bg-white rounded-md p-8">
@@ -94,6 +96,13 @@ const GoodsReceiptInvoice = () => {
                             <td></td>
                             <td className="border px-4 py-2 font-semibold">Subtotal</td>
                             <td className="border px-4 py-2 font-semibold">{currencyFormat(+goodsReceipt?.totalAmount)}</td>
+                        </tr>
+                        
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td className="border px-4 py-2 font-semibold">Grand Total</td>
+                            <td className="border px-4 py-2 font-semibold">{currencyFormat(+vatAmount + +goodsReceipt?.totalAmount)}</td>
                         </tr>
 
                         </tfoot>
