@@ -98,12 +98,12 @@ const GoodsReceiptInvoice = () => {
                             <td className="border px-4 py-2 font-semibold">{currencyFormat(+goodsReceipt?.totalAmount)}</td>
                         </tr>
                         
-                        <tr>
+                        {/* <tr>
                             <td></td>
                             <td></td>
                             <td className="border px-4 py-2 font-semibold">Grand Total</td>
                             <td className="border px-4 py-2 font-semibold">{currencyFormat(+vatAmount + +goodsReceipt?.totalAmount)}</td>
-                        </tr>
+                        </tr> */}
 
                         </tfoot>
                     </table>
