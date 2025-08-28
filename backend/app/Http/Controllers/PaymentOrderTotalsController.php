@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Payment;
+use App\Utils\Globals;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -43,14 +44,21 @@ class PaymentOrderTotalsController extends Controller
                 ->where("status", "!=", "cancelled")
                 ->get()
                 ->map(function ($order) {
+                    $amount = floatval($order->amount);
+                    $vat = $amount * Globals::VAT_PERCENTAGE;
+                    $grandTotal = $amount + $vat;
+
                     return [
                         'date' => $order->date,
-                        'debit' => floatval($order->amount),
+//                        'debit' => $amount,
                         'credit' => null,
                         'raw_date' => $order->created_at,
                         'paymentNumber' => $order->orderNumber,
-                        ];
+                        'debit' => round($grandTotal, 2),
+                    ];
                 });
+
+
 
             $payments = Payment::where('customerId', $customerId)
                 ->whereBetween('date', [$fromDate, $toDate])

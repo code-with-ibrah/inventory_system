@@ -235,18 +235,6 @@ const Stocks: React.FC = () => {
                                     </div>
                                 )
                             )}/>
-
-
-                        {/*<Column title="Stock Price" render={(record: any) => <span>{currencyFormat(+record?.product?.costPrice)}</span>}/>*/}
-
-                        {/*<Column*/}
-                        {/*    title={'Action'}*/}
-                        {/*    render={((record) => (*/}
-                        {/*            <div className={'flex items-center gap-2'}>*/}
-                        {/*                <TlaEdit data={record} link={MenuLinks.admin.stock.form}/>*/}
-                        {/*            </div>*/}
-                        {/*        )*/}
-                        {/*    )}/>*/}
                     </TlaTableWrapper>
                 </div>
             </Spin>

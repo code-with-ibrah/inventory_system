@@ -58,6 +58,7 @@ const OrdersInfo = () => {
                         <tr>
                             <th className="p-2 text-left text-gray-700">#</th>
                             <th className="p-2 text-left text-gray-700">Product</th>
+                            <th className="p-2 text-left text-gray-700">Type</th>
                             <th className="p-2 text-right text-gray-700">Qty</th>
                             <th className="p-2 text-right text-gray-700">Unit Price</th>
                             <th className="p-2 text-right text-gray-700">Total Cost</th>
@@ -73,6 +74,9 @@ const OrdersInfo = () => {
                                 </td>
                                 <td className="p-2 whitespace-nowrap text-gray-700 text-left">
                                     <span className="">{item?.product?.name}</span>
+                                </td>
+                                <td>
+                                    <span>{item?.product?.stockUnitName}</span>
                                 </td>
                                 <td className="p-2 whitespace-nowrap text-gray-700 text-right">
                                     <span className="text-gray-700">{item?.quantity}</span>

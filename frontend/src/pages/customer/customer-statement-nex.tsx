@@ -8,6 +8,9 @@ import {unwrapResult} from "@reduxjs/toolkit";
 import {TlaError} from "../../utils/messages.ts";
 import {getAllCustomerStatements} from "../../state/customer/customerAction.ts";
 import CompanyWatermark from "../common/company-watermark.tsx";
+import {MenuLinks} from "../../utils/menu-links.ts";
+import {setOrderItem} from "../../state/orders/orderSlice.ts";
+import {getAllOrders} from "../../state/orders/receiptAction.ts";
 
 
 
@@ -62,6 +65,17 @@ const CustomerStatements: React.FC = () => {
                 setLoading(false);
                 TlaError('Failed to fetch data, retry');
                 navigate(-1);
+            })
+    }
+
+    const goToOrder = (orderNumber: any) => {
+
+        dispatch(getAllOrders(`orderNumber[eq]=${orderNumber}`))
+            .then(unwrapResult)
+            .then(res => {
+                const order = res?.data[0];
+                setOrderItem(order);
+                navigate(MenuLinks.admin.order.invoice);
             })
     }
 
@@ -170,14 +184,20 @@ const CustomerStatements: React.FC = () => {
                                 <th className="px-4 py-2 border">Order Number</th>
                                 <th className="px-4 py-2 border text-right">Debit (GHS)</th>
                                 <th className="px-4 py-2 border text-right">Credit (GHS)</th>
-                                <th className="px-4 py-2 border text-right">Grand Total (GHS)</th>
+                                <th className="px-4 py-2 border text-right">Balance (GHS)</th>
                             </tr>
                             </thead>
                             <tbody>
                             {data.map((record: any, index: number) => (
                                 <tr key={index}>
                                     <td className="px-4 py-2 border">{formatDate(record.date)}</td>
-                                    <td className="px-4 py-2 border">{record?.paymentNumber ?? '-'}</td>
+                                    <td className="px-4 py-2 border">
+                                        {
+                                            record?.paymentNumber ?
+                                                <span onClick={()=>goToOrder(record?.paymentNumber)} className={'underline text-blue-400 cursor-pointer'}>{record?.paymentNumber}</span>
+                                                : '-'
+                                        }
+                                    </td>
                                     <td className="px-4 py-2 border text-right">{record.debit ? currencyFormat(+record.debit) : ''}</td>
                                     <td className="px-4 py-2 border text-right">{record.credit ? currencyFormat(+record.credit) : ''}</td>
                                     <td className="px-4 py-2 border text-right font-semibold">{currencyFormat(+record.balance)}</td>

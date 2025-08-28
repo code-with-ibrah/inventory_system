@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\order;
 
+use App\Utils\Globals;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -30,7 +31,11 @@ class OrderResource extends JsonResource
             "originalPrice" => $this->originalPrice,
 
             'payments' => $this->whenLoaded('payments', $this->payments, []),
-            'site' => $this->site
+            'site' => $this->site,
+            'vatPercentage' => GLOBALS::VAT_PERCENTAGE * 100,
+            'vatAmount' => round($this->amount * 0.03, 2),
+            'grandTotal' => round($this->amount + ($this->amount * Globals::VAT_PERCENTAGE), 2)
         ];
+
     }
 }

@@ -48,15 +48,6 @@ const GoodsReceiptItems: React.FC = () => {
             <div className={'bg-white p-3 rounded-lg inner-header mb-2'}>
 
                 <div className="flex justify-between">
-                    {/*<h2 className={'capitalize'}>*/}
-                    {/*    <span className={' text-2xl font-medium'}>Goods Receipts Information</span>*/}
-                    {/*    &nbsp; supplied by &nbsp;*/}
-                    {/*    <span style={{fontSize: "17px"}}>({*/}
-                    {/*        // @ts-ignore*/}
-                    {/*        goodsReceiptItem?.supplier?.name ?? "-"*/}
-                    {/*    })</span>*/}
-                    {/*</h2>*/}
-
                     {goodsReceiptItem?.receiptNumber ? <h1 className={'flex text-xl items-center gap-x-3 my-2'}>
                         Receipt Number: {goodsReceiptItem?.receiptNumber}
                     </h1> : null}
@@ -105,6 +96,7 @@ const GoodsReceiptItems: React.FC = () => {
                                      filter={commonQuery(`&goodsReceiptId[eq]=${goodsReceiptItem?.id}`)}
                                      meta={meta}>
                         <Column title={'Product'} dataIndex={["product", "name"]}/>
+                        <Column title={'Type'} dataIndex={["product", "stockUnitName"]}/>
                         <Column title={'Quantity Received'} dataIndex={'quantityReceived'}/>
                         <Column title={'Unit Price On Receipt'} render={(record: any) => <span>
                         {currencyFormat(+record?.unitPriceAtReceipt)}

@@ -8,6 +8,9 @@ import {unwrapResult} from "@reduxjs/toolkit";
 import {TlaError} from "../../utils/messages.ts";
 import {getAllSupplierStatements} from "../../state/supplier/supplierAction.ts";
 import CompanyWatermark from "../common/company-watermark.tsx";
+import {getAllGoodsReceipts} from "../../state/goods-receipt/goodsReceiptAction.ts";
+import {setGoodsReceipt} from "../../state/goods-receipt/goodsReceiptSlice.ts";
+import {MenuLinks} from "../../utils/menu-links.ts";
 
 
 
@@ -61,6 +64,20 @@ const SupplierStatements: React.FC = () => {
                 TlaError('Failed to fetch data, retry');
                 navigate(-1);
             })
+    }
+
+    const goToReceipt = (receiptNumber: string) => {
+        dispatch(getAllGoodsReceipts(`receiptNumber[eq]=${receiptNumber}`))
+            .then(unwrapResult)
+            .then(res => {
+                const goodsReceipt = res?.data[0];
+                dispatch(setGoodsReceipt(goodsReceipt));
+                navigate(MenuLinks.admin.supplier.details.receipt.items);
+            })
+            .catch(_ => {
+                navigate(-1);
+                TlaError("Operation failed, re-try")
+            });
     }
 
     useEffect(() => {
@@ -181,7 +198,13 @@ const SupplierStatements: React.FC = () => {
                             {data.map((record: any, index: number) => (
                                 <tr key={index}>
                                     <td className="px-4 py-2 border">{formatDate(record.date)}</td>
-                                    <td className="px-4 py-2 border">{record?.paymentNumber}</td>
+                                    <td className="px-4 py-2 border">
+                                        {
+                                            record?.paymentNumber ?
+                                                <span onClick={()=>goToReceipt(record?.paymentNumber)} className={'underline text-blue-400 cursor-pointer'}>{record?.paymentNumber}</span>
+                                                : '-'
+                                        }
+                                    </td>
                                     <td className="px-4 py-2 border text-right">{record.debit ? currencyFormat(+record.debit) : ''}</td>
                                     <td className="px-4 py-2 border text-right">{record.credit ? currencyFormat(+record.credit) : ''}</td>
                                     <td className="px-4 py-2 border text-right font-semibold">{currencyFormat(+record.balance)}</td>

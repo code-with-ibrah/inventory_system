@@ -8,7 +8,7 @@ use App\Http\Requests\common\PrepareRequestPayload;
 use App\Http\Requests\product\ProductRequest;
 use App\Http\Requests\product\UpdateProductRequest;
 use App\Http\Resources\product\ProductResource;
-use App\Http\Resources\product\ProductResourceCollection; 
+use App\Http\Resources\product\ProductResourceCollection;
 use App\Models\Product;
 use App\Models\ProductSupplier;
 use App\Models\Stock;
@@ -24,6 +24,33 @@ class ProductController extends Controller
 {
  protected $cachePrefix = "product_";
 
+//    public function index(Request $request)
+//    {
+//        $filter = new ProductQuery();
+//        $queryItems = $filter->transform($request);
+//        $take = $request->query("take");
+//        $takeIsDefinedInUrl = ($take && intval($take) && $take > 0);
+//        $perPage = ($takeIsDefinedInUrl ? $take : Globals::getDefaultPaginationNumber());
+//
+//
+//        $cacheKey = $this->cachePrefix . 'index:' . md5(serialize([
+//                $queryItems,
+//                $perPage,
+//                $request->query('page', 1),
+//            ]));
+//
+//        return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
+//            return new ProductResourceCollection(
+//                Product::where($queryItems)
+//                    ->with('brand')
+//                    ->with('company')
+//                    ->with('category')
+//                    ->with('suppliers')
+//                    ->paginate($perPage)
+//            );
+//        });
+//    }
+
     public function index(Request $request)
     {
         $filter = new ProductQuery();
@@ -32,23 +59,34 @@ class ProductController extends Controller
         $takeIsDefinedInUrl = ($take && intval($take) && $take > 0);
         $perPage = ($takeIsDefinedInUrl ? $take : Globals::getDefaultPaginationNumber());
 
+        $isFetchAll = $request->has('fetch-all');
+
         $cacheKey = $this->cachePrefix . 'index:' . md5(serialize([
                 $queryItems,
+                $isFetchAll,
                 $perPage,
                 $request->query('page', 1),
             ]));
 
-        return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage) {
+        return Cache::remember($cacheKey, $this->cacheTtl, function () use ($queryItems, $perPage, $isFetchAll) {
+            $query = Product::where($queryItems)
+                ->with('brand')
+                ->with('company')
+                ->with('category')
+                ->with('suppliers');
+
+            if ($isFetchAll) {
+                // No pagination
+                return new ProductResourceCollection($query->get());
+            }
+
+            // With pagination
             return new ProductResourceCollection(
-                Product::where($queryItems)
-                    ->with('brand')
-                    ->with('company')
-                    ->with('category')
-                    ->with('suppliers')
-                    ->paginate($perPage)
+                $query->paginate($perPage)
             );
         });
     }
+
 
 
     public function suppliers($id){

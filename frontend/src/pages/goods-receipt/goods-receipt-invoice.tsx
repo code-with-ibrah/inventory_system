@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import {FiPrinter} from "react-icons/fi";
 import {commonQuery} from "../../utils/query.ts";
 import {useAppDispatch, useAppSelector} from "../../hooks";
-import {currencyFormat, formatDate, getPercentAmount} from "../../utils";
+import {currencyFormat, formatDate} from "../../utils";
 import { getAllGoodsReceiptItems } from "../../state/goods-receipt/items/goodsReceiptItemAction";
 
 
@@ -17,10 +17,6 @@ const GoodsReceiptInvoice = () => {
             commonQuery(`&goodsReceiptId[eq]=${goodsReceipt?.id}`))
         );
     }, []);
-
-    const vatPercentage = 3;
-
-    const vatAmount = getPercentAmount(goodsReceipt?.totalAmount, vatPercentage);
 
     return <>
         <div className="bg-gray-100 receipt-container">
@@ -85,9 +81,9 @@ const GoodsReceiptInvoice = () => {
                         <tr>
                             <td></td>
                             <td></td>
-                            <td className="border px-4 py-2 font-semibold">II VAT ({vatPercentage} %)</td>
+                            <td className="border px-4 py-2 font-semibold">II VAT ({ goodsReceipt?.vatPercentage } %)</td>
                             <td className="border px-4 py-2 font-semibold">
-                                {currencyFormat(getPercentAmount(goodsReceipt?.totalAmount, vatPercentage))}
+                                { currencyFormat(goodsReceipt?.vatAmount) }
                             </td>
                         </tr>
 
@@ -95,14 +91,14 @@ const GoodsReceiptInvoice = () => {
                             <td></td>
                             <td></td>
                             <td className="border px-4 py-2 font-semibold">Subtotal</td>
-                            <td className="border px-4 py-2 font-semibold">{currencyFormat(+goodsReceipt?.totalAmount)}</td>
+                            <td className="border px-4 py-2 font-semibold">{ currencyFormat(+goodsReceipt?.totalAmount) }</td>
                         </tr>
                         
                         <tr>
                             <td></td>
                             <td></td>
                             <td className="border px-4 py-2 font-semibold">Grand Total</td>
-                            <td className="border px-4 py-2 font-semibold">{currencyFormat(+vatAmount + +goodsReceipt?.totalAmount)}</td>
+                            <td className="border px-4 py-2 font-semibold">{currencyFormat(+goodsReceipt?.grandTotal)}</td>
                         </tr>
 
                         </tfoot>

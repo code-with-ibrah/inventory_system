@@ -39,4 +39,6 @@ class Globals
         return $timestamp > $now;
     }
 
+    public const VAT_PERCENTAGE = 0.03;
+
 }

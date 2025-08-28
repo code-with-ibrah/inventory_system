@@ -79,7 +79,7 @@ const OrderItemFormContent: React.FC<Props> = ({setLoading, form}) => {
                                     <DropdownSearch
                                         object
                                         searchApi={getAllProducts}
-                                        extraParams={commonQuery()}
+                                        extraParams={commonQuery("&fetch-all")}
                                         placeholder="click to select product"
                                         setResult={(product: Product) => {
                                             if (product) {

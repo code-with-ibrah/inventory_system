@@ -17,7 +17,8 @@ class GoodsReceiptItemResource extends JsonResource
           "unitPriceAtReceipt" => $this->unitPriceAtReceipt,
           "product" => $this->product ? [
               "id" => $this->product->id,
-              "name" => $this->product->name
+              "name" => $this->product->name,
+              "stockUnitName" => $this->product->stockUnit->name,
           ] : null,
         ];
     }

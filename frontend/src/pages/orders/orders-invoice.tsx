@@ -1,26 +1,22 @@
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useEffect } from "react";
 import { commonQuery } from "../../utils/query.ts";
-import { Order } from "../../types/order.ts";
-import { currencyFormat, formatDate, getPercentAmount } from "../../utils";
+import { currencyFormat, formatDate } from "../../utils";
 import { getAllOrderItems } from "../../state/orders/item/orderItemAction.ts";
 import { Button } from "antd";
 import { FiPrinter } from "react-icons/fi";
-import { getAllPayments } from "../../state/orders/payments/paymentAction.ts";
 
 
 const OrdersInvoice = () => {
-    const order: Order = useAppSelector(state => state.order.orderItem);
+    const order: any = useAppSelector(state => state.order.orderItem);
     const { data } = useAppSelector(state => state.orderItem.orderItem);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(getAllOrderItems(commonQuery(`&orderId[eq]=${order?.id}`)));
-        dispatch(getAllPayments(commonQuery(`&orderId[eq]=${order?.id}`)));
+        // dispatch(getAllPayments(commonQuery(`&orderId[eq]=${order?.id}`)));
     }, []);
 
-    const vatPercentage = 3;
-    const vatAmount = getPercentAmount(order?.amount, vatPercentage);
 
     return <>
 
@@ -94,9 +90,9 @@ const OrdersInvoice = () => {
                             <tbody>
                                 <tr>
                                     <td colSpan={6}></td>
-                                    <td className="border px-4 py-2 font-semibold">II VAT ({vatPercentage}%)</td>
+                                    <td className="border px-4 py-2 font-semibold">II VAT ({ order?.vatPercentage }%)</td>
                                     <td className="border px-4 py-2 font-semibold">
-                                        {currencyFormat(+vatAmount)}
+                                        {currencyFormat(+order?.vatAmount)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -107,7 +103,7 @@ const OrdersInvoice = () => {
                                  <tr>
                                     <td colSpan={6}></td>
                                     <td className="border px-4 py-2 font-semibold">Grand Total</td>
-                                    <td className="border px-4 py-2 font-semibold">{currencyFormat(+order?.amount + +order?.amount)}</td>
+                                    <td className="border px-4 py-2 font-semibold">{currencyFormat(+order?.grandTotal)}</td>
                                 </tr>
                             </tbody>
                         </table>

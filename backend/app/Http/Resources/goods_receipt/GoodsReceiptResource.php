@@ -3,6 +3,7 @@
 namespace App\Http\Resources\goods_receipt;
 
 use App\Http\Resources\supplier\SupplierResource;
+use App\Utils\Globals;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -37,7 +38,11 @@ class GoodsReceiptResource extends JsonResource
                         "unitPrice" => $item->unitPriceAtReceipt
                     ];
                 });
-            }, [])
+            }, []),
+            'vatPercentage' => GLOBALS::VAT_PERCENTAGE * 100,
+            'vatAmount' => round($this->totalAmount * 0.03, 2),
+            'grandTotal' => round($this->totalAmount + ($this->totalAmount * Globals::VAT_PERCENTAGE), 2)
+
         ];
     }
 }

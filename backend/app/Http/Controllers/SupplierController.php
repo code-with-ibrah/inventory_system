@@ -160,11 +160,19 @@ class SupplierController extends Controller
             ->get()
             ->map(fn($receipt) => (object) [
                 'date' => $receipt->date,
-                'debit' => (float) $receipt->totalAmount,
+//                'debit' => (float) $receipt->totalAmount,
                 'credit' => null,
                 'raw_date' => $receipt->created_at,
-                'paymentNumber' => $receipt->receiptNumber, // ✅ map receiptNumber to paymentNumber
+                'paymentNumber' => $receipt->receiptNumber,
+                // Calculate VAT and grand total
+                'debit' => round(
+                    ((float) $receipt->totalAmount) + ((float) $receipt->totalAmount * Globals::VAT_PERCENTAGE),
+                    2
+                ),
             ]);
+
+
+
 
         // Fetch supplier payments
         $payments = GoodsReceiptPayments::where('supplierId', $supplierId)

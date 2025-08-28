@@ -15,6 +15,7 @@ class GoodsReceiptQuery implements IBaseDBQuery
         "id" => ["eq", "neq"],
         "supplierId" => ["eq", "neq"],
         "userId" => ["eq", "neq"],
+        "receiptNumber" => ["eq", "neq"],
         "companyId" => ["eq", "neq"],
         "isActive" => ["eq", "neq"],
         "isRecorded" => ["eq", "neq"],
