@@ -4,7 +4,7 @@ import {Product, ProductsState} from "../../types/product";
 import {
     createProduct,
     deleteProduct,
-    getAllProducts,
+    getAllProducts, getAllProductWithTypes,
     toggleProduct,
     updateProduct
 } from "./productAction";
@@ -87,6 +87,8 @@ const productSlice = createSlice({
         builder.addCase(createProduct.fulfilled, (state, action: PayloadAction<Product>) => {
             state.product.data.push(action.payload)
         }).addCase(getAllProducts.fulfilled, (state, action) => {
+            state.product = action.payload;
+        }).addCase(getAllProductWithTypes.fulfilled, (state, action) => {
             state.product = action.payload;
         }).addCase(updateProduct.fulfilled, (state, action: PayloadAction<Product>) => {
             state.productItem = action.payload;

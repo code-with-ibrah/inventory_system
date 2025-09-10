@@ -100,6 +100,7 @@ Route::group(['prefix' => ''], function()
 
     // products endpoints
     Route::apiResource("products", ProductController::class);
+    Route::get("product-with-types", [ProductController::class, "displayAllProduct"]);
     Route::post("companies/{id}", [ProductController::class, "update"]);
     Route::get("products-by-supplier/{supplierId}", [ProductController::class, "suppliers"]);
     Route::put("products-toggle/{column}/{id}", [ProductController::class, "handleToggleAction"]);

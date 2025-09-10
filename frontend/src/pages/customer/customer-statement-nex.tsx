@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, DatePicker, Form, Spin} from "antd";
+import {Button, DatePicker, Empty, Form, Spin} from "antd";
 import {currencyFormat, formatDate, htmlDateFormat} from "../../utils";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {useNavigate} from "react-router-dom";
@@ -11,7 +11,7 @@ import CompanyWatermark from "../common/company-watermark.tsx";
 import {MenuLinks} from "../../utils/menu-links.ts";
 import {setOrderItem} from "../../state/orders/orderSlice.ts";
 import {getAllOrders} from "../../state/orders/receiptAction.ts";
-
+import StatementCompanyHeader from "../common/statement-company-header.tsx";
 
 
 const CustomerStatements: React.FC = () => {
@@ -21,13 +21,12 @@ const CustomerStatements: React.FC = () => {
     const [dates] = React.useState([]);
     const [fromDate, toDate] = dates;
     const [selectedFromDate, setSelectedFromDate] = useState<any>();
-    const [_, setSelectedToDate] = useState<any>();
+    const [selectedToDate, setSelectedToDate] = useState<any>();
     const [displayRecords, setDisplayRecords] = useState<boolean>(false);
 
-    const customer = useAppSelector(state => state.customer.customerItem);
+    const customer: any = useAppSelector(state => state.customer.customerItem);
     // const customerOrderPayment = useAppSelector(state => state.customer.customerOrderStats?.data);
     const dispatch = useAppDispatch();
-
 
 
     const printHandler = () => {
@@ -81,131 +80,168 @@ const CustomerStatements: React.FC = () => {
 
     useEffect(() => {
 
-    }, [selectedFromDate]);
-
-
+    }, [selectedFromDate, selectedToDate]);
 
 
     return (
-        <div>
 
-            <div className="filter flex justify-between mt-5 mb-9 no-print">
-                <div className="bg-white p-4 rounded-lg ml-auto">
-                    <Form layout="inline" onFinish={onFinish}>
-                        <label className="font-medium text-md">Custom Filter: &nbsp; </label>
+        <div className="pb-20">
 
+            <div className="filter mt-6 mb-10 no-print">
+                <div className="bg-white p-6 rounded-xl shadow-md w-full">
+                    <Form onFinish={onFinish} className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                        {/* Left side - Filters */}
+                        <div className="flex flex-wrap items-center gap-4">
+        <span className="font-semibold text-gray-700 text-base whitespace-nowrap">
+          Custom Filter
+        </span>
+                            <Form.Item
+                                name="fromDate"
+                                rules={[{ required: true, message: "From date is required" }]}
+                                className="m-0">
+                                <DatePicker
+                                    placeholder="From Date"
+                                    value={fromDate}
+                                    format="YYYY-MM-DD"
+                                    style={{ width: 160 }}
+                                />
+                            </Form.Item>
 
-                        <Form.Item rules={[{required: true, message: "Required"}]} name={'fromDate'}>
-                            <DatePicker
-                                type={'date'}
-                                placeholder="From Date"
-                                value={fromDate}
-                                format="YYYY-MM-DD"
-                                style={{width: 150}}
-                            />
-                        </Form.Item>
+                            <Form.Item
+                                name="toDate"
+                                rules={[{ required: true, message: "To date is required" }]}
+                                className="m-0"
+                            >
+                                <DatePicker
+                                    placeholder="To Date"
+                                    value={toDate}
+                                    format="YYYY-MM-DD"
+                                    style={{ width: 160 }}
+                                />
+                            </Form.Item>
+                        </div>
 
-                        <Form.Item rules={[{required: true, message: "Required"}]} name={'toDate'}>
-                            <DatePicker
-                                type={'date'}
-                                placeholder="To Date"
-                                value={toDate}
-                                format="YYYY-MM-DD"
-                                style={{width: 150}}
-                            />
-                        </Form.Item>
+                        {/* Right side - Action Buttons */}
+                        <div className="flex flex-wrap gap-3">
+                            <Button
+                                className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg"
+                                size="middle"
+                                htmlType="submit"
+                                type="primary"
+                                icon={<FilterOutlined />}
+                            >
+                                Apply Filter
+                            </Button>
 
+                            <Button
+                                className="bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg"
+                                size="middle"
+                                onClick={resetStatmentHandler}
+                                type="default"
+                                icon={<FilterOutlined />}
+                            >
+                                Fetch All
+                            </Button>
 
-                        <Button
-                            className={'btn btn-red'}
-                            size={'large'}
-                            htmlType="submit"
-                            type="primary"
-                            icon={<FilterOutlined/>}>Filter</Button> &nbsp;
-
-                        <Button
-                            className="btn btn-red"
-                            size={'large'}
-                            onClick={resetStatmentHandler}
-                            type="primary"
-                            icon={<FilterOutlined/>}>Fetch all records</Button>
+                            <Button
+                                className={`font-medium rounded-lg ${
+                                    data?.length > 0
+                                        ? "bg-yellow-500 hover:bg-yellow-600 text-white"
+                                        : "bg-yellow-200 text-gray-400 cursor-not-allowed"
+                                }`}
+                                size="middle"
+                                onClick={data?.length > 0 ? printHandler : undefined}
+                                type="default"
+                                icon={<FilterOutlined />}
+                                disabled={!data?.length}
+                            >
+                                Print Statement
+                            </Button>
+                        </div>
                     </Form>
-
-                    {data?.length > 0 ? (
-                        <Button
-                            className="btn btn-red"
-                            size={'large'}
-                            onClick={printHandler}
-                            type="primary"
-                            icon={<FilterOutlined/>}>Print Statements</Button>
-                    ) : ''}
                 </div>
             </div>
 
+
+
             {/* Statement Header */}
             {displayRecords && (
-                <div className="mb-6 flex justify-between items-center p-3 gap-4">
+                <div className="mb-10">
 
-                    <div className="text-topline">
-                        <b className={'underline'}>Company Information</b>
-                        <p><b>Company: </b>Jessen Ventures</p>
-                        <p><b>Location:</b> Dome Pillar 2</p>
-                        <p><b>Digital Address:</b> GE-325-9976</p>
-                        <p><b>Phone:</b> +233 50 006 1419</p>
+                    <StatementCompanyHeader selectedFromDate={selectedFromDate} selectedToDate={selectedToDate}/>
+
+
+                    {/* customer Info - Minimal */}
+                    <div className="bg-gray-50 p-4 rounded-lg border text-sm flex justify-between items-center">
+                        <h3 className="font-bold">Customer:</h3>
+                        <p className="font-medium">
+                            {customer?.name ?? "Customer Name"} &nbsp; | &nbsp;
+                            {customer?.companyName ?? "Company Name"} &nbsp; | &nbsp;
+                            {customer?.email ?? "-"} &nbsp; | &nbsp;
+                            {customer?.phone ?? "-"}
+                        </p>
                     </div>
 
-                    <div className="text-topline">
-                        <b className={'underline'}>Customer Information</b>
-                        <p><b>Customer:</b> {customer?.name ?? "-"}</p>
-                        <p><b>Company: </b> {customer?.companyName ?? "-"}</p>
-                        <p><b>Location:</b> {customer?.location ?? "-"}</p>
-                        <p><b>Address:</b> {customer?.address ?? "-"}</p>
-                        <p><b>Phone:</b> {customer?.phone ?? "-"}</p>
-                    </div>
-
-                    <div className="image-topline">
-                        <img className={'business-logo'} src="/logo-plain.png" alt=""/>
-                    </div>
                 </div>
+
             )}
 
             {/* Ledger Table */}
             <Spin spinning={loading}>
                 {displayRecords ? (
-                    <div className="bg-white rounded-xl shadow overflow-auto mb-6" style={{position: "relative"}}>
+                    <div className="bg-white rounded-xl shadow overflow-x-auto mb-6 relative pb-6">
+                        <CompanyWatermark />
 
-                        <CompanyWatermark/>
-                        
-                        
-                        <table className="min-w-full border border-gray-300 text-sm">
-                            <thead>
-                            <tr className="bg-gray-100">
-                                <th className="px-4 py-2 border">Date</th>
-                                <th className="px-4 py-2 border">Order Number</th>
-                                <th className="px-4 py-2 border text-right">Debit (GHS)</th>
-                                <th className="px-4 py-2 border text-right">Credit (GHS)</th>
-                                <th className="px-4 py-2 border text-right">Balance (GHS)</th>
+                        <table className="min-w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+                            <thead className="bg-gray-100 text-gray-700 text-xs uppercase tracking-wide sticky top-0 z-10">
+                            <tr>
+                                <th className="px-4 py-3 text-left font-semibold">Date</th>
+                                <th className="px-4 py-3 text-left font-semibold">Order Number</th>
+                                <th className="px-4 py-3 text-right font-semibold">Debit (GHS)</th>
+                                <th className="px-4 py-3 text-right font-semibold">Credit (GHS)</th>
+                                <th className="px-4 py-3 text-right font-semibold">Balance (GHS)</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {data.map((record: any, index: number) => (
-                                <tr key={index}>
-                                    <td className="px-4 py-2 border">{formatDate(record.date)}</td>
-                                    <td className="px-4 py-2 border">
-                                        {
-                                            record?.paymentNumber ?
-                                                <span onClick={()=>goToOrder(record?.paymentNumber)} className={'underline text-blue-400 cursor-pointer'}>{record?.paymentNumber}</span>
-                                                : '-'
-                                        }
+                            {data.length > 0 ? (
+                                data.map((record: any, index: number) => (
+                                    <tr
+                                        key={index}
+                                        className="odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition-colors"
+                                    >
+                                        <td className="px-4 py-2 border-t">{formatDate(record.date)}</td>
+                                        <td className="px-4 py-2 border-t">
+                                            {record?.paymentNumber ? (
+                                                <span
+                                                    onClick={() => goToOrder(record?.paymentNumber)}
+                                                    className="underline text-blue-600 cursor-pointer hover:text-blue-800">{record?.paymentNumber}</span>)
+                                                : ("-")}
+                                        </td>
+                                        <td className="px-4 py-2 border-t text-right">
+                                            {record.debit ? currencyFormat(+record.debit) : ""}
+                                        </td>
+                                        <td className="px-4 py-2 border-t text-right">
+                                            {record.credit ? currencyFormat(+record.credit) : ""}
+                                        </td>
+                                        <td className="px-4 py-2 border-t text-right font-semibold">
+                                            {currencyFormat(+record.balance)}
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={5} className="px-4 py-10 text-center">
+                                        <Empty description="No records found" />
                                     </td>
-                                    <td className="px-4 py-2 border text-right">{record.debit ? currencyFormat(+record.debit) : ''}</td>
-                                    <td className="px-4 py-2 border text-right">{record.credit ? currencyFormat(+record.credit) : ''}</td>
-                                    <td className="px-4 py-2 border text-right font-semibold">{currencyFormat(+record.balance)}</td>
                                 </tr>
-                            ))}
+                            )}
                             </tbody>
                         </table>
+
+
+
                     </div>
+
                 ) : (
                     <div className="text-center bg-white p-6 rounded-xl">Filter to view customer statement</div>
                 )}

@@ -72,6 +72,22 @@ export const getAllProducts = createAsyncThunk("award/getAllProducts", async (pa
 );
 
 
+export const getAllProductWithTypes = createAsyncThunk("award/getAllProductWithTypes", async (params: string = "", {rejectWithValue}) => {
+        try {
+            const res = await api().get(`/product-with-types?${params}`);
+
+            return res.data
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err;
+            }
+            throw rejectWithValue(err.response.data)
+        }
+    }
+);
+
+
 
 
 

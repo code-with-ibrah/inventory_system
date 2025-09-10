@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Stock;
 use App\Models\Supplier;
+use App\Utils\Globals;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -58,13 +59,21 @@ class DashboardController extends Controller
             ->count();
 
 
-        $totalExpenses = GoodsReceipt::where("isDeleted", 0)
-            ->where("isActive", 1)
-            ->where("isRecorded", 1)
-            ->when($willFilter, function ($query) use ($fromDate, $toDate) {
-                return $query->whereBetween('date', [$fromDate, $toDate]);
-            })
-            ->sum("totalAmount");
+//        $totalExpenses = GoodsReceipt::where("isDeleted", 0)
+//            ->where("isActive", 1)
+//            ->where("isRecorded", 1)
+//            ->when($willFilter, function ($query) use ($fromDate, $toDate) {
+//                return $query->whereBetween('date', [$fromDate, $toDate]);
+//            })->sum("totalAmount");
+
+//        $totalRevenue = Order::where("isDeleted", 0)
+//            ->where("isActive", 1)
+//            ->where("status", "delivered")
+//            ->when($willFilter, function ($query) use ($fromDate, $toDate) {
+//                return $query->whereBetween('date', [$fromDate, $toDate]);
+//            })->sum("amount");
+
+        $vatPercentage = Globals::VAT_PERCENTAGE;
 
         $totalRevenue = Order::where("isDeleted", 0)
             ->where("isActive", 1)
@@ -72,7 +81,18 @@ class DashboardController extends Controller
             ->when($willFilter, function ($query) use ($fromDate, $toDate) {
                 return $query->whereBetween('date', [$fromDate, $toDate]);
             })
-            ->sum("amount");
+            ->selectRaw("SUM(amount + (amount * $vatPercentage)) as amount")
+            ->value('amount');
+
+        $totalExpenses = GoodsReceipt::where("isDeleted", 0)
+            ->where("isActive", 1)
+            ->where("isRecorded", 1)
+            ->when($willFilter, function ($query) use ($fromDate, $toDate) {
+                return $query->whereBetween('date', [$fromDate, $toDate]);
+            })
+            ->selectRaw("SUM(totalAmount + (totalAmount * $vatPercentage)) as amount")
+            ->value('amount');
+
 
         $pendingOrdersCount = Order::where("isDeleted", 0)
             ->where("isActive", 1)

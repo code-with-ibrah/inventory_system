@@ -4,7 +4,7 @@ import {unwrapResult} from "@reduxjs/toolkit";
 import {useNavigate} from "react-router-dom";
 import {AiFillMinusCircle} from "react-icons/ai";
 import {FiPlusCircle} from "react-icons/fi";
-import {getAllProducts} from "../../../state/product/productAction.ts";
+import {getAllProductWithTypes} from "../../../state/product/productAction.ts";
 import { TlaError, TlaSuccess } from "../../../utils/messages.ts";
 import {useAppDispatch, useAppSelector} from "../../../hooks";
 import DropdownSearch from "../../../common/dropdown-search.tsx";
@@ -79,7 +79,7 @@ const GoodsReceiptFormContent: React.FC<Props> = ({setLoading, form}) => {
                                     name={[name, "productId"]} label={"Product *"}>
                                     <DropdownSearch
                                         object
-                                        searchApi={getAllProducts}
+                                        searchApi={getAllProductWithTypes}
                                         extraParams={commonQuery("&fetch-all")}
                                         placeholder="click to select product"
                                         setResult={(product: Product) => {
