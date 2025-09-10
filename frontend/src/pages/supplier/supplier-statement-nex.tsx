@@ -178,8 +178,8 @@ const SupplierStatements: React.FC = () => {
                         <h3 className="font-bold">Supplier:</h3>
                         <p className="font-medium">
                             {supplier?.companyName ?? "Supplier Name"} &nbsp; | &nbsp;
-                            {supplier?.email ?? "-"} &nbsp; | &nbsp;
-                            {supplier?.phone ?? "-"}
+                            {supplier?.email ?? ""} &nbsp; | &nbsp;
+                            {supplier?.phone ?? ""}
                         </p>
                     </div>
 

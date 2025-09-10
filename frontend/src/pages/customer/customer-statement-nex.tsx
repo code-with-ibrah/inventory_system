@@ -177,8 +177,8 @@ const CustomerStatements: React.FC = () => {
                         <p className="font-medium">
                             {customer?.name ?? "Customer Name"} &nbsp; | &nbsp;
                             {customer?.companyName ?? "Company Name"} &nbsp; | &nbsp;
-                            {customer?.email ?? "-"} &nbsp; | &nbsp;
-                            {customer?.phone ?? "-"}
+                            {customer?.email ?? ""} &nbsp; | &nbsp;
+                            {customer?.phone ?? ""}
                         </p>
                     </div>
 
