@@ -74,7 +74,7 @@ const OrdersInvoice = () => {
                                 {data.map((item: any, index: number) => (
                                     <tr key={index} className="border-b border-gray-300 last:border-b-0">
                                         <td className="py-2 text-left pr-2">{item?.product?.name}</td>
-                                        <td className="py-2 text-left pr-2">{item?.stockUnitName}</td>
+                                        <td className="py-2 text-left pr-2">{item?.product?.stockUnitName}</td>
                                         <td className="py-2 text-right">{item.unitPriceAtSale}</td>
                                         <td className="py-2 text-right">{item?.quantity}</td>
                                         <td className="py-2 text-right">{item?.totalCost}</td>

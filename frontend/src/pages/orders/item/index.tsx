@@ -54,6 +54,7 @@ const OrderItems: React.FC = () => {
                         )}/>
                     <Column title="Unit Price"
                             render={(record: OrderItem) => <span>{currencyFormat(+record?.unitPriceAtSale)}</span>}/>
+                    <Column title="Type" dataIndex={["product", "stockUnitName"]}/>
                     <Column title="Quantity" dataIndex="quantity"/>
                     <Column title="Total Cost" render={(record: OrderItem) => <span
                         className={'font-semibold'}>{currencyFormat(+record?.totalCost)}</span>}/>
