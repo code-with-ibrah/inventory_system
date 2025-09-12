@@ -65,20 +65,20 @@ const Analytics: React.FC = () => {
         <div>
 
             <Spin spinning={loading} tip={'Please wait...'}>
-                <div className="filter flex flex-col md:flex-row md:justify-end mt-5 mb-9 w-full px-4">
-
-                    <div className="bg-white p-4 pb-4 rounded-lg shadow-md w-full overflow-x-auto pb-2 flex flex-col sm:flex-row items-end gap-4">
-
-                        {/* Preset Filter */}
-                        <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:flex-1">
-                            <label className="font-medium text-sm min-w-[80px]">Filter:</label>
-                            <Form className="w-full">
-                                <Form.Item className="m-0 w-full">
+                <div className="filter mt-6 mb-10 no-print">
+                    <div className="bg-white p-6 rounded-xl shadow-md w-full">
+                        <Form onFinish={onFinish} className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                            {/* Left side - Filters */}
+                            <div className="flex flex-wrap items-center gap-4">
+                <span className="font-semibold text-gray-700 text-base whitespace-nowrap">
+                    Preset Filter
+                </span>
+                                <Form.Item className="m-0">
                                     <Select
                                         defaultValue={null}
                                         onChange={handlerFilterOnchange}
                                         style={{minWidth: 150, width: '100%'}}
-                                        size="large"
+                                        size="middle"
                                     >
                                         <Select.Option key={0} value={null}>Choose one</Select.Option>
                                         <Select.Option key={1} value="today">Today</Select.Option>
@@ -92,16 +92,12 @@ const Analytics: React.FC = () => {
                                         <Select.Option key={9} value="year">This Year</Select.Option>
                                     </Select>
                                 </Form.Item>
-                            </Form>
-                        </div>
-
-                        {/* Custom Date Filter */}
-                        <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:flex-1">
-                            <label className="font-medium text-sm min-w-[120px]">Custom Filter:</label>
-                            <Form className="flex flex-col sm:flex-row items-center gap-2 w-full" onFinish={onFinish}>
+                                <span className="font-semibold text-gray-700 text-base whitespace-nowrap">
+                    Custom Filter
+                </span>
                                 <Form.Item
                                     name="fromDate"
-                                    rules={[{required: true, message: "Required"}]}
+                                    rules={[{ required: true, message: "Required" }]}
                                     className="m-0"
                                 >
                                     <DatePicker
@@ -109,12 +105,12 @@ const Analytics: React.FC = () => {
                                         value={fromDate}
                                         onChange={(date) => handleDateChange([date, toDate])}
                                         format="YYYY-MM-DD"
-                                        style={{width: 150}}
+                                        style={{ width: 160 }}
                                     />
                                 </Form.Item>
                                 <Form.Item
                                     name="toDate"
-                                    rules={[{required: true, message: "Required"}]}
+                                    rules={[{ required: true, message: "Required" }]}
                                     className="m-0"
                                 >
                                     <DatePicker
@@ -122,35 +118,34 @@ const Analytics: React.FC = () => {
                                         value={toDate}
                                         onChange={(date) => handleDateChange([fromDate, date])}
                                         format="YYYY-MM-DD"
-                                        style={{width: 150}}
+                                        style={{ width: 160 }}
                                     />
                                 </Form.Item>
+                            </div>
+
+                            {/* Right side - Action Buttons */}
+                            <div className="flex flex-wrap gap-3">
                                 <Button
                                     htmlType="submit"
                                     type="primary"
-                                    className="bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
-                                    icon={<FilterOutlined/>}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg"
+                                    size="middle"
+                                    icon={<FilterOutlined />}
                                 >
                                     Filter
                                 </Button>
-                            </Form>
-                        </div>
-
-                        {/* Reset Button */}
-                        <div className="w-full sm:w-auto flex-shrink-0">
-                            <Button
-                                type="primary"
-                                className="w-full bg-app-red hover:bg-app-red focus:ring-offset-2 rounded-md transition duration-150 ease-in-out shadow-md"
-                                icon={<MdOutlineAutorenew/>}
-                                onClick={resetFilterHandler}
-                            >
-                                Fetch overall revenue records
-                            </Button>
-                        </div>
-
+                                <Button
+                                    type="primary"
+                                    className="bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg"
+                                    size="middle"
+                                    icon={<MdOutlineAutorenew />}
+                                    onClick={resetFilterHandler}
+                                >
+                                    Fetch overall revenue records
+                                </Button>
+                            </div>
+                        </Form>
                     </div>
-
-
                 </div>
 
                 <div className={'revenue-counters'}>

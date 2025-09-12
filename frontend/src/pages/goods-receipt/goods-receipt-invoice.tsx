@@ -59,6 +59,7 @@ const GoodsReceiptInvoice = () => {
                         <thead className="bg-gray-300">
                         <tr>
                             <th className="px-4 py-2">Products</th>
+                            <th className="px-4 py-2">Type</th>
                             <th className="px-4 py-2">Unit Price</th>
                             <th className="px-4 py-2">Quantity</th>
                             <th className="px-4 py-2">Total</th>
@@ -68,6 +69,7 @@ const GoodsReceiptInvoice = () => {
                             {goodReceiptItemList.map((item: any, index: number) => {
                                 return <tr key={index}>
                                     <td className="border px-4 py-2">{item?.product?.name}</td>
+                                    <td className="border px-4 py-2">{ item?.product?.stockUnitName }</td>
                                     <td className="border px-4 py-2">{item?.unitPriceAtReceipt}</td>
                                     <td className="border px-4 py-2 font-medium">{item.quantityReceived}</td>
                                     <td className="border px-4 py-2">{ currencyFormat(item?.unitPriceAtReceipt * item?.quantityReceived) }</td>

@@ -64,6 +64,7 @@ const OrdersInvoice = () => {
                             <thead className="bg-gray-300">
                                 <tr className={'border-b'}>
                                     <th className="py-2 text-left text-gray-700">Product</th>
+                                    <th className="py-2 text-left text-gray-700">Type</th>
                                     <th className="py-2 text-right text-gray-700">Unit Price</th>
                                     <th className="py-2 text-right text-gray-700">Qty</th>
                                     <th className="py-2 text-right text-gray-700">Total</th>
@@ -73,6 +74,7 @@ const OrdersInvoice = () => {
                                 {data.map((item: any, index: number) => (
                                     <tr key={index} className="border-b border-gray-300 last:border-b-0">
                                         <td className="py-2 text-left pr-2">{item?.product?.name}</td>
+                                        <td className="py-2 text-left pr-2">{item?.stockUnitName}</td>
                                         <td className="py-2 text-right">{item.unitPriceAtSale}</td>
                                         <td className="py-2 text-right">{item?.quantity}</td>
                                         <td className="py-2 text-right">{item?.totalCost}</td>

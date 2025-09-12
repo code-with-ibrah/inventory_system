@@ -4,7 +4,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {TlaModal} from "../../common/pop-ups/TlaModal.tsx";
 import DropdownSearch from "../../common/dropdown-search.tsx";
-import {getAllProducts} from "../../state/product/productAction.ts";
+import {getAllProductWithTypes} from "../../state/product/productAction.ts";
 import {commonQuery} from "../../utils/query.ts";
 import {Product} from "../../types/product.ts";
 import {Supplier} from "../../types/supplier.ts";
@@ -43,7 +43,7 @@ const SupplierProductForm: React.FC = () => {
                     <Form.Item className={'col-span-2'} name={"productId"} label={"Product"}>
                         <DropdownSearch
                             object
-                            searchApi={getAllProducts}
+                            searchApi={getAllProductWithTypes}
                             placeholder="click to select product"
                             extraParams={commonQuery()}
                             setResult={(product: Product) => {
