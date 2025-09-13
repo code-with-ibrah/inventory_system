@@ -14,7 +14,7 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "unique:products,name"],
+            "name" => ["required"],
             "sku" => ["nullable"],
             "wareHouseId" => ["required", "exists:warehouses,id"],
             "costPrice" => ["nullable", "numeric"],

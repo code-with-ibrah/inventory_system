@@ -30,7 +30,7 @@ const ProductForm: React.FC = () => {
 
 
     const onFinish = (values: any) => {
-        values.companyId = user?.companyId;
+        values.companyId = user?.companyId ?? 1;
         values.expirationDate = values.expirationDate || null;
         values.stockAlertLevel = (values.stockAlertLevel) ?? 10;
         values.standardPackageQuantity = 0;
